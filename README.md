@@ -17,9 +17,13 @@ This project follows **Test Driven Development** (TDD) and contains NUnit test c
   - Simple Control allows selection of field and operator with a control created dependant on both.
   - Advanced Control allowing full drill-down of related fields, operators, controls dependant on path and hierarchical combinations (AND, OR) of all parameters.
 
+## Enough words, show me!
+
+![Preset](https://raw.githubusercontent.com/stuarta0/dbqf/master/documentation/preset.png)
+  
 ## Documentation
 
-For full documentation, see ...
+Full documentation TBA.  Code has XML documentation, test cases show usage, and Standalone project shows real-world use.
 
 ## License
 
