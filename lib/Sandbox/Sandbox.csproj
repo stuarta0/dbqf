@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5EB67725-5496-492F-8C0C-09760F6198C6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sandbox</RootNamespace>
+    <AssemblyName>Sandbox</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConfigurationConvertor.cs" />
+    <Compile Include="ConfigurationValidation.cs" />
+    <Compile Include="v1\Actions\ProcessAction.cs" />
+    <Compile Include="v1\Actions\SubjectAction.cs" />
+    <Compile Include="v1\Actions\UriAction.cs" />
+    <Compile Include="v1\Configuration\ComplexField.cs" />
+    <Compile Include="v1\Configuration\ComplexManyField.cs" />
+    <Compile Include="v1\Configuration\Field.cs" />
+    <Compile Include="v1\Configuration\FieldList.cs" />
+    <Compile Include="v1\Configuration\FieldListItem.cs" />
+    <Compile Include="v1\Configuration\FieldListType.cs" />
+    <Compile Include="v1\Configuration\MatrixNode.cs" />
+    <Compile Include="v1\Configuration\QueryConfig.cs" />
+    <Compile Include="v1\SerializableDictionary.cs" />
+    <Compile Include="v1\Serialization.cs" />
+    <Compile Include="v1\Configuration\Subject.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\dbqf.core\dbqf.core.csproj">
+      <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
+      <Name>dbqf.core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Standalone\Standalone.csproj">
+      <Project>{5aad85b2-212d-421c-9c9b-8b2675550e1e}</Project>
+      <Name>Standalone</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

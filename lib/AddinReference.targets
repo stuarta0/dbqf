@@ -1,0 +1,8 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<AvailableItemName Include="AddinReference" />   
+	</ItemGroup>
+	<Target Name="AfterBuild">
+		<Copy DestinationFolder="$(OutputPath)\$(TargetName)" SourceFiles="@(AddinReference)" SkipUnchangedFiles="true" />
+	</Target>
+</Project>

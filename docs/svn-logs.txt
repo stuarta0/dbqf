@@ -1,0 +1,1639 @@
+Revision: 257
+Author: stuarta0
+Date: Tuesday, 12 May 2015 11:44:12 AM
+Message:
+Added class diagrams for core library.
+----
+Added : /branches/feature-fluent/DbQueryFramework/ConfigurationDiagram.cd
+Added : /branches/feature-fluent/DbQueryFramework/CriterionDiagram.cd
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Added : /branches/feature-fluent/DbQueryFramework/DisplayDiagram.cd
+
+Revision: 255
+Author: stuarta0
+Date: Wednesday, 25 March 2015 8:49:32 AM
+Message:
+Began implementation of user-defined field retrieval.
+----
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/MainAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Forms/RetrieveFieldsView.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/RetrieveFieldsView.cs
+Modified : /branches/feature-fluent/Standalone/Forms/RetrieveFieldsView.resx
+Modified : /branches/feature-fluent/Standalone/Forms/RetrieveFieldsViewAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Installers/ApplicationInstaller.cs
+
+Revision: 254
+Author: stuarta0
+Date: Wednesday, 25 March 2015 8:07:42 AM
+Message:
+Started adding behaviour to handle user-defined fields for customising what data is returned in a result set.
+----
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Added : /branches/feature-fluent/Standalone/Forms/RetrieveFieldsView.Designer.cs
+Added : /branches/feature-fluent/Standalone/Forms/RetrieveFieldsView.cs
+Added : /branches/feature-fluent/Standalone/Forms/RetrieveFieldsView.resx
+Added : /branches/feature-fluent/Standalone/Forms/RetrieveFieldsViewAdapter.cs
+Added : /branches/feature-fluent/Standalone/Properties/DataSources/Standalone.Forms.RetrieveFieldsViewAdapter.datasource
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 251
+Author: stuarta0
+Date: Monday, 23 March 2015 4:46:05 PM
+Message:
+Added ability for Standalone to deserialise a definition of which parsers to use for a field.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Field.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/DelimitedParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/TextBoxElement.cs
+Modified : /branches/feature-fluent/Sandbox/ConfigurationConvertor.cs
+Modified : /branches/feature-fluent/Sandbox/Program.cs
+Modified : /branches/feature-fluent/Standalone/Data/ExtendedControlFactory.cs
+Added : /branches/feature-fluent/Standalone/Forms/PasteOverrideTextBox.cs
+Modified : /branches/feature-fluent/Standalone/Installers/FactoryInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/Assemblers/FieldAssembler.cs
+Added : /branches/feature-fluent/Standalone/Serialization/Assemblers/ParserAssembler.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Display
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Display/ParserDTO.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/FieldDTO.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 249
+Author: stuarta0
+Date: Friday, 16 January 2015 9:20:33 AM
+Message:
+Removed padding on BetweenControl labels.
+----
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls/BetweenControl.Designer.cs
+
+Revision: 248
+Author: stuarta0
+Date: Thursday, 15 January 2015 3:14:24 PM
+Message:
+Added threaded searching with loading spinner.
+Added prefix and postfix labels to BetweenControl (with currency and percentage checks on field formats in control factory).
+Fix for FieldPathFactory when Subject.DisplayName is null.
+Added aliasing option (default: True) to SqlGenerator so it can return source column names.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Display/FieldPathFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlGenerator.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlString.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/BetweenElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls/BetweenControl.Designer.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls/BetweenControl.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/MainAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Initialisers/StaticInitialiser.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/FieldPathDTO.cs
+
+Revision: 247
+Author: stuarta0
+Date: Wednesday, 5 November 2014 6:21:03 PM
+Message:
+Changed search to be threaded.
+Added spinner for threaded search.
+Added about dialog to pull from AssemblyInfo.cs.
+----
+Added : /branches/feature-fluent/Standalone/Forms/AboutDialog.Designer.cs
+Added : /branches/feature-fluent/Standalone/Forms/AboutDialog.cs
+Added : /branches/feature-fluent/Standalone/Forms/AboutDialog.resx
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.resx
+Modified : /branches/feature-fluent/Standalone/Forms/MainAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Properties/AssemblyInfo.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Resources.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Resources.resx
+Added : /branches/feature-fluent/Standalone/Resources
+Added : /branches/feature-fluent/Standalone/Resources/hex-loader2.gif
+Added : /branches/feature-fluent/Standalone/Resources/stopwatch-gif-preloader.gif
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 246
+Author: stuarta0
+Date: Tuesday, 28 October 2014 11:10:02 AM
+Message:
+Added FastColorTextBox to allow syntax highlighting and correct indentation of SQL.
+----
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.resx
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+Modified : /branches/feature-fluent/Standalone/packages.config
+
+Revision: 245
+Author: stuarta0
+Date: Tuesday, 28 October 2014 9:00:02 AM
+Message:
+Added export feature for CSV and tab delimited.
+----
+Added : /branches/feature-fluent/Standalone/Export
+Added : /branches/feature-fluent/Standalone/Export/BaseExportService.cs
+Added : /branches/feature-fluent/Standalone/Export/CsvExportService.cs
+Added : /branches/feature-fluent/Standalone/Export/ExportServiceFactory.cs
+Added : /branches/feature-fluent/Standalone/Export/IExportService.cs
+Added : /branches/feature-fluent/Standalone/Export/TabDelimitedExportService.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.resx
+Modified : /branches/feature-fluent/Standalone/Forms/MainAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Installers/FactoryInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 244
+Author: stuarta0
+Date: Friday, 26 September 2014 2:11:58 PM
+Message:
+Minor fix to validation to ensure it doesn't try building SQL for lists when there isn't one.
+----
+Modified : /branches/feature-fluent/Sandbox/ConfigurationValidation.cs
+
+Revision: 241
+Author: stuarta0
+Date: Thursday, 25 September 2014 5:12:30 PM
+Message:
+Removed OutputDataType and OutputSourceName from RelationField as it's been found guilty of unnecessary bloat.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/IRelationField.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/RelationField.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/AdventureWorks.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Chinook.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Configuration/QueryConfig_Fixture.cs
+Modified : /branches/feature-fluent/Sandbox/Program.cs
+Modified : /branches/feature-fluent/Standalone/App.config
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.resx
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.settings
+Modified : /branches/feature-fluent/Standalone/Serialization/Assemblers/FieldAssembler.cs
+
+Revision: 240
+Author: stuarta0
+Date: Wednesday, 24 September 2014 5:17:24 PM
+Message:
+Added more validation for configuration arising from AssetAsyst configuration issues.
+----
+Modified : /branches/feature-fluent/Sandbox/ConfigurationConvertor.cs
+Modified : /branches/feature-fluent/Sandbox/ConfigurationValidation.cs
+Modified : /branches/feature-fluent/Sandbox/Program.cs
+
+Revision: 238
+Author: stuarta0
+Date: Wednesday, 24 September 2014 8:10:17 AM
+Message:
+Moved configuration validation into Sandbox.
+Deleted unnecessary files.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Deleted : /branches/feature-fluent/DbQueryFramework/Exceptions
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/PlaceholderParser.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Processing/todo.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/SerializableDictionary.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.cs
+Added : /branches/feature-fluent/Sandbox/ConfigurationConvertor.cs
+Added : /branches/feature-fluent/Sandbox/ConfigurationValidation.cs
+Modified : /branches/feature-fluent/Sandbox/Program.cs
+Modified : /branches/feature-fluent/Sandbox/Sandbox.csproj
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 237
+Author: stuarta0
+Date: Tuesday, 23 September 2014 8:04:55 AM
+Message:
+Bugfixes from testing:
+- Fixed scroll calculation on PresetView (BetweenControl reporting incorrect size)
+- Fixed searching (and failing) twice on standard search
+- Fixed order of object creation to ensure startup loaded list values
+- Added more date parsing options which will probably never be used
+----
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.cs
+Modified : /branches/feature-fluent/Standalone/Data/ExtendedDateParser.cs
+Modified : /branches/feature-fluent/Standalone/Forms/MainAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Shell.cs
+
+Revision: 236
+Author: stuarta0
+Date: Friday, 19 September 2014 8:05:30 AM
+Message:
+Minor changes to saved database connections and error handling for querying.
+----
+Modified : /branches/feature-fluent/Sandbox/Program.cs
+Modified : /branches/feature-fluent/Standalone/Data/Project.cs
+Modified : /branches/feature-fluent/Standalone/Data/ResultFactory.cs
+Modified : /branches/feature-fluent/Standalone/Forms/MainAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Installers/ConfigurationInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Program.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/Assemblers/FieldAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/SerializableDictionary.cs
+Modified : /branches/feature-fluent/Standalone/Shell.cs
+
+Revision: 235
+Author: stuarta0
+Date: Thursday, 18 September 2014 7:39:22 AM
+Message:
+Added connection selection and saved connection behaviour.
+----
+Modified : /branches/feature-fluent/Standalone/App.config
+Modified : /branches/feature-fluent/Standalone/Data/Project.cs
+Added : /branches/feature-fluent/Standalone/Data/ResultFactory.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.resx
+Modified : /branches/feature-fluent/Standalone/Forms/MainAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Installers/ConfigurationInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Program.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.settings
+Modified : /branches/feature-fluent/Standalone/Serialization/Assemblers/ProjectAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/ProjectDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/SerializableDictionary.cs
+Modified : /branches/feature-fluent/Standalone/Shell.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 234
+Author: stuarta0
+Date: Wednesday, 17 September 2014 7:14:21 PM
+Message:
+Refactored how SQL is queried to better handle swapping concrete implementation.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlGenerator.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlListGenerator.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Sqlite_Fixture.cs
+Modified : /branches/feature-fluent/Sandbox/App.config
+Modified : /branches/feature-fluent/Standalone/App.config
+Added : /branches/feature-fluent/Standalone/Data/DbResults.cs
+Added : /branches/feature-fluent/Standalone/Data/ISqlResults.cs
+Added : /branches/feature-fluent/Standalone/Data/Processing
+Added : /branches/feature-fluent/Standalone/Data/Processing/ExposedSqlGenerator.cs
+Added : /branches/feature-fluent/Standalone/Data/SQLiteResults.cs
+Modified : /branches/feature-fluent/Standalone/Data/SqlResults.cs
+Modified : /branches/feature-fluent/Standalone/Forms/MainAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Installers/ConfigurationInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Shell.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+Modified : /branches/feature-fluent/Standalone/packages.config
+
+Revision: 232
+Author: stuarta0
+Date: Tuesday, 16 September 2014 3:11:32 PM
+Message:
+Refactored Main to work with an adapter.
+Added reusable code for combobox width calculation.
+
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Field.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/FieldPath.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Extensions/ComboBoxExtension.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.Designer.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/ComboBoxElement.cs
+Modified : /branches/feature-fluent/Sandbox/Program.cs
+Modified : /branches/feature-fluent/Standalone/Data/SqlResults.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.resx
+Added : /branches/feature-fluent/Standalone/Forms/MainAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Installers/ApplicationInstaller.cs
+Added : /branches/feature-fluent/Standalone/Properties/DataSources
+Added : /branches/feature-fluent/Standalone/Properties/DataSources/Standalone.Forms.MainAdapter.datasource
+Modified : /branches/feature-fluent/Standalone/Shell.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 230
+Author: stuarta0
+Date: Monday, 15 September 2014 4:10:28 PM
+Message:
+Added list handling for serialisation and threaded display.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlListGenerator.cs
+Modified : /branches/feature-fluent/Sandbox/Program.cs
+Modified : /branches/feature-fluent/Standalone/Data/SqlResults.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/Assemblers/FieldAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/FieldDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/FieldListDTO.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 228
+Author: stuarta0
+Date: Monday, 15 September 2014 7:49:37 AM
+Message:
+Refactoring logic to provide list data to dynamically created controls asynchronously.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Display/ListRequestedArgs.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/ComboBoxElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 227
+Author: stuarta0
+Date: Monday, 15 September 2014 7:20:21 AM
+Message:
+Refactored to load project files, not configuration files.
+Removed application setting for connection string.
+----
+Modified : /branches/feature-fluent/Sandbox/Program.cs
+Modified : /branches/feature-fluent/Standalone/App.config
+Modified : /branches/feature-fluent/Standalone/Data/Project.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Installers/ConfigurationInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.settings
+Added : /branches/feature-fluent/Standalone/Serialization/Assemblers/ProjectAssembler.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/ProjectDTO.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 226
+Author: stuarta0
+Date: Sunday, 14 September 2014 9:48:01 PM
+Message:
+Added AssemblerInstaller to install configuration/subject/field DTO assemblers.
+Fixed FieldAssembler so it didn't wire up incorrect RelatedSubject object references by using existing configuration instance (now wired up correctly in ConfigurationAssembler).
+Updated component registration for IConfiguration to load from command line using resolved assemblers (TODO: error handling).
+Added hack for WinForms TableLayoutPanel redraw bullshit on PresetView (in Standalone.Main form).
+----
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Added : /branches/feature-fluent/Standalone/Installers/AssemblerInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Installers/ConfigurationInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/Assemblers/ConfigurationAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/Assemblers/FieldAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Shell.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 225
+Author: stuarta0
+Date: Sunday, 14 September 2014 12:55:37 PM
+Message:
+Added Sandbox project to convert previous version of configuration XML into new format.
+----
+Modified : /branches/feature-fluent/DbQueryFramework.sln
+Added : /branches/feature-fluent/Sandbox
+Added : /branches/feature-fluent/Sandbox/App.config
+Added : /branches/feature-fluent/Sandbox/Program.cs
+Added : /branches/feature-fluent/Sandbox/Properties
+Added : /branches/feature-fluent/Sandbox/Properties/AssemblyInfo.cs
+Added : /branches/feature-fluent/Sandbox/Sandbox.csproj
+Added : /branches/feature-fluent/Sandbox/v1
+Added : /branches/feature-fluent/Sandbox/v1/Actions
+Added : /branches/feature-fluent/Sandbox/v1/Actions/ProcessAction.cs
+Added : /branches/feature-fluent/Sandbox/v1/Actions/SubjectAction.cs
+Added : /branches/feature-fluent/Sandbox/v1/Actions/UriAction.cs
+Added : /branches/feature-fluent/Sandbox/v1/Check.cs
+Added : /branches/feature-fluent/Sandbox/v1/Configuration
+Added : /branches/feature-fluent/Sandbox/v1/Configuration/ComplexField.cs
+Added : /branches/feature-fluent/Sandbox/v1/Configuration/ComplexManyField.cs
+Added : /branches/feature-fluent/Sandbox/v1/Configuration/Field.cs
+Added : /branches/feature-fluent/Sandbox/v1/Configuration/FieldList.cs
+Added : /branches/feature-fluent/Sandbox/v1/Configuration/FieldListItem.cs
+Added : /branches/feature-fluent/Sandbox/v1/Configuration/FieldListType.cs
+Added : /branches/feature-fluent/Sandbox/v1/Configuration/MatrixNode.cs
+Added : /branches/feature-fluent/Sandbox/v1/Configuration/QueryConfig.cs
+Added : /branches/feature-fluent/Sandbox/v1/Configuration/Subject.cs
+Added : /branches/feature-fluent/Sandbox/v1/SerializableDictionary.cs
+Added : /branches/feature-fluent/Sandbox/v1/Serialization.cs
+
+Revision: 224
+Author: stuarta0
+Date: Saturday, 13 September 2014 7:52:38 AM
+Message:
+Set up configuration/subject/field DTO's to support XML serialisation alongside protobuf.
+----
+Modified : /branches/feature-fluent/Standalone/Serialization/Assemblers/FieldAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/ConfigurationDTO.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/FieldDTO.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/SubjectDTO.cs
+Modified : /branches/feature-fluent/Standalone/Shell.cs
+
+Revision: 223
+Author: stuarta0
+Date: Friday, 12 September 2014 5:33:03 PM
+Message:
+Added further logic around serialisation of parameters.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/SimpleParameter.cs
+Modified : /branches/feature-fluent/Standalone/Initialisers/ProtoBufInitialiser.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/Assemblers/ParameterAssembler.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/BetweenParameterDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/BetweenValueDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/ConjunctionDTO.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/JunctionDTO.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/LikeParameterDTO.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/NotParameterDTO.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/NullParameterDTO.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/ParameterContainer.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/ParameterDTO.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/SimpleParameterDTO.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/FieldPathDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/MessageParam.cs
+Modified : /branches/feature-fluent/Standalone/Shell.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 222
+Author: stuarta0
+Date: Friday, 12 September 2014 8:49:06 AM
+Message:
+Added Configuration property to Subject to allow hierarchy traversal.
+Refactored application logic into shell, with initialisers to configure application (mostly to do with serialisation).
+Started moving back to private members for Parameters since ProtoBuf can serialise these, untested though.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Configuration.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/ISubject.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Subject.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/SimpleParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/SubjectEditor.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/SubjectView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.GtkSharp/PresetSubjectSearch.cs
+Added : /branches/feature-fluent/Standalone/Initialisers
+Added : /branches/feature-fluent/Standalone/Initialisers/IInitialiser.cs
+Added : /branches/feature-fluent/Standalone/Initialisers/ProtoBufInitialiser.cs
+Added : /branches/feature-fluent/Standalone/Initialisers/StaticInitialiser.cs
+Added : /branches/feature-fluent/Standalone/Installers/ApplicationInstaller.cs (Copy from path: /branches/feature-fluent/Standalone/Installers/ViewInstaller.cs, Revision, 221)
+Modified : /branches/feature-fluent/Standalone/Installers/FactoryInstaller.cs
+Added : /branches/feature-fluent/Standalone/Installers/InitialiserInstaller.cs
+Deleted : /branches/feature-fluent/Standalone/Installers/ViewInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Program.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/Assemblers/FieldPathAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/Assemblers/ParameterAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/DTO/FieldPathDTO.cs
+Added : /branches/feature-fluent/Standalone/Shell.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 221
+Author: stuarta0
+Date: Thursday, 11 September 2014 6:04:57 PM
+Message:
+Started implemented objects to enable serialisation of search parameters.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/LikeParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/SimpleParameter.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.settings
+Added : /branches/feature-fluent/Standalone/Serialization/Assemblers/ParameterAssembler.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/BetweenParameterDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/JunctionDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/LikeParameterDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/NotParameterDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/NullParameterDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/ParameterContainer.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/ParameterDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/Criterion/SimpleParameterDTO.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 220
+Author: stuarta0
+Date: Thursday, 11 September 2014 2:45:17 PM
+Message:
+Reorganised Serialisation structure into Assemblers/DTO.
+Added FieldPath serialisation.
+Removed old serialisation helper classes.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Hierarchy/TemplateNode.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Serialisation
+Modified : /branches/feature-fluent/DbQueryFramework.Utils/SavedSearch.cs
+Modified : /branches/feature-fluent/Standalone/App.config
+Modified : /branches/feature-fluent/Standalone/Program.cs
+Added : /branches/feature-fluent/Standalone/Serialization/Assemblers
+Added : /branches/feature-fluent/Standalone/Serialization/Assemblers/ConfigurationAssembler.cs (Copy from path: /branches/feature-fluent/Standalone/Serialization/ConfigurationAssembler.cs, Revision, 219)
+Added : /branches/feature-fluent/Standalone/Serialization/Assemblers/FieldAssembler.cs (Copy from path: /branches/feature-fluent/Standalone/Serialization/FieldAssembler.cs, Revision, 219)
+Added : /branches/feature-fluent/Standalone/Serialization/Assemblers/FieldPathAssembler.cs
+Added : /branches/feature-fluent/Standalone/Serialization/Assemblers/IAssembler.cs
+Added : /branches/feature-fluent/Standalone/Serialization/Assemblers/SubjectAssembler.cs (Copy from path: /branches/feature-fluent/Standalone/Serialization/SubjectAssembler.cs, Revision, 219)
+Deleted : /branches/feature-fluent/Standalone/Serialization/ConfigurationAssembler.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/ConfigurationDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/ConfigurationDTO.cs (Copy from path: /branches/feature-fluent/Standalone/Serialization/ConfigurationDTO.cs, Revision, 219)
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/FieldDTO.cs (Copy from path: /branches/feature-fluent/Standalone/Serialization/FieldDTO.cs, Revision, 219)
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/FieldPathDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/MatrixNodeDTO.cs (Copy from path: /branches/feature-fluent/Standalone/Serialization/MatrixNodeDTO.cs, Revision, 219)
+Added : /branches/feature-fluent/Standalone/Serialization/DTO/SubjectDTO.cs (Copy from path: /branches/feature-fluent/Standalone/Serialization/SubjectDTO.cs, Revision, 219)
+Deleted : /branches/feature-fluent/Standalone/Serialization/FieldAssembler.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/FieldDTO.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/MatrixNodeDTO.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/SubjectAssembler.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/SubjectDTO.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 219
+Author: stuarta0
+Date: Wednesday, 10 September 2014 9:43:36 PM
+Message:
+Removed AutoMapper - there were more exceptions than rules so to keep the code maintainable, it's simpler to do it manually.
+Reapplied svn:ignore flags to project.
+----
+Modified : /branches/feature-fluent/.nuget
+Modified : /branches/feature-fluent/DbQueryFramework
+Modified : /branches/feature-fluent/DbQueryFramework/Commands
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion
+Modified : /branches/feature-fluent/DbQueryFramework/Display
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Advanced
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Values
+Modified : /branches/feature-fluent/DbQueryFramework/Exceptions
+Modified : /branches/feature-fluent/DbQueryFramework/Hierarchy
+Modified : /branches/feature-fluent/DbQueryFramework/Processing
+Modified : /branches/feature-fluent/DbQueryFramework/Properties
+Modified : /branches/feature-fluent/DbQueryFramework/Serialisation
+Modified : /branches/feature-fluent/DbQueryFramework.Builder
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/MatrixWizard
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Lib
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Model
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Model/Database
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Properties
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Properties/DataSources
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Resources
+Modified : /branches/feature-fluent/DbQueryFramework.GtkSharp
+Modified : /branches/feature-fluent/DbQueryFramework.GtkSharp/gtk-gui
+Modified : /branches/feature-fluent/DbQueryFramework.Tester
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/Lib
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/Properties
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/Resources
+Modified : /branches/feature-fluent/DbQueryFramework.Tests
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Configuration
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Display
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Properties
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/SqlProvider
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/x64
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/x86
+Modified : /branches/feature-fluent/DbQueryFramework.Utils
+Modified : /branches/feature-fluent/DbQueryFramework.Utils/Addins
+Modified : /branches/feature-fluent/DbQueryFramework.Utils/Properties
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Advanced
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/ComponentModel
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Components
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Controls
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Extensions
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Lib
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Properties
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Properties/DataSources
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Resources
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/ViewModels
+Modified : /branches/feature-fluent/Media
+Modified : /branches/feature-fluent/SharedLib
+Modified : /branches/feature-fluent/Standalone
+Modified : /branches/feature-fluent/Standalone/Data
+Modified : /branches/feature-fluent/Standalone/Forms
+Modified : /branches/feature-fluent/Standalone/Installers
+Modified : /branches/feature-fluent/Standalone/Installers/Views
+Modified : /branches/feature-fluent/Standalone/Properties
+Modified : /branches/feature-fluent/Standalone/Serialization
+Modified : /branches/feature-fluent/Standalone/Serialization/ConfigurationAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/FieldAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/SubjectAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+Modified : /branches/feature-fluent/Standalone/packages.config
+
+Revision: 218
+Author: stuarta0
+Date: Wednesday, 10 September 2014 4:20:28 PM
+Message:
+Added AutoMapper to help convert between DTO's and model objects.
+----
+Modified : /branches/feature-fluent/Standalone/Program.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/ConfigurationAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/FieldAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/FieldDTO.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+Modified : /branches/feature-fluent/Standalone/packages.config
+
+Revision: 217
+Author: stuarta0
+Date: Wednesday, 10 September 2014 8:51:56 AM
+Message:
+Wired up remaining DTO's for serialising configurations.  FieldAssembler needs to be completed.
+----
+Modified : /branches/feature-fluent/Standalone/Program.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/ConfigurationAssembler.cs
+Modified : /branches/feature-fluent/Standalone/Serialization/ConfigurationDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/FieldAssembler.cs
+Added : /branches/feature-fluent/Standalone/Serialization/FieldDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/MatrixNodeDTO.cs
+Added : /branches/feature-fluent/Standalone/Serialization/SubjectAssembler.cs
+Added : /branches/feature-fluent/Standalone/Serialization/SubjectDTO.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 216
+Author: stuarta0
+Date: Wednesday, 10 September 2014 8:08:57 AM
+Message:
+Initial implementation of protobuf serialisation for configurations.
+----
+Modified : /branches/feature-fluent/Standalone/Data/Project.cs
+Modified : /branches/feature-fluent/Standalone/Program.cs
+Added : /branches/feature-fluent/Standalone/Serialization/ConfigurationAssembler.cs
+Added : /branches/feature-fluent/Standalone/Serialization/ConfigurationDTO.cs
+Deleted : /branches/feature-fluent/Standalone/Serialization/ConfigurationMapping.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 215
+Author: stuarta0
+Date: Tuesday, 9 September 2014 9:24:12 PM
+Message:
+Removed XML serialisation cruft from the core library.
+----
+Added : /branches/feature-fluent/DbQueryFramework/Configuration/Configuration.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Field.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/IConfiguration.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/ISubject.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Configuration/QueryConfig.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/RelationField.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Hierarchy/TemplateNode.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Serialisation/PathMapping.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/Editor.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/Main.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/MatrixEditor.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/ParameterDebugger.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/SubjectEditor.cs
+Modified : /branches/feature-fluent/DbQueryFramework.GtkSharp/MainWindow.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/DataBrowser.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/Main.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/Program.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/AdventureWorks.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Chinook.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Configuration/QueryConfig_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Utils/QuerySetup.cs
+Added : /branches/feature-fluent/Standalone/Data/Project.cs
+Added : /branches/feature-fluent/Standalone/Serialization
+Added : /branches/feature-fluent/Standalone/Serialization/ConfigurationMapping.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+Modified : /branches/feature-fluent/Standalone/packages.config
+
+Revision: 214
+Author: stuarta0
+Date: Tuesday, 9 September 2014 7:32:36 AM
+Message:
+Minor tidying
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Installers/FactoryInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Installers/Views/AdvancedInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Installers/Views/PresetInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Installers/Views/StandardInstaller.cs
+
+Revision: 213
+Author: stuarta0
+Date: Monday, 8 September 2014 9:52:59 PM
+Message:
+Now running with initial implementation of dependency injection.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/QueryConfig.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Display/FieldPathFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/IControlFactory.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/ListRequestedArgs.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/DbQueryFramework.Builder.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/DbQueryFramework.Tester.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/AdvancedView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/WinFormsPresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/WinFormsStandardAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/WinFormsStandardPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/StandardView.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/ListRequestedArgs.cs
+Modified : /branches/feature-fluent/DbQueryFramework.sln
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Added : /branches/feature-fluent/Standalone/Installers/ConfigurationInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Installers/FactoryInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Installers/ViewInstaller.cs
+Added : /branches/feature-fluent/Standalone/Installers/Views
+Added : /branches/feature-fluent/Standalone/Installers/Views/AdvancedInstaller.cs
+Added : /branches/feature-fluent/Standalone/Installers/Views/PresetInstaller.cs
+Added : /branches/feature-fluent/Standalone/Installers/Views/StandardInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Program.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.settings
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 212
+Author: stuarta0
+Date: Monday, 8 September 2014 8:10:47 AM
+Message:
+Added initial implementation for advanced search - choosing field path and value.  Still needs IParameter UI to represent it.
+Early stages of moving Standalone project over to Castle.Windsor IoC (will not compile in this commit).
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/FieldPath.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Added : /branches/feature-fluent/DbQueryFramework/Display/Advanced/AdvancedAdapter.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Advanced/AdvancedPart.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Display/ControlFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/FieldPathFactory.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/IControlFactory.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/IFieldPathFactory.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/IParameterBuilderFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/ParameterBuilderFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/UniqueFieldPath.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/AdventureWorks.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Advanced
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Advanced/AdvancedPartView.Designer.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Advanced/AdvancedPartView.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Advanced/AdvancedPartView.resx
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Advanced/WinFormsAdvancedAdapter.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Advanced/WinFormsAdvancedPart.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/AdvancedView.Designer.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/AdvancedView.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/AdvancedView.resx
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/WinFormsPresetAdapter.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Properties/DataSources/DbQueryFramework.WinForms.Advanced.WinFormsAdvancedPart.datasource
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/WinFormsStandardAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/WinFormsStandardPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.resx
+Added : /branches/feature-fluent/Standalone/Installers
+Added : /branches/feature-fluent/Standalone/Installers/FactoryInstaller.cs
+Added : /branches/feature-fluent/Standalone/Installers/ViewInstaller.cs
+Modified : /branches/feature-fluent/Standalone/Program.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+Modified : /branches/feature-fluent/Standalone/packages.config
+
+Revision: 211
+Author: stuarta0
+Date: Wednesday, 3 September 2014 10:11:06 AM
+Message:
+Refactored behaviour for deciding which field paths to display for the preset and standard searches (as originally planned).
+Removed concept of adapters for configuration/subject/group/field - really this should be up to the factory providing the paths in the first place.  The current method now allows custom behaviour at the application level (not limited to Queryable/Output crap).
+----
+Deleted : /branches/feature-fluent/DbQueryFramework/Adapters
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Display/ControlFactory.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/FieldPathFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/UIElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlGenerator.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.Tests/Adapters
+Deleted : /branches/feature-fluent/DbQueryFramework.Tests/AdventureWorksAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/BetweenElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/ErrorProviderElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 210
+Author: stuarta0
+Date: Thursday, 21 August 2014 8:06:31 AM
+Message:
+Started work on being able to SetParameter() for UIElements which requires reverting the result of parsers and determining if a ParameterBuilder is responsible/capable of building a given parameter (TBA).
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/ChainedParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/ConvertParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/DateParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/DelimitedParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/Parser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/UIElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers/ChainedParser_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers/ConvertParser_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/BetweenElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/CheckBoxElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/ComboBoxElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/TextBoxElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Data/ExtendedControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Data/ExtendedDateParser.cs
+
+Revision: 209
+Author: stuarta0
+Date: Tuesday, 19 August 2014 8:00:29 AM
+Message:
+Added tests for PlaceholderParser.
+Added IGetParameter to allow classes to have a GetParameter() method.
+----
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/IGetParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/PlaceholderParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Processing/PlaceholderParser_Fixture.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 208
+Author: stuarta0
+Date: Monday, 18 August 2014 9:24:48 PM
+Message:
+Fixed a number of issues with generating controls and parameters from NotBuilders.
+Fixed scrolling issues in StandardView.
+Updated PlaceholderParser to allow replacing of placeholders.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/BetweenBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/BooleanBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateBetweenBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateEqualsBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateGtBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateGtEqualBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateLtBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateLtEqualBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/LikeBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/NotBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/SimpleBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/ParameterBuilderFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/PlaceholderParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/StandardView.Designer.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/StandardView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls/BetweenControl.Designer.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Data/ExtendedControlFactory.cs
+
+Revision: 207
+Author: stuarta0
+Date: Monday, 11 August 2014 8:22:59 AM
+Message:
+Added PlaceholderParser to decode FieldPaths from strings using format minimum "[Subject.Field]" but supports any number of "[Subject.RelationField.Field]" depth.  To be used with SqlGenerator as columns definition.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Added : /branches/feature-fluent/DbQueryFramework/Processing/PlaceholderParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/todo.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 206
+Author: stuarta0
+Date: Monday, 11 August 2014 7:12:52 AM
+Message:
+Refactored Configuration and Subject to be ILists of their contained objects, Subject and Field respectively.  i.e. you can now use mySubject[fieldName] or mySubject.Count rather than mySubject.GetField(fieldName) and mySubject.Fields.Count.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Adapters/ConfigurationAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Adapters/SubjectAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/IConfiguration.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/ISubject.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/QueryConfig.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/RelationField.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Subject.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Hierarchy/DataNode.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Hierarchy/ItemData.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlGenerator.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/todo.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/DataBrowser.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Adapters/ConfigurationAdapter_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/AdventureWorks.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Chinook.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Configuration/QueryConfig_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/FieldPath_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Sqlite_Fixture.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 205
+Author: stuarta0
+Date: Saturday, 9 August 2014 4:36:18 PM
+Message:
+Rejigged FieldPath to contain a description to be used in both Preset and Standard views.
+Added Search/Reset buttons to Standalone.Main.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/FieldPath.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlGenerator.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.Designer.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/StandardView.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.resx
+
+Revision: 204
+Author: stuarta0
+Date: Saturday, 9 August 2014 4:01:49 PM
+Message:
+Added OrderBy and GroupBy functionality for SqlGenerator
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlGenerator.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+
+Revision: 203
+Author: stuarta0
+Date: Saturday, 9 August 2014 9:39:31 AM
+Message:
+Added test fixture for SQLite.
+----
+Modified : /branches/feature-fluent/.nuget/packages.config
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Subject.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Chinook.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Sqlite_Fixture.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.Tests/SqlProvider/FieldList_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/app.config
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/packages.config
+Added : /branches/feature-fluent/DbQueryFramework.Tests/x64
+Added : /branches/feature-fluent/DbQueryFramework.Tests/x64/SQLite.Interop.dll
+Added : /branches/feature-fluent/DbQueryFramework.Tests/x86
+Added : /branches/feature-fluent/DbQueryFramework.Tests/x86/SQLite.Interop.dll
+
+Revision: 202
+Author: stuarta0
+Date: Saturday, 9 August 2014 9:19:27 AM
+Message:
+Refactored GetField("ID") to actually use a property IdField.
+Added Chinook example database for SQLite testing.
+Removed further unused classes as a result of rewrites.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Field.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/ISubject.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/RelationField.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Subject.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlGenerator.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlListGenerator.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/UniqueFieldPath.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Adapters/ConfigurationAdapter_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/AdventureWorks.cs
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Chinook.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Configuration/QueryConfig_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/BasicSubjectSearch.Designer.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/BasicSubjectSearch.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/BasicSubjectSearch.resx
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Components/BasicFieldSelection.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Components/BasicFieldSelection.designer.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Components/BasicFieldSelection.resx
+
+Revision: 201
+Author: stuarta0
+Date: Friday, 8 August 2014 7:50:52 PM
+Message:
+Added ErrorProviderElement to allow realtime feedback to WinForms controls that don't parse.
+Changed the behaviour of parsers to throw exceptions on failure to parse.
+Fixed AutoScroll on PresetView.
+----
+Deleted : /branches/feature-fluent/DbQueryFramework/Check.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/ConvertParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/DateParser.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/ProviderAttribute.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/CheckBoxElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/ComboBoxElement.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/ErrorProviderElement.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/TextBoxElement.cs
+Modified : /branches/feature-fluent/Standalone/Data/ExtendedControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.resx
+
+Revision: 200
+Author: stuarta0
+Date: Friday, 8 August 2014 6:19:28 PM
+Message:
+Fixed issue with Junctions generating incorrect SqlStrings.
+Fixed DateParser tests.
+Added an ExtendedDateParser to the sandbox to try out more advanced date parsing logic like "within 3 weeks" or "5 days ago".
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/Junction.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers/DateParser_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Added : /branches/feature-fluent/Standalone/Data/ExtendedControlFactory.cs
+Added : /branches/feature-fluent/Standalone/Data/ExtendedDateParser.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 199
+Author: stuarta0
+Date: Friday, 8 August 2014 11:42:07 AM
+Message:
+Fixed the layout issues with StandardView.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/WinFormsStandardAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/StandardView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls/BetweenControl.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Deleted : /branches/feature-fluent/Standalone/Forms/TempBetweenControl.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 198
+Author: stuarta0
+Date: Friday, 8 August 2014 8:09:13 AM
+Message:
+Fixed the StandardPartView to update the UIElement on path or builder change; now sometimes loses values when adding new parts...
+----
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Controls
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Controls/BindableComboBox.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.Designer.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.cs
+
+Revision: 197
+Author: stuarta0
+Date: Friday, 8 August 2014 7:31:53 AM
+Message:
+Fixed the AutoSize issue
+----
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.Designer.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls/BetweenControl.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Added : /branches/feature-fluent/Standalone/Forms/TempBetweenControl.cs
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 196
+Author: stuarta0
+Date: Thursday, 7 August 2014 9:48:24 PM
+Message:
+Started adding StandardView (previously known as BasicSearch) using the same concepts behind the PresetAdapter/View (need to investigate numerous focus, binding and layout issues due to dynamic UI in WinForms).
+Made some other minor corrections in namespaces and property changed.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateBetweenBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/ControlFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetPart.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardAdapter.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Standard/StandardPart.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/WinFormsPresetAdapter.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Properties/DataSources
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Properties/DataSources/DbQueryFramework.WinForms.Standard.WinFormsStandardPart.datasource
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Standard
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.Designer.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/StandardPartView.resx
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/WinFormsStandardAdapter.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Standard/WinFormsStandardPart.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/StandardView.Designer.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/StandardView.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/StandardView.resx
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls/BetweenControl.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 195
+Author: stuarta0
+Date: Thursday, 7 August 2014 1:31:39 PM
+Message:
+Testing between dates with list to see if it operated as designed (turns out it does).
+----
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/ListRequestedArgs.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 194
+Author: stuarta0
+Date: Thursday, 7 August 2014 1:04:36 PM
+Message:
+Added a BetweenElement allowing a parameter to be built for between two values (or >= from, or <= to, depending on what's filled in).
+Tidied up how values are passed in and out of UIElement and the associated controls, parsers and builders.
+Added a block of code to Standalone.Main to test the flexibility of the API by allowing comma delimited product numbers.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/BetweenBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/BooleanBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateBetweenBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateEqualsBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateGtBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateGtEqualBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateLtBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateLtEqualBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/LikeBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/NullBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/ParameterBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/SimpleBuilder.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Display/Control.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/ParameterBuilderFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/ConvertParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/DateParser.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/UIElement.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Values
+Added : /branches/feature-fluent/DbQueryFramework/Display/Values/BetweenValue.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Values/DateValue.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers/ChainedParser_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers/ConvertParser_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/BetweenElement.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls/BetweenControl.Designer.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls/BetweenControl.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/Controls/BetweenControl.resx
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 193
+Author: stuarta0
+Date: Thursday, 7 August 2014 10:37:50 AM
+Message:
+Refactored UI code to separate control and parameter construction into two responsibilities.
+Changed PresetAdapter to abstract class to allow for a factory method for creating parts.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/BetweenParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/IParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/Junction.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/LikeParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/NotParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/NullParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/SimpleParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Added : /branches/feature-fluent/DbQueryFramework/Display/Control.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/ControlFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/ParameterBuilderFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetControl.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetControlFactory.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetPart.cs (Copy from path: /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetControl.cs, Revision, 189)
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/CheckBoxPresetControl.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/ComboBoxPresetControl.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/ListRequestedArgs.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/TextBoxPresetControl.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/WinFormsControlFactory.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/WinFormsPresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/CheckBoxElement.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/ComboBoxElement.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/ListRequestedArgs.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/TextBoxElement.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/UIElements/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 192
+Author: stuarta0
+Date: Thursday, 7 August 2014 7:47:48 AM
+Message:
+Added more test cases for parsers.
+Added ParameterBuilderFactory to allow creation of builders for use with a given field path.
+Removed obsolete RelationManyField and FieldListItem.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Adapters/FieldAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/FieldList.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Configuration/FieldListItem.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Configuration/FieldListType.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/IFieldList.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Configuration/RelationManyField.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Subject.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/Junction.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/BetweenBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/BooleanBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateBetweenBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateEqualsBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateGtBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateGtEqualBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateLtBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateLtEqualBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/LikeBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/NotBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/NullBuilder.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Builders/SimpleBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/ParameterBuilderFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/ChainedParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/ConvertParser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Parsers/DelimitedParser.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Standard
+Modified : /branches/feature-fluent/DbQueryFramework/Serialisation/FieldMapping.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Serialisation/PathMapping.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers/ChainedParser_Fixture.cs
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers/ConvertParser_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers/DateParser_Fixture.cs
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers/DelimitedParser_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 191
+Author: stuarta0
+Date: Wednesday, 6 August 2014 10:16:50 PM
+Message:
+Logic added to provide builder classes that are able to create parameters.  These will be used in the UI to construct parameters based on the combinations of field, operator and value(s) that the user selects.
+Parsers added to process values entered by users before handing off to the builders (the directors will probably take care of this - Design Patterns, p99).
+Simplified FieldList to just be a list of objects.  The idea is that if a Source is provided with ID,Value then the ID will simply be used to limit the data.  At the end we really only care about a list of values, so this is what the end result looks like.
+Test cases started to be added for DateParser, but we still need to cover all the parsers and builders.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/FieldList.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/IFieldList.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/IParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/Junction.cs
+Deleted : /branches/feature-fluent/DbQueryFramework/Criterion/OperatorFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/BetweenBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateBetweenBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateEqualsBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateGtBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateGtEqualBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateLtBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/DateTime/DateLtEqualBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/LikeBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/NotBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/NullBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/ParameterBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Builders/SimpleBuilder.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Parsers
+Added : /branches/feature-fluent/DbQueryFramework/Display/Parsers/ChainedParser.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Parsers/ConvertParser.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Parsers/DateParser.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Parsers/DelimitedParser.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Parsers/Parser.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Hierarchy/DataNode.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Display
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Display/Parsers/DateParser_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/app.config
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/ComboBoxPresetControl.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/ListRequestedArgs.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/ListRequiredArgs.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Data/SqlResults.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 190
+Author: stuarta0
+Date: Tuesday, 5 August 2014 11:08:21 PM
+Message:
+Adjusted concerns relating to getting field list data to the control factory (since it's related to UI construction) rather than the PresetAdapter (which just passed the value on anyway).
+----
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Deleted : /branches/feature-fluent/DbQueryFramework/Display/Preset/ListRequiredArgs.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetControlFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/ListRequiredArgs.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 189
+Author: stuarta0
+Date: Tuesday, 5 August 2014 9:54:23 PM
+Message:
+Began reimplementing field list data logic.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Field.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/FieldList.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/IField.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/IFieldList.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Added : /branches/feature-fluent/DbQueryFramework/Display/Preset/ListRequiredArgs.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetControl.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetControlFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlGenerator.cs
+Added : /branches/feature-fluent/DbQueryFramework/Processing/SqlListGenerator.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/AdventureWorks.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/CheckBoxPresetControl.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/ComboBoxPresetControl.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/TextBoxPresetControl.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/Standalone/App.config
+Modified : /branches/feature-fluent/Standalone/Data/SqlResults.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 188
+Author: stuarta0
+Date: Tuesday, 5 August 2014 5:35:40 PM
+Message:
+Missing from previous commit.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+
+Revision: 187
+Author: stuarta0
+Date: Tuesday, 5 August 2014 5:34:26 PM
+Message:
+Renamed Generator to more reflect it's purpose.
+----
+Deleted : /branches/feature-fluent/DbQueryFramework/Processing/Generator.cs
+Added : /branches/feature-fluent/DbQueryFramework/Processing/SqlGenerator.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/AdventureWorksAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 186
+Author: stuarta0
+Date: Tuesday, 5 August 2014 4:51:20 PM
+Message:
+Bugfix for Generator when Where clause has a value but produces no SQL string.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/FieldPath.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/Generator.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+
+Revision: 185
+Author: stuarta0
+Date: Tuesday, 5 August 2014 3:39:12 PM
+Message:
+Refactor Generator to be fluent.
+Added SqlResults to Standalone to show results in grid.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/FieldPath.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/Generator.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Properties/Settings.Designer.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Properties/Settings.settings
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/app.config
+Modified : /branches/feature-fluent/Standalone/App.config
+Added : /branches/feature-fluent/Standalone/Data
+Added : /branches/feature-fluent/Standalone/Data/SqlResults.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Forms/Main.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.Designer.cs
+Modified : /branches/feature-fluent/Standalone/Properties/Settings.settings
+Modified : /branches/feature-fluent/Standalone/Standalone.csproj
+
+Revision: 183
+Author: stuarta0
+Date: Tuesday, 5 August 2014 8:18:07 AM
+Message:
+Created new project for Standalone implementation (to replace existing Launcher and DbQueryFramework.Tester).
+Stripped WinForms project of everything but the refactored Preset control.
+Started using initial implementation of PresetView in the new Standalone project.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Adapters/GroupAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/BetweenParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/FieldPath.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/LikeParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/NullParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/SimpleParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetControl.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetControlFactory.cs
+Added : /branches/feature-fluent/DbQueryFramework.Tests/AdventureWorksAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/ComboBoxPresetControl.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/TextBoxPresetControl.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/WinFormsControlFactory.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Preset.Designer.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Preset.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/Preset.resx
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.Designer.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/PresetView.resx
+Modified : /branches/feature-fluent/DbQueryFramework.sln
+Deleted : /branches/feature-fluent/Launcher
+Added : /branches/feature-fluent/Standalone
+Added : /branches/feature-fluent/Standalone/App.config
+Added : /branches/feature-fluent/Standalone/Forms
+Added : /branches/feature-fluent/Standalone/Forms/Main.Designer.cs
+Added : /branches/feature-fluent/Standalone/Forms/Main.cs
+Added : /branches/feature-fluent/Standalone/Forms/Main.resx
+Added : /branches/feature-fluent/Standalone/Program.cs
+Added : /branches/feature-fluent/Standalone/Properties
+Added : /branches/feature-fluent/Standalone/Properties/AssemblyInfo.cs
+Added : /branches/feature-fluent/Standalone/Properties/Resources.Designer.cs
+Added : /branches/feature-fluent/Standalone/Properties/Resources.resx
+Added : /branches/feature-fluent/Standalone/Properties/Settings.Designer.cs
+Added : /branches/feature-fluent/Standalone/Properties/Settings.settings
+Added : /branches/feature-fluent/Standalone/Standalone.csproj
+Added : /branches/feature-fluent/Standalone/packages.config
+
+Revision: 182
+Author: stuarta0
+Date: Monday, 4 August 2014 10:35:57 PM
+Message:
+Started adding UI creation logic for preset search.  Should support multiple presentation frameworks, but currently only provided concrete code for WinForms controls.
+Added IParameter.SetValues to allow UI controls to update the values for each IParameter.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Adapters/FieldAdapter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/FieldListItem.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/FieldListType.cs
+Added : /branches/feature-fluent/DbQueryFramework/Configuration/IFieldList.cs
+Added : /branches/feature-fluent/DbQueryFramework/Configuration/IFieldListItem.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/BetweenParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/IParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/Junction.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/LikeParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/NotParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/NullParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/SimpleParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Added : /branches/feature-fluent/DbQueryFramework/Display
+Added : /branches/feature-fluent/DbQueryFramework/Display/Advanced
+Added : /branches/feature-fluent/DbQueryFramework/Display/Preset
+Added : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetAdapter.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetControl.cs
+Added : /branches/feature-fluent/DbQueryFramework/Display/Preset/PresetControlFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/ComponentModel/IParameterView.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/CheckBoxPresetControl.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/ComboBoxPresetControl.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/TextBoxPresetControl.cs
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset/WinFormsControlFactory.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Preset.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/PresetAdapter.cs
+
+Revision: 181
+Author: stuarta0
+Date: Monday, 4 August 2014 8:06:22 AM
+Message:
+Added entries to svn:ignore list
+----
+Modified : /branches/feature-fluent
+Modified : /branches/feature-fluent/.nuget
+Modified : /branches/feature-fluent/DbQueryFramework
+Modified : /branches/feature-fluent/DbQueryFramework/Adapters
+Modified : /branches/feature-fluent/DbQueryFramework/Commands
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion
+Modified : /branches/feature-fluent/DbQueryFramework/Exceptions
+Modified : /branches/feature-fluent/DbQueryFramework/Hierarchy
+Modified : /branches/feature-fluent/DbQueryFramework/Processing
+Modified : /branches/feature-fluent/DbQueryFramework/Properties
+Modified : /branches/feature-fluent/DbQueryFramework/Serialisation
+Modified : /branches/feature-fluent/DbQueryFramework.Builder
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/MatrixWizard
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Lib
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Model
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Model/Database
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Properties
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Properties/DataSources
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Resources
+Modified : /branches/feature-fluent/DbQueryFramework.GtkSharp
+Modified : /branches/feature-fluent/DbQueryFramework.GtkSharp/gtk-gui
+Modified : /branches/feature-fluent/DbQueryFramework.Tester
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/Lib
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/Properties
+Modified : /branches/feature-fluent/DbQueryFramework.Tester/Resources
+Modified : /branches/feature-fluent/DbQueryFramework.Tests
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Adapters
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Configuration
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Properties
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/SqlProvider
+Modified : /branches/feature-fluent/DbQueryFramework.Utils
+Modified : /branches/feature-fluent/DbQueryFramework.Utils/Addins
+Modified : /branches/feature-fluent/DbQueryFramework.Utils/Properties
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/ComponentModel
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Components
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Extensions
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Lib
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Properties
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Resources
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/ViewModels
+Modified : /branches/feature-fluent/Launcher
+Modified : /branches/feature-fluent/Launcher/Properties
+Modified : /branches/feature-fluent/Media
+Modified : /branches/feature-fluent/SharedLib
+
+Revision: 180
+Author: stuarta0
+Date: Monday, 4 August 2014 8:02:28 AM
+Message:
+Removed Execution namespace with all existing querying and parameter building, including tests, MSSQL and SQLite libraries.
+Added TODO comments throughout code to all that reference Queryer - hierarchy code will not be functional, along with a number of deserialisation calls.
+Added test code around FieldList.
+
+----
+Modified : /branches/feature-fluent
+Modified : /branches/feature-fluent/.nuget
+Modified : /branches/feature-fluent/DbQueryFramework
+Modified : /branches/feature-fluent/DbQueryFramework/Adapters
+Modified : /branches/feature-fluent/DbQueryFramework/Commands
+Modified : /branches/feature-fluent/DbQueryFramework/Commands/ICommand.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Commands/ProcessCommand.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Commands/SubjectCommand.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Commands/UriCommand.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/QueryConfig.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Exceptions
+Deleted : /branches/feature-fluent/DbQueryFramework/Execution
+Modified : /branches/feature-fluent/DbQueryFramework/Hierarchy/DataNode.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Hierarchy/TemplateNode.cs
+Added : /branches/feature-fluent/DbQueryFramework/Processing/todo.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/DbQueryFramework.Builder.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.GtkSharp/DbQueryFramework.GtkSharp.csproj
+Deleted : /branches/feature-fluent/DbQueryFramework.SQLiteProvider
+Deleted : /branches/feature-fluent/DbQueryFramework.SqlProvider
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Processing/FieldPath_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/SqlProvider/FieldList_Fixture.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.Tests/SqlProvider/OutputFields_Fixture.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.Tests/SqlProvider/Search_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Utils/Addins/Manager.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Utils/QuerySetup.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Utils/SavedSearch.cs
+Modified : /branches/feature-fluent/DbQueryFramework.sln
+
+Revision: 179
+Author: stuarta0
+Date: Sunday, 3 August 2014 10:07:32 PM
+Message:
+Added more test coverage for parameters and fixed subsequent errors found.
+Added another SqlCommandComparer option for comparing a datatable result and SQL command.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/Conjunction.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Criterion/Disjunction.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/Generator.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Processing/SqlString.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.Tests/SqlProvider/Operator_Fixture.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/SqlProvider/SqlCommandComparer.cs
+
+Revision: 178
+Author: stuarta0
+Date: Friday, 1 August 2014 8:30:41 AM
+Message:
+Following the natural progression towards logic such as NHibernate queries, started work on refactoring (more like rewrite) of the operator mess that existed previously.  Also began work on new way of generating SQL queries that should've been the case from the start: building one query that has all columns, joins and where clause in the one statement.  Plus attempting to generalise (or failing that, modularise) the logic so it can work across different providers.
+----
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Field.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/IConfiguration.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/IField.cs
+Added : /branches/feature-fluent/DbQueryFramework/Configuration/IRelationField.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/ISubject.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/QueryConfig.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/RelationField.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/RelationManyField.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Configuration/Subject.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/BetweenParameter.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/Conjunction.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/Disjunction.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/FieldPath.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/IParameter.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/Junction.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/LikeParameter.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/MatchMode.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/NotParameter.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/NullParameter.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/OperatorFactory.cs
+Added : /branches/feature-fluent/DbQueryFramework/Criterion/SimpleParameter.cs
+Modified : /branches/feature-fluent/DbQueryFramework/DbQueryFramework.csproj
+Modified : /branches/feature-fluent/DbQueryFramework/Execution/Queryer.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Execution/SearchValue.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Hierarchy/ItemData.cs
+Added : /branches/feature-fluent/DbQueryFramework/Processing
+Added : /branches/feature-fluent/DbQueryFramework/Processing/Generator.cs
+Added : /branches/feature-fluent/DbQueryFramework/Processing/SqlString.cs
+Added : /branches/feature-fluent/DbQueryFramework/Processing/SqlStringParameter.cs
+Added : /branches/feature-fluent/DbQueryFramework/Processing/UniqueFieldPath.cs
+Modified : /branches/feature-fluent/DbQueryFramework/Serialisation/PathMapping.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Builder/Forms/SubjectEditor.cs
+Modified : /branches/feature-fluent/DbQueryFramework.SqlProvider/SqlQueryer.cs
+Added : /branches/feature-fluent/DbQueryFramework.Tests/AdventureWorks.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/DbQueryFramework.Tests.csproj
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Processing
+Added : /branches/feature-fluent/DbQueryFramework.Tests/Processing/Generator_Fixture.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.Tests/SqlProvider/AdventureWorks.cs
+Modified : /branches/feature-fluent/DbQueryFramework.Tests/SqlProvider/SqlCommandComparer.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/BasicSubjectSearch.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Components/AdvancedFieldSelection.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/Components/FieldSelection.cs
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/DbQueryFramework.WinForms.csproj
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset.Designer.cs (Copy from path: /branches/feature-fluent/DbQueryFramework.WinForms/PresetSubjectSearch.Designer.cs, Revision, 176)
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset.cs (Copy from path: /branches/feature-fluent/DbQueryFramework.WinForms/PresetSubjectSearch.cs, Revision, 177)
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/Preset.resx (Copy from path: /branches/feature-fluent/DbQueryFramework.WinForms/PresetSubjectSearch.resx, Revision, 176)
+Added : /branches/feature-fluent/DbQueryFramework.WinForms/PresetAdapter.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/PresetSubjectSearch.Designer.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/PresetSubjectSearch.cs
+Deleted : /branches/feature-fluent/DbQueryFramework.WinForms/PresetSubjectSearch.resx
+Modified : /branches/feature-fluent/DbQueryFramework.WinForms/ViewModels/OutputFieldViewModel.cs
+

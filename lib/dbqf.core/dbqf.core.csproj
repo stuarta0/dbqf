@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AB9BDEC4-8264-49A2-B2B6-EF6276341535}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>dbqf</RootNamespace>
+    <AssemblyName>dbqf.core</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <DocumentationFile>..\bin\x86\Debug\dbqf.core.xml</DocumentationFile>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\DbQueryFramework.Key.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\SubjectCommand.cs" />
+    <Compile Include="Commands\UriCommand.cs" />
+    <Compile Include="Commands\ProcessCommand.cs" />
+    <Compile Include="Configuration\IFieldList.cs" />
+    <Compile Include="Configuration\IFieldListItem.cs" />
+    <Compile Include="Configuration\IRelationField.cs" />
+    <Compile Include="Criterion\BetweenParameter.cs" />
+    <Compile Include="Criterion\Conjunction.cs" />
+    <Compile Include="Criterion\Disjunction.cs" />
+    <Compile Include="Criterion\FieldPath.cs" />
+    <Compile Include="Criterion\IGetParameter.cs" />
+    <Compile Include="Criterion\Junction.cs" />
+    <Compile Include="Criterion\NotParameter.cs" />
+    <Compile Include="Criterion\NullParameter.cs" />
+    <Compile Include="Criterion\LikeParameter.cs" />
+    <Compile Include="Criterion\IParameter.cs" />
+    <Compile Include="Criterion\MatchMode.cs" />
+    <Compile Include="Criterion\SimpleParameter.cs" />
+    <Compile Include="Display\Advanced\AdvancedAdapter.cs" />
+    <Compile Include="Display\Advanced\AdvancedPart.cs" />
+    <Compile Include="Display\FieldPathFactory.cs" />
+    <Compile Include="Display\IFieldPathFactory.cs" />
+    <Compile Include="Display\IParameterBuilderFactory.cs" />
+    <Compile Include="Display\ListRequestedArgs.cs" />
+    <Compile Include="Display\Standard\StandardAdapter.cs" />
+    <Compile Include="Display\Standard\StandardPart.cs" />
+    <Compile Include="Display\Values\BetweenValue.cs" />
+    <Compile Include="Display\Builders\BetweenBuilder.cs" />
+    <Compile Include="Display\Builders\BooleanBuilder.cs" />
+    <Compile Include="Display\Builders\DateTime\DateBetweenBuilder.cs" />
+    <Compile Include="Display\Builders\DateTime\DateLtEqualBuilder.cs" />
+    <Compile Include="Display\Builders\DateTime\DateLtBuilder.cs" />
+    <Compile Include="Display\Builders\DateTime\DateGtEqualBuilder.cs" />
+    <Compile Include="Display\Builders\DateTime\DateGtBuilder.cs" />
+    <Compile Include="Display\Builders\DateTime\DateEqualsBuilder.cs" />
+    <Compile Include="Display\Builders\NullBuilder.cs" />
+    <Compile Include="Display\Builders\NotBuilder.cs" />
+    <Compile Include="Display\Builders\LikeBuilder.cs" />
+    <Compile Include="Display\Builders\SimpleBuilder.cs" />
+    <Compile Include="Display\Builders\ParameterBuilder.cs" />
+    <Compile Include="Display\UIElement.cs" />
+    <Compile Include="Display\Values\DateValue.cs" />
+    <Compile Include="Display\ParameterBuilderFactory.cs" />
+    <Compile Include="Display\Parsers\ConvertParser.cs" />
+    <Compile Include="Display\Parsers\ChainedParser.cs" />
+    <Compile Include="Display\Parsers\Parser.cs" />
+    <Compile Include="Display\Parsers\DelimitedParser.cs" />
+    <Compile Include="Display\Parsers\DateParser.cs" />
+    <Compile Include="Display\IControlFactory.cs" />
+    <Compile Include="Display\Preset\PresetAdapter.cs" />
+    <Compile Include="Display\Preset\PresetPart.cs" />
+    <Compile Include="ExtensionSupport.cs" />
+    <Compile Include="IListExtensions.cs" />
+    <Compile Include="Configuration\RelationField.cs" />
+    <Compile Include="Configuration\Field.cs" />
+    <Compile Include="Configuration\FieldList.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
+    <Compile Include="Configuration\IField.cs" />
+    <Compile Include="Configuration\ISubject.cs" />
+    <Compile Include="Configuration\MatrixNode.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Hierarchy\DataNode.cs" />
+    <Compile Include="Hierarchy\TemplateNode.cs" />
+    <Compile Include="Processing\PlaceholderParser.cs" />
+    <Compile Include="Processing\SqlListGenerator.cs" />
+    <Compile Include="Processing\SqlStringParameter.cs" />
+    <Compile Include="Processing\SqlGenerator.cs" />
+    <Compile Include="Processing\SqlString.cs" />
+    <Compile Include="Processing\UniqueFieldPath.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Configuration\Subject.cs" />
+    <Compile Include="Hierarchy\SortField.cs" />
+    <Compile Include="Hierarchy\ItemData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\DbQueryFramework.Key.pfx">
+      <Link>DbQueryFramework.Key.pfx</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
