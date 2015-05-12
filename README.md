@@ -19,7 +19,7 @@ This project follows **Test Driven Development** (TDD) and contains NUnit test c
 
 ## Enough words, show me!
 
-![Preset](https://raw.githubusercontent.com/stuarta0/dbqf/master/documentation/preset.png)
+![Preset](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/preset.png)
   
 ## Documentation
 
