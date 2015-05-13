@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 using dbqf.Criterion;
 using ProtoBuf;
 using System.Xml.Serialization;
+using System.ComponentModel;
 
 namespace Standalone.Serialization.DTO.Criterion
 {
-    [XmlRoot("Conjunction")]
-    public class ConjunctionDTO : ParameterDTO
+    [XmlRoot("Parameter")]
+    public class ParameterDTO
     {
-        [XmlText]
-        public IList<ParameterDTO> Parameters { get; set; }
     }
 }

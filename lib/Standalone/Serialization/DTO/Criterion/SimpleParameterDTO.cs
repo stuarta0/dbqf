@@ -3,39 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using dbqf.Criterion;
-using ProtoBuf;
+using System.Xml.Serialization;
 
 namespace Standalone.Serialization.DTO.Criterion
 {
-    [ProtoContract]
-    public class SimpleParameterDTO
+    [XmlRoot("SimpleParameter")]
+    public class SimpleParameterDTO : ParameterDTO
     {
-        [ProtoMember(1)]
+        [XmlElement]
         public FieldPathDTO Path { get; set; }
 
-        [ProtoMember(2)]
+        /// <summary>
+        /// Gets or sets the operator of a SimpleParameter.
+        /// </summary>
+        [XmlAttribute]
         public string Operator { get; set; }
+        public bool ShouldSerializeOperator() { return !String.IsNullOrWhiteSpace(Operator); }
 
-        [ProtoMember(3)]
-        public MessageParam Value { get; set; }
-
-        public static implicit operator SimpleParameterDTO(SimpleParameter source)
-        {
-            if (source == null)
-                return null;
-
-            return new SimpleParameterDTO()
-            {
-                Path = (FieldPathDTO)source.Path,
-                Operator = source.Operator,
-                Value = MessageParam.CreateDynamic(source.Value)
-            };
-        }
-
-        public static implicit operator SimpleParameter(SimpleParameterDTO dto)
-        {
-            return new SimpleParameter((FieldPath)dto.Path, dto.Operator, dto.Value.UntypedValue);
-        }
+        /// <summary>
+        /// Gets or sets the value of a SimpleParameter.
+        /// </summary>
+        [XmlElement]
+        public object Value { get; set; }
+        public bool ShouldSerializeValue() { return Value != null; }
     }
 }

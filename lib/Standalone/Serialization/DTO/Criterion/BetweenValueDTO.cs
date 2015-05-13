@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 using dbqf.Criterion;
 using dbqf.Display;
 using ProtoBuf;
+using System.Xml.Serialization;
 
 namespace Standalone.Serialization.DTO.Criterion
 {
-    [ProtoContract]
     public class BetweenValueDTO
     {
-        [ProtoMember(1)]
-        public MessageParam From { get; set; }
+        [XmlElement]
+        public object From { get; set; }
+        public bool ShouldSerializeFrom() { return From != null; }
 
-        [ProtoMember(2)]
-        public MessageParam To { get; set; }
+        [XmlElement]
+        public object To { get; set; }
+        public bool ShouldSerializeTo() { return To != null; }
 
         public static implicit operator BetweenValueDTO(BetweenValue source)
         {
@@ -32,7 +34,7 @@ namespace Standalone.Serialization.DTO.Criterion
 
         public static implicit operator BetweenValue(BetweenValueDTO dto)
         {
-            return new BetweenValue(dto.From.UntypedValue, dto.To.UntypedValue);
+            return new BetweenValue(dto.From, dto.To);
         }
     }
 }

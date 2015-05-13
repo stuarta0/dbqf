@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using ProtoBuf;
 using dbqf.Criterion;
 using dbqf.Configuration;
+using System.Xml.Serialization;
 
 namespace Standalone.Serialization.DTO
 {
+    [XmlRoot("FieldPath")]
     [ProtoContract]
     public class FieldPathDTO
     {
@@ -17,9 +19,11 @@ namespace Standalone.Serialization.DTO
         /// </summary>
         public static IConfiguration Configuration { get; set; }
 
+        [XmlAttribute("Subject")]
         [ProtoMember(1)]
         public int SubjectIndex { get; set; }
 
+        [XmlText]
         [ProtoMember(2)]
         public List<string> SourceNames { get; set; }
 

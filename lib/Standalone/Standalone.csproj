@@ -116,6 +116,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\Assemblers\ConfigurationAssembler.cs" />
+    <Compile Include="Serialization\Assemblers\Criterion\ParameterAssembler.cs" />
     <Compile Include="Serialization\Assemblers\ParserAssembler.cs" />
     <Compile Include="Serialization\Assemblers\ProjectAssembler.cs" />
     <Compile Include="Serialization\Assemblers\FieldAssembler.cs" />
@@ -125,7 +126,12 @@
     <Compile Include="Serialization\DTO\ConfigurationDTO.cs" />
     <Compile Include="Serialization\DTO\Criterion\BetweenValueDTO.cs" />
     <Compile Include="Serialization\DTO\Criterion\ConjunctionDTO.cs" />
+    <Compile Include="Serialization\DTO\Criterion\BetweenParameterDTO.cs" />
+    <Compile Include="Serialization\DTO\Criterion\LikeParameterDTO.cs" />
+    <Compile Include="Serialization\DTO\Criterion\NullParameterDTO.cs" />
     <Compile Include="Serialization\DTO\Criterion\ParameterContainer.cs" />
+    <Compile Include="Serialization\DTO\Criterion\ParameterDTO.cs" />
+    <Compile Include="Serialization\DTO\Criterion\NotParameterDTO.cs" />
     <Compile Include="Serialization\DTO\Criterion\SimpleParameterDTO.cs" />
     <Compile Include="Serialization\DTO\Display\ParserDTO.cs" />
     <Compile Include="Serialization\DTO\FieldDTO.cs" />

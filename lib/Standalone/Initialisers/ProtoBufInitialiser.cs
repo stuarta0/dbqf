@@ -23,7 +23,7 @@ namespace Standalone.Initialisers
                 .AddSubType(5, typeof(NullParameter))
                 .AddSubType(6, typeof(Conjunction))
                 .AddSubType(7, typeof(Disjunction));
-            RuntimeTypeModel.Default.Add(typeof(SimpleParameter), false).SetSurrogate(typeof(SimpleParameterDTO));
+            RuntimeTypeModel.Default.Add(typeof(SimpleParameter), false).SetSurrogate(typeof(ParameterDTO));
             RuntimeTypeModel.Default.Add(typeof(LikeParameter), true);
             RuntimeTypeModel.Default.Add(typeof(NullParameter), true);
             RuntimeTypeModel.Default.Add(typeof(Conjunction), false).SetSurrogate(typeof(ConjunctionDTO));
