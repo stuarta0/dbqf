@@ -1,11 +1,21 @@
 # dbqf
 Database Query Framework
 
+## Requirements
+
+- Visual Studio Express 2013 or greater
+- NuGet package manager
+- .NET 2.0 for core libraries, .NET 4.5 for the standalone application
+
 ## What is it?
 
-A library aimed at **simplifying complex data mining for the end user** in .NET applications while minimising developer time to implement.  The intent is to provide a way of mapping a complete relational data structure and allowing the UI to dynamically construct itself for various purposes.  Construction of the UI is modular with use of factories, adapters and (in the example Standalone project) dependency injection.  The code is database engine independent allowing you to create whatever SQL is required to suit your engine (currently tested: `MSSQL`, `SQLite`).  Note this is **not an ORM** but could conceivably have an adapter to an ORM's mapping.
+An SQL builder.
+
+Long answer: a library aimed at **simplifying complex data mining for the end user** in .NET applications while minimising developer time to implement.  The intent is to provide a way of mapping a complete relational data structure and allowing the UI to dynamically construct itself for various purposes.  Construction of the UI is modular with use of factories, adapters and (in the example Standalone project) dependency injection.  The code is database engine independent allowing you to create whatever SQL is required to suit your engine (currently tested: `MSSQL`, `SQLite`).  Note this is **not an ORM** but could conceivably have an adapter to an ORM's mapping.
 
 This project follows **Test Driven Development** (TDD) and contains NUnit test cases for the core library.  It is also based on **Fluent** coding style allowing quick code-based setup.
+
+No external libraries are needed for the core and WinForms libraries.  The Standalone application does require a number of external libraries but can be updated with NuGet package restore.
 
 ### Why would I want to use it?
 - Automated UI generation for boring, repetitive search fields, operators and execution.
@@ -20,7 +30,7 @@ This project follows **Test Driven Development** (TDD) and contains NUnit test c
 ## Enough words, show me!
 
 ![Preset](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/preset.png)
-  
+
 ## Documentation
 
 Full documentation TBA.  Code has XML documentation, test cases show usage, and Standalone project shows real-world use.
