@@ -10,22 +10,25 @@ namespace Standalone.Serialization.Assemblers.Criterion
 {
     public class ParameterAssembler : IAssembler<IParameter, ParameterDTO>
     {
-        private FieldPathAssembler _pathAssembler;
-        public ParameterAssembler(FieldPathAssembler pathAssembler)
+        private TransformHandler _chain;
+
+        /// <summary>
+        /// Given a chain of TransformHandlers, use this to restore or create the required DTOs.
+        /// </summary>
+        /// <param name="chain"></param>
+        public ParameterAssembler(TransformHandler chain)
         {
-            _pathAssembler = pathAssembler;
+            _chain = chain;
         }
 
         public IParameter Restore(ParameterDTO dto)
         {
-            var restorer = new RestoreVisitor(_pathAssembler);
-            dto.Accept(restorer);
-            return restorer.Parameter;
+            return _chain.Restore(dto);
         }
 
         public ParameterDTO Create(IParameter source)
         {
-            throw new NotImplementedException();
+            return _chain.Create(source);
         }
     }
 }

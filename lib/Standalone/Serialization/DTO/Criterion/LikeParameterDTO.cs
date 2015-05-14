@@ -12,10 +12,5 @@ namespace Standalone.Serialization.DTO.Criterion
     {
         [XmlElement]
         public FieldPathDTO Path { get; set; }
-
-        public override void Accept(Assemblers.Criterion.IParameterDTOVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
     }
 }

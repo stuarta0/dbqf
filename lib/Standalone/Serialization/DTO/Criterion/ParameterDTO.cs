@@ -12,8 +12,7 @@ using Standalone.Serialization.Assemblers.Criterion;
 namespace Standalone.Serialization.DTO.Criterion
 {
     [XmlRoot("Parameter")]
-    public abstract class ParameterDTO : IParameterDTO
+    public abstract class ParameterDTO
     {
-        public abstract void Accept(IParameterDTOVisitor visitor);
     }
 }
