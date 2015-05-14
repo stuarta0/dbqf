@@ -26,5 +26,10 @@ namespace Standalone.Serialization.DTO.Criterion
         [XmlElement]
         public object Low { get; set; }
         public bool ShouldSerializeLow() { return Low != null; }
+
+        public override void Accept(Assemblers.Criterion.IParameterDTOVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

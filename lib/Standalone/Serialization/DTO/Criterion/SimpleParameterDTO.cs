@@ -26,5 +26,10 @@ namespace Standalone.Serialization.DTO.Criterion
         [XmlElement]
         public object Value { get; set; }
         public bool ShouldSerializeValue() { return Value != null; }
+
+        public override void Accept(Assemblers.Criterion.IParameterDTOVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

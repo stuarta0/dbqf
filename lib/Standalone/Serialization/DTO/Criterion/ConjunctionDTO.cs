@@ -14,5 +14,10 @@ namespace Standalone.Serialization.DTO.Criterion
     {
         [XmlText]
         public IList<ParameterDTO> Parameters { get; set; }
+
+        public override void Accept(Assemblers.Criterion.IParameterDTOVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

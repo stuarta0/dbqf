@@ -116,7 +116,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\Assemblers\ConfigurationAssembler.cs" />
+    <Compile Include="Serialization\Assemblers\Criterion\IParameterDTO.cs" />
+    <Compile Include="Serialization\Assemblers\Criterion\IParameterDTOVisitor.cs" />
     <Compile Include="Serialization\Assemblers\Criterion\ParameterAssembler.cs" />
+    <Compile Include="Serialization\Assemblers\Criterion\CreateVisitor.cs" />
+    <Compile Include="Serialization\Assemblers\Criterion\RestoreVisitor.cs" />
     <Compile Include="Serialization\Assemblers\ParserAssembler.cs" />
     <Compile Include="Serialization\Assemblers\ProjectAssembler.cs" />
     <Compile Include="Serialization\Assemblers\FieldAssembler.cs" />

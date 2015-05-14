@@ -8,7 +8,7 @@ namespace dbqf.Criterion
 {
     public class NullParameter : IParameter
     {
-        private FieldPath _path;
+        public FieldPath Path { get; private set; }
 
         public NullParameter(IField field)
             : this(FieldPath.FromDefault(field))
@@ -17,13 +17,13 @@ namespace dbqf.Criterion
 
         public NullParameter(FieldPath path)
         {
-            _path = path;
+            Path = path;
         }
 
         public SqlString ToSqlString()
         {
             return new SqlString()
-                .AddField(_path)
+                .AddField(Path)
                 .Add(" IS NULL");
         }
     }

@@ -10,17 +10,18 @@ namespace dbqf.Criterion
     [DebuggerDisplay("NOT ({_other})")]
     public class NotParameter : IParameter
     {
-        IParameter _other;
-        public NotParameter(IParameter other)
+        public IParameter Parameter { get; private set; }
+
+        public NotParameter(IParameter p)
         {
-            _other = other;
+            Parameter = p;
         }
 
         public SqlString ToSqlString()
         {
             return new SqlString()
                 .Add("NOT (")
-                .Add(_other.ToSqlString())
+                .Add(Parameter.ToSqlString())
                 .Add(")");
         }
     }

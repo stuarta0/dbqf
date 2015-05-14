@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dbqf.Criterion;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,10 @@ namespace Standalone.Serialization.DTO.Criterion
     {
         [XmlElement]
         public FieldPathDTO Path { get; set; }
+
+        public override void Accept(Assemblers.Criterion.IParameterDTOVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }
