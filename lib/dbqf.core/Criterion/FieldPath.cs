@@ -70,7 +70,7 @@ namespace dbqf.Criterion
             while (cur is IRelationField)
             {
                 path.Add(cur);
-                cur = ((IRelationField)field).RelatedSubject.DefaultField;
+                cur = ((IRelationField)cur).RelatedSubject.DefaultField;
             }
             path.Add(cur);
             return path;
@@ -158,6 +158,12 @@ namespace dbqf.Criterion
         public void Insert(int index, IField item)
         {
             // make sure this field fits in after the previous field and before the next field
+            if (index >= _fields.Count)
+            {
+                Add(item);
+                return;
+            }
+
             if (!(item is IRelationField))
                 throw new ArgumentException(String.Format("Cannot insert field '{0}' because it is not an IRelationField.", item.SourceName));
 
