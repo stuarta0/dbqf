@@ -1,4 +1,5 @@
 ﻿using dbqf.Criterion;
+using Standalone.Serialization.Assemblers.Criterion;
 using Standalone.Serialization.DTO.Criterion;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Standalone.Serialization.Assemblers.Criterion
+namespace Standalone.Serialization.Assemblers
 {
     public class ParameterAssembler : IAssembler<IParameter, ParameterDTO>
     {

@@ -30,7 +30,7 @@ namespace Standalone.Initialisers
             RuntimeTypeModel.Default.Add(typeof(Disjunction), true);
             
             RuntimeTypeModel.Default.Add(typeof(NotParameter), false)
-                .Add(1, "_other")
+                .Add(1, "Parameter")
                 .UseConstructor = false;
             
 

@@ -162,6 +162,12 @@ namespace Standalone.Forms
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (_adapter.Result.DataSource == null)
+            {
+                MessageBox.Show("There are no results to export.  Please perform a search first, then export.", "Export");
+                return;
+            }
+
             if (sfdExport.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
                 _adapter.Export(sfdExport.FileName);
@@ -174,11 +180,6 @@ namespace Standalone.Forms
             }
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Not implemented.");
-        }
-
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var about = new AboutDialog();
@@ -189,6 +190,16 @@ namespace Standalone.Forms
         private void btnCancel_Click(object sender, EventArgs e)
         {
             _adapter.CancelSearch();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _adapter.Open("");
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _adapter.Save("");
         }
     }
 }

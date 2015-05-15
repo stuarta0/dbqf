@@ -21,24 +21,32 @@ namespace Standalone.Serialization.DTO.Criterion
         public string ProjectFile { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating what search type was used
+        /// to create this parameter (e.g. Preset, Standard, Advanced).
+        /// </summary>
+        [XmlAttribute("Type")]
+        [ProtoMember(2)]
+        public string SearchType { get; set; }
+
+        /// <summary>
         /// Gets or sets the subject index to use for fetching output.
         /// </summary>
         [XmlAttribute("Subject")]
-        [ProtoMember(2)]
+        [ProtoMember(3)]
         public int SubjectIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the parameter to limit the result set.
         /// </summary>
         [XmlElement]
-        [ProtoMember(3)]
+        [ProtoMember(4)]
         public ParameterDTO Parameter { get; set; }
 
         /// <summary>
         /// Gets or sets the list of fields to use for custom output.
         /// </summary>
         [XmlArray]
-        [ProtoMember(4)]
+        [ProtoMember(5)]
         public List<FieldPathDTO> Outputs { get; set; }
     }
 }

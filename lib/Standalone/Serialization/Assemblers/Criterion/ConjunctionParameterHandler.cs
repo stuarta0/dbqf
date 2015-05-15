@@ -10,12 +10,11 @@ namespace Standalone.Serialization.Assemblers.Criterion
 {
     public class ConjunctionParameterHandler : TransformHandler
     {
-        private TransformHandler _chain;
-        public ConjunctionParameterHandler(TransformHandler successor, TransformHandler chain)
+        // need a reference to the chain of responsibility that this TransformHandler is part of to restore the contained parameters
+        public TransformHandler Chain { get; set; }
+        public ConjunctionParameterHandler(TransformHandler successor)
             : base(successor)
         {
-            // need a reference to the chain of responsibility that this TransformHandler is part of to restore the contained parameters
-            _chain = chain;
         }
 
         public override dbqf.Criterion.IParameter Restore(DTO.Criterion.ParameterDTO dto)
@@ -26,7 +25,7 @@ namespace Standalone.Serialization.Assemblers.Criterion
 
             var result = new Conjunction();
             foreach (var p in c.Parameters)
-                result.Add(_chain.Restore(p));
+                result.Add(Chain.Restore(p));
 
             return result;
         }
@@ -39,7 +38,7 @@ namespace Standalone.Serialization.Assemblers.Criterion
 
             var result = new ConjunctionDTO() { Parameters = new List<ParameterDTO>() };
             foreach (var p2 in c)
-                result.Parameters.Add(_chain.Create(p2));
+                result.Parameters.Add(Chain.Create(p2));
 
             return result;
         }

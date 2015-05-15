@@ -14,6 +14,10 @@ using dbqf.WinForms;
 using Standalone.Data;
 using Standalone.Data.Processing;
 using Standalone.Export;
+using Standalone.Serialization.Assemblers.Criterion;
+using Standalone.Serialization.DTO.Criterion;
+using System.IO;
+using Standalone.Serialization.Assemblers;
 
 namespace Standalone.Forms
 {
@@ -23,6 +27,7 @@ namespace Standalone.Forms
         public ResultFactory ResultFactory { get; set; }
         public IFieldPathFactory PathFactory { get; private set; }
         public ExportServiceFactory ExportFactory { get; set; }
+        public ParameterAssembler Assembler { get; set; }
     
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
@@ -104,12 +109,14 @@ namespace Standalone.Forms
         public MainAdapter(
             Project project, IFieldPathFactory pathFactory, 
             PresetView preset, StandardView standard, AdvancedView advanced, 
-            RetrieveFieldsView fields)
+            RetrieveFieldsView fields,
+            ParameterAssembler paramAssembler)
         {
             Preset = preset;
             Standard = standard;
             Advanced = advanced;
             RetrieveFields = fields;
+            Assembler = paramAssembler;
 
             Preset.Adapter.Search += Adapter_Search;
             Standard.Adapter.Search += Adapter_Search;
@@ -221,6 +228,36 @@ namespace Standalone.Forms
             }
 
             ExportFactory.Create(etype).Export(filename, (DataTable)Result.DataSource);
+        }
+
+        public void Open(string filename)
+        {
+            // TODO: this should possibly be elsewhere
+            var deserializer = new System.Xml.Serialization.XmlSerializer(typeof(ParameterContainer));
+            ParameterContainer container;
+            using (TextReader reader = new StreamReader(filename))
+                container = (ParameterContainer)deserializer.Deserialize(reader);
+
+            // switch the UI to show 
+            //if (!container.ProjectFile.Equals(Project.Path)) MessageBox.Show("This file is not compatible with the current database.", "Open"); return;
+            SelectedSubject = Project.Configuration[container.SubjectIndex]; 
+            Assembler.Restore(container.Parameter);
+        }
+
+        public void Save(string filename)
+        {
+            var container = new ParameterContainer()
+            {
+                ProjectFile = "", // Project.Path
+                SearchType = "", // UI.SearchType
+                SubjectIndex = Project.Configuration.IndexOf(SelectedSubject),
+                Parameter = null, // UI.GetParameter()
+                Outputs = null
+            };
+
+            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(ParameterContainer));
+            using (TextWriter writer = new StreamWriter(filename))
+                serializer.Serialize(writer, container);
         }
     }
 }

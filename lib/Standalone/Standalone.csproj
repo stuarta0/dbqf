@@ -118,7 +118,7 @@
     <Compile Include="Serialization\Assemblers\ConfigurationAssembler.cs" />
     <Compile Include="Serialization\Assemblers\Criterion\ConjunctionParameterHandler.cs" />
     <Compile Include="Serialization\Assemblers\Criterion\NotParameterHandler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\ParameterAssembler.cs" />
+    <Compile Include="Serialization\Assemblers\ParameterAssembler.cs" />
     <Compile Include="Serialization\Assemblers\Criterion\NullParameterHandler.cs" />
     <Compile Include="Serialization\Assemblers\Criterion\SimpleParameterHandler.cs" />
     <Compile Include="Serialization\Assemblers\Criterion\TransformHandler.cs" />
