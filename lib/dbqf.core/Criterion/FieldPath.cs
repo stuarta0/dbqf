@@ -112,6 +112,21 @@ namespace dbqf.Criterion
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is FieldPath)
+            {
+                var other = (FieldPath)obj;
+                if (this.Count != other.Count)
+                    return false;
+                for (int i = 0; i < this.Count; i++)
+                    if (this[i] != other[i])
+                        return false;
+                return true;
+            }
+            return base.Equals(obj);
+        }
+
         /// <summary>
         /// Python-esque list slicing.  Can use negative 'to' to indicate number of items from the end.
         /// </summary>
