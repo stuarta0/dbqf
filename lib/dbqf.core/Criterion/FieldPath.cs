@@ -130,8 +130,8 @@ namespace dbqf.Criterion
         /// <summary>
         /// Python-esque list slicing.  Can use negative 'to' to indicate number of items from the end.
         /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to">Use null to indicate end of list.</param>
+        /// <param name="from">The index that slicing should start from (inclusive).</param>
+        /// <param name="to">The index that slicing should end at (not inclusive, i.e. this[to] will no longer exist in the collection but this[to-1] will).  Use null to indicate end of list.</param>
         /// <returns></returns>
         public FieldPath this[int from, int? to]
         {

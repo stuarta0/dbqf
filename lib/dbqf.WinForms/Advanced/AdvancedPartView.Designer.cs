@@ -33,7 +33,6 @@
             this.cboBuilders = new dbqf.WinForms.Controls.BindableComboBox();
             this.bsAdvancedPart = new System.Windows.Forms.BindingSource(this.components);
             this.buildersBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.layoutFieldPaths = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -56,7 +55,6 @@
             this.layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.layout.Controls.Add(this.cboBuilders, 1, 2);
-            this.layout.Controls.Add(this.layoutFieldPaths, 1, 1);
             this.layout.Controls.Add(this.label1, 0, 0);
             this.layout.Controls.Add(this.label2, 0, 1);
             this.layout.Controls.Add(this.label3, 0, 2);
@@ -95,21 +93,6 @@
             // 
             this.buildersBindingSource.DataMember = "Builders";
             this.buildersBindingSource.DataSource = this.bsAdvancedPart;
-            // 
-            // layoutFieldPaths
-            // 
-            this.layoutFieldPaths.AutoSize = true;
-            this.layoutFieldPaths.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.layoutFieldPaths.ColumnCount = 1;
-            this.layoutFieldPaths.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.layoutFieldPaths.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.layoutFieldPaths.Location = new System.Drawing.Point(57, 27);
-            this.layoutFieldPaths.Margin = new System.Windows.Forms.Padding(0);
-            this.layoutFieldPaths.Name = "layoutFieldPaths";
-            this.layoutFieldPaths.RowCount = 1;
-            this.layoutFieldPaths.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.layoutFieldPaths.Size = new System.Drawing.Size(224, 19);
-            this.layoutFieldPaths.TabIndex = 3;
             // 
             // label1
             // 
@@ -198,7 +181,6 @@
 
         private System.Windows.Forms.TableLayoutPanel layout;
         private dbqf.WinForms.Controls.BindableComboBox cboBuilders;
-        private System.Windows.Forms.TableLayoutPanel layoutFieldPaths;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
