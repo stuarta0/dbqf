@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="Extensions\ComboBoxExtension.cs" />
     <Compile Include="Extensions\ExtendedGraphics.cs" />
+    <Compile Include="FieldPathComboAdapter.cs" />
     <Compile Include="PresetView.cs">
       <SubType>UserControl</SubType>
     </Compile>
