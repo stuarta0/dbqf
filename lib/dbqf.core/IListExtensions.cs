@@ -26,4 +26,12 @@ public static class IListExtensions
         foreach (var item in source.FindAll<T>(condition))
             source.Remove(item);
     }
+
+    public static IList<T> Convert<U, T>(this IList<U> source, Func<U, T> convertor)
+    {
+        IList<T> converted = new List<T>();
+        foreach (var item in source)
+            converted.Add(convertor(item));
+        return converted;
+    }
 }
