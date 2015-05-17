@@ -42,6 +42,15 @@ namespace Standalone.Forms
             _configuration = configuration;
             PathFactory = pathFactory;
             Fields = new BindingList<FieldPath>();
+            Fields.ListChanged += Fields_ListChanged;
+        }
+
+        void Fields_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            if (Fields.Count > 0)
+                UseFields = true;
+            else
+                UseFields = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
