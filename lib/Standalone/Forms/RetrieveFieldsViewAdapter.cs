@@ -12,56 +12,28 @@ namespace Standalone.Forms
 {
     public class RetrieveFieldsViewAdapter : INotifyPropertyChanged
     {
-        public enum Method
+        public bool UseFields
         {
-            Predefined = 0,
-            Custom = 1
-        }
-
-        /// <summary>
-        /// Gets or sets the current method for which fields should be retrieved in a result set.
-        /// </summary>
-        public Method RetrieveFieldMethod 
-        {
-            get { return _method; }
+            get { return _use; }
             set
             {
-                if (_method == value)
+                if (_use == value)
                     return;
-                _method = value;
-                OnPropertyChanged("RetrieveFieldMethod");
-                OnPropertyChanged("FieldsEnabled");
+                _use = value;
+                OnPropertyChanged("UseFields");
             }
         }
-        private Method _method;
+        private bool _use;
 
         /// <summary>
         /// Gets or sets the current path for adding a custom field path.
         /// </summary>
         public FieldPath SelectedPath { get; set; }
 
-        public bool FieldsEnabled
-        {
-            get { return RetrieveFieldMethod == Method.Custom; }
-        }
-
         /// <summary>
-        /// Gets the collection of field paths that should be retrieved based on the RetrieveFieldMethod.
+        /// Gets the collection of user-defined field paths that should be retrieved.
         /// </summary>
-        public BindingList<FieldPath> Fields
-        {
-            get
-            {
-                if (RetrieveFieldMethod == Method.Predefined && SelectedPath != null)
-                    return new BindingList<FieldPath>(PathFactory.GetFields(SelectedPath.Root));
-                return _fields;
-            }
-            private set
-            {
-                _fields = value;
-            }
-        }
-        private BindingList<FieldPath> _fields;
+        public BindingList<FieldPath> Fields { get; set; }
 
         public IFieldPathFactory PathFactory { get; private set; }
         private IConfiguration _configuration;
@@ -80,22 +52,55 @@ namespace Standalone.Forms
         }
 
 
+        #region Node class definitions
 
         public class Node
         {
             public Node Parent { get; set; }
-            public string Text { get; set; }
-            public bool HasChildren { get; set; }
+            public virtual string Text { get; set; }
+            public virtual bool HasChildren { get; set; }
         }
-        public class SubjectNode : Node { public ISubject Subject { get; set; } }
-        public class FieldNode : Node { public IField Field { get; set; } }
+        public class SubjectNode : Node 
+        { 
+            public ISubject Subject { get; set; } 
+            public override string Text
+            {
+                get
+                {
+                    return Subject.DisplayName;
+                }
+                set
+                {
+                    base.Text = value;
+                }
+            }
+        }
+        public class FieldNode : Node 
+        { 
+            public IField Field { get; set; }
+            public override string Text
+            {
+                get
+                {
+                    return String.Concat(Field.DisplayName, Field is IRelationField ? String.Concat(" (", ((IRelationField)Field).RelatedSubject.DisplayName, ")") : string.Empty);
+                }
+                set
+                {
+                    base.Text = value;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Node handling
 
         public IEnumerable<Node> GetChildren(Node node = null)
         {
             ISubject toExpand = null;
             if (node == null)
                 foreach (var s in _configuration)
-                    yield return new SubjectNode() { Text = s.DisplayName, HasChildren = true, Subject = s };
+                    yield return new SubjectNode() { HasChildren = true, Subject = s };
             else
             {
                 if (node is SubjectNode)
@@ -109,11 +114,11 @@ namespace Standalone.Forms
                 }
 
                 foreach (var f in PathFactory.GetFields(toExpand))
-                    yield return new FieldNode() { Parent = node, Text = f.Description, HasChildren = f[0] is IRelationField, Field = f[0] };
+                    yield return new FieldNode() { Parent = node, HasChildren = f[0] is IRelationField, Field = f[0] };
             }
         }
 
-        public void Add(Node n)
+        public IEnumerable<FieldPath> Add(Node n)
         {
             // if node is SubjectNode, add all fields (and defaults for IRelationFields)
             // if node is FieldNode with an IRelationField, add all fields for the related subject (and defaults for IRelationFields)
@@ -121,16 +126,19 @@ namespace Standalone.Forms
             
             if (n is SubjectNode)
             {
-                foreach (var f in PathFactory.GetFields(((SubjectNode)n).Subject))
+                var fields = PathFactory.GetFields(((SubjectNode)n).Subject);
+                foreach (var f in fields)
                 {
                     f.Description = null; // this is bad behaviour from the FieldPathFactory
                     if (!Fields.Contains(f))
                         Fields.Add(f);
                 }
+                return fields;
             }
             else if (n is FieldNode && ((FieldNode)n).Field is IRelationField)
             {
-                foreach (var f in PathFactory.GetFields(((IRelationField)((FieldNode)n).Field).RelatedSubject))
+                var fields = PathFactory.GetFields(((IRelationField)((FieldNode)n).Field).RelatedSubject);
+                foreach (var f in fields)
                 {
                     // ensure hierarchy is maintained
                     var parent = n;
@@ -143,6 +151,7 @@ namespace Standalone.Forms
                     if (!Fields.Contains(f))
                         Fields.Add(f);
                 }
+                return fields;
             }
             else
             {
@@ -155,7 +164,10 @@ namespace Standalone.Forms
                 }
                 if (!Fields.Contains(path))
                     Fields.Add(path);
+                return new FieldPath[] { path };
             }
         }
+
+        #endregion
     }
 }
