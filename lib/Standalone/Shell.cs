@@ -90,8 +90,6 @@ namespace Standalone
 
         private void ControlFactory_ListRequested(object sender, ListRequestedArgs e)
         {
-            return;
-
             // deals with the case where the list was set manually or some other event handler dealt with it,
             // or if we don't have the required instances to fulfill the request
             if (e.List != null || e.Path.Last.List == null || Project == null || ResultFactory == null)
