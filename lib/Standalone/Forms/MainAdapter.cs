@@ -166,7 +166,7 @@ namespace Standalone.Forms
             var worker = (SearchWorker = new BackgroundWorker());
             worker.WorkerSupportsCancellation = true;
 
-            var fields = PathFactory.GetFields(SelectedSubject);
+            var fields = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject);
             var gen = ResultFactory.CreateSqlGenerator(Project.CurrentConnection, Project.Configuration)
                 .Target(SelectedSubject)
                 .Column(fields)

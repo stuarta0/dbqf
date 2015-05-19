@@ -18,11 +18,12 @@ namespace dbqf.WinForms
             get { return _adapter; }
         }
 
-        public AdvancedView(AdvancedAdapter<Control> adapter)
+        // TODO: pass an instance of AdvancedPartView to AdvancedView, not the pieces
+        public AdvancedView(AdvancedAdapter<Control> adapter, FieldPathCombo pathSelector)
         {
             InitializeComponent();
             _adapter = adapter;
-            var ctl = new AdvancedPartView(_adapter.Part);
+            var ctl = new AdvancedPartView(_adapter.Part, pathSelector);
             ctl.Dock = DockStyle.Fill;
             layout.Controls.Add(ctl, 0, 0);
         }

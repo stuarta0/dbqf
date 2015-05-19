@@ -70,7 +70,7 @@ namespace dbqf.Criterion
             while (cur is IRelationField)
             {
                 path.Add(cur);
-                cur = ((IRelationField)field).RelatedSubject.DefaultField;
+                cur = ((IRelationField)cur).RelatedSubject.DefaultField;
             }
             path.Add(cur);
             return path;
@@ -112,11 +112,26 @@ namespace dbqf.Criterion
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is FieldPath)
+            {
+                var other = (FieldPath)obj;
+                if (this.Count != other.Count)
+                    return false;
+                for (int i = 0; i < this.Count; i++)
+                    if (this[i] != other[i])
+                        return false;
+                return true;
+            }
+            return base.Equals(obj);
+        }
+
         /// <summary>
         /// Python-esque list slicing.  Can use negative 'to' to indicate number of items from the end.
         /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to">Use null to indicate end of list.</param>
+        /// <param name="from">The index that slicing should start from (inclusive).</param>
+        /// <param name="to">The index that slicing should end at (not inclusive, i.e. this[to] will no longer exist in the collection but this[to-1] will).  Use null to indicate end of list.</param>
         /// <returns></returns>
         public FieldPath this[int from, int? to]
         {
@@ -158,6 +173,12 @@ namespace dbqf.Criterion
         public void Insert(int index, IField item)
         {
             // make sure this field fits in after the previous field and before the next field
+            if (index >= _fields.Count)
+            {
+                Add(item);
+                return;
+            }
+
             if (!(item is IRelationField))
                 throw new ArgumentException(String.Format("Cannot insert field '{0}' because it is not an IRelationField.", item.SourceName));
 

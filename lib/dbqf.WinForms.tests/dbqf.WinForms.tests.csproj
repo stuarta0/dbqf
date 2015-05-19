@@ -1,19 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5EB67725-5496-492F-8C0C-09760F6198C6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{4BCD0945-359F-4381-98D5-2D913CBE4A76}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sandbox</RootNamespace>
-    <AssemblyName>Sandbox</AssemblyName>
+    <RootNamespace>dbqf.WinForms.tests</RootNamespace>
+    <AssemblyName>dbqf.WinForms.tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,27 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationConvertor.cs" />
-    <Compile Include="ConfigurationValidation.cs" />
-    <Compile Include="v1\Actions\ProcessAction.cs" />
-    <Compile Include="v1\Actions\SubjectAction.cs" />
-    <Compile Include="v1\Actions\UriAction.cs" />
-    <Compile Include="v1\Configuration\ComplexField.cs" />
-    <Compile Include="v1\Configuration\ComplexManyField.cs" />
-    <Compile Include="v1\Configuration\Field.cs" />
-    <Compile Include="v1\Configuration\FieldList.cs" />
-    <Compile Include="v1\Configuration\FieldListItem.cs" />
-    <Compile Include="v1\Configuration\FieldListType.cs" />
-    <Compile Include="v1\Configuration\MatrixNode.cs" />
-    <Compile Include="v1\Configuration\QueryConfig.cs" />
-    <Compile Include="v1\SerializableDictionary.cs" />
-    <Compile Include="v1\Serialization.cs" />
-    <Compile Include="v1\Configuration\Subject.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="FieldPathComboAdapter_Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dbqf.core\dbqf.core.csproj">
@@ -72,13 +59,19 @@
       <Project>{bc5aaa8e-d0f7-48de-9f71-3a7c21bdd6d1}</Project>
       <Name>dbqf.tests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Standalone\Standalone.csproj">
-      <Project>{5aad85b2-212d-421c-9c9b-8b2675550e1e}</Project>
-      <Name>Standalone</Name>
+    <ProjectReference Include="..\dbqf.WinForms\dbqf.WinForms.csproj">
+      <Project>{b4727dd4-cef3-4740-8b90-ce6e2b1c8d26}</Project>
+      <Name>dbqf.WinForms</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

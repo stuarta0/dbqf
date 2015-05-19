@@ -110,5 +110,17 @@ namespace dbqf.tests.Processing
             path.Clear();
             Assert.AreEqual(0, path.Count);
         }
+
+        [Test]
+        public void Insert0_field_path()
+        {
+            var aw = new AdventureWorks();
+            var path = new FieldPath();
+
+            // creating the path in reverse should be fine
+            path.Insert(0, aw.ProductCategory.DefaultField);
+            path.Insert(0, aw.Products["ProductCategoryID"]);
+            path.Insert(0, aw.SalesOrderDetails["ProductID"]);
+        }
     }
 }

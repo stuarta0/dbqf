@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Id="00000000-0000-0000-0000-000000000000">
+  <Connections>
+    <Connection DisplayName="Chinook SQLite" Type="SQLite" Identifier="System.Data.SQLite.SQLiteConnection">Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;</Connection>
+  </Connections>
+  <Configuration>
+    <Subjects>
+      <Subject IdField="0" DefaultField="1">
+        <DisplayName>Artist</DisplayName>
+        <Source>Artist</Source>
+        <Fields>
+          <Field Source="ArtistId">
+            <Type>System.Int32</Type>
+            <Parsers />
+          </Field>
+          <Field Source="Name">
+            <Type>System.String</Type>
+            <Parsers />
+          </Field>
+        </Fields>
+      </Subject>
+      <Subject IdField="0" DefaultField="1">
+        <DisplayName>Album</DisplayName>
+        <Source>Album</Source>
+        <Fields>
+          <Field Source="AlbumId">
+            <Type>System.Int32</Type>
+            <Parsers />
+          </Field>
+          <Field Source="Title">
+            <Type>System.String</Type>
+            <Parsers />
+          </Field>
+          <Field Source="ArtistId">
+            <Type>System.Int32</Type>
+            <DisplayName>Artist</DisplayName>
+            <RelatedSubjectIndex>0</RelatedSubjectIndex>
+            <Parsers />
+          </Field>
+        </Fields>
+      </Subject>
+      <Subject IdField="0" DefaultField="1">
+        <DisplayName>Track</DisplayName>
+        <Source>SELECT Track.*, MediaType.Name MTN, Genre.Name GN FROM Track 
+LEFT OUTER JOIN MediaType ON MediaType.MediaTypeId = Track.MediaTypeId
+LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId</Source>
+        <Fields>
+          <Field Source="TrackId">
+            <Type>System.Int32</Type>
+            <Parsers />
+          </Field>
+          <Field Source="Name">
+            <Type>System.String</Type>
+            <Parsers />
+          </Field>
+          <Field Source="AlbumId">
+            <Type>System.Int32</Type>
+            <DisplayName>Album</DisplayName>
+            <RelatedSubjectIndex>1</RelatedSubjectIndex>
+            <Parsers />
+          </Field>
+          <Field Source="Composer">
+            <Type>System.String</Type>
+            <Parsers />
+          </Field>
+          <Field Source="GN">
+            <Type>System.String</Type>
+            <DisplayName>Genre</DisplayName>
+            <Parsers />
+          </Field>
+          <Field Source="MTN">
+            <Type>System.String</Type>
+            <DisplayName>Format</DisplayName>
+            <Parsers />
+          </Field>
+          <Field Source="Milliseconds">
+            <Type>System.Int64</Type>
+            <Parsers />
+          </Field>
+          <Field Source="Bytes">
+            <Type>System.Int64</Type>
+            <Parsers />
+          </Field>
+          <Field Source="UnitPrice">
+            <Type>System.Double</Type>
+            <Parsers />
+          </Field>
+        </Fields>
+      </Subject>
+      <Subject IdField="0" DefaultField="1">
+        <DisplayName>Playlist</DisplayName>
+        <Source>Playlist</Source>
+        <Fields>
+          <Field Source="PlaylistId">
+            <Type>System.Int32</Type>
+            <Parsers />
+          </Field>
+          <Field Source="Name">
+            <Type>System.String</Type>
+            <Parsers />
+          </Field>
+        </Fields>
+      </Subject>
+    </Subjects>
+    <Matrix>
+      <Node />
+      <Node>
+        <Query>SELECT ArtistId FromID, AlbumID ToID FROM Album</Query>
+        <ToolTip />
+      </Node>
+      <Node>
+        <Query>SELECT ArtistId FromID, TrackID ToID FROM Album INNER JOIN Track ON Album.AlbumId = Track.AlbumId</Query>
+        <ToolTip />
+      </Node>
+      <Node>
+        <Query>SELECT ArtistId FromID, PlaylistId ToID FROM Album INNER JOIN Track ON Album.AlbumId = Track.AlbumId INNER JOIN PlaylistTrack ON PlaylistTrack.TrackId = Track.TrackId</Query>
+        <ToolTip />
+      </Node>
+      <Node>
+        <Query>SELECT AlbumId FromID, ArtistID ToID FROM Album</Query>
+        <ToolTip />
+      </Node>
+      <Node />
+      <Node>
+        <Query>SELECT AlbumId FromID, TrackID ToID FROM Track</Query>
+        <ToolTip />
+      </Node>
+      <Node>
+        <Query>SELECT AlbumId FromID, PlaylistId ToID FROM Track INNER JOIN PlaylistTrack ON PlaylistTrack.TrackId = Track.TrackId</Query>
+        <ToolTip />
+      </Node>
+      <Node>
+        <Query>SELECT TrackId FromID, ArtistID ToID FROM Album INNER JOIN Track ON Album.AlbumId = Track.AlbumId</Query>
+        <ToolTip />
+      </Node>
+      <Node>
+        <Query>SELECT TrackId FromID, AlbumId ToID FROM Track</Query>
+        <ToolTip />
+      </Node>
+      <Node />
+      <Node>
+        <Query>SELECT TrackId FromID, PlaylistId ToID FROM PlaylistTrack</Query>
+        <ToolTip />
+      </Node>
+      <Node>
+        <Query>SELECT PlaylistId FromID, ArtistId ToID FROM Album INNER JOIN Track ON Album.AlbumId = Track.AlbumId INNER JOIN PlaylistTrack ON PlaylistTrack.TrackId = Track.TrackId</Query>
+        <ToolTip />
+      </Node>
+      <Node>
+        <Query>SELECT PlaylistId FromID, AlbumId ToID FROM Track INNER JOIN PlaylistTrack ON PlaylistTrack.TrackId = Track.TrackId</Query>
+        <ToolTip />
+      </Node>
+      <Node>
+        <Query>SELECT PlaylistId FromID, TrackId ToID FROM PlaylistTrack</Query>
+        <ToolTip />
+      </Node>
+      <Node />
+    </Matrix>
+  </Configuration>
+</Project>

@@ -26,6 +26,10 @@ namespace Sandbox
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(ProjectDTO));
             Project p;
 
+            var dto = assembler.Create(new Project() { Configuration = new dbqf.tests.Chinook() });
+            using (TextWriter writer = new StreamWriter(@"E:\chinook.proj.xml"))
+                serializer.Serialize(writer, dto);
+
             //p = new Project()
             //{
             //    Id = Guid.NewGuid(),

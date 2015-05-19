@@ -92,6 +92,13 @@
     </Compile>
     <Compile Include="Extensions\ComboBoxExtension.cs" />
     <Compile Include="Extensions\ExtendedGraphics.cs" />
+    <Compile Include="FieldPathCombo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FieldPathCombo.Designer.cs">
+      <DependentUpon>FieldPathCombo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FieldPathComboAdapter.cs" />
     <Compile Include="PresetView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -138,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Advanced\AdvancedPartView.resx">
       <DependentUpon>AdvancedPartView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FieldPathCombo.resx">
+      <DependentUpon>FieldPathCombo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PresetView.resx">
       <DependentUpon>PresetView.cs</DependentUpon>

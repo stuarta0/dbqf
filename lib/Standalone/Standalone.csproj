@@ -110,6 +110,7 @@
     <Compile Include="Installers\ConfigurationInstaller.cs" />
     <Compile Include="Installers\FactoryInstaller.cs" />
     <Compile Include="Installers\InitialiserInstaller.cs" />
+    <Compile Include="Installers\Views\FieldPathComboInstaller.cs" />
     <Compile Include="Installers\Views\AdvancedInstaller.cs" />
     <Compile Include="Installers\Views\StandardInstaller.cs" />
     <Compile Include="Installers\Views\PresetInstaller.cs" />
