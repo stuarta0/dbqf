@@ -30,7 +30,7 @@ namespace dbqf.WinForms
             set
             {
                 // check old path to new to see what new ComboSources we need to generate
-                //ComboSource.RaiseListChangedEvents = false;
+                ComboSource.RaiseListChangedEvents = false;
                 int indexOfChange = 0;
                 if (value == null)
                 {
@@ -52,7 +52,8 @@ namespace dbqf.WinForms
                 // now fix up the combo sources
                 for (int i = indexOfChange; i < _path.Count; i++)
                     ComboSource.Add(new BindingList<IField>(_pathFactory.GetFields(_path[i].Subject).Convert<FieldPath, IField>(p => p[0])));
-                //ComboSource.RaiseListChangedEvents = true;
+                ComboSource.RaiseListChangedEvents = true;
+                ComboSource.ResetBindings();
             }
         }
         private FieldPath _path;
