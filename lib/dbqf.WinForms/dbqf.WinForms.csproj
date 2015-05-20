@@ -173,6 +173,9 @@
     <EmbeddedResource Include="UIElements\Controls\BetweenControl.resx">
       <DependentUpon>BetweenControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UIElements\Controls\DatePickerControl.resx">
+      <DependentUpon>DatePickerControl.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dbqf.core\dbqf.core.csproj">

@@ -57,7 +57,8 @@
             this.dateTimePicker.Margin = new System.Windows.Forms.Padding(0);
             this.dateTimePicker.Name = "dateTimePicker";
             this.dateTimePicker.Size = new System.Drawing.Size(17, 20);
-            this.dateTimePicker.TabIndex = 0;
+            this.dateTimePicker.TabIndex = 10;
+            this.dateTimePicker.TabStop = false;
             this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
             // DatePickerControl
