@@ -29,6 +29,15 @@ namespace Standalone.Forms
         public AdvancedView Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
 
+        public string ApplicationTitle
+        {
+            get
+            {
+                return String.Concat("Database Query Framework",
+                    String.IsNullOrWhiteSpace(Project.Title) ? "" : String.Concat(" - ", Project.Title));
+            }
+        }
+
         public BindingList<ISubject> SubjectSource { get; private set; }
         public ISubject SelectedSubject
         {

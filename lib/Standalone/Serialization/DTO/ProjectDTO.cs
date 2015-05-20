@@ -19,6 +19,11 @@ namespace Standalone.Serialization.DTO
         [ProtoMember(1)]
         public Guid Id { get; set; }
 
+        [XmlElement]
+        [ProtoMember(4)]
+        public string Title { get; set; }
+        public bool ShouldSerializeTitle() { return !String.IsNullOrWhiteSpace(Title); }
+
         [ProtoMember(2)]
         public List<Standalone.Data.Connection> Connections { get; set; }
 

@@ -22,6 +22,7 @@ namespace Standalone.Serialization.Assemblers
         {
             var prj = new Project();
             prj.Id = dto.Id;
+            prj.Title = dto.Title;
             prj.Connections = dto.Connections;
             prj.Configuration = _configurationAssembler.Restore(dto.Configuration);
             return prj;
@@ -31,6 +32,7 @@ namespace Standalone.Serialization.Assemblers
         {
             var dto = new ProjectDTO();
             dto.Id = source.Id;
+            dto.Title = source.Title;
             dto.Connections = source.Connections;
             dto.Configuration = _configurationAssembler.Create(source.Configuration);
             return dto;

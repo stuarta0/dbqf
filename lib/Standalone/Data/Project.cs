@@ -17,6 +17,11 @@ namespace Standalone.Data
         public Guid Id { get; set; }
 
         /// <summary>
+        /// Gets or sets a name for this project, as shown in the application title bar.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
         /// Gets or sets a number of connections that can be used with this configuration.
         /// </summary>
         public List<Connection> Connections { get; set; }
