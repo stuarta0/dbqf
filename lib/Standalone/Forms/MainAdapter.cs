@@ -11,9 +11,9 @@ using dbqf.Configuration;
 using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.WinForms;
-using Standalone.Data;
-using Standalone.Data.Processing;
-using Standalone.Export;
+using Standalone.Core.Data;
+using Standalone.Core.Data.Processing;
+using Standalone.Core.Export;
 
 namespace Standalone.Forms
 {

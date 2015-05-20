@@ -72,6 +72,10 @@
       <Project>{bc5aaa8e-d0f7-48de-9f71-3a7c21bdd6d1}</Project>
       <Name>dbqf.tests</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Standalone.Core\Standalone.Core.csproj">
+      <Project>{a9091adb-fc19-4982-bce4-6a0425f974d6}</Project>
+      <Name>Standalone.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Standalone\Standalone.csproj">
       <Project>{5aad85b2-212d-421c-9c9b-8b2675550e1e}</Project>
       <Name>Standalone</Name>
