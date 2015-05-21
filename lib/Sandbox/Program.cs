@@ -1,16 +1,16 @@
-﻿using dbqf.Configuration;
-using Standalone.Data;
-using Standalone.Serialization.Assemblers;
-using Standalone.Serialization.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Standalone.Serialization.DTO.Display;
+using dbqf.Configuration;
 using dbqf.Display.Parsers;
+using Standalone.Core.Data;
+using Standalone.Core.Serialization.Assemblers;
+using Standalone.Core.Serialization.DTO;
+using Standalone.Core.Serialization.DTO.Display;
 
 namespace Sandbox
 {

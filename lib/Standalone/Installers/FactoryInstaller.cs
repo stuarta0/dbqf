@@ -22,16 +22,15 @@ namespace Standalone.Installers
                 .LifestyleSingleton()
                 .WithService.DefaultInterfaces());
 
-            //container.Register(Component.For<IControlFactory<Control>>().ImplementedBy<Standalone.Data.ExtendedControlFactory>());
             container.Register(
-                Component.For<IControlFactory<Control>>().UsingFactoryMethod<Standalone.Data.ExtendedControlFactory>(kernel =>
+                Component.For<IControlFactory<Control>>().UsingFactoryMethod<Standalone.Forms.ExtendedControlFactory>(kernel =>
                 {
-                    var factory = new Standalone.Data.ExtendedControlFactory();
-                    factory.ParserLookup = kernel.Resolve<Standalone.Serialization.Assemblers.FieldAssembler>().ParserLookup;
+                    var factory = new Standalone.Forms.ExtendedControlFactory();
+                    factory.ParserLookup = kernel.Resolve<Standalone.Core.Serialization.Assemblers.FieldAssembler>().ParserLookup;
                     return factory;
                 }));
 
-            container.Register(Component.For<Standalone.Export.ExportServiceFactory>());
+            container.Register(Component.For<Standalone.Core.Export.ExportServiceFactory>());
         }
     }
 }

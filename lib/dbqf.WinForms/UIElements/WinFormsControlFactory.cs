@@ -62,7 +62,10 @@ namespace dbqf.WinForms.UIElements
                 c = new TextBoxElement();
 
             if (f.DataType == typeof(DateTime))
+            {
                 c.Parser = new DateParser();
+                c = new DatePickerElement(c);
+            }
             else if (builder is LikeBuilder)
                 c.Parser = new ConvertParser<object, string>();
 

@@ -129,6 +129,13 @@
     <Compile Include="UIElements\Controls\BetweenControl.Designer.cs">
       <DependentUpon>BetweenControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIElements\Controls\DatePickerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UIElements\Controls\DatePickerControl.Designer.cs">
+      <DependentUpon>DatePickerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIElements\DatePickerElement.cs" />
     <Compile Include="UIElements\TextBoxElement.cs" />
     <Compile Include="UIElements\WinFormsControlFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -165,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UIElements\Controls\BetweenControl.resx">
       <DependentUpon>BetweenControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIElements\Controls\DatePickerControl.resx">
+      <DependentUpon>DatePickerControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -9,7 +9,7 @@ Database Query Framework
 
 ## What is it?
 
-An SQL builder.
+An SQL builder with awesome UI.
 
 Long answer: a library aimed at **simplifying complex data mining for the end user** in .NET applications while minimising developer time to implement.  The intent is to provide a way of mapping a complete relational data structure and allowing the UI to dynamically construct itself for various purposes.  Construction of the UI is modular with use of factories, adapters and (in the example Standalone project) dependency injection.  The code is database engine independent allowing you to create whatever SQL is required to suit your engine (currently tested: `MSSQL`, `SQLite`).  Note this is **not an ORM** but could conceivably have an adapter to an ORM's mapping.
 
@@ -28,6 +28,36 @@ No external libraries are needed for the core and WinForms libraries.  The Stand
   - Advanced Control allowing full drill-down of related fields, operators, controls dependant on path and hierarchical combinations (AND, OR) of all parameters.
 
 ## Enough words, show me!
+
+### Standalone Application
+Provided standalone application in .NET 4.5 WinForms that uses inversion of control, loads XML projects, has custom parsing and threaded behaviour.
+
+![Example-Standalone](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-loading.png)
+
+### Preset
+Fully customisable list of field / value pairs.
+
+![Example-Preset](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-preset.png)
+
+### Standard
+Fully customisable list of field / operator / value combinations.
+
+![Example-Standard](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-standard.png)
+
+### Advanced
+Complete control over parameters with AND/OR from any field or path from within the database as well as selection of operator / value.
+
+### Custom output fields
+Choice of fields to retrieve using drag-drop from hierarchical representation of data structure.
+
+![Example-Output](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-output.png)
+
+### Generated SQL
+Example of generated parameterised SQL.
+
+![Example-Output](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-sql.png)
+
+### In Detail (Preset)
 
 ![Preset](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/preset.png)
 

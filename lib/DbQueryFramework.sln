@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.WinForms.tests", "dbqf.WinForms.tests\dbqf.WinForms.tests.csproj", "{4BCD0945-359F-4381-98D5-2D913CBE4A76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standalone.Core", "Standalone.Core\Standalone.Core.csproj", "{A9091ADB-FC19-4982-BCE4-6A0425F974D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,16 @@ Global
 		{4BCD0945-359F-4381-98D5-2D913CBE4A76}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4BCD0945-359F-4381-98D5-2D913CBE4A76}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4BCD0945-359F-4381-98D5-2D913CBE4A76}.Release|x86.ActiveCfg = Release|Any CPU
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

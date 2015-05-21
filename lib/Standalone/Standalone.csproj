@@ -65,26 +65,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\DbResults.cs" />
-    <Compile Include="Data\Processing\ExposedSqlGenerator.cs" />
-    <Compile Include="Data\ResultFactory.cs" />
-    <Compile Include="Data\SQLiteResults.cs" />
-    <Compile Include="Data\ISqlResults.cs" />
-    <Compile Include="Data\ExtendedControlFactory.cs" />
-    <Compile Include="Data\ExtendedDateParser.cs" />
-    <Compile Include="Data\Project.cs" />
-    <Compile Include="Data\SqlResults.cs" />
-    <Compile Include="Export\BaseExportService.cs" />
-    <Compile Include="Export\CsvExportService.cs" />
-    <Compile Include="Export\ExportServiceFactory.cs" />
-    <Compile Include="Export\IExportService.cs" />
-    <Compile Include="Export\TabDelimitedExportService.cs" />
     <Compile Include="Forms\AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\AboutDialog.Designer.cs">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ExtendedControlFactory.cs" />
     <Compile Include="Forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,52 +89,14 @@
       <DependentUpon>RetrieveFieldsView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\RetrieveFieldsViewAdapter.cs" />
-    <Compile Include="Initialisers\IInitialiser.cs" />
-    <Compile Include="Initialisers\ProtoBufInitialiser.cs" />
-    <Compile Include="Initialisers\StaticInitialiser.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
-    <Compile Include="Installers\AssemblerInstaller.cs" />
-    <Compile Include="Installers\ConfigurationInstaller.cs" />
     <Compile Include="Installers\FactoryInstaller.cs" />
-    <Compile Include="Installers\InitialiserInstaller.cs" />
     <Compile Include="Installers\Views\FieldPathComboInstaller.cs" />
     <Compile Include="Installers\Views\AdvancedInstaller.cs" />
     <Compile Include="Installers\Views\StandardInstaller.cs" />
     <Compile Include="Installers\Views\PresetInstaller.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\Assemblers\ConfigurationAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\ConjunctionParameterHandler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\NotParameterHandler.cs" />
-    <Compile Include="Serialization\Assemblers\ParameterAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\NullParameterHandler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\SimpleParameterHandler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\TransformHandler.cs" />
-    <Compile Include="Serialization\Assemblers\ParserAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\ProjectAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\FieldAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\FieldPathAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\IAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\SubjectAssembler.cs" />
-    <Compile Include="Serialization\DTO\ConfigurationDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\BetweenValueDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\ConjunctionDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\BetweenParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\LikeParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\NullParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\ParameterContainer.cs" />
-    <Compile Include="Serialization\DTO\Criterion\ParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\NotParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\SimpleParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Display\ParserDTO.cs" />
-    <Compile Include="Serialization\DTO\FieldDTO.cs" />
-    <Compile Include="Serialization\DTO\FieldListDTO.cs" />
-    <Compile Include="Serialization\DTO\FieldPathDTO.cs" />
-    <Compile Include="Serialization\DTO\MatrixNodeDTO.cs" />
-    <Compile Include="Serialization\DTO\ProjectDTO.cs" />
-    <Compile Include="Serialization\DTO\SubjectDTO.cs" />
-    <Compile Include="Serialization\MessageParam.cs" />
-    <Compile Include="Serialization\SerializableDictionary.cs" />
     <Compile Include="Shell.cs" />
     <EmbeddedResource Include="Forms\AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
@@ -196,6 +145,10 @@
     <ProjectReference Include="..\dbqf.core\dbqf.core.csproj">
       <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
       <Name>dbqf.core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Standalone.Core\Standalone.Core.csproj">
+      <Project>{a9091adb-fc19-4982-bce4-6a0425f974d6}</Project>
+      <Name>Standalone.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

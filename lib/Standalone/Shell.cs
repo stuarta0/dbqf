@@ -1,7 +1,7 @@
 ﻿using dbqf.Configuration;
 using ProtoBuf.Meta;
 using Standalone.Forms;
-using Standalone.Initialisers;
+using Standalone.Core.Initialisers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using dbqf.Display;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-using Standalone.Data;
+using Standalone.Core.Data;
 using Standalone.Properties;
 
 namespace Standalone
@@ -62,6 +62,12 @@ namespace Standalone
         public Shell(Project p, IControlFactory<Control> controls, ResultFactory results, IList<IInitialiser> initialisers)
         {
             Project = p;
+
+            // initialise last saved connection with this project
+            var connectionLookup = Settings.Default.SavedConnections;
+            if (connectionLookup.ContainsKey(Project.Id))
+                Project.CurrentConnection = Project.Connections.Find(c => c.Identifier == connectionLookup[Project.Id]);
+
             _listCache = new Dictionary<int, BindingList<object>>();
             ControlFactory = controls;
             ControlFactory.ListRequested += ControlFactory_ListRequested;
@@ -90,8 +96,6 @@ namespace Standalone
 
         private void ControlFactory_ListRequested(object sender, ListRequestedArgs e)
         {
-            return;
-
             // deals with the case where the list was set manually or some other event handler dealt with it,
             // or if we don't have the required instances to fulfill the request
             if (e.List != null || e.Path.Last.List == null || Project == null || ResultFactory == null)

@@ -11,13 +11,13 @@ using dbqf.Configuration;
 using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.WinForms;
-using Standalone.Data;
-using Standalone.Data.Processing;
-using Standalone.Export;
-using Standalone.Serialization.Assemblers.Criterion;
-using Standalone.Serialization.DTO.Criterion;
+using Standalone.Core.Data;
+using Standalone.Core.Data.Processing;
+using Standalone.Core.Export;
+using Standalone.Core.Serialization.Assemblers.Criterion;
+using Standalone.Core.Serialization.DTO.Criterion;
 using System.IO;
-using Standalone.Serialization.Assemblers;
+using Standalone.Core.Serialization.Assemblers;
 
 namespace Standalone.Forms
 {
@@ -33,6 +33,15 @@ namespace Standalone.Forms
         public StandardView Standard { get; private set; }
         public AdvancedView Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
+
+        public string ApplicationTitle
+        {
+            get
+            {
+                return String.Concat("Database Query Framework",
+                    String.IsNullOrWhiteSpace(Project.Title) ? "" : String.Concat(" - ", Project.Title));
+            }
+        }
 
         public BindingList<ISubject> SubjectSource { get; private set; }
         public ISubject SelectedSubject

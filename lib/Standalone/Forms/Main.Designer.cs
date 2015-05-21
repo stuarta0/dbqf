@@ -424,10 +424,12 @@
             this.ClientSize = new System.Drawing.Size(1084, 682);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip);
+            this.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsAdapter, "ApplicationTitle", true));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Main";
+            this.Text = "Database Query Framework";
             this.Load += new System.EventHandler(this.Main_Load);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
