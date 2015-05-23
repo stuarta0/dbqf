@@ -40,7 +40,13 @@ namespace dbqf.WPF.UIElements
                 }
                 return between;
             }
-            if (listArgs.List != null)
+            else if (builder is BooleanBuilder || builder is NullBuilder)
+                return null;
+            else if (builder is NotBuilder)
+                return Build(path, ((NotBuilder)builder).Other);
+            else if (f.DataType == typeof(bool))
+                c = new CheckBoxElement();
+            else if (listArgs.List != null)
             {
                 var isEditable = true;
                 if (listArgs.Type == Configuration.FieldListType.Limited)
@@ -48,9 +54,7 @@ namespace dbqf.WPF.UIElements
                 c = new ComboBoxElement(listArgs.List, isEditable);
             }
             else
-            {
                 c = new TextBoxElement();
-            }
 
             return c;
         }

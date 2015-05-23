@@ -1,17 +1,25 @@
 ﻿using dbqf.Configuration;
+using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.WPF;
+using PropertyChanged;
 using Standalone.Core.Data;
+using Standalone.Core.Data.Processing;
 using Standalone.Core.Export;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Standalone.WPF
 {
+    [ImplementPropertyChanged]
     public class MainWindowAdapter
     {
         public Project Project { get; private set; }
@@ -44,13 +52,29 @@ namespace Standalone.WPF
                 Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));
                 //Standard.Adapter.SetPaths(PathFactory.GetFields(SelectedSubject));
 
-                //OnPropertyChanged("SelectedSubject");
                 if (SelectedSubjectChanged != null)
                     SelectedSubjectChanged(this, EventArgs.Empty);
             }
         }
         private ISubject _subject;
         public event EventHandler SelectedSubjectChanged;
+
+        [AlsoNotifyFor("ResultHeader")]
+        public DataTable Result { get; private set; }
+        public string ResultSQL { get; set; }
+        public string ResultHeader
+        {
+            get { return String.Concat("Results", Result == null ? string.Empty : String.Concat(" (", Result.Rows.Count, ")")); }
+        }
+
+        [AlsoNotifyFor("IsSearching")]
+        private BackgroundWorker SearchWorker { get; set; }
+
+        public bool IsSearching
+        {
+            get { return SearchWorker != null; }
+        }
+
 
         public MainWindowAdapter(
             Project project, IFieldPathFactory pathFactory, 
@@ -77,7 +101,79 @@ namespace Standalone.WPF
 
         void Adapter_Search(object sender, EventArgs e)
         {
-            System.Windows.MessageBox.Show("Search");
+            dbqf.Criterion.IParameter where;
+            try { where = ((IGetParameter)sender).GetParameter(); }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was something wrong with one or more of the parameters provided.\n\n" + ex.Message, "Search Failed", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
+
+            Search(where);
+        }
+
+        public void CancelSearch()
+        {
+            if (SearchWorker != null)
+                SearchWorker.CancelAsync();
+            SearchWorker = null;
+        }
+
+        public void Search(IParameter parameter)
+        {
+            if (IsSearching)
+            {
+                // if they don't cancel, do nothing
+                if (MessageBox.Show("There is a search in progress.  Do you want to cancel the existing search?", "Search", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.No)
+                    return;
+
+                // if they said yes, cancel existing search and continue with new one
+                CancelSearch();
+            }
+
+            var worker = (SearchWorker = new BackgroundWorker());
+            worker.WorkerSupportsCancellation = true;
+
+            var fields = PathFactory.GetFields(SelectedSubject);
+            var gen = ResultFactory.CreateSqlGenerator(Project.CurrentConnection, Project.Configuration)
+                .Target(SelectedSubject)
+                .Column(fields)
+                .Where(parameter);
+
+            Result = null;
+            ResultSQL = ((ExposedSqlGenerator)gen).GenerateSql();
+            var repo = ResultFactory.CreateSqlResults(Project.CurrentConnection);
+            worker.DoWork += (s1, e1) =>
+            {
+                e1.Result = repo.GetResults(gen);
+                e1.Cancel = worker.CancellationPending;
+            };
+            worker.RunWorkerCompleted += (s2, e2) =>
+            {
+                worker.Dispose();
+
+                // cancellation assumes the SearchWorker property has been set null
+                if (e2.Cancelled)
+                    return;
+
+                // should it ever occur that a worker that isn't cancelled is replaced?
+                if (SearchWorker == worker)
+                    SearchWorker = null;
+
+                if (e2.Error != null)
+                {
+                    MessageBox.Show("There was an error when trying to perform the search.\n\n" + e2.Error.Message, "Search", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+                else
+                {
+                    // assign field references to columns returned
+                    var data = (DataTable)e2.Result;
+                    for (int i = 0; i < data.Columns.Count; i++)
+                        data.Columns[i].ExtendedProperties.Add("FieldPath", fields[i]);
+                    Result = data;
+                }
+            };
+            worker.RunWorkerAsync();
         }
     }
 }

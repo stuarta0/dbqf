@@ -26,5 +26,10 @@ namespace Standalone.WPF
             Adapter = adapter;
             this.DataContext = Adapter;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Adapter.Search(null);
+        }
     }
 }

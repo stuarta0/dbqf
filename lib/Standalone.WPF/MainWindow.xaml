@@ -28,7 +28,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <ComboBox Margin="3,3,3,3" Width="120" ItemsSource="{Binding SubjectSource}" SelectedItem="{Binding SelectedSubject}" />
-                    <Button Content="Search" Width="70" Margin="3,3,3,3" />
+                    <Button Content="Search" Width="70" Margin="3,3,3,3" Click="Button_Click" />
                     <Button Content="Reset" Width="70" Margin="3,3,3,3" />
                 </StackPanel>
                 <TabControl Grid.Row="1">
@@ -48,11 +48,13 @@
             </Grid>
             <GridSplitter Grid.Column="0" Width="5"/>
             <TabControl Grid.Column="1">
-                <TabItem Header="Results">
-                    <Grid />
+                <TabItem Header="{Binding ResultHeader}">
+                    <DataGrid ItemsSource="{Binding Result}" HorizontalGridLinesBrush="#FFDADADA" VerticalGridLinesBrush="#FFDADADA" CanUserReorderColumns="False" CanUserResizeRows="False" ClipboardCopyMode="IncludeHeader" IsReadOnly="True" />
                 </TabItem>
                 <TabItem Header="SQL">
-                    <Grid/>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible">
+                        <TextBlock Text="{Binding ResultSQL}" TextWrapping="Wrap" />
+                    </ScrollViewer>
                 </TabItem>
             </TabControl>
         </Grid>

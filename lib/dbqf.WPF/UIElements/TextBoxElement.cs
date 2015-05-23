@@ -14,6 +14,7 @@ namespace dbqf.WPF.UIElements
         public TextBoxElement()
         {
             _text = new TextBox();
+            _text.VerticalContentAlignment = VerticalAlignment.Center;
             Element = _text;
         }
 

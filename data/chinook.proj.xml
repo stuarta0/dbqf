@@ -102,7 +102,7 @@ LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId</Source>
       </Subject>
       <Subject IdField="0" DefaultField="1">
         <DisplayName>Playlist</DisplayName>
-        <Source>Playlist</Source>
+        <Source>SELECT *, 0 AS HasPlayed FROM Playlist</Source>
         <Fields>
           <Field Source="PlaylistId">
             <Type>System.Int32</Type>
@@ -111,6 +111,10 @@ LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId</Source>
           <Field Source="Name">
             <Type>System.String</Type>
             <Parsers />
+          </Field>
+          <Field Source="HasPlayed">
+            <Type>System.Boolean</Type>
+            <DisplayName>Has Played</DisplayName>
           </Field>
         </Fields>
       </Subject>

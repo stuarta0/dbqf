@@ -13,10 +13,10 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Label Content="{Binding PrefixText}" Grid.Column="0" Visibility="{Binding PrefixVisibility}" />
+        <TextBlock Text="{Binding PrefixText}" Grid.Column="0" Margin="0,0,3,0" Visibility="{Binding PrefixVisibility}" VerticalAlignment="Center" />
         <ContentControl Content="{Binding Control1}" Grid.Column="1" />
-        <Label Content="to" Grid.Column="2" />
+        <TextBlock Text="to" Grid.Column="2" VerticalAlignment="Center" Margin="3,0,3,0" />
         <ContentControl Content="{Binding Control2}" Grid.Column="3" />
-        <Label Content="{Binding PostfixText}" Grid.Column="4" Visibility="{Binding PostfixVisibility}" />
+        <TextBlock Text="{Binding PostfixText}" Grid.Column="4" Margin="3,0,0,0" Visibility="{Binding PostfixVisibility}" VerticalAlignment="Center" />
     </Grid>
 </UserControl>

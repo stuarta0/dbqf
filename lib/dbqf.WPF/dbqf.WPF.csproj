@@ -57,6 +57,7 @@
     <Compile Include="Preset\WpfPresetAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIElements\BetweenElement.cs" />
+    <Compile Include="UIElements\CheckBoxElement.cs" />
     <Compile Include="UIElements\ComboBoxElement.cs" />
     <Compile Include="UIElements\Controls\BetweenControl.xaml.cs">
       <DependentUpon>BetweenControl.xaml</DependentUpon>
