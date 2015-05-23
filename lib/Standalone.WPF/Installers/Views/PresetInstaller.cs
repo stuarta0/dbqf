@@ -1,22 +1,24 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using dbqf.Display.Preset;
+using dbqf.WPF;
+using dbqf.WPF.Preset;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Standalone.WPF.Installers
+namespace Standalone.Installers.Views
 {
-    public class ApplicationInstaller : IWindsorInstaller
+    public class PresetInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<Shell>(),
-                Component.For<Standalone.WPF.MainWindow>(),
-                Component.For<Standalone.WPF.MainWindowAdapter>()
+                Component.For<PresetView>().LifestyleTransient(),
+                Component.For<PresetAdapter<System.Windows.UIElement>>().ImplementedBy<WpfPresetAdapter>().LifestyleTransient()
             );
         }
     }

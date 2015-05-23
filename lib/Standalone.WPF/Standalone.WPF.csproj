@@ -73,6 +73,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Installers\ApplicationInstaller.cs" />
+    <Compile Include="Installers\FactoryInstaller.cs" />
+    <Compile Include="Installers\Views\PresetInstaller.cs" />
+    <Compile Include="MainWindowAdapter.cs" />
     <Compile Include="Shell.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -117,6 +120,10 @@
     <ProjectReference Include="..\dbqf.core\dbqf.core.csproj">
       <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
       <Name>dbqf.core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\dbqf.WPF\dbqf.WPF.csproj">
+      <Project>{a4415051-8be4-4d13-9a30-a9495a4701ee}</Project>
+      <Name>dbqf.WPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\Standalone.Core\Standalone.Core.csproj">
       <Project>{a9091adb-fc19-4982-bce4-6a0425f974d6}</Project>
