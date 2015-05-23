@@ -49,7 +49,7 @@
             <GridSplitter Grid.Column="0" Width="5"/>
             <TabControl Grid.Column="1">
                 <TabItem Header="Results">
-                    <Grid/>
+                    <Grid />
                 </TabItem>
                 <TabItem Header="SQL">
                     <Grid/>

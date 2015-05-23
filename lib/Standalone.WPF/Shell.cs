@@ -51,22 +51,22 @@ namespace Standalone.WPF
         }
         private Project _project;
 
-        public Shell() //Project p, IControlFactory<UIElement> controls, ResultFactory results, IList<IInitialiser> initialisers)
+        public Shell(Project p, IControlFactory<UIElement> controls, ResultFactory results, IList<IInitialiser> initialisers)
         {
-            //Project = p;
+            Project = p;
 
             //// initialise last saved connection with this project
             //var connectionLookup = Settings.Default.SavedConnections;
             //if (connectionLookup.ContainsKey(Project.Id))
             //    Project.CurrentConnection = Project.Connections.Find(c => c.Identifier == connectionLookup[Project.Id]);
 
-            //_listCache = new Dictionary<int, BindingList<object>>();
-            //ControlFactory = controls;
-            //ControlFactory.ListRequested += ControlFactory_ListRequested;
-            //ResultFactory = results;
+            _listCache = new Dictionary<int, BindingList<object>>();
+            ControlFactory = controls;
+            ControlFactory.ListRequested += ControlFactory_ListRequested;
+            ResultFactory = results;
 
-            //foreach (var i in initialisers)
-            //    i.Initialise();
+            foreach (var i in initialisers)
+                i.Initialise();
         }
 
         public void Run()

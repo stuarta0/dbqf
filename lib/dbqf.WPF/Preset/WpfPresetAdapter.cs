@@ -14,16 +14,5 @@ namespace dbqf.WPF.Preset
             : base(controlFactory, builderFactory)
         {
         }
-
-        protected override PresetPart<UIElement> CreatePart(Criterion.FieldPath path)
-        {
-        //    var part = new PresetPart<T>(path);
-        //    part.Builder = _builderFactory.GetDefault(part.Path);
-        //    part.UIElement = _controlFactory.Build(part.Path, part.Builder);
-        //    return part;
-            
-            // create WpfPresetPart which has GridRow and GridColumn properties for binding
-            return base.CreatePart(path);
-        }
     }
 }

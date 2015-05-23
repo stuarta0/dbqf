@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="dbqf.WPF.UIElements.Controls.BetweenControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Label Content="{Binding PrefixText}" Grid.Column="0" Visibility="{Binding PrefixVisibility}" />
+        <ContentControl Content="{Binding Control1}" Grid.Column="1" />
+        <Label Content="to" Grid.Column="2" />
+        <ContentControl Content="{Binding Control2}" Grid.Column="3" />
+        <Label Content="{Binding PostfixText}" Grid.Column="4" Visibility="{Binding PostfixVisibility}" />
+    </Grid>
+</UserControl>

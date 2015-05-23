@@ -15,6 +15,9 @@
           </Field>
           <Field Source="Name">
             <Type>System.String</Type>
+            <List>
+              <SourceSql>SELECT ArtistId AS [Id], Name AS [Value] FROM Artist ORDER BY Name</SourceSql>
+            </List>
             <Parsers />
           </Field>
         </Fields>
@@ -29,6 +32,9 @@
           </Field>
           <Field Source="Title">
             <Type>System.String</Type>
+            <List>
+              <SourceSql>SELECT AlbumId AS [Id], Title AS [Value] FROM Album ORDER BY Title</SourceSql>
+            </List>
             <Parsers />
           </Field>
           <Field Source="ArtistId">
@@ -61,11 +67,17 @@ LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId</Source>
           </Field>
           <Field Source="Composer">
             <Type>System.String</Type>
+            <List>
+              <SourceSql>SELECT DISTINCT Composer FROM Track ORDER BY Composer</SourceSql>
+            </List>
             <Parsers />
           </Field>
           <Field Source="GN">
             <Type>System.String</Type>
             <DisplayName>Genre</DisplayName>
+            <List Type="Limited">
+              <SourceSql>SELECT Name FROM Genre ORDER BY Name</SourceSql>
+            </List>
             <Parsers />
           </Field>
           <Field Source="MTN">
@@ -83,6 +95,7 @@ LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId</Source>
           </Field>
           <Field Source="UnitPrice">
             <Type>System.Double</Type>
+            <DisplayFormat>C2</DisplayFormat>
             <Parsers />
           </Field>
         </Fields>
