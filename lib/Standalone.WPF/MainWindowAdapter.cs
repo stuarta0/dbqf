@@ -28,6 +28,7 @@ namespace Standalone.WPF
         public ExportServiceFactory ExportFactory { get; set; }
 
         public PresetView Preset { get; private set; }
+        public StandardView Standard { get; private set; }
 
         public string ApplicationTitle
         {
@@ -50,7 +51,7 @@ namespace Standalone.WPF
 
                 // ask the factory twice as the individual views alter the path instances differently
                 Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));
-                //Standard.Adapter.SetPaths(PathFactory.GetFields(SelectedSubject));
+                Standard.Adapter.SetPaths(PathFactory.GetFields(SelectedSubject));
 
                 if (SelectedSubjectChanged != null)
                     SelectedSubjectChanged(this, EventArgs.Empty);
@@ -78,16 +79,16 @@ namespace Standalone.WPF
 
         public MainWindowAdapter(
             Project project, IFieldPathFactory pathFactory, 
-            PresetView preset) //, StandardView standard, AdvancedView advanced, 
+            PresetView preset, StandardView standard) //, AdvancedView advanced, 
             //RetrieveFieldsView fields)
         {
             Preset = preset;
-            //Standard = standard;
+            Standard = standard;
             //Advanced = advanced;
             //RetrieveFields = fields;
 
             Preset.Adapter.Search += Adapter_Search;
-            //Standard.Adapter.Search += Adapter_Search;
+            Standard.Adapter.Search += Adapter_Search;
             //Advanced.Adapter.Search += Adapter_Search;
 
             Project = project;

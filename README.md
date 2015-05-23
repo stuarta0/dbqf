@@ -11,18 +11,18 @@ Database Query Framework
 
 An SQL builder with awesome UI.
 
-Long answer: a library aimed at **simplifying complex data mining for the end user** in .NET applications while minimising developer time to implement.  The intent is to provide a way of mapping a complete relational data structure and allowing the UI to dynamically construct itself for various purposes.  Construction of the UI is modular with use of factories, adapters and (in the example Standalone project) dependency injection.  The code is database engine independent allowing you to create whatever SQL is required to suit your engine (currently tested: `MSSQL`, `SQLite`).  Note this is **not an ORM** but could conceivably have an adapter to an ORM's mapping.
+Long answer: a library primarily aimed at **simplifying presentation of complex data mining for the end user** in .NET applications.  The intent is to provide a way of mapping a complete relational data structure and allowing the UI to dynamically construct itself for various purposes.  Construction of the UI is modular with use of factories, adapters and (in the example Standalone project) dependency injection.  The code is database engine independent allowing you to create whatever SQL is required to suit your engine (currently tested: `MSSQL`, `SQLite`).  Note this is **not an ORM** but could conceivably have an adapter to an ORM's mapping.
 
-This project follows **Test Driven Development** (TDD) and contains NUnit test cases for the core library.  It is also based on **Fluent** coding style allowing quick code-based setup.
+The library employs many patterns from Gang of Four and the UI is abstracted using a variety of the **Presentation Model** (and subsequently **MVVM**).  By doing this, the core behaviour can be reused across many UI toolkits with two provided out-of-the-box: WinForms and WPF.  This project roughly follows **Test Driven Development** (TDD) and contains NUnit test cases for the core library.  It also employs **Fluent** patterns throughout the code to expidite object creation.
 
-No external libraries are needed for the core and WinForms libraries.  The Standalone application does require a number of external libraries but can be updated with NuGet package restore.
+No external libraries are needed for the core and WinForms libraries.  The Standalone applications do require a number of external libraries but can be updated with NuGet package restore.
 
 ### Why would I want to use it?
 - Automated UI generation for boring, repetitive search fields, operators and execution.
 - UI controls generated from factories with out-of-the-box behaviour based on field types (but completely customisable).
-- Hierarchical data fetching to organise a tree of related data in any which way *(undergoing rewrite)*.
+- Hierarchical data fetching to display a tree of data while still allowing full search capabilities over the data *(undergoing rewrite)*.
 - Modular code allowing replacement of any functionality: what fields to display, what controls to create, what operators are available, how SQL statements are generated, etcetera.
-- For WinForms: 
+- For both WinForms and WPF:
   - Preset Control lists fields with name and a control with a common operator (`between` for numbers and dates, `contains` for string; customisable).
   - Simple Control allows selection of field and operator with a control created dependant on both.
   - Advanced Control allowing full drill-down of related fields, operators, controls dependant on path and hierarchical combinations (AND, OR) of all parameters.
