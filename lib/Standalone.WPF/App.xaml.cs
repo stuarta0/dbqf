@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Standalone.WPF.Properties;
 
 namespace Standalone.WPF
 {
@@ -17,6 +18,15 @@ namespace Standalone.WPF
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            if (Settings.Default.UpgradeRequired)
+            {
+                Settings.Default.Upgrade();
+                Settings.Default.UpgradeRequired = false;
+                Settings.Default.Save();
+            }
+            if (Settings.Default.SavedConnections == null)
+                Settings.Default.SavedConnections = new Core.Serialization.ConnectionDictionary();
 
             var container = BootstrapContainer();
             var shell = container.Resolve<Shell>();

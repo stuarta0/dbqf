@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using dbqf.Criterion;
 using dbqf.Display;
 using Standalone.Core.Data;
 using Standalone.Core.Initialisers;
@@ -23,7 +24,12 @@ namespace Standalone.WPF
         /// Gets or sets the control factory.  Best to initialise before Main form to ensure lists are resolved.
         /// </summary>
         public IControlFactory<UIElement> ControlFactory { get; private set; }
-        private Dictionary<int, BindingList<object>> _listCache;
+        private Dictionary<FieldPath, CacheData> _listCache;
+        private class CacheData
+        {
+            public BackgroundWorker CurrentWorker;
+            public BindingList<object> Data;
+        }
 
         /// <summary>
         /// Gets or sets the result retriever.
@@ -55,12 +61,12 @@ namespace Standalone.WPF
         {
             Project = p;
 
-            //// initialise last saved connection with this project
-            //var connectionLookup = Settings.Default.SavedConnections;
-            //if (connectionLookup.ContainsKey(Project.Id))
-            //    Project.CurrentConnection = Project.Connections.Find(c => c.Identifier == connectionLookup[Project.Id]);
+            // initialise last saved connection with this project
+            var connectionLookup = Settings.Default.SavedConnections;
+            if (connectionLookup.ContainsKey(Project.Id))
+                Project.CurrentConnection = Project.Connections.Find(c => c.Identifier == connectionLookup[Project.Id]);
 
-            _listCache = new Dictionary<int, BindingList<object>>();
+            _listCache = new Dictionary<FieldPath, CacheData>();
             ControlFactory = controls;
             ControlFactory.ListRequested += ControlFactory_ListRequested;
             ResultFactory = results;
@@ -80,10 +86,20 @@ namespace Standalone.WPF
         {
             var project = (Project)sender;
             var key = project.Id;
-            //if (!Settings.Default.SavedConnections.ContainsKey(key))
-            //    Settings.Default.SavedConnections.Add(key, null);
-            //Settings.Default.SavedConnections[key] = project.CurrentConnection.Identifier;
+            if (!Settings.Default.SavedConnections.ContainsKey(key))
+                Settings.Default.SavedConnections.Add(key, null);
+            Settings.Default.SavedConnections[key] = project.CurrentConnection.Identifier;
             Settings.Default.Save();
+
+            // all lists will be out of date, we need to recreate them
+            if (_listCache != null)
+            {
+                // only downside to this method is in a long running process with many changes 
+                // to the displayed subject and connection, it'll take progressively more time 
+                // to refresh the cache
+                foreach (var item in _listCache)
+                    UpdateCache(item.Key);
+            }
         }
 
         private void ControlFactory_ListRequested(object sender, ListRequestedArgs e)
@@ -97,23 +113,44 @@ namespace Standalone.WPF
             e.Type = e.Path.Last.List.Type;
 
             // if we've cached this path before, use it
-            if (_listCache.ContainsKey(e.Path.GetHashCode()))
+            if (_listCache.ContainsKey(e.Path))
             {
-                e.List = _listCache[e.Path.GetHashCode()];
+                e.List = _listCache[e.Path].Data;
                 return;
             }
 
-            // return if the field has a pre-defined list of items
-            if (e.Path.Last.List.Count > 0)
+            UpdateCache(e.Path);
+            e.List = _listCache[e.Path].Data;
+        }
+
+        /// <summary>
+        /// Adds or updates data for a FieldPath list in the cache.  If it already exists, it will query the data again.
+        /// </summary>
+        /// <param name="path"></param>
+        private void UpdateCache(dbqf.Criterion.FieldPath path)
+        {
+            // if item exists in cache, clear and update
+            // if item does not exist in cache, add it
+            CacheData result;
+            if (_listCache.ContainsKey(path))
+                result = _listCache[path];
+            else
             {
-                e.List = new BindingList<object>(e.Path.Last.List);
-                e.List.Insert(0, string.Empty);
-                _listCache.Add(e.Path.GetHashCode(), e.List);
-                return;
+                result = new CacheData() { Data = new BindingList<object>() };
+                _listCache.Add(path, result);
+
+                // return if the field has a pre-defined list of items
+                if (path.Last.List.Count > 0)
+                {
+                    result.Data.Add(string.Empty);
+                    foreach (var x in path.Last.List)
+                        result.Data.Add(x);
+                    return;
+                }
             }
 
-            var gen = ResultFactory.CreateSqlListGenerator(Project.CurrentConnection, Project.Configuration).Path(e.Path);
-            if (Regex.IsMatch(e.Path.Last.List.Source, @"^select.*[`'\[\s]id", RegexOptions.IgnoreCase))
+            var gen = ResultFactory.CreateSqlListGenerator(Project.CurrentConnection, Project.Configuration).Path(path);
+            if (Regex.IsMatch(path.Last.List.Source, @"^select.*[`'\[\s]id", RegexOptions.IgnoreCase))
                 gen.IdColumn("ID")
                     .ValueColumn("Value");
 
@@ -121,19 +158,32 @@ namespace Standalone.WPF
             try { gen.Validate(); }
             catch { return; }
 
-            e.List = new BindingList<object>();
-            _listCache.Add(e.Path.GetHashCode(), e.List);
+            // kill any existing worker
+            if (result.CurrentWorker != null)
+                result.CurrentWorker.CancelAsync();
 
             var bgw = new BackgroundWorker();
-            bgw.DoWork += (s2, e2) => e2.Result = ResultFactory.CreateSqlResults(Project.CurrentConnection).GetList(gen);
+            bgw.DoWork += (s2, e2) =>
+            {
+                result.CurrentWorker = bgw;
+                e2.Result = ResultFactory.CreateSqlResults(Project.CurrentConnection).GetList(gen);
+            };
             bgw.RunWorkerCompleted += (s2, e2) =>
             {
-                e.List.RaiseListChangedEvents = false;
-                e.List.Add(string.Empty);
+                if (e2.Cancelled)
+                    return;
+
+                var list = result.Data;
+                list.RaiseListChangedEvents = false;
+                list.Clear();
+                list.Add(string.Empty);
                 foreach (var i in (IList<object>)e2.Result)
-                    e.List.Add(i);
-                e.List.RaiseListChangedEvents = true;
-                e.List.ResetBindings();
+                    list.Add(i);
+                list.RaiseListChangedEvents = true;
+                list.ResetBindings();
+
+                if (bgw == result.CurrentWorker)
+                    result.CurrentWorker = null;
             };
             bgw.RunWorkerAsync();
         }
