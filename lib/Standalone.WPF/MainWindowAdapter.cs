@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Standalone.WPF.ViewModel;
+using Standalone.WPF.Controls;
 
 namespace Standalone.WPF
 {
@@ -29,6 +30,7 @@ namespace Standalone.WPF
 
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
+        public RetrieveFieldsView RetrieveFields { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -140,8 +142,8 @@ namespace Standalone.WPF
 
         public MainWindowAdapter(
             Project project, IFieldPathFactory pathFactory, 
-            PresetView preset, StandardView standard) //, AdvancedView advanced, 
-            //RetrieveFieldsView fields)
+            PresetView preset, StandardView standard, //, AdvancedView advanced, 
+            RetrieveFieldsView fields)
         {
             _appWidth = Properties.Settings.Default.AppWidth;
             _appHeight = Properties.Settings.Default.AppHeight;
@@ -151,7 +153,7 @@ namespace Standalone.WPF
             Preset = preset;
             Standard = standard;
             //Advanced = advanced;
-            //RetrieveFields = fields;
+            RetrieveFields = fields;
 
             Preset.Adapter.Search += Adapter_Search;
             Standard.Adapter.Search += Adapter_Search;
@@ -163,8 +165,6 @@ namespace Standalone.WPF
             
             SubjectSource = new ObservableCollection<ISubject>(ProjectAdapter.Configuration);
             SelectedSubject = SubjectSource[0];
-
-            //Result = new BindingSource();
         }
 
         void Adapter_Search(object sender, EventArgs e)

@@ -16,7 +16,9 @@ namespace Standalone.WPF.Installers
             container.Register(
                 Component.For<Shell>(),
                 Component.For<Standalone.WPF.MainWindow>(),
-                Component.For<Standalone.WPF.MainWindowAdapter>()
+                Component.For<Standalone.WPF.MainWindowAdapter>(),
+                Component.For<Standalone.WPF.Controls.RetrieveFieldsView>(),
+                Component.For<Standalone.WPF.Controls.RetrieveFieldsViewAdapter>()
             );
         }
     }

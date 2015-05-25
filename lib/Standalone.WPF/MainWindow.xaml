@@ -54,7 +54,7 @@
                         <Grid/>
                     </TabItem>
                     <TabItem Header="Output">
-                        <Grid/>
+                        <ContentControl Content="{Binding RetrieveFields}" />
                     </TabItem>
                 </TabControl>
             </Grid>

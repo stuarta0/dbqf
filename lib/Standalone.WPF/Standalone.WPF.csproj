@@ -81,6 +81,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\RetrieveFieldsView.xaml.cs">
+      <DependentUpon>RetrieveFieldsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RetrieveFieldsViewAdapter.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
     <Compile Include="Installers\FactoryInstaller.cs" />
     <Compile Include="Installers\Views\StandardInstaller.cs" />
@@ -89,6 +93,10 @@
     <Compile Include="Shell.cs" />
     <Compile Include="ViewModel\ConnectionAdapter.cs" />
     <Compile Include="ViewModel\ProjectAdapter.cs" />
+    <Page Include="Controls\RetrieveFieldsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
