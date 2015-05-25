@@ -12,20 +12,26 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <CheckBox Grid.Row="0" Content="Use custom output fields" IsChecked="{Binding UseFields}" />
-        <Grid Grid.Row="1" Margin="0,3,0,3">
+        <Grid Grid.Row="1" Margin="0,6,0,6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="51*" />
                 <ColumnDefinition Width="49*" />
             </Grid.ColumnDefinitions>
             <GridSplitter Grid.Column="0" Width="3" />
-            <TreeView Grid.Column="0" Margin="0,0,3,0" ItemsSource="{Binding Nodes}">
+            <TreeView Grid.Column="0" Margin="0,0,3,0" ItemsSource="{Binding Nodes}" MouseMove="TreeView_MouseMove" MouseDoubleClick="TreeView_MouseDoubleClick">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <TextBlock Text="{Binding Text}" />
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
-            <ListBox Grid.Column="1" ItemsSource="{Binding Fields}" />
+            <ListBox Name="lstCustom" Grid.Column="1" ItemsSource="{Binding Fields}" AllowDrop="True" Drop="ListBox_Drop" DragEnter="ListBox_DragEnter" SelectionMode="Extended" KeyDown="ListBox_KeyDown">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Description}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
         <Button Grid.Row="2" Content="Reset" HorizontalAlignment="Right" Width="70" />
     </Grid>
