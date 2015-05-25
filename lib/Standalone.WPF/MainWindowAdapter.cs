@@ -16,13 +16,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Standalone.WPF.ViewModel;
 
 namespace Standalone.WPF
 {
-    [ImplementPropertyChanged]
-    public class MainWindowAdapter
+    public class MainWindowAdapter : INotifyPropertyChanged
     {
-        public Project Project { get; private set; }
+        public ProjectAdapter ProjectAdapter { get; private set; }
         public ResultFactory ResultFactory { get; set; }
         public IFieldPathFactory PathFactory { get; private set; }
         public ExportServiceFactory ExportFactory { get; set; }
@@ -30,14 +30,75 @@ namespace Standalone.WPF
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #region Application Appearance
+
         public string ApplicationTitle
         {
             get
             {
                 return String.Concat("Database Query Framework",
-                    String.IsNullOrWhiteSpace(Project.Title) ? "" : String.Concat(" - ", Project.Title));
+                    String.IsNullOrWhiteSpace(ProjectAdapter.Title) ? "" : String.Concat(" - ", ProjectAdapter.Title),
+                    " (", ProjectAdapter.CurrentConnection.DisplayName, ")");
             }
         }
+
+        public GridLength ViewColumnSize
+        {
+            get { return _viewColumnSize; }
+            set 
+            {
+                _viewColumnSize = value;
+                Properties.Settings.Default.ViewColumnSize = _viewColumnSize.Value;
+                Properties.Settings.Default.Save();
+            }
+        }
+        private GridLength _viewColumnSize;
+
+        private double _appWidth, _appHeight;
+        public double AppWidth
+        {
+            get { return _appWidth; }
+            set
+            {
+                _appWidth = value;
+
+                if (AppWindowState == WindowState.Normal)
+                {
+                    Properties.Settings.Default.AppWidth = _appWidth;
+                    Properties.Settings.Default.Save();
+                }
+            }
+        }
+        public double AppHeight
+        {
+            get { return _appHeight; }
+            set
+            {
+                _appHeight = value;
+
+                if (AppWindowState == WindowState.Normal)
+                {
+                    Properties.Settings.Default.AppHeight = _appHeight;
+                    Properties.Settings.Default.Save();
+                }
+            }
+        }
+
+        private WindowState _appWindowState;
+        public WindowState AppWindowState
+        {
+            get { return _appWindowState; }
+            set
+            {
+                _appWindowState = value;
+                Properties.Settings.Default.AppWindowState = _appWindowState;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        #endregion
 
         public ObservableCollection<ISubject> SubjectSource { get; private set; }
         public ISubject SelectedSubject
@@ -82,6 +143,11 @@ namespace Standalone.WPF
             PresetView preset, StandardView standard) //, AdvancedView advanced, 
             //RetrieveFieldsView fields)
         {
+            _appWidth = Properties.Settings.Default.AppWidth;
+            _appHeight = Properties.Settings.Default.AppHeight;
+            _appWindowState = Properties.Settings.Default.AppWindowState;
+            _viewColumnSize = new GridLength(Properties.Settings.Default.ViewColumnSize);
+
             Preset = preset;
             Standard = standard;
             //Advanced = advanced;
@@ -91,10 +157,11 @@ namespace Standalone.WPF
             Standard.Adapter.Search += Adapter_Search;
             //Advanced.Adapter.Search += Adapter_Search;
 
-            Project = project;
+            ProjectAdapter = new ProjectAdapter(project);
+            ProjectAdapter.Project.CurrentConnectionChanged += delegate { PropertyChanged(this, new PropertyChangedEventArgs("ApplicationTitle")); };
             PathFactory = pathFactory;
             
-            SubjectSource = new ObservableCollection<ISubject>(Project.Configuration);
+            SubjectSource = new ObservableCollection<ISubject>(ProjectAdapter.Configuration);
             SelectedSubject = SubjectSource[0];
 
             //Result = new BindingSource();
@@ -136,14 +203,14 @@ namespace Standalone.WPF
             worker.WorkerSupportsCancellation = true;
 
             var fields = PathFactory.GetFields(SelectedSubject);
-            var gen = ResultFactory.CreateSqlGenerator(Project.CurrentConnection, Project.Configuration)
+            var gen = ResultFactory.CreateSqlGenerator(ProjectAdapter.Project.CurrentConnection, ProjectAdapter.Project.Configuration)
                 .Target(SelectedSubject)
                 .Column(fields)
                 .Where(parameter);
 
             Result = null;
             ResultSQL = ((ExposedSqlGenerator)gen).GenerateSql();
-            var repo = ResultFactory.CreateSqlResults(Project.CurrentConnection);
+            var repo = ResultFactory.CreateSqlResults(ProjectAdapter.Project.CurrentConnection);
             worker.DoWork += (s1, e1) =>
             {
                 e1.Result = repo.GetResults(gen);

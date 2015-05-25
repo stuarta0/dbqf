@@ -22,7 +22,6 @@ namespace dbqf.WPF.Standard
         {
             var part = new WpfStandardPart(_builderFactory, _controlFactory);
             part.Paths = new BindingList<FieldPath>(_paths);
-            part.UIElement = _controlFactory.Build(part.Paths[0], _builderFactory.GetDefault(part.Paths[0]));
             return part;
         }
 

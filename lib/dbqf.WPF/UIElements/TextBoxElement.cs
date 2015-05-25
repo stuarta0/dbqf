@@ -15,7 +15,15 @@ namespace dbqf.WPF.UIElements
         {
             _text = new TextBox();
             _text.VerticalContentAlignment = VerticalAlignment.Center;
+            _text.TextInput += delegate { OnChanged(); };
+            _text.KeyDown += Text_KeyDown;
             Element = _text;
+        }
+
+        void Text_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+                OnSearch();
         }
 
         public override object[] GetValues()

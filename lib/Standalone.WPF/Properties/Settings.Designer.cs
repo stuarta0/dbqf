@@ -25,13 +25,60 @@ namespace Standalone.WPF.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SavedConnections {
+        public global::Standalone.Core.Serialization.ConnectionDictionary SavedConnections {
             get {
-                return ((string)(this["SavedConnections"]));
+                return ((global::Standalone.Core.Serialization.ConnectionDictionary)(this["SavedConnections"]));
             }
             set {
                 this["SavedConnections"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public double ViewColumnSize {
+            get {
+                return ((double)(this["ViewColumnSize"]));
+            }
+            set {
+                this["ViewColumnSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public double AppWidth {
+            get {
+                return ((double)(this["AppWidth"]));
+            }
+            set {
+                this["AppWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("550")]
+        public double AppHeight {
+            get {
+                return ((double)(this["AppHeight"]));
+            }
+            set {
+                this["AppHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public global::System.Windows.WindowState AppWindowState {
+            get {
+                return ((global::System.Windows.WindowState)(this["AppWindowState"]));
+            }
+            set {
+                this["AppWindowState"] = value;
             }
         }
     }

@@ -19,6 +19,7 @@ namespace dbqf.WPF.UIElements
             PropertyChanged += delegate { };
 
             var check = new CheckBox();
+            check.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             check.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
             Element = check;
 

@@ -39,5 +39,16 @@ namespace dbqf.Display.Builders
 
             return Junction;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is BetweenBuilder)
+            {
+                var other = (BetweenBuilder)obj;
+                return base.Eq(this.Junction, other.Junction)
+                    && base.Eq(this.Label, other.Label);
+            }
+            return base.Equals(obj);
+        }
     }
 }

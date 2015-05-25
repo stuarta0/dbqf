@@ -41,5 +41,17 @@ namespace dbqf.Display.Builders
                 Junction.Add(new SimpleParameter(path, Operator, v));
             return Junction;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is SimpleBuilder)
+            {
+                var other = (SimpleBuilder)obj;
+                return base.Eq(this.Junction, other.Junction)
+                    && base.Eq(this.Label, other.Label)
+                    && base.Eq(this.Operator, other.Operator);
+            }
+            return base.Equals(obj);
+        }
     }
 }

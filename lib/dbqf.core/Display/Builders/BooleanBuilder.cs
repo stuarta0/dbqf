@@ -35,5 +35,17 @@ namespace dbqf.Display.Builders
         {
             return new SimpleParameter(path, (Value ? "<>" : "="), 0);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is BooleanBuilder)
+            {
+                var other = (BooleanBuilder)obj;
+                return base.Eq(this.Junction, other.Junction)
+                    && base.Eq(this.Label, other.Label)
+                    && base.Eq(this.Value, other.Value);
+            }
+            return base.Equals(obj);
+        }
     }
 }

@@ -66,9 +66,6 @@
     <Compile Include="StandardView.xaml.cs">
       <DependentUpon>StandardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Standard\StandardPartView.xaml.cs">
-      <DependentUpon>StandardPartView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Standard\WpfStandardPart.cs" />
     <Compile Include="Standard\WpfStandardAdapter.cs" />
     <Compile Include="UIElements\BetweenElement.cs" />
@@ -92,10 +89,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StandardView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Standard\StandardPartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
