@@ -8,26 +8,26 @@ using System.Threading.Tasks;
 
 namespace Standalone.Core.Serialization.Assemblers.Criterion
 {
-    public abstract class TransformHandler
+    public abstract class AssemblyLine<TSource, TDto> : IAssembler<TSource, TDto>
     {
-        private TransformHandler _successor;
-        protected TransformHandler(TransformHandler successor)
+        private AssemblyLine<TSource, TDto> _successor;
+        protected AssemblyLine(AssemblyLine<TSource, TDto> successor)
         {
             _successor = successor;
         }
 
-        public virtual IParameter Restore(ParameterDTO dto)
+        public virtual TSource Restore(TDto dto)
         {
             if (_successor != null)
                 return _successor.Restore(dto);
-            return null;
+            return default(TSource);
         }
 
-        public virtual ParameterDTO Create(IParameter p)
+        public virtual TDto Create(TSource p)
         {
             if (_successor != null)
                 return _successor.Create(p);
-            return null;
+            return default(TDto);
         }
     }
 }

@@ -21,12 +21,12 @@ namespace Standalone.Core.Installers
                 .WithService.DefaultInterfaces());
 
             container.Register(
-                Component.For<TransformHandler>().UsingFactoryMethod<TransformHandler>(kernel => {
+                Component.For<AssemblyLine<dbqf.Criterion.IParameter, Standalone.Core.Serialization.DTO.Criterion.ParameterDTO>>().UsingFactoryMethod(kernel => {
                     var pathAssembler = kernel.Resolve<FieldPathAssembler>();
-                    TransformHandler chain = new NullParameterHandler(null, pathAssembler);
-                    chain = new SimpleParameterHandler(chain, pathAssembler);
-                    chain = new ConjunctionParameterHandler(chain);
-                    chain = new NotParameterHandler(chain);
+                    ParameterAssembler chain = new NullParameterAssembler(null, pathAssembler);
+                    chain = new SimpleParameterAssembler(chain, pathAssembler);
+                    chain = new JunctionParameterAssembler(chain);
+                    chain = new NotParameterAssembler(chain);
                     return chain;
                 }));
         }

@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace Standalone.Core.Serialization.Assemblers.Criterion
 {
-    public class SimpleParameterHandler : TransformHandler
+    public class SimpleParameterAssembler : ParameterAssembler
     {
-        private FieldPathAssembler _pathAssembler;
-        public SimpleParameterHandler(TransformHandler successor, FieldPathAssembler pathAssembler)
+        public SimpleParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor, FieldPathAssembler pathAssembler)
             : base(successor)
         {
-            _pathAssembler = pathAssembler;
+            PathAssembler = pathAssembler;
         }
 
         public override dbqf.Criterion.IParameter Restore(DTO.Criterion.ParameterDTO dto)
@@ -23,7 +22,7 @@ namespace Standalone.Core.Serialization.Assemblers.Criterion
             if (sp == null)
                 return base.Restore(dto);
 
-            return new SimpleParameter(_pathAssembler.Restore(sp.Path), sp.Operator, sp.Value);
+            return new SimpleParameter(PathAssembler.Restore(sp.Path), sp.Operator, sp.Value);
         }
 
         public override DTO.Criterion.ParameterDTO Create(dbqf.Criterion.IParameter p)
@@ -34,7 +33,7 @@ namespace Standalone.Core.Serialization.Assemblers.Criterion
 
             return new SimpleParameterDTO() 
             { 
-                Path = _pathAssembler.Create(sp.Path), 
+                Path = PathAssembler.Create(sp.Path), 
                 Operator = sp.Operator, 
                 Value = sp.Value  
             };

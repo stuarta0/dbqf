@@ -20,7 +20,7 @@ namespace Standalone.Core.Serialization.Assemblers
             _configuration = configuration;
         }
 
-        public FieldPath Restore(FieldPathDTO dto)
+        public virtual FieldPath Restore(FieldPathDTO dto)
         {
             var path = new FieldPath();
             var curSubject = _configuration[dto.SubjectIndex];
@@ -34,7 +34,7 @@ namespace Standalone.Core.Serialization.Assemblers
             return path;
         }
 
-        public FieldPathDTO Create(FieldPath source)
+        public virtual FieldPathDTO Create(FieldPath source)
         {
             var dto = new FieldPathDTO();
             dto.SubjectIndex = _configuration.IndexOf(source.Root);

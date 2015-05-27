@@ -8,23 +8,21 @@ using System.Threading.Tasks;
 
 namespace Standalone.Core.Serialization.Assemblers.Criterion
 {
-    public class ConjunctionParameterHandler : TransformHandler
+    public class JunctionParameterAssembler : ParameterAssembler
     {
-        // need a reference to the chain of responsibility that this TransformHandler is part of to restore the contained parameters
-        public TransformHandler Chain { get; set; }
-        public ConjunctionParameterHandler(TransformHandler successor)
+        public JunctionParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor)
             : base(successor)
         {
         }
 
         public override dbqf.Criterion.IParameter Restore(DTO.Criterion.ParameterDTO dto)
         {
-            var c = dto as ConjunctionDTO;
-            if (c == null)
+            var j = dto as JunctionDTO;
+            if (j == null)
                 return base.Restore(dto);
 
-            var result = new Conjunction();
-            foreach (var p in c.Parameters)
+            Junction result = j is ConjunctionDTO ? (Junction)new Conjunction() : (Junction)new Disjunction();
+            foreach (var p in j.Parameters)
                 result.Add(Chain.Restore(p));
 
             return result;
@@ -32,12 +30,13 @@ namespace Standalone.Core.Serialization.Assemblers.Criterion
 
         public override DTO.Criterion.ParameterDTO Create(dbqf.Criterion.IParameter p)
         {
-            var c = p as Conjunction;
-            if (c == null)
+            var j = p as Junction;
+            if (j == null)
                 return base.Create(p);
 
-            var result = new ConjunctionDTO() { Parameters = new List<ParameterDTO>() };
-            foreach (var p2 in c)
+            JunctionDTO result = j is Conjunction ? (JunctionDTO)new ConjunctionDTO() : (JunctionDTO)new DisjunctionDTO();
+            result.Parameters = new List<ParameterDTO>();
+            foreach (var p2 in j)
                 result.Parameters.Add(Chain.Create(p2));
 
             return result;

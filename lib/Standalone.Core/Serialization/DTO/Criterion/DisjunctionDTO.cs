@@ -9,8 +9,8 @@ using System.Xml.Serialization;
 
 namespace Standalone.Core.Serialization.DTO.Criterion
 {
-    [XmlRoot("Conjunction")]
-    public class ConjunctionDTO : JunctionDTO
+    [XmlRoot("Disjunction")]
+    public class DisjunctionDTO : JunctionDTO
     {
     }
 }

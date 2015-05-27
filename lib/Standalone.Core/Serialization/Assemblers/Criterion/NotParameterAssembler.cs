@@ -8,31 +8,29 @@ using System.Threading.Tasks;
 
 namespace Standalone.Core.Serialization.Assemblers.Criterion
 {
-    public class NullParameterHandler : TransformHandler
+    public class NotParameterAssembler : ParameterAssembler
     {
-        private FieldPathAssembler _pathAssembler;
-        public NullParameterHandler(TransformHandler successor, FieldPathAssembler pathAssembler)
+        public NotParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor)
             : base(successor)
         {
-            _pathAssembler = pathAssembler;
         }
 
         public override dbqf.Criterion.IParameter Restore(DTO.Criterion.ParameterDTO dto)
         {
-            var np = dto as NullParameterDTO;
+            var np = dto as NotParameterDTO;
             if (np == null)
                 return base.Restore(dto);
 
-            return new NullParameter(_pathAssembler.Restore(np.Path));
+            return new NotParameter(Chain.Restore(np.Parameter));
         }
 
         public override DTO.Criterion.ParameterDTO Create(dbqf.Criterion.IParameter p)
         {
-            var np = p as NullParameter;
+            var np = p as NotParameter;
             if (np == null)
                 return base.Create(p);
 
-            return new NullParameterDTO() { Path = _pathAssembler.Create(np.Path) };
+            return new NotParameterDTO() { Parameter = Chain.Create(np.Parameter) };
         }
     }
 }
