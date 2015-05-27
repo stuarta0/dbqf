@@ -36,5 +36,17 @@ namespace dbqf.Display.Builders
 
             return new NotParameter(other);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is NotBuilder)
+            {
+                var other = (NotBuilder)obj;
+                return base.Eq(this.Junction, other.Junction)
+                    && base.Eq(this.Label, other.Label)
+                    && base.Eq(this.Other, other.Other);
+            }
+            return base.Equals(obj);
+        }
     }
 }

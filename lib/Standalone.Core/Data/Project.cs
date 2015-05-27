@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.Diagnostics;
 
 namespace Standalone.Core.Data
 {
@@ -55,6 +56,7 @@ namespace Standalone.Core.Data
         }
     }
 
+    [DebuggerDisplay("{DisplayName} ({Identifier} | {ConnectionType})")]
     [ProtoContract]
     public class Connection
     {

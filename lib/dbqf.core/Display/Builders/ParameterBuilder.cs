@@ -24,5 +24,11 @@ namespace dbqf.Display.Builders
         /// <param name="values"></param>
         /// <returns></returns>
         public abstract IParameter Build(FieldPath path, params object[] values);
+
+        protected virtual bool Eq(object prop, object otherProp)
+        {
+            return (prop == null && otherProp == null)
+                || (prop != null && otherProp != null && prop.Equals(otherProp));
+        }
     }
 }

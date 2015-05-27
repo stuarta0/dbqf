@@ -19,5 +19,16 @@ namespace dbqf.Display.Builders
         {
             return new NullParameter(path);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is NullBuilder)
+            {
+                var other = (NullBuilder)obj;
+                return base.Eq(this.Junction, other.Junction)
+                    && base.Eq(this.Label, other.Label);
+            }
+            return base.Equals(obj);
+        }
     }
 }

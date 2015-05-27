@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="dbqf.WPF.StandardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="CloseImage">
+            <Canvas Width="16" Height="16">
+                <Rectangle Width="16" Height="16" RadiusX="4" RadiusY="4" >
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFFF9090" Offset="0.3"/>
+                            <GradientStop Color="#FFD02D2D" Offset="0.45"/>
+                            <GradientStop Color="#FFFF9090" Offset="1"/>
+                            <GradientStop Color="#FFFFEAEA"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                    <Rectangle.Stroke>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFAD515D" Offset="0"/>
+                            <GradientStop Color="#FF7E2F3C" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Stroke>
+                </Rectangle>
+                <Line X1="5" Y1="5" X2="11" Y2="11" Stroke="#FF9E2424" StrokeThickness="4" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
+                <Line X1="11" Y1="5" X2="5" Y2="11" Stroke="#FF9E2424" StrokeThickness="4" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
+                <Line X1="5" Y1="5" X2="11" Y2="11" Stroke="White" StrokeThickness="2" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
+                <Line X1="11" Y1="5" X2="5" Y2="11" Stroke="White" StrokeThickness="2" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
+            </Canvas>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ItemsControl ItemsSource="{Binding Parts}" Grid.Row="0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch" Margin="3,3,3,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0" ItemsSource="{Binding Paths}" SelectedItem="{Binding SelectedPath}" DisplayMemberPath="Description" Margin="0,0,3,0" VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding Builders}" SelectedItem="{Binding SelectedBuilder}" DisplayMemberPath="Label" Margin="0,0,3,0" VerticalAlignment="Center" />
+                            <ContentControl Grid.Column="2" Content="{Binding UIElement.Element}" IsTabStop="False" VerticalAlignment="Center" MinHeight="22" />
+                            <Button Grid.Column="3" Command="{Binding DeleteCommand}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <ContentControl Template="{StaticResource CloseImage}" Margin="3,3,0,3" />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Command="{Binding AddCommand}" Grid.Row="1" Margin="3,3,3,3">
+                <TextBlock Text="Add another parameter" />
+            </Button>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

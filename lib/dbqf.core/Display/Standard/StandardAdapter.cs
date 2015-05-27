@@ -95,7 +95,6 @@ namespace dbqf.Display.Standard
         {
             var part = new StandardPart<T>(_builderFactory, _controlFactory);
             part.Paths = new BindingList<FieldPath>(_paths);
-            part.UIElement = _controlFactory.Build(part.Paths[0], _builderFactory.GetDefault(part.Paths[0]));
             return part;
         }
 
