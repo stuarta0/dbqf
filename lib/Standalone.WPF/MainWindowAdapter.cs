@@ -30,6 +30,7 @@ namespace Standalone.WPF
 
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
+        public FieldPathCombo Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -142,7 +143,7 @@ namespace Standalone.WPF
 
         public MainWindowAdapter(
             Project project, IFieldPathFactory pathFactory, 
-            PresetView preset, StandardView standard, //, AdvancedView advanced, 
+            PresetView preset, StandardView standard, FieldPathCombo advanced, 
             RetrieveFieldsView fields)
         {
             _appWidth = Properties.Settings.Default.AppWidth;
@@ -152,7 +153,7 @@ namespace Standalone.WPF
 
             Preset = preset;
             Standard = standard;
-            //Advanced = advanced;
+            Advanced = advanced;
             RetrieveFields = fields;
 
             Preset.Adapter.Search += Adapter_Search;

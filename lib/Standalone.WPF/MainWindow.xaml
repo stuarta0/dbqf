@@ -51,7 +51,7 @@
                         <ContentControl Content="{Binding Standard}" />
                     </TabItem>
                     <TabItem Header="Advanced">
-                        <Grid/>
+                        <ContentControl Content="{Binding Advanced}" />
                     </TabItem>
                     <TabItem Header="Output">
                         <ContentControl Content="{Binding RetrieveFields}" />
