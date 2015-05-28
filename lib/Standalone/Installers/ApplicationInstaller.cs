@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Standalone.Forms;
 
 namespace Standalone.Installers
 {
@@ -16,10 +17,11 @@ namespace Standalone.Installers
         {
             container.Register(
                 Component.For<Shell>(),
-                Component.For<Standalone.Forms.Main>(),
-                Component.For<Standalone.Forms.MainAdapter>(),
-                Component.For<Standalone.Forms.RetrieveFieldsView>(),
-                Component.For<Standalone.Forms.RetrieveFieldsViewAdapter>()
+                Component.For<Main>(),
+                Component.For<MainAdapter>(),
+                Component.For<RetrieveFieldsView>(),
+                Component.For<RetrieveFieldsViewAdapter>(),
+                Component.For<Standalone.Core.IApplication>().UsingFactoryMethod<MainAdapter>(kernel => kernel.Resolve<MainAdapter>())
             );
         }
     }

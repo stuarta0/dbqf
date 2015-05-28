@@ -117,6 +117,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Content Include="castle.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Standalone.Forms.MainAdapter.datasource" />
     <None Include="Properties\DataSources\Standalone.Forms.RetrieveFieldsViewAdapter.datasource" />

@@ -34,18 +34,16 @@ namespace Standalone
                 Settings.Default.SavedConnections = new Core.Serialization.ConnectionDictionary();
 
             var container = BootstrapContainer();
-            var shell = container.Resolve<Shell>();
+            var shell = container.Resolve<Standalone.Core.IShell>();
             shell.Run();
             container.Dispose();
         }
 
         private static IWindsorContainer BootstrapContainer()
         {
-            return new WindsorContainer()
-                .Install(//Configuration.FromAppConfig(),
-                        FromAssembly.Containing<Standalone.Core.Serialization.DTO.ConfigurationDTO>(),
-                        FromAssembly.This()
-                );
+            return new WindsorContainer().Install(
+                Configuration.FromXmlFile(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "castle.config"))
+            );
         }
     }
 }

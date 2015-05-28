@@ -21,7 +21,7 @@ using Standalone.WPF.Controls;
 
 namespace Standalone.WPF
 {
-    public class MainWindowAdapter : INotifyPropertyChanged
+    public class MainWindowAdapter : INotifyPropertyChanged, Core.IApplication
     {
         public ProjectAdapter ProjectAdapter { get; private set; }
         public ResultFactory ResultFactory { get; set; }

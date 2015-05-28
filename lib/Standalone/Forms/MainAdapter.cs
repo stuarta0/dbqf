@@ -17,7 +17,7 @@ using Standalone.Core.Export;
 
 namespace Standalone.Forms
 {
-    public class MainAdapter : INotifyPropertyChanged
+    public class MainAdapter : INotifyPropertyChanged, Core.IApplication
     {
         public Project Project { get; private set; }
         public ResultFactory ResultFactory { get; set; }
