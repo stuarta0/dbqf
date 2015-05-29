@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using Standalone.Core.Data;
 using Standalone.Properties;
 using dbqf.Criterion;
+using Standalone.Core;
 
 namespace Standalone
 {
@@ -33,8 +34,8 @@ namespace Standalone
         /// </summary>
         public IControlFactory<Control> ControlFactory { get; private set; }
 
-        public Shell(Project project, IControlFactory<Control> controlFactory, ResultFactory results, IList<IInitialiser> initialisers)
-            : base(project, results, initialisers)
+        public Shell(Project project, IControlFactory<Control> controlFactory, ListCacher cacher, IList<IInitialiser> initialisers)
+            : base(project, cacher, initialisers)
         {
             // initialise last saved connection with this project
             var connectionLookup = Settings.Default.SavedConnections;
@@ -52,6 +53,11 @@ namespace Standalone
             System.Windows.Forms.Application.Run(Main);
         }
 
+        private void ControlFactory_ListRequested(object sender, ListRequestedArgs e)
+        {
+            Cacher.UpdateCache(e);
+        }
+
         protected override void OnConnectionChanged()
         {
             base.OnConnectionChanged();
@@ -61,11 +67,6 @@ namespace Standalone
                 Settings.Default.SavedConnections.Add(key, null);
             Settings.Default.SavedConnections[key] = Project.CurrentConnection.Identifier;
             Settings.Default.Save();
-        }
-
-        private void ControlFactory_ListRequested(object sender, ListRequestedArgs e)
-        {
-            base.UpdateCache(e);
         }
     }
 }

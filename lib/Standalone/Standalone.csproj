@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="Forms\RetrieveFieldsViewAdapter.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
+    <Compile Include="Installers\DataInstaller.cs" />
     <Compile Include="Installers\FactoryInstaller.cs" />
     <Compile Include="Installers\Views\FieldPathComboInstaller.cs" />
     <Compile Include="Installers\Views\AdvancedInstaller.cs" />

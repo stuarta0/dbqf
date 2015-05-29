@@ -93,5 +93,17 @@ namespace Standalone.WPF.Properties {
                 this["UpgradeRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int CommandTimeout {
+            get {
+                return ((int)(this["CommandTimeout"]));
+            }
+            set {
+                this["CommandTimeout"] = value;
+            }
+        }
     }
 }

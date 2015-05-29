@@ -34,8 +34,7 @@ namespace Standalone.Core.Installers
                 Component.For<IConfiguration>()
                     .UsingFactoryMethod<IConfiguration>(kernel => kernel.Resolve<Project>().Configuration),
                 Component.For<IList<ISubject>>()
-                    .UsingFactoryMethod(kernel => kernel.Resolve<IConfiguration>()),
-                Component.For<ResultFactory>()
+                    .UsingFactoryMethod(kernel => kernel.Resolve<IConfiguration>())
             );
         }
     }

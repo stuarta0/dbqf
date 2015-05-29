@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using dbqf.Criterion;
 using dbqf.Display;
+using Standalone.Core;
 using Standalone.Core.Data;
 using Standalone.Core.Initialisers;
 using Standalone.WPF.Properties;
@@ -25,16 +26,16 @@ namespace Standalone.WPF
         /// </summary>
         public IControlFactory<UIElement> ControlFactory { get; private set; }
 
-        public Shell(Project project, IControlFactory<UIElement> controlFactory, ResultFactory results, IList<IInitialiser> initialisers)
-            : base(project, results, initialisers)
+        public Shell(Project project, IControlFactory<UIElement> controlFactory, ListCacher cacher, IList<IInitialiser> initialisers)
+            : base(project, cacher, initialisers)
         {
-            ControlFactory = controlFactory;
-            ControlFactory.ListRequested += ControlFactory_ListRequested;
-
             // initialise last saved connection with this project
             var connectionLookup = Settings.Default.SavedConnections;
             if (connectionLookup.ContainsKey(Project.Id))
                 Project.CurrentConnection = Project.Connections.Find(c => c.Identifier == connectionLookup[Project.Id]);
+
+            ControlFactory = controlFactory;
+            ControlFactory.ListRequested += ControlFactory_ListRequested;
         }
 
         public override void Run()
@@ -46,7 +47,7 @@ namespace Standalone.WPF
 
         private void ControlFactory_ListRequested(object sender, ListRequestedArgs e)
         {
-            base.UpdateCache(e);
+            Cacher.UpdateCache(e);
         }
 
         protected override void OnConnectionChanged()

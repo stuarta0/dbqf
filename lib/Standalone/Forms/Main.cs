@@ -27,24 +27,24 @@ namespace Standalone.Forms
         }
 
         private IGetParameter _currentAdapter;
-        private MainAdapter _adapter;
+        public MainAdapter Adapter { get; private set; }
         public Main(MainAdapter adapter)
         {
             InitializeComponent();
-            _adapter = adapter;
-            _currentAdapter = _adapter.Preset.Adapter;
-            bsAdapter.DataSource = _adapter;
-            _adapter.PropertyChanged += Adapter_PropertyChanged;
+            Adapter = adapter;
+            _currentAdapter = Adapter.Preset.Adapter;
+            bsAdapter.DataSource = Adapter;
+            Adapter.PropertyChanged += Adapter_PropertyChanged;
 
             // add connections to the menu
-            foreach (var c in _adapter.Project.Connections)
+            foreach (var c in Adapter.Project.Connections)
             {
                 var m = new ConnectionMenuItem(c);
-                m.Checked = c == _adapter.Project.CurrentConnection;
-                m.Click += (s, e) => _adapter.Project.CurrentConnection = c;
+                m.Checked = c == Adapter.Project.CurrentConnection;
+                m.Click += (s, e) => Adapter.Project.CurrentConnection = c;
                 connectionToolStripMenuItem.DropDownItems.Add(m);
             }
-            _adapter.Project.CurrentConnectionChanged += (s, e) =>
+            Adapter.Project.CurrentConnectionChanged += (s, e) =>
             {
                 foreach (ConnectionMenuItem c in connectionToolStripMenuItem.DropDownItems)
                     c.Checked = (c.Connection == ((Project)s).CurrentConnection);
@@ -52,17 +52,17 @@ namespace Standalone.Forms
 
             // toolstrip combo has poor binding support so we need to wire it all up manually
             cboSearchFor.ComboBox.BindingContext = this.BindingContext;
-            cboSearchFor.ComboBox.DataSource = _adapter.SubjectSource;
+            cboSearchFor.ComboBox.DataSource = Adapter.SubjectSource;
             cboSearchFor.SelectedIndexChanged += (s, e) => {
-                _adapter.SelectedSubject = (ISubject)cboSearchFor.SelectedItem;
+                Adapter.SelectedSubject = (ISubject)cboSearchFor.SelectedItem;
             };
-            _adapter.SelectedSubjectChanged += (s, e) => {
-                cboSearchFor.SelectedItem = _adapter.SelectedSubject;
+            Adapter.SelectedSubjectChanged += (s, e) => {
+                cboSearchFor.SelectedItem = Adapter.SelectedSubject;
             };
 
             // update datagridview when new data arrives
-            _adapter.Result.DataSourceChanged += (s, e) => {
-                var data = ((DataTable)_adapter.Result.DataSource);
+            Adapter.Result.DataSourceChanged += (s, e) => {
+                var data = ((DataTable)Adapter.Result.DataSource);
                 if (data != null)
                 {
                     foreach (DataGridViewColumn c in dataGridView1.Columns)
@@ -87,7 +87,7 @@ namespace Standalone.Forms
         void Adapter_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if ("ResultSQL".Equals(e.PropertyName))
-                txtSql.Text = _adapter.ResultSQL;
+                txtSql.Text = Adapter.ResultSQL;
         }
 
         /// <summary>
@@ -120,12 +120,12 @@ namespace Standalone.Forms
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            _adapter.Search(_currentAdapter.GetParameter());
+            Adapter.Search(_currentAdapter.GetParameter());
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            _adapter.Reset();
+            Adapter.Reset();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -135,13 +135,13 @@ namespace Standalone.Forms
 
         private void Main_Load(object sender, EventArgs e)
         {
-            SetupView(_adapter.Preset, tabPreset);
-            SetupView(_adapter.Standard, tabStandard);
-            SetupView(_adapter.Advanced, tabAdvanced);
-            SetupView(_adapter.RetrieveFields, tabOutput);
+            SetupView(Adapter.Preset, tabPreset);
+            SetupView(Adapter.Standard, tabStandard);
+            SetupView(Adapter.Advanced, tabAdvanced);
+            SetupView(Adapter.RetrieveFields, tabOutput);
 
             // datagridview also has bad control designer, this has to be in the load event
-            dataGridView1.DataSource = _adapter.Result;
+            dataGridView1.DataSource = Adapter.Result;
 
             try { splitContainer1.SplitterDistance = Properties.Settings.Default.SplitterLocation; }
             catch { }
@@ -164,7 +164,7 @@ namespace Standalone.Forms
         {
             if (sfdExport.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
-                _adapter.Export(sfdExport.FileName);
+                Adapter.Export(sfdExport.FileName);
                 var result = MessageBox.Show(this, String.Concat("Do you want to open ", System.IO.Path.GetFileName(sfdExport.FileName), "?"), "Export", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
@@ -188,7 +188,7 @@ namespace Standalone.Forms
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            _adapter.CancelSearch();
+            Adapter.CancelSearch();
         }
     }
 }

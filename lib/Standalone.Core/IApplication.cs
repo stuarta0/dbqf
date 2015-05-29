@@ -10,5 +10,9 @@ namespace Standalone.Core
     public interface IApplication
     {
         ISubject SelectedSubject { get; set; }
+        string ApplicationTitle { get; }
+        string ResultSQL { get; set; }
+
+        void Export(string filename);
     }
 }

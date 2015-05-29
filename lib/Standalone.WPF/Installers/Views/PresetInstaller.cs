@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Standalone.Installers.Views
+namespace Standalone.WPF.Installers.Views
 {
     public class PresetInstaller : IWindsorInstaller
     {

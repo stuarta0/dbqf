@@ -12,6 +12,7 @@ namespace Standalone.Core.Data
 {
     public interface ISqlResults
     {
+        int CommandTimeout { get; set; }
         DataTable GetResults(SqlGenerator cmd);
         IList<object> GetList(SqlListGenerator cmd);
     }

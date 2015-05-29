@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Standalone.Forms;
+using Standalone.Core;
 
 namespace Standalone.Installers
 {
@@ -16,7 +17,7 @@ namespace Standalone.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<Shell>(),
+                Component.For<IShell>().ImplementedBy<Shell>(),
                 Component.For<Main>(),
                 Component.For<MainAdapter>(),
                 Component.For<RetrieveFieldsView>(),
