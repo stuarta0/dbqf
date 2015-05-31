@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="Forms\RetrieveFieldsViewAdapter.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
+    <Compile Include="Installers\DataInstaller.cs" />
     <Compile Include="Installers\FactoryInstaller.cs" />
     <Compile Include="Installers\Views\FieldPathComboInstaller.cs" />
     <Compile Include="Installers\Views\AdvancedInstaller.cs" />
@@ -117,6 +118,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Content Include="castle.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Standalone.Forms.MainAdapter.datasource" />
     <None Include="Properties\DataSources\Standalone.Forms.RetrieveFieldsViewAdapter.datasource" />

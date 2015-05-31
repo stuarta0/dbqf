@@ -42,6 +42,9 @@ namespace dbqf.Display.Standard
             set
             {
                 _paths = value;
+                if (_paths == null || _paths.Count == 0)
+                    throw new ArgumentException("StardardPart.Paths cannot be a null or empty list.");
+
                 OnPropertyChanged("Paths");
                 SelectedPath = _paths[0];
             }

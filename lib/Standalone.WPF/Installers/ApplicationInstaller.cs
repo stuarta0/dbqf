@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Standalone.Core;
 
 namespace Standalone.WPF.Installers
 {
@@ -15,10 +17,12 @@ namespace Standalone.WPF.Installers
         {
             container.Register(
                 Component.For<Shell>(),
+                Component.For<IShell>().UsingFactoryMethod<Shell>(kernel => kernel.Resolve<Shell>()),
                 Component.For<Standalone.WPF.MainWindow>(),
                 Component.For<Standalone.WPF.MainWindowAdapter>(),
                 Component.For<Standalone.WPF.Controls.RetrieveFieldsView>(),
-                Component.For<Standalone.WPF.Controls.RetrieveFieldsViewAdapter>()
+                Component.For<Standalone.WPF.Controls.RetrieveFieldsViewAdapter>(),
+                Component.For<Standalone.Core.IApplication>().UsingFactoryMethod<MainWindowAdapter>(kernel => kernel.Resolve<MainWindowAdapter>())
             );
         }
     }

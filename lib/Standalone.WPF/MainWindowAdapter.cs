@@ -21,7 +21,7 @@ using Standalone.WPF.Controls;
 
 namespace Standalone.WPF
 {
-    public class MainWindowAdapter : INotifyPropertyChanged
+    public class MainWindowAdapter : INotifyPropertyChanged, Core.IApplication
     {
         public ProjectAdapter ProjectAdapter { get; private set; }
         public ResultFactory ResultFactory { get; set; }
@@ -30,6 +30,7 @@ namespace Standalone.WPF
 
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
+        public FieldPathCombo Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -108,14 +109,8 @@ namespace Standalone.WPF
             get { return _subject; }
             set
             {
-                if (_subject == value)
-                    return;
                 _subject = value;
-
-                // ask the factory twice as the individual views alter the path instances differently
-                Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));
-                Standard.Adapter.SetPaths(PathFactory.GetFields(SelectedSubject));
-
+                RefreshPaths();
                 if (SelectedSubjectChanged != null)
                     SelectedSubjectChanged(this, EventArgs.Empty);
             }
@@ -142,7 +137,7 @@ namespace Standalone.WPF
 
         public MainWindowAdapter(
             Project project, IFieldPathFactory pathFactory, 
-            PresetView preset, StandardView standard, //, AdvancedView advanced, 
+            PresetView preset, StandardView standard, FieldPathCombo advanced, 
             RetrieveFieldsView fields)
         {
             _appWidth = Properties.Settings.Default.AppWidth;
@@ -152,7 +147,7 @@ namespace Standalone.WPF
 
             Preset = preset;
             Standard = standard;
-            //Advanced = advanced;
+            Advanced = advanced;
             RetrieveFields = fields;
 
             Preset.Adapter.Search += Adapter_Search;
@@ -160,11 +155,25 @@ namespace Standalone.WPF
             //Advanced.Adapter.Search += Adapter_Search;
 
             ProjectAdapter = new ProjectAdapter(project);
-            ProjectAdapter.Project.CurrentConnectionChanged += delegate { PropertyChanged(this, new PropertyChangedEventArgs("ApplicationTitle")); };
+            ProjectAdapter.Project.CurrentConnectionChanged += delegate 
+            {
+                RefreshPaths();
+                PropertyChanged(this, new PropertyChangedEventArgs("ApplicationTitle")); 
+            };
             PathFactory = pathFactory;
             
             SubjectSource = new ObservableCollection<ISubject>(ProjectAdapter.Configuration);
             SelectedSubject = SubjectSource[0];
+        }
+
+        private void RefreshPaths()
+        {
+            // ask the factory twice as the individual views alter the path instances differently
+            if (_subject != null)
+            {
+                Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));
+                Standard.Adapter.SetPaths(PathFactory.GetFields(SelectedSubject));
+            }
         }
 
         void Adapter_Search(object sender, EventArgs e)
@@ -203,7 +212,7 @@ namespace Standalone.WPF
             worker.WorkerSupportsCancellation = true;
 
             var fields = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject);
-            var gen = ResultFactory.CreateSqlGenerator(ProjectAdapter.Project.CurrentConnection, ProjectAdapter.Project.Configuration)
+            var gen = ResultFactory.CreateSqlGenerator(ProjectAdapter.Project.Configuration)
                 .Target(SelectedSubject)
                 .Column(fields)
                 .Where(parameter);
@@ -242,6 +251,11 @@ namespace Standalone.WPF
                 }
             };
             worker.RunWorkerAsync();
+        }
+
+        public void Export(string filename)
+        {
+            throw new NotImplementedException();
         }
     }
 }

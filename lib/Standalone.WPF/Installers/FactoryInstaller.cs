@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Standalone.Installers
+namespace Standalone.WPF.Installers
 {
     public class FactoryInstaller : IWindsorInstaller
     {

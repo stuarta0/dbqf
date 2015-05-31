@@ -86,7 +86,9 @@
     </Compile>
     <Compile Include="Controls\RetrieveFieldsViewAdapter.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
+    <Compile Include="Installers\DataInstaller.cs" />
     <Compile Include="Installers\FactoryInstaller.cs" />
+    <Compile Include="Installers\Views\FieldPathComboInstaller.cs" />
     <Compile Include="Installers\Views\StandardInstaller.cs" />
     <Compile Include="Installers\Views\PresetInstaller.cs" />
     <Compile Include="MainWindowAdapter.cs" />
@@ -129,6 +131,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <Content Include="castle.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

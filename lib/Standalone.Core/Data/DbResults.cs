@@ -13,8 +13,17 @@ namespace Standalone.Core.Data
 {
     public abstract class DbResults : ISqlResults
     {
+        /// <summary>
+        /// Follows default behaviour for CommandTimeout (in seconds; 0=infinite, default=30s)
+        /// </summary>
+        public int CommandTimeout { get; set; }
         protected abstract DbConnection CreateConnection();
         protected abstract DbDataAdapter CreateDataAdapter();
+
+        public DbResults()
+        {
+            CommandTimeout = 30;
+        }
 
         public virtual DataTable GetResults(SqlGenerator generator)
         {
@@ -23,6 +32,7 @@ namespace Standalone.Core.Data
             {
                 using (var cmd = conn.CreateCommand())
                 {
+                    cmd.CommandTimeout = CommandTimeout;
                     generator.UpdateCommand(cmd);
                     using (var adapter = CreateDataAdapter())
                     {
@@ -42,6 +52,7 @@ namespace Standalone.Core.Data
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
+                    cmd.CommandTimeout = CommandTimeout;
                     generator.UpdateCommand(cmd);
                     using (var reader = cmd.ExecuteReader())
                     {

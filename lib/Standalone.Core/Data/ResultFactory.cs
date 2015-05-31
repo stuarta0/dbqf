@@ -11,26 +11,43 @@ namespace Standalone.Core.Data
 {
     public class ResultFactory
     {
-        public ExposedSqlGenerator CreateSqlGenerator(Connection connection, IConfiguration configuration)
+        private int _commandTimeout;
+        public ResultFactory()
+        {
+            _commandTimeout = 30;
+        }
+        public ResultFactory(int commandTimeout)
+        {
+            _commandTimeout = commandTimeout;
+        }
+
+        public ExposedSqlGenerator CreateSqlGenerator(IConfiguration configuration)
         {
             return new ExposedSqlGenerator(configuration);
         }
 
-        public SqlListGenerator CreateSqlListGenerator(Connection connection, IConfiguration configuration)
+        public SqlListGenerator CreateSqlListGenerator(IConfiguration configuration)
         {
             return new SqlListGenerator(configuration);
         }
 
         public ISqlResults CreateSqlResults(Connection connection)
         {
+            ISqlResults result = null;
             switch (connection.ConnectionType)
             {
                 case "SqlClient":
-                    return new SqlResults(connection.ConnectionString);
+                    result = new SqlResults(connection.ConnectionString);
                     break;
                 case "SQLite":
-                    return new SQLiteResults(connection.ConnectionString);
+                    result = new SQLiteResults(connection.ConnectionString);
                     break;
+            }
+
+            if (result != null)
+            {
+                result.CommandTimeout = _commandTimeout;
+                return result;
             }
 
             throw new NotImplementedException(String.Concat("Could not create ISqlResults for connection ", connection.ConnectionType));

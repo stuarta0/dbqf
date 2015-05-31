@@ -1,24 +1,23 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using dbqf.Display.Preset;
-using dbqf.WPF;
-using dbqf.WPF.Preset;
+using dbqf.Display.Advanced;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using dbqf.WPF;
 
 namespace Standalone.WPF.Installers.Views
 {
-    public class PresetInstaller : IWindsorInstaller
+    public class FieldPathComboInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<PresetView>().LifestyleTransient(),
-                Component.For<PresetAdapter<System.Windows.UIElement>>().ImplementedBy<WpfPresetAdapter>().LifestyleTransient()
+                Component.For<FieldPathCombo>().LifestyleTransient(),
+                Component.For<FieldPathComboAdapter>().LifestyleTransient()
             );
         }
     }

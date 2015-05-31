@@ -21,7 +21,7 @@ using Standalone.Core.Serialization.Assemblers;
 
 namespace Standalone.Forms
 {
-    public class MainAdapter : INotifyPropertyChanged
+    public class MainAdapter : INotifyPropertyChanged, Core.IApplication
     {
         public Project Project { get; private set; }
         public ResultFactory ResultFactory { get; set; }
@@ -49,14 +49,8 @@ namespace Standalone.Forms
             get { return _subject; }
             set
             {
-                if (_subject == value)
-                    return;
                 _subject = value;
-
-                // ask the factory twice as the individual views alter the path instances differently
-                Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));
-                Standard.Adapter.SetPaths(PathFactory.GetFields(SelectedSubject));
-
+                RefreshPaths();
                 OnPropertyChanged("SelectedSubject");
                 if (SelectedSubjectChanged != null)
                     SelectedSubjectChanged(this, EventArgs.Empty);
@@ -132,12 +126,23 @@ namespace Standalone.Forms
             Advanced.Adapter.Search += Adapter_Search;
 
             Project = project;
+            Project.CurrentConnectionChanged += delegate { RefreshPaths(); };
             PathFactory = pathFactory;
             
             SubjectSource = new BindingList<ISubject>(Project.Configuration);
             SelectedSubject = SubjectSource[0];
 
             Result = new BindingSource();
+        }
+
+        private void RefreshPaths()
+        {
+            // ask the factory twice as the individual views alter the path instances differently
+            if (_subject != null)
+            {
+                Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));
+                Standard.Adapter.SetPaths(PathFactory.GetFields(SelectedSubject));
+            }
         }
 
         void Adapter_Search(object sender, EventArgs e)
@@ -176,7 +181,7 @@ namespace Standalone.Forms
             worker.WorkerSupportsCancellation = true;
 
             var fields = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject);
-            var gen = ResultFactory.CreateSqlGenerator(Project.CurrentConnection, Project.Configuration)
+            var gen = ResultFactory.CreateSqlGenerator(Project.Configuration)
                 .Target(SelectedSubject)
                 .Column(fields)
                 .Where(parameter);

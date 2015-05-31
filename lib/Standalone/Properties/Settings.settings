@@ -11,5 +11,8 @@
     <Setting Name="SavedConnections" Type="Standalone.Core.Serialization.ConnectionDictionary" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="CommandTimeout" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
