@@ -162,7 +162,7 @@ namespace Standalone.Forms
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_adapter.Result.DataSource == null)
+            if (Adapter.Result.DataSource == null)
             {
                 MessageBox.Show("There are no results to export.  Please perform a search first, then export.", "Export");
                 return;
@@ -194,12 +194,12 @@ namespace Standalone.Forms
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _adapter.Open("");
+            Adapter.Open("");
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _adapter.Save("");
+            Adapter.Save("");
         }
     }
 }

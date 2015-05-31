@@ -152,7 +152,7 @@ namespace Standalone.Core
                 {
                     e2.Result = ResultFactory.CreateSqlResults(Connection).GetList(gen);
                 }
-                catch (TimeoutException te)
+                catch (Exception te)
                 {
                     e2.Result = te;
                 }
