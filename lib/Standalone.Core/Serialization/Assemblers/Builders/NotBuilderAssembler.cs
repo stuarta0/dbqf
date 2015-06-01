@@ -26,7 +26,6 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
             return new NotBuilder()
             {
                 Label = sb.Label,
-                Junction = (Junction)JunctionAssembler.Restore(sb.Junction),
                 Other = Chain.Restore(sb.Other)
             };
         }
@@ -40,7 +39,6 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
             return new NotBuilderDTO() 
             { 
                 Label = sb.Label,
-                Junction = (JunctionDTO)JunctionAssembler.Create(sb.Junction),
                 Other = Chain.Create(sb.Other)
             };
         }

@@ -25,8 +25,7 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
 
             return new NullBuilder()
             {
-                Label = sb.Label,
-                Junction = (Junction)JunctionAssembler.Restore(sb.Junction)
+                Label = sb.Label
             };
         }
 
@@ -38,8 +37,7 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
 
             return new NullBuilderDTO() 
             { 
-                Label = sb.Label,
-                Junction = (JunctionDTO)JunctionAssembler.Create(sb.Junction)
+                Label = sb.Label
             };
         }
     }

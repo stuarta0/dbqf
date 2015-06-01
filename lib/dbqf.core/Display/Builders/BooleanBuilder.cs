@@ -41,8 +41,7 @@ namespace dbqf.Display.Builders
             if (obj is BooleanBuilder)
             {
                 var other = (BooleanBuilder)obj;
-                return base.Eq(this.Junction, other.Junction)
-                    && base.Eq(this.Label, other.Label)
+                return base.Eq(this.Label, other.Label)
                     && base.Eq(this.Value, other.Value);
             }
             return base.Equals(obj);

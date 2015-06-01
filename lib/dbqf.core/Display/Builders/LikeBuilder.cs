@@ -41,20 +41,17 @@ namespace dbqf.Display.Builders
 
         /// <summary>
         /// Works with values which are strings.
+        /// Only processes the first value.  Use JunctionBuilder to combine multiple.
         /// </summary>
         public override IParameter Build(FieldPath path, params object[] values)
         {
-            if (values == null)
+            if (values == null || values.Length == 0)
                 return null;
 
-            Junction.Clear();
-            foreach (var v in values)
-            {
-                if (v is string)
-                    Junction.Add(new LikeParameter(path, (string)v, Mode));
-            }
-
-            return Junction;
+            var v = values[0];
+            if (v is string)
+                return new LikeParameter(path, (string)v, Mode);
+            return null;
         }
 
         public override bool Equals(object obj)
@@ -62,8 +59,7 @@ namespace dbqf.Display.Builders
             if (obj is LikeBuilder)
             {
                 var other = (LikeBuilder)obj;
-                return base.Eq(this.Junction, other.Junction)
-                    && base.Eq(this.Label, other.Label)
+                return base.Eq(this.Label, other.Label)
                     && base.Eq(this.Mode, other.Mode);
             }
             return base.Equals(obj);

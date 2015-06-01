@@ -26,7 +26,6 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
             return new SimpleBuilder()
             {
                 Label = sb.Label,
-                Junction = (Junction)JunctionAssembler.Restore(sb.Junction),
                 Operator = sb.Operator
             };
         }
@@ -40,7 +39,6 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
             return new SimpleBuilderDTO() 
             { 
                 Label = sb.Label,
-                Junction = (JunctionDTO)JunctionAssembler.Create(sb.Junction),
                 Operator = sb.Operator
             };
         }

@@ -13,27 +13,24 @@ namespace dbqf.Display.Builders
         }
 
         /// <summary>
-        /// Assumes the values will be an array of arrays.  i.e. each value is a 1-dimensional array with 2 elements.
+        /// Works with DateValues.
+        /// Only processes the first value.  Use JunctionBuilder to combine multiple.
         /// </summary>
         /// <param name="path"></param>
         /// <param name="values"></param>
         /// <returns></returns>
         public override IParameter Build(FieldPath path, params object[] values)
         {
-            if (values == null)
+            if (values == null || values.Length == 0)
                 return null;
 
-            Junction.Clear();
-            foreach (var v in values)
+            if (values[0] is DateValue)
             {
-                if (v is DateValue)
-                {
-                    var date = (DateValue)v;
-                    Junction.Add(new SimpleParameter(path, "<", date.Upper));
-                }
+                var date = (DateValue)values[0];
+                return new SimpleParameter(path, "<", date.Upper);
             }
 
-            return Junction;
+            return null;
         }
     }
 }

@@ -25,7 +25,9 @@ namespace dbqf.WPF.UIElements
             UIElement<System.Windows.UIElement> c;
             var f = path.Last;
             var listArgs = OnListRequired(path);
-            if (builder is BetweenBuilder || builder is DateBetweenBuilder)
+            if (builder is JunctionBuilder)
+                return Build(path, ((JunctionBuilder)builder).Other);
+            else if (builder is BetweenBuilder || builder is DateBetweenBuilder)
             {
                 var between = new BetweenElement(Build(path, null), Build(path, null));
                 if (!String.IsNullOrEmpty(path.Last.DisplayFormat))

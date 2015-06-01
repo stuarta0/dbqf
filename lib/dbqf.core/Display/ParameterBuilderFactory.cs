@@ -76,13 +76,8 @@ namespace dbqf.Display
             }
 
             // pretty much always a disjunction when combining multiple values
-            foreach (var b in builders)
-            {
-                if (b is NotBuilder && ((NotBuilder)b).Other.Junction == null)
-                    ((NotBuilder)b).Other.Junction = new Disjunction();
-                else if (b.Junction == null)
-                    b.Junction = new Disjunction(); 
-            }
+            for (int i = 0; i < builders.Count; i++)
+                builders[i] = new JunctionBuilder(JunctionBuilder.JunctionType.Disjunction, builders[i]);
 
             return builders;
         }
@@ -94,14 +89,17 @@ namespace dbqf.Display
         /// <returns></returns>
         public virtual ParameterBuilder GetDefault(FieldPath path)
         {
+            ParameterBuilder b;
             if (path.Last.DataType == typeof(string))
-                return new LikeBuilder(MatchMode.Anywhere) { Junction = new Disjunction() };
+                b = new LikeBuilder(MatchMode.Anywhere);
             else if (path.Last.DataType == typeof(DateTime))
-                return new DateBetweenBuilder() { Junction = new Disjunction() };
+                b = new DateBetweenBuilder();
             else if (IsNumeric(path.Last.DataType))
-                return new BetweenBuilder() { Junction = new Disjunction() };
+                b = new BetweenBuilder();
             else
-                return new SimpleBuilder("=") { Junction = new Disjunction() };
+                b = new SimpleBuilder("=");
+
+            return new JunctionBuilder(JunctionBuilder.JunctionType.Disjunction, b);
         }
 
         private bool IsNumeric(Type t)

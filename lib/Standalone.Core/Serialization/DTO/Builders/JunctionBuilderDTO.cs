@@ -8,9 +8,10 @@ using Standalone.Core.Serialization.DTO.Criterion;
 
 namespace Standalone.Core.Serialization.DTO.Builders
 {
-    public abstract class ParameterBuilderDTO
+    [XmlRoot("JunctionBuilder")]
+    public class JunctionBuilderDTO : ParameterBuilderDTO
     {
-        [XmlAttribute]
-        public string Label { get; set; }
+        public string Type { get; set; }
+        public ParameterBuilderDTO Other { get; set; }
     }
 }

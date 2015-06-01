@@ -13,26 +13,23 @@ namespace dbqf.Display.Builders
         }
 
         /// <summary>
-        /// Works with DateValues
+        /// Works with DateValues.
+        /// Only processes the first value.  Use JunctionBuilder to combine multiple.
         /// </summary>
         public override IParameter Build(FieldPath path, params object[] values)
         {
-            if (values == null)
+            if (values == null || values.Length == 0)
                 return null;
 
-            Junction.Clear();
-            foreach (var v in values)
+            if (values[0] is DateValue)
             {
-                if (v is DateValue)
-                {
-                    var date = (DateValue)v;
-                    Junction.Add(new Conjunction()
-                        .Parameter(new SimpleParameter(path, ">=", date.Lower))
-                        .Parameter(new SimpleParameter(path, "<", date.Upper)));
-                }
+                var date = (DateValue)values[0];
+                return new Conjunction()
+                    .Parameter(new SimpleParameter(path, ">=", date.Lower))
+                    .Parameter(new SimpleParameter(path, "<", date.Upper));
             }
 
-            return Junction;
+            return null;
         }
     }
 }

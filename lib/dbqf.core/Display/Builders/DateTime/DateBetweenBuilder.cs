@@ -14,39 +14,35 @@ namespace dbqf.Display.Builders
 
         /// <summary>
         /// Works with BetweenValues of DateValues.
+        /// Only processes the first value.  Use JunctionBuilder to combine multiple.
         /// </summary>
         /// <param name="path"></param>
         /// <param name="values"></param>
         /// <returns></returns>
         public override IParameter Build(FieldPath path, params object[] values)
         {
-            if (values == null)
+            if (values == null || values.Length == 0)
                 return null;
 
-            Junction.Clear();
-
-            // increment the values in pairs
-            foreach (var v in values)
+            var v = values[0] as BetweenValue;
+            if (v != null)
             {
-                if (v is BetweenValue)
-                {
-                    var from = ((BetweenValue)v).From as DateValue;
-                    var to = ((BetweenValue)v).To as DateValue;
+                var from = ((BetweenValue)v).From as DateValue;
+                var to = ((BetweenValue)v).To as DateValue;
 
-                    if (from == null && to == null)
-                        return null;
-                    else if (from != null && to != null)
-                        Junction.Add(new Conjunction()
-                            .Parameter(new SimpleParameter(path, ">=", from.Lower))
-                            .Parameter(new SimpleParameter(path, "<", to.Upper)));
-                    else if (to == null)
-                        Junction.Add(new SimpleParameter(path, ">=", from.Lower));
-                    else if (from == null)
-                        Junction.Add(new SimpleParameter(path, "<", to.Upper));
-                }
+                if (from == null && to == null)
+                    return null;
+                else if (from != null && to != null)
+                    return new Conjunction()
+                        .Parameter(new SimpleParameter(path, ">=", from.Lower))
+                        .Parameter(new SimpleParameter(path, "<", to.Upper));
+                else if (to == null)
+                    return new SimpleParameter(path, ">=", from.Lower);
+                else if (from == null)
+                    return new SimpleParameter(path, "<", to.Upper);
             }
 
-            return Junction;
+            return null;
         }
     }
 }

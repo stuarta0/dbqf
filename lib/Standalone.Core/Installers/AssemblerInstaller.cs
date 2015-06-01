@@ -23,7 +23,8 @@ namespace Standalone.Core.Installers
             container.Register(
                 Component.For<AssemblyLine<dbqf.Criterion.IParameter, Standalone.Core.Serialization.DTO.Criterion.ParameterDTO>>().UsingFactoryMethod(kernel => {
                     var pathAssembler = kernel.Resolve<FieldPathAssembler>();
-                    ParameterAssembler chain = new NullParameterAssembler(null, pathAssembler);
+                    ParameterAssembler chain = new JunctionParameterAssembler(null);
+                    chain = new NullParameterAssembler(chain, pathAssembler);
                     chain = new SimpleParameterAssembler(chain, pathAssembler);
                     chain = new JunctionParameterAssembler(chain);
                     chain = new NotParameterAssembler(chain);

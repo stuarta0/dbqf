@@ -10,36 +10,37 @@ using Standalone.Core.Serialization.DTO.Criterion;
 
 namespace Standalone.Core.Serialization.Assemblers.Builders
 {
-    public class BooleanBuilderAssembler : BuilderAssembler
+    public class JunctionBuilderAssembler : BuilderAssembler
     {
-        public BooleanBuilderAssembler(BuilderAssembler successor)
+        public JunctionBuilderAssembler(BuilderAssembler successor)
             : base(successor)
         {
         }
 
         public override ParameterBuilder Restore(ParameterBuilderDTO dto)
         {
-            var sb = dto as BooleanBuilderDTO;
+            var sb = dto as JunctionBuilderDTO;
             if (sb == null)
                 return base.Restore(dto);
 
-            return new BooleanBuilder()
+            return new JunctionBuilder("Conjunction".Equals(sb.Type) ? JunctionBuilder.JunctionType.Conjunction : JunctionBuilder.JunctionType.Disjunction)
             {
                 Label = sb.Label,
-                Value = sb.Value
+                Other = base.Chain.Restore(sb.Other)
             };
         }
 
         public override ParameterBuilderDTO Create(ParameterBuilder b)
         {
-            var sb = b as BooleanBuilder;
+            var sb = b as JunctionBuilder;
             if (sb == null)
                 return base.Create(b);
 
-            return new BooleanBuilderDTO() 
+            return new JunctionBuilderDTO() 
             { 
                 Label = sb.Label,
-                Value = sb.Value
+                Type = sb.Type.ToString(),
+                Other = base.Chain.Create(sb.Other)
             };
         }
     }

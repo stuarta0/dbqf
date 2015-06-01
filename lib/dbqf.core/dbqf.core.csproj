@@ -73,10 +73,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Commands\SubjectCommand.cs" />
-    <Compile Include="Commands\UriCommand.cs" />
-    <Compile Include="Commands\ProcessCommand.cs" />
     <Compile Include="Configuration\IFieldList.cs" />
     <Compile Include="Configuration\IFieldListItem.cs" />
     <Compile Include="Configuration\IRelationField.cs" />
@@ -94,6 +90,7 @@
     <Compile Include="Criterion\SimpleParameter.cs" />
     <Compile Include="Display\Advanced\AdvancedAdapter.cs" />
     <Compile Include="Display\Advanced\AdvancedPart.cs" />
+    <Compile Include="Display\Builders\JunctionBuilder.cs" />
     <Compile Include="Display\FieldPathFactory.cs" />
     <Compile Include="Display\IFieldPathFactory.cs" />
     <Compile Include="Display\IParameterBuilderFactory.cs" />

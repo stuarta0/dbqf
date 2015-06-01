@@ -42,8 +42,7 @@ namespace dbqf.Display.Builders
             if (obj is NotBuilder)
             {
                 var other = (NotBuilder)obj;
-                return base.Eq(this.Junction, other.Junction)
-                    && base.Eq(this.Label, other.Label)
+                return base.Eq(this.Label, other.Label)
                     && base.Eq(this.Other, other.Other);
             }
             return base.Equals(obj);

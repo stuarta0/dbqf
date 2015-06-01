@@ -13,7 +13,7 @@ namespace dbqf.Display.Builders
         }
 
         /// <summary>
-        /// Ignores values, just provides a NullParameter
+        /// Ignores values, just provides a NullParameter.
         /// </summary>
         public override IParameter Build(FieldPath path, params object[] values)
         {
@@ -25,8 +25,7 @@ namespace dbqf.Display.Builders
             if (obj is NullBuilder)
             {
                 var other = (NullBuilder)obj;
-                return base.Eq(this.Junction, other.Junction)
-                    && base.Eq(this.Label, other.Label);
+                return base.Eq(this.Label, other.Label);
             }
             return base.Equals(obj);
         }

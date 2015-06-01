@@ -30,16 +30,14 @@ namespace dbqf.Display.Builders
 
         /// <summary>
         /// Works with any value that can be interpreted by the data provider being used.
+        /// Only processes the first value.  Use JunctionBuilder to combine multiple.
         /// </summary>
         public override IParameter Build(FieldPath path, params object[] values)
         {
-            if (values == null)
+            if (values == null || values.Length == 0)
                 return null;
 
-            Junction.Clear();
-            foreach (var v in values)
-                Junction.Add(new SimpleParameter(path, Operator, v));
-            return Junction;
+            return new SimpleParameter(path, Operator, values[0]);
         }
 
         public override bool Equals(object obj)
@@ -47,8 +45,7 @@ namespace dbqf.Display.Builders
             if (obj is SimpleBuilder)
             {
                 var other = (SimpleBuilder)obj;
-                return base.Eq(this.Junction, other.Junction)
-                    && base.Eq(this.Label, other.Label)
+                return base.Eq(this.Label, other.Label)
                     && base.Eq(this.Operator, other.Operator);
             }
             return base.Equals(obj);

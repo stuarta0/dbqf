@@ -39,7 +39,6 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
             return new LikeBuilder()
             {
                 Label = sb.Label,
-                Junction = (Junction)JunctionAssembler.Restore(sb.Junction),
                 Mode = (MatchMode)mode.GetValue(null)
             };
         }
@@ -62,7 +61,6 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
             return new LikeBuilderDTO() 
             { 
                 Label = sb.Label,
-                Junction = (JunctionDTO)JunctionAssembler.Create(sb.Junction),
                 Mode = mode.Name
             };
         }

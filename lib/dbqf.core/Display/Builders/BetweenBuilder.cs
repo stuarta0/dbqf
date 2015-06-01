@@ -13,31 +13,26 @@ namespace dbqf.Display.Builders
         }
 
         /// <summary>
-        /// Works with values that are BetweenValue objects.
+        /// Works with values that are BetweenValue objects.  
+        /// Only processes the first value.  Use JunctionBuilder to combine multiple.
         /// </summary>
         public override IParameter Build(FieldPath path, params object[] values)
         {
-            if (values == null)
+            if (values == null || values.Length == 0)
                 return null;
 
-            Junction.Clear();
-            foreach (var v in values)
+            var v = values[0] as BetweenValue;
+            if (v != null)
             {
-                if (v is BetweenValue)
-                {
-                    var from = ((BetweenValue)v).From;
-                    var to = ((BetweenValue)v).To;
-
-                    if (from != null && to != null)
-                        Junction.Add(new BetweenParameter(path, from, to));
-                    else if (to == null)
-                        Junction.Add(new SimpleParameter(path, ">=", from));
-                    else if (from == null)
-                        Junction.Add(new SimpleParameter(path, "<=", to));
-                }
+                if (v.From != null && v.To != null)
+                    return new BetweenParameter(path, v.From, v.To);
+                else if (v.To == null)
+                    return new SimpleParameter(path, ">=", v.From);
+                else if (v.From == null)
+                    return new SimpleParameter(path, "<=", v.To);
             }
 
-            return Junction;
+            return null;
         }
 
         public override bool Equals(object obj)
@@ -45,8 +40,7 @@ namespace dbqf.Display.Builders
             if (obj is BetweenBuilder)
             {
                 var other = (BetweenBuilder)obj;
-                return base.Eq(this.Junction, other.Junction)
-                    && base.Eq(this.Label, other.Label);
+                return base.Eq(this.Label, other.Label);
             }
             return base.Equals(obj);
         }

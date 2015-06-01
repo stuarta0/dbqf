@@ -87,6 +87,7 @@
     <Compile Include="Serialization\Assemblers\Builders\LikeBuilderAssembler.cs" />
     <Compile Include="Serialization\Assemblers\Builders\NotBuilderAssembler.cs" />
     <Compile Include="Serialization\Assemblers\Builders\NullBuilderAssembler.cs" />
+    <Compile Include="Serialization\Assemblers\Builders\JunctionBuilderAssembler.cs" />
     <Compile Include="Serialization\Assemblers\Builders\SimpleBuilderAssembler.cs" />
     <Compile Include="Serialization\Assemblers\ConfigurationAssembler.cs" />
     <Compile Include="Serialization\Assemblers\Criterion\JunctionParameterAssembler.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Serialization\DTO\Builders\LikeBuilderDTO.cs" />
     <Compile Include="Serialization\DTO\Builders\NotBuilderDTO.cs" />
     <Compile Include="Serialization\DTO\Builders\NullBuilderDTO.cs" />
+    <Compile Include="Serialization\DTO\Builders\JunctionBuilderDTO.cs" />
     <Compile Include="Serialization\DTO\Builders\SimpleBuilderDTO.cs" />
     <Compile Include="Serialization\DTO\Builders\ParameterBuilderDTO.cs" />
     <Compile Include="Serialization\DTO\ConfigurationDTO.cs" />
