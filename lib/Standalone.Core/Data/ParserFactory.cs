@@ -2,17 +2,13 @@
 using dbqf.Display;
 using dbqf.Display.Builders;
 using dbqf.Display.Parsers;
-using dbqf.WinForms.UIElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using Standalone.Forms;
-using Standalone.Core.Data;
 
-namespace Standalone.Forms
+namespace Standalone.Core.Data
 {
     public class ParserFactory
     {
@@ -21,7 +17,7 @@ namespace Standalone.Forms
         /// </summary>
         public Dictionary<dbqf.Configuration.IField, Parser> ParserLookup { get; set; }
 
-        public Parser Create(FieldPath path, ParameterBuilder builder, UIElement<Control> control)
+        public Parser Create(FieldPath path, ParameterBuilder builder)
         {
             Parser parser = null;
             if (ParserLookup != null && ParserLookup.ContainsKey(path.Last))

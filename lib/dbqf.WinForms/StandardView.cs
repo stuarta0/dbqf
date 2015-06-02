@@ -49,7 +49,7 @@ namespace dbqf.WinForms
         void Parts_ListChanged(object sender, ListChangedEventArgs e)
         {
             if (e.ListChangedType == ListChangedType.ItemAdded)
-                AddPart((WinFormsStandardPart)_adapter.Parts[e.NewIndex], e.NewIndex);
+                AddPart(_adapter.Parts[e.NewIndex], e.NewIndex);
             else if (e.ListChangedType == ListChangedType.ItemDeleted)
                 RemovePart(e.NewIndex);
         }

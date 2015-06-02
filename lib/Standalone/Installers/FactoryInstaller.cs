@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Standalone.Core.Data;
 
 namespace Standalone.Installers
 {
@@ -23,10 +24,13 @@ namespace Standalone.Installers
                 .WithService.DefaultInterfaces());
 
             container.Register(
-                Component.For<IControlFactory<Control>>().UsingFactoryMethod<dbqf.WinForms.UIElements.WinFormsControlFactory>(kernel =>
+                Component.For<IControlFactory<Control>>().ImplementedBy<dbqf.WinForms.UIElements.WinFormsControlFactory>());
+
+            container.Register(
+                Component.For<ParserFactory>().UsingFactoryMethod<ParserFactory>(kernel =>
                 {
-                    var factory = new dbqf.WinForms.UIElements.WinFormsControlFactory();
-                    //factory.ParserLookup = kernel.Resolve<Standalone.Core.Serialization.Assemblers.FieldAssembler>().ParserLookup;
+                    var factory = new ParserFactory();
+                    factory.ParserLookup = kernel.Resolve<Standalone.Core.Serialization.Assemblers.FieldAssembler>().ParserLookup;
                     return factory;
                 }));
 

@@ -60,11 +60,14 @@
     <Compile Include="Data\DbResults.cs" />
     <Compile Include="Data\ExtendedDateParser.cs" />
     <Compile Include="Data\ISqlResults.cs" />
+    <Compile Include="Data\ParserFactory.cs" />
     <Compile Include="Data\Processing\ExposedSqlGenerator.cs" />
     <Compile Include="Data\Project.cs" />
     <Compile Include="Data\ResultFactory.cs" />
     <Compile Include="Data\SQLiteResults.cs" />
     <Compile Include="Data\SqlResults.cs" />
+    <Compile Include="Display\StandardAdapter.cs" />
+    <Compile Include="Display\PresetAdapter.cs" />
     <Compile Include="Export\BaseExportService.cs" />
     <Compile Include="Export\CsvExportService.cs" />
     <Compile Include="Export\ExportServiceFactory.cs" />
