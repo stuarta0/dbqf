@@ -25,7 +25,7 @@ namespace Standalone.Core.tests.Serialization
             var mockPathDTO = MockRepository.GenerateMock<FieldPathDTO>();
             var mockPathAssembler = MockRepository.GenerateMock<FieldPathAssembler>((IConfiguration)null);
             mockPathAssembler.Stub(x => x.Restore(mockPathDTO)).Return(mockPath);
-            var assemblerUnderTest = new SimpleParameterAssembler(null, mockPathAssembler);
+            var assemblerUnderTest = new SimpleParameterAssembler(mockPathAssembler);
             var dto = new SimpleParameterDTO()
             {
                 Path = mockPathDTO,
@@ -54,7 +54,7 @@ namespace Standalone.Core.tests.Serialization
             var mockPathDTO = MockRepository.GenerateMock<FieldPathDTO>();
             var mockPathAssembler = MockRepository.GenerateMock<FieldPathAssembler>((IConfiguration)null);
             mockPathAssembler.Stub(x => x.Create(mockPath)).Return(mockPathDTO);
-            var assemblerUnderTest = new SimpleParameterAssembler(null, mockPathAssembler);
+            var assemblerUnderTest = new SimpleParameterAssembler(mockPathAssembler);
             var p = new SimpleParameter(mockPath, "=", 1);
 
             // Act

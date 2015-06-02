@@ -74,14 +74,14 @@ namespace dbqf.WinForms
                 var label = new Label();
                 label.AutoSize = true;
                 label.Anchor = AnchorStyles.Left;
-                label.Text = part.Path.Description.Replace("&", "&&");
+                label.Text = part.SelectedPath.Description.Replace("&", "&&");
 
                 table.Controls.Add(label, 0, i);
 
                 var control = part.UIElement.Element;
                 control.Dock = DockStyle.Fill;
                 table.Controls.Add(control, 1, i);
-                toolTip.SetToolTip(control, part.Path.ToString());
+                toolTip.SetToolTip(control, part.SelectedPath.ToString());
                 _heights.Add(control, 0);
                 control.SizeChanged += Control_SizeChanged;
             }

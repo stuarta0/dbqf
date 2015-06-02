@@ -50,10 +50,10 @@ namespace dbqf.WPF.UIElements
                 c = new CheckBoxElement();
             else if (listArgs.List != null)
             {
-                var isEditable = true;
                 if (listArgs.Type == Configuration.FieldListType.Limited)
-                    isEditable = false;
-                c = new ComboBoxElement(listArgs.List, isEditable);
+                    c = new ListBoxElement(listArgs.List, 400);
+                else
+                    c = new ComboBoxElement(listArgs.List, true);
             }
             else
                 c = new TextBoxElement();

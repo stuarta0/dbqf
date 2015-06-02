@@ -14,7 +14,7 @@
                             <ColumnDefinition Width="Auto" SharedSizeGroup="labelCol" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Path.Description}" Grid.Column="0" Margin="0,0,6,0" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding SelectedPath.Description}" Grid.Column="0" Margin="0,0,6,0" VerticalAlignment="Center" />
                         <ContentControl Content="{Binding UIElement.Element}" Grid.Column="1" IsTabStop="False" VerticalAlignment="Center" MinHeight="25" />
                     </Grid>
                 </DataTemplate>

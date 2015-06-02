@@ -10,7 +10,7 @@ namespace Standalone.Core.Serialization.Assemblers.Criterion
 {
     public class JunctionParameterAssembler : ParameterAssembler
     {
-        public JunctionParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor)
+        public JunctionParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor = null)
             : base(successor)
         {
         }

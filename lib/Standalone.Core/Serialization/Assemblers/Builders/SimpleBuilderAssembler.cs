@@ -12,7 +12,7 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
 {
     public class SimpleBuilderAssembler : BuilderAssembler
     {
-        public SimpleBuilderAssembler(BuilderAssembler successor)
+        public SimpleBuilderAssembler(BuilderAssembler successor = null)
             : base(successor)
         {
         }

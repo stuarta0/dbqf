@@ -10,7 +10,7 @@ namespace Standalone.Core.Serialization.Assemblers.Criterion
 {
     public class SimpleParameterAssembler : ParameterAssembler
     {
-        public SimpleParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor, FieldPathAssembler pathAssembler)
+        public SimpleParameterAssembler(FieldPathAssembler pathAssembler, AssemblyLine<IParameter, ParameterDTO> successor = null)
             : base(successor)
         {
             PathAssembler = pathAssembler;

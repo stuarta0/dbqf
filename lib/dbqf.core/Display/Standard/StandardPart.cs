@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using dbqf.Display.Parsers;
 
 namespace dbqf.Display.Standard
 {
@@ -12,7 +13,7 @@ namespace dbqf.Display.Standard
     /// Encapsulates logic relating to how to display a field in the standard search control.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class StandardPart<T> : INotifyPropertyChanged, IDisposable, IGetParameter
+    public class StandardPart<T> : IPartView, INotifyPropertyChanged, IDisposable
     {
         protected IParameterBuilderFactory _builderFactory;
         protected IControlFactory<T> _controlFactory;
@@ -135,13 +136,44 @@ namespace dbqf.Display.Standard
         }
         protected UIElement<T> _control;
 
+        public virtual object[] Values
+        {
+            get 
+            {
+                if (UIElement == null)
+                    return null;
+                return UIElement.GetValues(); 
+            }
+            set 
+            {
+                if (UIElement != null)
+                    UIElement.SetValues(value); 
+            }
+        }
+
+        public virtual Parser Parser
+        {
+            get { return _parser; }
+            set
+            {
+                if (_parser == value)
+                    return;
+                _parser = value;
+                OnPropertyChanged("Parser");
+            }
+        }
+        private Parser _parser;
+
         /// <summary>
         /// Using the control and builder, constructs the final parameter based on what the user has selected.
         /// </summary>
         /// <returns>The parameter or null if no parameter can be provided.</returns>
         public virtual IParameter GetParameter()
         {
-            return SelectedBuilder.Build(SelectedPath, (UIElement == null ? null : UIElement.GetValues()));
+            var values = Values;
+            if (Parser != null)
+                values = Parser.Parse(values);
+            return SelectedBuilder.Build(SelectedPath, values);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

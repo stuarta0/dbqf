@@ -14,7 +14,7 @@ namespace Standalone.Core.Serialization.Assemblers.Criterion
         // need a reference to the root of the chain of responsibility to restore the contained parameters
         public AssemblyLine<IParameter, ParameterDTO> Chain { get; set; }
         public FieldPathAssembler PathAssembler { get; set; }
-        public ParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor)
+        public ParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor = null)
             : base(successor)
         {
         }

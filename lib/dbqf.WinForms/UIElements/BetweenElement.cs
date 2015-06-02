@@ -76,13 +76,7 @@ namespace dbqf.WinForms.UIElements
             var values2 = GetValue(_element2.GetValues());
 
             if (values1 != null || values2 != null)
-            {
-                var result = new object[] { new BetweenValue(values1, values2) };
-                if (Parser != null)
-                    return Parser.Parse(result);
-                return result;
-            }
-
+                return new object[] { new BetweenValue(values1, values2) };
             return null;
         }
 
@@ -90,9 +84,6 @@ namespace dbqf.WinForms.UIElements
         {
             // so we're expecting BetweenValues when we enter here
             // any other values and we'll set element1's values to values[0], and element2 to values[1]
-            if (Parser != null)
-                values = Parser.Revert(values);
-
             if (values != null && values.Length >= 1)
             {
                 if (values[0] is BetweenValue)

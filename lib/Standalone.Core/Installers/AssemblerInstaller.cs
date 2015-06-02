@@ -8,6 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Standalone.Core.Serialization.DTO.Builders;
+using dbqf.Display.Builders;
+using dbqf.Criterion;
+using Standalone.Core.Serialization.DTO.Criterion;
+using Standalone.Core.Serialization.Assemblers.Builders;
 
 namespace Standalone.Core.Installers
 {
@@ -21,14 +26,24 @@ namespace Standalone.Core.Installers
                 .WithService.DefaultInterfaces());
 
             container.Register(
-                Component.For<AssemblyLine<dbqf.Criterion.IParameter, Standalone.Core.Serialization.DTO.Criterion.ParameterDTO>>().UsingFactoryMethod(kernel => {
+                Component.For<AssemblyLine<IParameter, ParameterDTO>>().UsingFactoryMethod(kernel => {
                     var pathAssembler = kernel.Resolve<FieldPathAssembler>();
-                    ParameterAssembler chain = new JunctionParameterAssembler(null);
-                    chain = new NullParameterAssembler(chain, pathAssembler);
-                    chain = new SimpleParameterAssembler(chain, pathAssembler);
-                    chain = new JunctionParameterAssembler(chain);
-                    chain = new NotParameterAssembler(chain);
-                    return chain;
+                    return new JunctionParameterAssembler()
+                        .Add(new NullParameterAssembler(pathAssembler))
+                        .Add(new NotParameterAssembler())
+                        .Add(new SimpleParameterAssembler(pathAssembler));
+                }));
+
+            container.Register(
+                Component.For<AssemblyLine<ParameterBuilder, ParameterBuilderDTO>>().UsingFactoryMethod(kernel =>
+                {
+                    return new JunctionBuilderAssembler()
+                        .Add(new NullBuilderAssembler())
+                        .Add(new NotBuilderAssembler())
+                        .Add(new SimpleBuilderAssembler())
+                        .Add(new BooleanBuilderAssembler())
+                        .Add(new LikeBuilderAssembler())
+                        .Add(new BetweenBuilderAssembler());
                 }));
         }
     }

@@ -34,24 +34,12 @@ namespace dbqf.WinForms.UIElements
                 values = new object[] { combo.SelectedItem };
             else if (!String.IsNullOrEmpty(combo.Text))
                 values = new object[] { combo.Text };
-
-            if (values != null)
-            {
-                if (Parser != null)
-                    return Parser.Parse(values);
-                return values;
-            }
-
-            return null;
+            return values;
         }
 
         public override void SetValues(params object[] values)
         {
             var combo = (ComboBox)Element;
-
-            if (Parser != null)
-                values = Parser.Revert(values);
-
             if (values != null && values.Length > 0 && values[0] != null)
             {
                 if (combo.DropDownStyle == ComboBoxStyle.DropDownList)

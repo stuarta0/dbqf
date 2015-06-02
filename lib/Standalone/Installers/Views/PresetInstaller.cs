@@ -17,9 +17,10 @@ namespace Standalone.Installers.Views
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            // Lifestyle Singleton because we know the control will only be used once in our application.
             container.Register(
-                Component.For<PresetView>().LifestyleTransient(),
-                Component.For<PresetAdapter<Control>>().ImplementedBy<WinFormsPresetAdapter>().LifestyleTransient()
+                Component.For<PresetView>().LifestyleSingleton(),
+                Component.For<PresetAdapter<Control>>().ImplementedBy<WinFormsPresetAdapter>().LifestyleSingleton()
             );
         }
     }

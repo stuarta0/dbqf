@@ -11,9 +11,20 @@ namespace Standalone.Core.Serialization.Assemblers.Criterion
     public abstract class AssemblyLine<TSource, TDto> : IAssembler<TSource, TDto>
     {
         private AssemblyLine<TSource, TDto> _successor;
-        protected AssemblyLine(AssemblyLine<TSource, TDto> successor)
+        protected AssemblyLine(AssemblyLine<TSource, TDto> successor = null)
         {
             _successor = successor;
+        }
+
+        /// <summary>
+        /// Fluently add the successor and return a reference to the successor.
+        /// </summary>
+        /// <param name="successor"></param>
+        /// <returns></returns>
+        public AssemblyLine<TSource, TDto> Add(AssemblyLine<TSource, TDto> successor)
+        {
+            _successor = successor;
+            return _successor;
         }
 
         public virtual TSource Restore(TDto dto)

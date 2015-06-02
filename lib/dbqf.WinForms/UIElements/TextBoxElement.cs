@@ -51,20 +51,12 @@ namespace dbqf.WinForms.UIElements
         public override object[] GetValues()
         {
             if (!String.IsNullOrEmpty(Element.Text))
-            {
-                if (Parser != null)
-                    return Parser.Parse(Element.Text);
                 return new object[] { Element.Text };
-            }
-
             return null;
         }
 
         public override void SetValues(params object[] values)
         {
-            if (Parser != null && values != null)
-                values = Parser.Revert(values);
-
             if (values != null && values.Length >= 1 && values[0] != null)
                 Element.Text = values[0].ToString();
         }

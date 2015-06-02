@@ -30,27 +30,15 @@ namespace dbqf.WPF.UIElements
             var combo = (ComboBox)Element;
             object[] values = null;
             if (!combo.IsEditable && combo.SelectedItem != null && !String.IsNullOrEmpty(combo.SelectedItem.ToString()))
-                values = new object[] { combo.SelectedItem };
+                return new object[] { combo.SelectedItem };
             else if (!String.IsNullOrEmpty(combo.Text))
-                values = new object[] { combo.Text };
-
-            if (values != null)
-            {
-                if (Parser != null)
-                    return Parser.Parse(values);
-                return values;
-            }
-
+                return new object[] { combo.Text };
             return null;
         }
 
         public override void SetValues(params object[] values)
         {
             var combo = (ComboBox)Element;
-
-            if (Parser != null)
-                values = Parser.Revert(values);
-
             if (values != null && values.Length > 0 && values[0] != null)
             {
                 if (!combo.IsEditable)

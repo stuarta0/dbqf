@@ -28,7 +28,7 @@ namespace dbqf.WinForms.UIElements
 
         protected override void OnChanged()
         {
-            if (ShowError && Parser != null)
+            if (ShowError)
             {
                 try 
                 {

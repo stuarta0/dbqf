@@ -49,7 +49,7 @@ namespace Standalone
         public override void Run()
         {
             if (Main == null)
-                throw new ArgumentNullException("Main form not initialised.");
+                throw new ApplicationException("Main form not initialised.");
             System.Windows.Forms.Application.Run(Main);
         }
 

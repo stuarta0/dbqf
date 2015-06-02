@@ -78,6 +78,7 @@
     <Compile Include="UIElements\Controls\BetweenControl.xaml.cs">
       <DependentUpon>BetweenControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIElements\ListBoxElement.cs" />
     <Compile Include="UIElements\TextBoxElement.cs" />
     <Compile Include="UIElements\WpfControlFactory.cs" />
   </ItemGroup>

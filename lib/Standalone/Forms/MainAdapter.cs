@@ -18,6 +18,7 @@ using Standalone.Core.Serialization.Assemblers.Criterion;
 using Standalone.Core.Serialization.DTO.Criterion;
 using System.IO;
 using Standalone.Core.Serialization.Assemblers;
+using Standalone.Core.Serialization.Assemblers.Builders;
 
 namespace Standalone.Forms
 {
@@ -27,7 +28,6 @@ namespace Standalone.Forms
         public ResultFactory ResultFactory { get; set; }
         public IFieldPathFactory PathFactory { get; private set; }
         public ExportServiceFactory ExportFactory { get; set; }
-        public ParameterAssembler Assembler { get; set; }
     
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
@@ -112,14 +112,12 @@ namespace Standalone.Forms
         public MainAdapter(
             Project project, IFieldPathFactory pathFactory, 
             PresetView preset, StandardView standard, AdvancedView advanced, 
-            RetrieveFieldsView fields,
-            ParameterAssembler paramAssembler)
+            RetrieveFieldsView fields)
         {
             Preset = preset;
             Standard = standard;
             Advanced = advanced;
             RetrieveFields = fields;
-            Assembler = paramAssembler;
 
             Preset.Adapter.Search += Adapter_Search;
             Standard.Adapter.Search += Adapter_Search;
@@ -255,7 +253,6 @@ namespace Standalone.Forms
             // switch the UI to show 
             //if (!container.ProjectFile.Equals(Project.Path)) MessageBox.Show("This file is not compatible with the current database.", "Open"); return;
             SelectedSubject = Project.Configuration[container.SubjectIndex]; 
-            Assembler.Restore(container.Parameter);
         }
 
         public void Save(string filename)

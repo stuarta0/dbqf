@@ -94,6 +94,7 @@
     <Compile Include="Display\FieldPathFactory.cs" />
     <Compile Include="Display\IFieldPathFactory.cs" />
     <Compile Include="Display\IParameterBuilderFactory.cs" />
+    <Compile Include="Display\IPartView.cs" />
     <Compile Include="Display\ListRequestedArgs.cs" />
     <Compile Include="Display\Standard\StandardAdapter.cs" />
     <Compile Include="Display\Standard\StandardPart.cs" />

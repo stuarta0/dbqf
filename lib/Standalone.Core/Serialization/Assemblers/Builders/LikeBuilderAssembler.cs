@@ -13,7 +13,7 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
 {
     public class LikeBuilderAssembler : BuilderAssembler
     {
-        public LikeBuilderAssembler(BuilderAssembler successor)
+        public LikeBuilderAssembler(BuilderAssembler successor = null)
             : base(successor)
         {
         }

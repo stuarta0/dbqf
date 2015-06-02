@@ -12,7 +12,7 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
 {
     public class BooleanBuilderAssembler : BuilderAssembler
     {
-        public BooleanBuilderAssembler(BuilderAssembler successor)
+        public BooleanBuilderAssembler(BuilderAssembler successor = null)
             : base(successor)
         {
         }

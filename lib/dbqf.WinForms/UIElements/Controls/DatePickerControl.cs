@@ -40,12 +40,7 @@ namespace dbqf.WinForms.UIElements.Controls
         private void dateTimePicker_ValueChanged(object sender, EventArgs e)
         {
             if (Other != null)
-            {
-                object[] values = new object[] { dateTimePicker.Value };
-                if (Other.Parser != null)
-                    values = Other.Parser.Parse(values);
-                Other.SetValues(values);
-            }
+                Other.SetValues(new object[] { dateTimePicker.Value });
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Standalone.Core.Serialization.Assemblers.Criterion
 {
     public class NotParameterAssembler : ParameterAssembler
     {
-        public NotParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor)
+        public NotParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor = null)
             : base(successor)
         {
         }

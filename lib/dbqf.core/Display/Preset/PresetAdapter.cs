@@ -79,8 +79,8 @@ namespace dbqf.Display.Preset
         protected virtual PresetPart<T> CreatePart(FieldPath path)
         {
             var part = new PresetPart<T>(path);
-            part.Builder = _builderFactory.GetDefault(part.Path);
-            part.UIElement = _controlFactory.Build(part.Path, part.Builder);
+            part.SelectedBuilder = _builderFactory.GetDefault(part.SelectedPath);
+            part.UIElement = _controlFactory.Build(part.SelectedPath, part.SelectedBuilder);
             return part;
         }
 

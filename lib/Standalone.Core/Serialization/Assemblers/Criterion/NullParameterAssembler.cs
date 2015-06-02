@@ -10,7 +10,7 @@ namespace Standalone.Core.Serialization.Assemblers.Criterion
 {
     public class NullParameterAssembler : ParameterAssembler
     {
-        public NullParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor, FieldPathAssembler pathAssembler)
+        public NullParameterAssembler(FieldPathAssembler pathAssembler, AssemblyLine<IParameter, ParameterDTO> successor = null)
             : base(successor)
         {
             PathAssembler = pathAssembler;

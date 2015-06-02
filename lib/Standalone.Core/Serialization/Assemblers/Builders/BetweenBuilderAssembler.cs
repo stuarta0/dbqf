@@ -12,7 +12,7 @@ namespace Standalone.Core.Serialization.Assemblers.Builders
 {
     public class BetweenBuilderAssembler : BuilderAssembler
     {
-        public BetweenBuilderAssembler(BuilderAssembler successor)
+        public BetweenBuilderAssembler(BuilderAssembler successor = null)
             : base(successor)
         {
         }

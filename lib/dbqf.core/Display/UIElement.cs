@@ -12,11 +12,6 @@ namespace dbqf.Display
         public T Element { get; protected set; }
 
         /// <summary>
-        /// The parser to use when validating the user input and returning values.
-        /// </summary>
-        public Parsers.Parser Parser { get; set; }
-
-        /// <summary>
         /// Gets values from the control using specific logic based on the control being used.
         /// </summary>
         /// <returns></returns>

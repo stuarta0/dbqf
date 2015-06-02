@@ -29,21 +29,13 @@ namespace dbqf.WPF.UIElements
         public override object[] GetValues()
         {
             if (!String.IsNullOrEmpty(_text.Text))
-            {
-                if (Parser != null)
-                    return Parser.Parse(_text.Text);
                 return new object[] { _text.Text };
-            }
-
             return null;
         }
 
         public override void SetValues(params object[] values)
         {
-            if (Parser != null && values != null)
-                values = Parser.Revert(values);
-
-            if (values != null && values.Length >= 1 && values[0] != null)
+            if (values != null && values.Length > 0 && values[0] != null)
                 _text.Text = values[0].ToString();
         }
     }

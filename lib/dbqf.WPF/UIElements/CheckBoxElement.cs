@@ -80,21 +80,12 @@ namespace dbqf.WPF.UIElements
         {
             var check = (CheckBox)Element;
             if (check.IsChecked.HasValue)
-            {
-                var value = check.IsChecked.Value;
-                if (Parser != null)
-                    return Parser.Parse(value);
-                return new object[] { value };
-            }
-
+                return new object[] { check.IsChecked.Value };
             return null;
         }
 
         public override void SetValues(params object[] values)
         {
-            if (Parser != null)
-                values = Parser.Revert(values);
-
             try
             {
                 ((CheckBox)Element).IsChecked = Convert.ToBoolean(values[0]);

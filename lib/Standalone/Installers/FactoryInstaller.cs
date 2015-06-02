@@ -23,10 +23,10 @@ namespace Standalone.Installers
                 .WithService.DefaultInterfaces());
 
             container.Register(
-                Component.For<IControlFactory<Control>>().UsingFactoryMethod<Standalone.Forms.ExtendedControlFactory>(kernel =>
+                Component.For<IControlFactory<Control>>().UsingFactoryMethod<dbqf.WinForms.UIElements.WinFormsControlFactory>(kernel =>
                 {
-                    var factory = new Standalone.Forms.ExtendedControlFactory();
-                    factory.ParserLookup = kernel.Resolve<Standalone.Core.Serialization.Assemblers.FieldAssembler>().ParserLookup;
+                    var factory = new dbqf.WinForms.UIElements.WinFormsControlFactory();
+                    //factory.ParserLookup = kernel.Resolve<Standalone.Core.Serialization.Assemblers.FieldAssembler>().ParserLookup;
                     return factory;
                 }));
 

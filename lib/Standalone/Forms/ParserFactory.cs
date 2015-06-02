@@ -14,59 +14,27 @@ using Standalone.Core.Data;
 
 namespace Standalone.Forms
 {
-    public class ExtendedControlFactory : WinFormsControlFactory
+    public class ParserFactory
     {
         /// <summary>
         /// Gets or sets a lookup to resolve fields to a parser for use with the UI.  If no lookup provided or field is not within lookup, default parsers will be used based on field data type.
         /// </summary>
         public Dictionary<dbqf.Configuration.IField, Parser> ParserLookup { get; set; }
 
-        public override UIElement<Control> Build(FieldPath path, ParameterBuilder builder)
+        public Parser Create(FieldPath path, ParameterBuilder builder, UIElement<Control> control)
         {
-            var c = base.Build(path, builder);
-            if (c == null)
-                return null;
-
-            var parser = c.Parser;
+            Parser parser = null;
             if (ParserLookup != null && ParserLookup.ContainsKey(path.Last))
                 parser = ParserLookup[path.Last];
 
-            // use the internal builder if its a NotBuilder
-            if (builder is NotBuilder)
-                builder = ((NotBuilder)builder).Other;
+            if (path.Last.DataType == typeof(DateTime))
+                parser = new ExtendedDateParser();
+            else if (IsWholeNumber(path.Last.DataType))
+                parser = new ConvertParser<object, long>();
+            else if (IsDecimal(path.Last.DataType))
+                parser = new ConvertParser<object, double>();
 
-            if (!(builder is DateBetweenBuilder || builder is BetweenBuilder))
-            {
-                if (path.Last.DataType == typeof(DateTime))
-                    parser = new ExtendedDateParser();
-                else if (IsWholeNumber(path.Last.DataType))
-                    parser = new ConvertParser<object, long>();
-                else if (IsDecimal(path.Last.DataType))
-                    parser = new ConvertParser<object, double>();
-            }
-
-            // hook either the base parser (WinFormsControlFactory), custom parser (via ParserLookup), or default parser (determined in this method block)
-            c.Parser = parser;
-
-            // custom behaviour: if our control has a delimited parser and it's a textbox, replace the implementation and convert Ctrl+V with newlines into delimited values
-            if (c is TextBoxElement)
-            {
-                var delimiter = ParserContains<DelimitedParser>(c.Parser);
-                if (delimiter != null && delimiter.Delimiters.Length > 0)
-                {
-                    var text = new PasteOverrideTextBox();
-                    ((TextBoxElement)c).TextBox = text;
-                    text.Pasted += (sender, e) =>
-                    {
-                        e.Text = e.Text.Replace(Environment.NewLine, delimiter.Delimiters[0]);
-                    };
-                }
-            }
-
-            if (c is ErrorProviderElement)
-                ((ErrorProviderElement)c).ShowError = true;
-
-            return c;
+            return parser;
         }
 
         private T ParserContains<T>(Parser instance)

@@ -51,21 +51,12 @@ namespace dbqf.WinForms.UIElements
         {
             var check = (CheckBox)Element;
             if (check.CheckState != CheckState.Indeterminate)
-            {
-                var value = check.CheckState == CheckState.Checked;
-                if (Parser != null)
-                    return Parser.Parse(value);
-                return new object[] { value };
-            }
-
+                return new object[] { check.CheckState == CheckState.Checked };
             return null;
         }
 
         public override void SetValues(params object[] values)
         {
-            if (Parser != null)
-                values = Parser.Revert(values);
-
             try
             {
                 ((CheckBox)Element).CheckState = Convert.ToBoolean(values[0]) ? CheckState.Checked : CheckState.Unchecked;

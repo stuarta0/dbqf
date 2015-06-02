@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using dbqf.Display.Parsers;
 
 namespace dbqf.Display.Preset
 {
@@ -12,11 +13,11 @@ namespace dbqf.Display.Preset
     /// Encapsulates logic relating to how to display a field in the preset search control.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class PresetPart<T> : INotifyPropertyChanged, IDisposable, IGetParameter
+    public class PresetPart<T> : IPartView, INotifyPropertyChanged, IDisposable
     {
         public PresetPart(FieldPath path)
         {
-            Path = path;
+            SelectedPath = path;
             FullWidth = false;
         }
 
@@ -26,13 +27,10 @@ namespace dbqf.Display.Preset
                 UIElement.Dispose();
         }
         
-        /// <summary>
-        /// Gets or sets the field used for this control.
-        /// </summary>
-        public virtual FieldPath Path 
+        public virtual FieldPath SelectedPath 
         {
             get { return _field; }
-            protected set
+            set
             {
                 if (value == _field)
                     return;
@@ -45,7 +43,7 @@ namespace dbqf.Display.Preset
         /// <summary>
         /// Gets or sets the parameter builder to use with this control.
         /// </summary>
-        public virtual ParameterBuilder Builder 
+        public virtual ParameterBuilder SelectedBuilder 
         {
             get { return _builder; } 
             set
@@ -72,6 +70,34 @@ namespace dbqf.Display.Preset
         }
         protected UIElement<T> _control;
 
+        public virtual object[] Values
+        {
+            get
+            {
+                if (UIElement == null)
+                    return null;
+                return UIElement.GetValues();
+            }
+            set
+            {
+                if (UIElement != null)
+                    UIElement.SetValues(value);
+            }
+        }
+
+        public virtual Parser Parser
+        {
+            get { return _parser; }
+            set
+            {
+                if (_parser == value)
+                    return;
+                _parser = value;
+                OnPropertyChanged("Parser");
+            }
+        }
+        private Parser _parser;
+
         /// <summary>
         /// In the preset control there are 2 columns, the first for the label and the second for the control.
         /// Setting FullWidth = True will use both columns for the control.
@@ -95,7 +121,10 @@ namespace dbqf.Display.Preset
         /// <returns>The parameter or null if no parameter can be provided.</returns>
         public virtual IParameter GetParameter()
         {
-            return Builder.Build(Path, UIElement.GetValues());
+            var values = Values;
+            if (Parser != null)
+                values = Parser.Parse(values);
+            return SelectedBuilder.Build(SelectedPath, values);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
