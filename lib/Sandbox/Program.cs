@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using dbqf.Configuration;
 using dbqf.Parsers;
 using Standalone.Core.Data;
@@ -26,13 +27,19 @@ namespace Sandbox
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(ProjectDTO));
             Project p;
 
+
             var dto = assembler.Create(new Project() { Configuration = new dbqf.tests.Chinook() });
             var list = new List<Standalone.Core.Serialization.DTO.Parsers.ParserDTO>();
-            list.Add(new Standalone.Core.Serialization.DTO.Parsers.DelimitedParserDTO(new string[] { ",", ";", "--" }));
+            list.Add(new Standalone.Core.Serialization.DTO.Parsers.DelimitedParserDTO(new string[] { ",", ";", "<", Environment.NewLine, "\"", "\t" }));
             list.Add(new Standalone.Core.Serialization.DTO.Parsers.ConvertParserDTO() { FromType = typeof(object).FullName, ToType = typeof(string).FullName });
             dto.Configuration.Subjects[0].Fields[0].Parsers = list;
             File.Delete(@"E:\chinook.proj.xml");
-            using (TextWriter writer = new StreamWriter(@"E:\chinook.proj.xml"))
+
+            var ws = new System.Xml.XmlWriterSettings();
+            ws.Indent = true;
+            ws.IndentChars = "  ";
+            ws.CheckCharacters = true;
+            using (XmlWriter writer = XmlWriter.Create(@"E:\chinook.proj.xml", ws))
                 serializer.Serialize(writer, dto);
 
             //p = new Project()
@@ -54,7 +61,10 @@ namespace Sandbox
             //using (TextWriter writer = new StreamWriter(@"E:\Users\sattenborrow\Documents\Visual Studio 2010\Projects\db-query-framework\configurations\download-centre.proj.xml"))
             //    serializer.Serialize(writer, dto);
 
-            using (TextReader reader = new StreamReader(@"E:\chinook.proj.xml"))
+
+            var rs = new XmlReaderSettings();
+            rs.CheckCharacters = true; // required to read special characters like new line and tab
+            using (XmlReader reader = XmlReader.Create(@"E:\chinook.proj.xml", rs))
                 p = assembler.Restore((ProjectDTO)serializer.Deserialize(reader));
 
             var validator = new ConfigurationValidation(p.Configuration, new SqlConnection(p.Connections[0].ConnectionString));
