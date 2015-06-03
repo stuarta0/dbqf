@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using dbqf.Criterion;
 using dbqf.Display.Builders;
-using dbqf.Display.Parsers;
+using dbqf.Parsers;
 
 namespace dbqf.Display
 {

@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Standalone.Core.Serialization.DTO;
-using dbqf.Display.Parsers;
+using dbqf.Parsers;
+using Standalone.Core.Serialization.Assemblers.Parsers;
 
 namespace Standalone.Core.Serialization.Assemblers
 {

@@ -102,7 +102,7 @@
     <Compile Include="Serialization\Assemblers\FieldPathAssembler.cs" />
     <Compile Include="Serialization\Assemblers\IAssembler.cs" />
     <Compile Include="Serialization\Assemblers\Criterion\ParameterAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\ParserAssembler.cs" />
+    <Compile Include="Serialization\Assemblers\Parsers\ParserAssembler.cs" />
     <Compile Include="Serialization\Assemblers\ProjectAssembler.cs" />
     <Compile Include="Serialization\Assemblers\SubjectAssembler.cs" />
     <Compile Include="Serialization\DTO\Builders\BooleanBuilderDTO.cs" />
@@ -125,7 +125,10 @@
     <Compile Include="Serialization\DTO\Criterion\ParameterContainer.cs" />
     <Compile Include="Serialization\DTO\Criterion\ParameterDTO.cs" />
     <Compile Include="Serialization\DTO\Criterion\SimpleParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Display\ParserDTO.cs" />
+    <Compile Include="Serialization\DTO\Parsers\ChainedParserDTO.cs" />
+    <Compile Include="Serialization\DTO\Parsers\ConvertParserDTO.cs" />
+    <Compile Include="Serialization\DTO\Parsers\DelimitedParserDTO.cs" />
+    <Compile Include="Serialization\DTO\Parsers\ParserDTO.cs" />
     <Compile Include="Serialization\DTO\FieldDTO.cs" />
     <Compile Include="Serialization\DTO\FieldListDTO.cs" />
     <Compile Include="Serialization\DTO\FieldPathDTO.cs" />

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace dbqf.Display.Parsers
+namespace dbqf.Parsers
 {
     /// <summary>
     /// Takes input and runs through each parser in order.

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-using dbqf.Display.Parsers;
+using dbqf.Parsers;
 
 namespace dbqf.Display.Standard
 {
@@ -171,7 +171,7 @@ namespace dbqf.Display.Standard
         public virtual IParameter GetParameter()
         {
             var values = Values;
-            if (Parser != null)
+            if (Parser != null && values != null)
                 values = Parser.Parse(values);
             return SelectedBuilder.Build(SelectedPath, values);
         }

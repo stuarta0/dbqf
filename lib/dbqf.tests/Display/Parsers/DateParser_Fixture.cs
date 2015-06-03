@@ -1,5 +1,5 @@
 ﻿using dbqf.Display;
-using dbqf.Display.Parsers;
+using dbqf.Parsers;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

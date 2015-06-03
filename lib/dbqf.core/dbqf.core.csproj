@@ -115,11 +115,11 @@
     <Compile Include="Display\UIElement.cs" />
     <Compile Include="Display\Values\DateValue.cs" />
     <Compile Include="Display\ParameterBuilderFactory.cs" />
-    <Compile Include="Display\Parsers\ConvertParser.cs" />
-    <Compile Include="Display\Parsers\ChainedParser.cs" />
-    <Compile Include="Display\Parsers\Parser.cs" />
-    <Compile Include="Display\Parsers\DelimitedParser.cs" />
-    <Compile Include="Display\Parsers\DateParser.cs" />
+    <Compile Include="Parsers\ConvertParser.cs" />
+    <Compile Include="Parsers\ChainedParser.cs" />
+    <Compile Include="Parsers\Parser.cs" />
+    <Compile Include="Parsers\DelimitedParser.cs" />
+    <Compile Include="Parsers\DateParser.cs" />
     <Compile Include="Display\IControlFactory.cs" />
     <Compile Include="Display\Preset\PresetAdapter.cs" />
     <Compile Include="Display\Preset\PresetPart.cs" />

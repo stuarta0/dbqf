@@ -74,13 +74,25 @@ namespace dbqf.Display.Standard
         protected virtual void AddPart(StandardPart<T> part)
         {
             Parts.Add(part);
+            part.PropertyChanged += Part_PropertyChanged;
             part.RemoveRequested += OnRemoveRequested;
             part.Search += OnSearch;
+        }
+
+        private void Part_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPartChanged((StandardPart<T>)sender, e);
+        }
+
+        protected virtual void OnPartChanged(StandardPart<T> part, PropertyChangedEventArgs e)
+        {
+            // nothing to see here
         }
 
         public void RemovePart(StandardPart<T> part)
         {
             Parts.Remove(part);
+            part.PropertyChanged -= Part_PropertyChanged;
             part.RemoveRequested -= OnRemoveRequested;
             part.Search -= OnSearch;
             part.Dispose();

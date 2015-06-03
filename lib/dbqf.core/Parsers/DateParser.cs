@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using dbqf.Display;
 
-namespace dbqf.Display.Parsers
+namespace dbqf.Parsers
 {
     /// <summary>
     /// Parses free text such as 'Mar 1985' into bounding values '1985-03-01' and '1985-04-01'.

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using dbqf.Configuration;
-using dbqf.Display.Parsers;
+using dbqf.Parsers;
 using Standalone.Core.Data;
 using Standalone.Core.Serialization.Assemblers;
+using Standalone.Core.Serialization.Assemblers.Parsers;
 using Standalone.Core.Serialization.DTO;
-using Standalone.Core.Serialization.DTO.Display;
 
 namespace Sandbox
 {
@@ -27,6 +27,11 @@ namespace Sandbox
             Project p;
 
             var dto = assembler.Create(new Project() { Configuration = new dbqf.tests.Chinook() });
+            var list = new List<Standalone.Core.Serialization.DTO.Parsers.ParserDTO>();
+            list.Add(new Standalone.Core.Serialization.DTO.Parsers.DelimitedParserDTO(new string[] { ",", ";", "--" }));
+            list.Add(new Standalone.Core.Serialization.DTO.Parsers.ConvertParserDTO() { FromType = typeof(object).FullName, ToType = typeof(string).FullName });
+            dto.Configuration.Subjects[0].Fields[0].Parsers = list;
+            File.Delete(@"E:\chinook.proj.xml");
             using (TextWriter writer = new StreamWriter(@"E:\chinook.proj.xml"))
                 serializer.Serialize(writer, dto);
 
@@ -49,7 +54,7 @@ namespace Sandbox
             //using (TextWriter writer = new StreamWriter(@"E:\Users\sattenborrow\Documents\Visual Studio 2010\Projects\db-query-framework\configurations\download-centre.proj.xml"))
             //    serializer.Serialize(writer, dto);
 
-            using (TextReader reader = new StreamReader(@"E:\Users\sattenborrow\Documents\Visual Studio 2010\Projects\db-query-framework\configurations\pittsh-primate.proj.xml"))
+            using (TextReader reader = new StreamReader(@"E:\chinook.proj.xml"))
                 p = assembler.Restore((ProjectDTO)serializer.Deserialize(reader));
 
             var validator = new ConfigurationValidation(p.Configuration, new SqlConnection(p.Connections[0].ConnectionString));

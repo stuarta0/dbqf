@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using dbqf.Configuration;
-using Standalone.Core.Serialization.DTO.Display;
+using Standalone.Core.Serialization.DTO.Parsers;
 
 namespace Standalone.Core.Serialization.DTO
 {
@@ -55,6 +55,10 @@ namespace Standalone.Core.Serialization.DTO
         #region Standalone.Core Properties
 
         [ProtoMember(9)]
+        [XmlArray]
+        [XmlArrayItem("DelimitedParser", typeof(DelimitedParserDTO))]
+        [XmlArrayItem("ChainedParser", typeof(ChainedParserDTO))]
+        [XmlArrayItem("ConvertParser", typeof(ConvertParserDTO))]
         public List<ParserDTO> Parsers { get; set; }
 
         #endregion

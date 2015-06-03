@@ -1,5 +1,5 @@
 ﻿using dbqf.Display;
-using dbqf.Display.Parsers;
+using dbqf.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

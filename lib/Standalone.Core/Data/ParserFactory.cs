@@ -1,7 +1,7 @@
 ﻿using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.Display.Builders;
-using dbqf.Display.Parsers;
+using dbqf.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +22,15 @@ namespace Standalone.Core.Data
             Parser parser = null;
             if (ParserLookup != null && ParserLookup.ContainsKey(path.Last))
                 parser = ParserLookup[path.Last];
-
-            if (path.Last.DataType == typeof(DateTime))
-                parser = new ExtendedDateParser();
-            else if (IsWholeNumber(path.Last.DataType))
-                parser = new ConvertParser<object, long>();
-            else if (IsDecimal(path.Last.DataType))
-                parser = new ConvertParser<object, double>();
+            else
+            {
+                if (path.Last.DataType == typeof(DateTime))
+                    parser = new ExtendedDateParser();
+                else if (IsWholeNumber(path.Last.DataType))
+                    parser = new ConvertParser<object, long>();
+                else if (IsDecimal(path.Last.DataType))
+                    parser = new ConvertParser<object, double>();
+            }
 
             return parser;
         }

@@ -2,7 +2,7 @@
 using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.Display.Builders;
-using dbqf.Display.Parsers;
+using dbqf.Parsers;
 using dbqf.Display.Preset;
 using System;
 using System.Collections.Generic;

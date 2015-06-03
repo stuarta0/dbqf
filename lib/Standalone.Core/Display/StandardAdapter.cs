@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,14 @@ namespace Standalone.Core.Display
             var part = base.CreatePart();
             part.Parser = Parser.Create(part.SelectedPath, part.SelectedBuilder);
             return part;
+        }
+
+        protected override void OnPartChanged(dbqf.Display.Standard.StandardPart<T> part, PropertyChangedEventArgs e)
+        {
+            base.OnPartChanged(part, e);
+
+            if (new [] { "SelectedPath", "SelectedBuilder" }.Contains(e.PropertyName))
+                part.Parser = Parser.Create(part.SelectedPath, part.SelectedBuilder);
         }
     }
 }

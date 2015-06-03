@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace dbqf.Display.Parsers
+namespace dbqf.Parsers
 {
     /// <summary>
-    /// Parses objects using built-in Convert.ToType() using the class property ConvertTo.
+    /// Interface defined to support covariance between ConvertParsers.
     /// </summary>
-    public class ConvertParser<Tfrom, Tto> : Parser
+    /// <typeparam name="Tfrom"></typeparam>
+    /// <typeparam name="Tto"></typeparam>
+    public interface IConvertParser<out Tfrom, out Tto>
+    {
+    }
+
+    /// <summary>
+    /// Parses objects using built-in Convert.ChangeType().
+    /// </summary>
+    public class ConvertParser<Tfrom, Tto> : Parser, IConvertParser<Tfrom, Tto>
     {
         public ConvertParser()
         {

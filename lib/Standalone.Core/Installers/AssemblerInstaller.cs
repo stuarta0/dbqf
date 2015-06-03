@@ -26,6 +26,11 @@ namespace Standalone.Core.Installers
                 .WithService.DefaultInterfaces());
 
             container.Register(
+                Classes.FromThisAssembly()
+                .InNamespace("Standalone.Core.Serialization.Assemblers.Parsers")
+                .WithService.DefaultInterfaces());
+
+            container.Register(
                 Component.For<AssemblyLine<IParameter, ParameterDTO>>().UsingFactoryMethod(kernel => {
                     var pathAssembler = kernel.Resolve<FieldPathAssembler>();
                     return new JunctionParameterAssembler()
