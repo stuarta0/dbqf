@@ -10,6 +10,7 @@ namespace Standalone.Core.Serialization.Assemblers.Criterion
 {
     public abstract class AssemblyLine<TSource, TDto> : IAssembler<TSource, TDto>
     {
+        public AssemblyLine<TSource, TDto> Successor { get { return _successor; } }
         private AssemblyLine<TSource, TDto> _successor;
         protected AssemblyLine(AssemblyLine<TSource, TDto> successor = null)
         {

@@ -72,7 +72,9 @@
     <Compile Include="Export\CsvExportService.cs" />
     <Compile Include="Export\ExportServiceFactory.cs" />
     <Compile Include="Export\IExportService.cs" />
+    <Compile Include="Export\IViewPersistence.cs" />
     <Compile Include="Export\TabDelimitedExportService.cs" />
+    <Compile Include="Export\XmlViewPersistence.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="Initialisers\IInitialiser.cs" />
     <Compile Include="Initialisers\ProtoBufInitialiser.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Serialization\Assemblers\Criterion\NullParameterAssembler.cs" />
     <Compile Include="Serialization\Assemblers\Criterion\SimpleParameterAssembler.cs" />
     <Compile Include="Serialization\Assemblers\AssemblyLine.cs" />
+    <Compile Include="Serialization\Assemblers\Display\PartViewAssembler.cs" />
     <Compile Include="Serialization\Assemblers\FieldAssembler.cs" />
     <Compile Include="Serialization\Assemblers\FieldPathAssembler.cs" />
     <Compile Include="Serialization\Assemblers\IAssembler.cs" />
@@ -125,6 +128,7 @@
     <Compile Include="Serialization\DTO\Criterion\ParameterContainer.cs" />
     <Compile Include="Serialization\DTO\Criterion\ParameterDTO.cs" />
     <Compile Include="Serialization\DTO\Criterion\SimpleParameterDTO.cs" />
+    <Compile Include="Serialization\DTO\Display\PartViewDTO.cs" />
     <Compile Include="Serialization\DTO\Parsers\ChainedParserDTO.cs" />
     <Compile Include="Serialization\DTO\Parsers\ConvertParserDTO.cs" />
     <Compile Include="Serialization\DTO\Parsers\DelimitedParserDTO.cs" />

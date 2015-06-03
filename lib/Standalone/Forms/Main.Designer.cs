@@ -63,6 +63,8 @@
             this.tabResultsSQL = new System.Windows.Forms.TabPage();
             this.txtSql = new FastColoredTextBoxNS.FastColoredTextBox();
             this.resultBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.ofdLoad = new System.Windows.Forms.OpenFileDialog();
+            this.sfdSave = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -399,7 +401,6 @@
             this.txtSql.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSql.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.txtSql.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSql.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.txtSql.IsReplaceMode = false;
             this.txtSql.Language = FastColoredTextBoxNS.Language.SQL;
             this.txtSql.LeftBracket = '(';
@@ -490,5 +491,7 @@
         private System.Windows.Forms.Panel pnlLoading;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.TabPage tabOutput;
+        private System.Windows.Forms.OpenFileDialog ofdLoad;
+        private System.Windows.Forms.SaveFileDialog sfdSave;
     }
 }

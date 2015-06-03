@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Standalone.Core.Data;
+using Standalone.Core.Export;
 
 namespace Standalone.Installers
 {
@@ -34,7 +35,9 @@ namespace Standalone.Installers
                     return factory;
                 }));
 
-            container.Register(Component.For<Standalone.Core.Export.ExportServiceFactory>());
+            container.Register(
+                Component.For<ExportServiceFactory>(),
+                Component.For<IViewPersistence>().ImplementedBy<XmlViewPersistence>());
         }
     }
 }

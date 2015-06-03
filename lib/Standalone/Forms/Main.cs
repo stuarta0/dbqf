@@ -194,12 +194,14 @@ namespace Standalone.Forms
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Adapter.Open("");
+            if (ofdLoad.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+                Adapter.Open(ofdLoad.FileName);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Adapter.Save("");
+            if (sfdSave.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+                Adapter.Save(sfdSave.FileName);
         }
     }
 }

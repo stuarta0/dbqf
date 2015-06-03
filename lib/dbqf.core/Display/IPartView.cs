@@ -10,7 +10,7 @@ namespace dbqf.Display
     /// <summary>
     /// Represents a part in a composed view that can be converted into an IParameter.
     /// </summary>
-    public interface IPartView : IGetParameter
+    public interface IPartView : IGetParameter, IEquatable<IPartView>
     {
         /// <summary>
         /// Gets or sets the FieldPath that this path relates to.
@@ -31,5 +31,11 @@ namespace dbqf.Display
         /// Gets or sets a parser to parse Values before passing to the SelectedBuilder.
         /// </summary>
         Parser Parser { get; set; }
+
+        /// <summary>
+        /// Configure this IPartView to match another IPartView.
+        /// </summary>
+        /// <param name="other"></param>
+        void CopyFrom(IPartView other);
     }
 }

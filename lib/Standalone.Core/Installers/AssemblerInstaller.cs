@@ -31,24 +31,39 @@ namespace Standalone.Core.Installers
                 .WithService.DefaultInterfaces());
 
             container.Register(
+                Classes.FromThisAssembly()
+                .InNamespace("Standalone.Core.Serialization.Assemblers.Display")
+                .WithService.DefaultInterfaces());
+
+            container.Register(
                 Component.For<AssemblyLine<IParameter, ParameterDTO>>().UsingFactoryMethod(kernel => {
                     var pathAssembler = kernel.Resolve<FieldPathAssembler>();
-                    return new JunctionParameterAssembler()
-                        .Add(new NullParameterAssembler(pathAssembler))
+                    var root = new JunctionParameterAssembler();
+                    root.Add(new NullParameterAssembler(pathAssembler))
                         .Add(new NotParameterAssembler())
                         .Add(new SimpleParameterAssembler(pathAssembler));
+                    return root;
                 }));
 
             container.Register(
-                Component.For<AssemblyLine<ParameterBuilder, ParameterBuilderDTO>>().UsingFactoryMethod(kernel =>
+                Component.For<BuilderAssembler>().UsingFactoryMethod(kernel =>
                 {
-                    return new JunctionBuilderAssembler()
-                        .Add(new NullBuilderAssembler())
+                    BuilderAssembler root = new JunctionBuilderAssembler();
+                    root.Add(new NullBuilderAssembler())
                         .Add(new NotBuilderAssembler())
                         .Add(new SimpleBuilderAssembler())
                         .Add(new BooleanBuilderAssembler())
                         .Add(new LikeBuilderAssembler())
                         .Add(new BetweenBuilderAssembler());
+
+                    var item = root;
+                    while (item != null)
+                    {
+                        item.Chain = root;
+                        item = (BuilderAssembler)item.Successor;
+                    }
+
+                    return root;
                 }));
         }
     }

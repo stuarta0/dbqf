@@ -8,6 +8,8 @@ using Standalone.Core.Serialization.DTO.Criterion;
 
 namespace Standalone.Core.Serialization.DTO.Builders
 {
+    [XmlInclude(typeof(JunctionBuilderDTO))]
+    [XmlInclude(typeof(LikeBuilderDTO))]
     public abstract class ParameterBuilderDTO
     {
         [XmlAttribute]

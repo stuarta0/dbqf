@@ -133,5 +133,41 @@ namespace dbqf.Display.Preset
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        /// <summary>
+        /// PresetPart will only copy values from the other view.  
+        /// The reasoning is that PresetPart has no way to update the UIElement if the SelectedBuilder changes.
+        /// </summary>
+        /// <param name="other"></param>
+        public void CopyFrom(IPartView other)
+        {
+            if (other == null)
+                return;
+
+            this.Values = other.Values;
+        }
+
+        /// <summary>
+        /// PresetPart considered equal when the path, builder and parser are equal.
+        /// Note: value is ignored in equality test.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(IPartView other)
+        {
+            if (other == null)
+                return false;
+
+            return SelectedPath.Equals(other.SelectedPath)
+                && SelectedBuilder.Equals(other.SelectedBuilder)
+                && Parser.Equals(Parser, other.Parser);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is IPartView)
+                return Equals((IPartView)obj);
+            return base.Equals(obj);
+        }
     }
 }
