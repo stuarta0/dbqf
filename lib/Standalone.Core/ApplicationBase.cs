@@ -96,12 +96,7 @@ namespace Standalone.Core
             if (parts == null)
                 throw new ApplicationException("Failed to load search.");
 
-            foreach (var p in CurrentView.GetParts())
-            {
-                int index = parts.IndexOf(p);
-                if (index >= 0)
-                    p.CopyFrom(parts[index]);
-            }
+            CurrentView.SetParts(parts);
         }
 
         public virtual void Save(string filename)
@@ -109,6 +104,7 @@ namespace Standalone.Core
             if (ViewPersistence == null)
                 return;
 
+            // only save parts that have a parameter
             List<IPartView> parts = new List<IPartView>();
             foreach (var p in CurrentView.GetParts())
             {

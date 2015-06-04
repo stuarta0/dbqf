@@ -38,7 +38,7 @@ namespace dbqf.Display.Builders
         public override IParameter Build(FieldPath path, params object[] values)
         {
             if (values == null)
-                return null;
+                return Other.Build(path, null);
 
             Junction j = (Type == JunctionType.Conjunction ? (Junction)new Conjunction() : new Disjunction());
             foreach (var v in values)

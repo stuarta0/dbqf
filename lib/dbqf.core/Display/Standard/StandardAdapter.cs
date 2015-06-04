@@ -38,6 +38,38 @@ namespace dbqf.Display.Standard
                 yield return part;
         }
 
+        /// <summary>
+        /// Add as many parts as required that we can validly represent in the current setup.  This will leave other parts in place.
+        /// </summary>
+        /// <param name="parts"></param>
+        public void SetParts(IEnumerable<IPartView> parts)
+        {
+            // only adding parts, so leave existing Parts alone
+            // for each p in parts
+            //   can we copy from p?  if so, do it, otherwise try the next part
+            //   if we get to the end and the last part we added couldn't be populated, remove it
+
+            var skipped = new List<IPartView>();
+            StandardPart<T> part = null;
+            foreach (var p in parts)
+            {
+                if (part == null)
+                    part = AddPart();
+                if (part.CanCopyFrom(p))
+                {
+                    part.CopyFrom(p);
+                    part = null;
+                }
+                else
+                    skipped.Add(p);
+            }
+
+            if (part != null)
+                this.RemovePart(part);
+
+            // if skipped contains values, we should throw an exception here with the remaining parts
+        }
+
         public event EventHandler Search;
         private void OnSearch(object sender, EventArgs e)
         {
@@ -71,17 +103,18 @@ namespace dbqf.Display.Standard
             RemovePart((StandardPart<T>)sender);
         }
 
-        public void AddPart()
+        public StandardPart<T> AddPart()
         {
-            AddPart(CreatePart());
+            return AddPart(CreatePart());
         }
 
-        protected virtual void AddPart(StandardPart<T> part)
+        protected virtual StandardPart<T> AddPart(StandardPart<T> part)
         {
             Parts.Add(part);
             part.PropertyChanged += Part_PropertyChanged;
             part.RemoveRequested += OnRemoveRequested;
             part.Search += OnSearch;
+            return part;
         }
 
         private void Part_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -115,6 +148,15 @@ namespace dbqf.Display.Standard
             return part;
         }
 
+        /// <summary>
+        /// Removes all parts.
+        /// </summary>
+        public virtual void Reset()
+        {
+            foreach (var p in new List<StandardPart<T>>(Parts))
+                this.RemovePart(p);
+        }
+
         public virtual IParameter GetParameter()
         {
             var con = new Conjunction();
@@ -125,6 +167,8 @@ namespace dbqf.Display.Standard
                     con.Add(p);
             }
 
+            if (con.Count == 0)
+                return null;
             return con;
         }
 

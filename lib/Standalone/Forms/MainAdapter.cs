@@ -70,7 +70,7 @@ namespace Standalone.Forms
 
         public void Reset()
         {
-            SelectedSubject = SelectedSubject;
+            CurrentView.Reset();
         }
 
         void Adapter_Search(object sender, EventArgs e)
@@ -84,6 +84,11 @@ namespace Standalone.Forms
             }
 
             Search(where);
+        }
+
+        public void Search()
+        {
+            Search(CurrentView.GetParameter());
         }
 
         public void Search(IParameter parameter)
@@ -146,6 +151,15 @@ namespace Standalone.Forms
         protected override void Export(string filename, IExportService service)
         {
             service.Export(filename, (DataTable)Result.DataSource);
+        }
+
+        public override void Load(string filename)
+        {
+            // reset the view if there is no parameter (to catch the case where StandardView has parts but no actual search)
+            // or if the user asks to replace their existing search
+            if (CurrentView.GetParameter() == null || MessageBox.Show("Do you want to replace your current search with the saved search?\n\nNote: Choosing No will update your current search; leaving other parameters in place.", "Load", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                CurrentView.Reset();
+            base.Load(filename);
         }
     }
 }

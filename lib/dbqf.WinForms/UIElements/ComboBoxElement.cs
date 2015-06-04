@@ -40,7 +40,14 @@ namespace dbqf.WinForms.UIElements
         public override void SetValues(params object[] values)
         {
             var combo = (ComboBox)Element;
-            if (values != null && values.Length > 0 && values[0] != null)
+            if (values == null || values.Length == 0 || values[0] == null)
+            {
+                if (combo.DropDownStyle == ComboBoxStyle.DropDownList)
+                    combo.SelectedItem = null;
+                else
+                    combo.Text = null;
+            }
+            else
             {
                 if (combo.DropDownStyle == ComboBoxStyle.DropDownList)
                     combo.SelectedItem = values[0];

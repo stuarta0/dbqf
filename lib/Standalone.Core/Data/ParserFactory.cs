@@ -19,6 +19,8 @@ namespace Standalone.Core.Data
 
         public Parser Create(FieldPath path, ParameterBuilder builder)
         {
+            return null;
+
             Parser parser = null;
             if (ParserLookup != null && ParserLookup.ContainsKey(path.Last))
                 parser = ParserLookup[path.Last];

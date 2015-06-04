@@ -59,6 +59,8 @@ namespace dbqf.WinForms.UIElements
         {
             if (values != null && values.Length >= 1 && values[0] != null)
                 Element.Text = values[0].ToString();
+            else
+                Element.Text = null;
         }
     }
 }

@@ -28,13 +28,11 @@ namespace Standalone.Forms
             }
         }
 
-        private IGetParameter _currentAdapter;
         public MainAdapter Adapter { get; private set; }
         public Main(MainAdapter adapter)
         {
             InitializeComponent();
             Adapter = adapter;
-            _currentAdapter = Adapter.Preset.Adapter;
             bsAdapter.DataSource = Adapter;
             Adapter.PropertyChanged += Adapter_PropertyChanged;
 
@@ -118,7 +116,7 @@ namespace Standalone.Forms
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            Adapter.Search(_currentAdapter.GetParameter());
+            Adapter.Search();
         }
 
         private void btnReset_Click(object sender, EventArgs e)

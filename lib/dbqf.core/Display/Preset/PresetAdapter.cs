@@ -31,6 +31,16 @@ namespace dbqf.Display.Preset
             foreach (var part in Parts)
                 yield return part;
         }
+        public void SetParts(IEnumerable<IPartView> parts)
+        {
+            var myParts = new List<IPartView>(GetParts());
+            foreach (var p in parts)
+            {
+                int index = myParts.IndexOf(p);
+                if (index >= 0)
+                    myParts[index].CopyFrom(p);
+            }
+        }
 
         public event EventHandler Search;
         private void OnSearch(object sender, EventArgs e)
@@ -86,6 +96,15 @@ namespace dbqf.Display.Preset
         }
 
         /// <summary>
+        /// Resets all user entered values.
+        /// </summary>
+        public virtual void Reset()
+        {
+            foreach (var p in Parts)
+                p.Values = null;
+        }
+
+        /// <summary>
         /// Get parameter representing the current state of the Preset view.
         /// </summary>
         /// <returns></returns>
@@ -99,6 +118,8 @@ namespace dbqf.Display.Preset
                     con.Add(p);
             }
 
+            if (con.Count == 0)
+                return null;
             return con;
         }
 

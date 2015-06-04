@@ -60,26 +60,5 @@ namespace dbqf.WinForms.Standard
         {
             _part.Remove();
         }
-
-        //private void AdjustWidthComboBox_DropDown(object sender, System.EventArgs e)
-        //{
-        //    ComboBox combo = (ComboBox)sender;
-        //    int width = combo.DropDownWidth;
-        //    Graphics g = combo.CreateGraphics();
-        //    Font font = combo.Font;
-
-        //    int vertScrollBarWidth =
-        //        (combo.Items.Count > combo.MaxDropDownItems) ? SystemInformation.VerticalScrollBarWidth : 0;
-
-        //    int newWidth;
-        //    foreach (var i in combo.Items)
-        //    {
-        //        newWidth = (int)g.MeasureString(combo.GetItemText(i), font).Width + vertScrollBarWidth;
-        //        if (width < newWidth)
-        //            width = newWidth;
-        //    }
-
-        //    combo.DropDownWidth = width;
-        //}
     }
 }
