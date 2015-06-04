@@ -5,8 +5,11 @@ using System.Text;
 namespace dbqf.Parsers
 {
     /// <summary>
-    /// Parses free text such as 'Mar 1985' into bounding values '1985-03-01' and '1985-04-01'.
+    /// Parses delimited strings into individual values.
     /// </summary>
+    /// <example>
+    /// new DelimitedParser(",").Parse("123,abc"); // gives object[] { "123", "abc" }
+    /// </example>
     public class DelimitedParser : Parser
     {
         public string[] Delimiters { get; set; }

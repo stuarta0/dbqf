@@ -14,6 +14,7 @@ namespace Standalone.Core.Serialization.DTO.Builders
         /// <summary>
         /// Any of: Anywhere, Start, End, Exact
         /// </summary>
+        [XmlAttribute]
         public string Mode { get; set; }
     }
 }

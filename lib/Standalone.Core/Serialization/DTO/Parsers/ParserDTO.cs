@@ -9,7 +9,6 @@ using ProtoBuf;
 namespace Standalone.Core.Serialization.DTO.Parsers
 {
     [XmlRoot("Parser")]
-    [XmlInclude(typeof(DelimitedParserDTO))]
     public abstract class ParserDTO
     {
     }

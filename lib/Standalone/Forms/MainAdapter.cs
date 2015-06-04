@@ -246,22 +246,40 @@ namespace Standalone.Forms
 
         public void Open(string filename)
         {
-            var obj = ViewPersistence.Load(filename);
-            MessageBox.Show("Loaded " + obj);
+            IList<IPartView> parts = ViewPersistence.Load(filename);
+            if (parts == null)
+            {
+                MessageBox.Show("Failed to load search.", "Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            foreach (var p in Preset.Adapter.Parts)
+            {
+                int index = parts.IndexOf(p);
+                if (index >= 0)
+                    p.CopyFrom(parts[index]);
+            }
         }
 
         public void Save(string filename)
         {
-            IPartView part = null;
+            List<IPartView> parts = new List<IPartView>();
             foreach (var p in Preset.Adapter.Parts)
             {
                 if (p.GetParameter() != null)
+                    parts.Add(p);
+            }
+
+            if (parts.Count > 0)
+            {
+                try { ViewPersistence.Save(filename, parts); }
+                catch (Exception ex)
                 {
-                    part = p;
-                    break;
+                    MessageBox.Show("Could not save search.\n" + ex.Message, "Save", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-            ViewPersistence.Save(filename, part);
+            else
+                MessageBox.Show("Please select at least one parameter to save.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

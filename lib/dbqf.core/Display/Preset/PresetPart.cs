@@ -122,7 +122,7 @@ namespace dbqf.Display.Preset
         public virtual IParameter GetParameter()
         {
             var values = Values;
-            if (Parser != null)
+            if (Parser != null && values != null)
                 values = Parser.Parse(values);
             return SelectedBuilder.Build(SelectedPath, values);
         }

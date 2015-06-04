@@ -23,7 +23,7 @@ namespace Standalone.Core.Serialization.DTO
         [ProtoMember(1)]
         public int SubjectIndex { get; set; }
 
-        [XmlText]
+        [XmlArray]
         [ProtoMember(2)]
         public List<string> SourceNames { get; set; }
 

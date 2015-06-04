@@ -67,9 +67,25 @@ namespace Standalone.Core.Serialization.Assemblers.Display
                 throw new NotImplementedException();
             }
 
+            /// <summary>
+            /// Considered equal when the path, builder and parser are equal.
+            /// Note: value is ignored in equality test.
+            /// </summary>
             public bool Equals(IPartView other)
             {
-                throw new NotImplementedException();
+                if (other == null)
+                    return false;
+
+                return SelectedPath.Equals(other.SelectedPath)
+                    && SelectedBuilder.Equals(other.SelectedBuilder)
+                    && dbqf.Parsers.Parser.Equals(Parser, other.Parser);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj is IPartView)
+                    return Equals((IPartView)obj);
+                return base.Equals(obj);
             }
         }
     }
