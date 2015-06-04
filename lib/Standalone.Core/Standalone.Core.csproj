@@ -42,9 +42,6 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="protobuf-net">
-      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite">
@@ -62,7 +59,7 @@
     <Compile Include="Data\ISqlResults.cs" />
     <Compile Include="Data\ParserFactory.cs" />
     <Compile Include="Data\Processing\ExposedSqlGenerator.cs" />
-    <Compile Include="Data\Project.cs" />
+    <Compile Include="Project.cs" />
     <Compile Include="Data\ResultFactory.cs" />
     <Compile Include="Data\SQLiteResults.cs" />
     <Compile Include="Data\SqlResults.cs" />
@@ -77,8 +74,6 @@
     <Compile Include="Export\XmlViewPersistence.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="Initialisers\IInitialiser.cs" />
-    <Compile Include="Initialisers\ProtoBufInitialiser.cs" />
-    <Compile Include="Initialisers\StaticInitialiser.cs" />
     <Compile Include="Installers\AssemblerInstaller.cs" />
     <Compile Include="Installers\ConfigurationInstaller.cs" />
     <Compile Include="Installers\DataInstaller.cs" />
@@ -86,67 +81,18 @@
     <Compile Include="IShell.cs" />
     <Compile Include="ListCacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\Assemblers\Builders\BuilderAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Builders\BooleanBuilderAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Builders\BetweenBuilderAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Builders\LikeBuilderAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Builders\NotBuilderAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Builders\NullBuilderAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Builders\JunctionBuilderAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Builders\SimpleBuilderAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\ConfigurationAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\JunctionParameterAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\NotParameterAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\NullParameterAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\SimpleParameterAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\AssemblyLine.cs" />
-    <Compile Include="Serialization\Assemblers\Display\PartViewAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\FieldAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\FieldPathAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\IAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Criterion\ParameterAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\Parsers\ParserAssembler.cs" />
     <Compile Include="Serialization\Assemblers\ProjectAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\SubjectAssembler.cs" />
-    <Compile Include="Serialization\DTO\Builders\BooleanBuilderDTO.cs" />
-    <Compile Include="Serialization\DTO\Builders\BetweenBuilderDTO.cs" />
-    <Compile Include="Serialization\DTO\Builders\LikeBuilderDTO.cs" />
-    <Compile Include="Serialization\DTO\Builders\NotBuilderDTO.cs" />
-    <Compile Include="Serialization\DTO\Builders\NullBuilderDTO.cs" />
-    <Compile Include="Serialization\DTO\Builders\JunctionBuilderDTO.cs" />
-    <Compile Include="Serialization\DTO\Builders\SimpleBuilderDTO.cs" />
-    <Compile Include="Serialization\DTO\Builders\ParameterBuilderDTO.cs" />
-    <Compile Include="Serialization\DTO\ConfigurationDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\BetweenParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\BetweenValueDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\ConjunctionDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\JunctionDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\DisjunctionDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\LikeParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\NotParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\NullParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\ParameterContainer.cs" />
-    <Compile Include="Serialization\DTO\Criterion\ParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Criterion\SimpleParameterDTO.cs" />
-    <Compile Include="Serialization\DTO\Display\PartViewDTO.cs" />
-    <Compile Include="Serialization\DTO\Parsers\ChainedParserDTO.cs" />
-    <Compile Include="Serialization\DTO\Parsers\ConvertParserDTO.cs" />
-    <Compile Include="Serialization\DTO\Parsers\DelimitedParserDTO.cs" />
-    <Compile Include="Serialization\DTO\Parsers\ParserDTO.cs" />
-    <Compile Include="Serialization\DTO\FieldDTO.cs" />
-    <Compile Include="Serialization\DTO\FieldListDTO.cs" />
-    <Compile Include="Serialization\DTO\FieldPathDTO.cs" />
-    <Compile Include="Serialization\DTO\MatrixNodeDTO.cs" />
     <Compile Include="Serialization\DTO\ProjectDTO.cs" />
-    <Compile Include="Serialization\DTO\SubjectDTO.cs" />
-    <Compile Include="Serialization\MessageParam.cs" />
-    <Compile Include="Serialization\SerializableDictionary.cs" />
     <Compile Include="ShellBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dbqf.core\dbqf.core.csproj">
       <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
       <Name>dbqf.core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\dbqf.Serialization\dbqf.Serialization.csproj">
+      <Project>{f46b0af8-b45b-4897-995f-bba8a290999a}</Project>
+      <Name>dbqf.Serialization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using dbqf.Configuration;
 using dbqf.Criterion;
 using dbqf.WinForms;
+using Standalone.Core;
 
 namespace Standalone.Forms
 {

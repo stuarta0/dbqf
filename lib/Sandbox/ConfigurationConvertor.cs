@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Standalone.Core.Serialization.Assemblers;
-using Standalone.Core.Serialization.Assemblers.Parsers;
+using System.Xml;
+using dbqf.Serialization.Assemblers;
+using dbqf.Serialization.Assemblers.Parsers;
 
 namespace Sandbox
 {
@@ -14,13 +12,13 @@ namespace Sandbox
         public static void Convert(string source, string dest)
         {
             var cv1 = DbQueryFramework_v1.Utils.Serialization.Deserialize<DbQueryFramework_v1.Configuration.QueryConfig>(source);
-            var cdto = new Standalone.Core.Serialization.DTO.ConfigurationDTO(cv1.Subjects.Count);
+            var cdto = new dbqf.Serialization.DTO.ConfigurationDTO(cv1.Subjects.Count);
 
             // convert old format into new
             for (int i = 0; i < cv1.Subjects.Count; i++)
             {
                 var sv1 = cv1.Subjects[i];
-                var sdto = new Standalone.Core.Serialization.DTO.SubjectDTO();
+                var sdto = new dbqf.Serialization.DTO.SubjectDTO();
                 sdto.Source = sv1.Source;
                 sdto.DisplayName = sv1.DisplayName;
                 sdto.IdFieldIndex = sv1.Fields.IndexOf(sv1.GetField("ID"));
@@ -32,7 +30,7 @@ namespace Sandbox
 
                 foreach (var fv1 in sv1.Fields)
                 {
-                    var fdto = new Standalone.Core.Serialization.DTO.FieldDTO();
+                    var fdto = new dbqf.Serialization.DTO.FieldDTO();
                     fdto.SourceName = fv1.SourceName;
                     fdto.DisplayName = fv1.DisplayName;
                     fdto.DisplayFormat = fv1.DisplayFormat;
@@ -48,7 +46,7 @@ namespace Sandbox
 
                     if (fv1.ListData != null)
                     {
-                        fdto.List = new Standalone.Core.Serialization.DTO.FieldListDTO() { SourceSql = fv1.ListData.Source };
+                        fdto.List = new dbqf.Serialization.DTO.FieldListDTO() { SourceSql = fv1.ListData.Source };
                         fdto.List.Type = dbqf.Configuration.FieldListType.None;
                         if (fv1.ListData.Type == DbQueryFramework_v1.Configuration.FieldListType.LimitToList)
                             fdto.List.Type = dbqf.Configuration.FieldListType.Limited;
@@ -68,7 +66,7 @@ namespace Sandbox
                 for (int j = 0; j < cdto.Subjects.Length; j++)
                 {
                     var nv1 = cv1.SubjectMatrix[cv1.Subjects[i].ID][cv1.Subjects[j].ID];
-                    cdto[i, j] = new Standalone.Core.Serialization.DTO.MatrixNodeDTO()
+                    cdto[i, j] = new dbqf.Serialization.DTO.MatrixNodeDTO()
                     {
                         Query = nv1.Query,
                         ToolTip = nv1.ToolTip
@@ -85,20 +83,25 @@ namespace Sandbox
 
             // serialise new DTO
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(Standalone.Core.Serialization.DTO.ProjectDTO));
-            using (TextWriter writer = new StreamWriter(dest))
+
+            var ws = new System.Xml.XmlWriterSettings();
+            ws.Indent = true;
+            ws.IndentChars = "  ";
+            ws.CheckCharacters = true;
+            using (XmlWriter writer = XmlWriter.Create(dest, ws))
             {
                 serializer.Serialize(writer, new Standalone.Core.Serialization.DTO.ProjectDTO()
                 {
                     Id = Guid.NewGuid(),
-                    Connections = new List<Standalone.Core.Data.Connection>() { 
-                        new Standalone.Core.Data.Connection() 
+                    Connections = new List<Standalone.Core.Connection>() { 
+                        new Standalone.Core.Connection() 
                         { 
                             DisplayName = "Local Machine",
                             Identifier = "local",
                             ConnectionType = "SQLite", 
                             ConnectionString = @"Data Source=C:\myData.db;Version=3;" 
                         },
-                        new Standalone.Core.Data.Connection() 
+                        new Standalone.Core.Connection() 
                         { 
                             DisplayName = "Remote Server",
                             Identifier = "remote",

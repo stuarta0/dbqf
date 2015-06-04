@@ -25,9 +25,9 @@ namespace Standalone.WPF.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::Standalone.Core.Serialization.ConnectionDictionary SavedConnections {
+        public global::dbqf.Serialization.ConnectionDictionary SavedConnections {
             get {
-                return ((global::Standalone.Core.Serialization.ConnectionDictionary)(this["SavedConnections"]));
+                return ((global::dbqf.Serialization.ConnectionDictionary)(this["SavedConnections"]));
             }
             set {
                 this["SavedConnections"] = value;

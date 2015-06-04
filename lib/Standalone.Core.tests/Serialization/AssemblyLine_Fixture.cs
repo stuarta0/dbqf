@@ -1,20 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using dbqf.Configuration;
-using dbqf.Criterion;
-using dbqf.Display.Builders;
+﻿
 using NUnit.Framework;
-using Rhino.Mocks;
-using Standalone.Core.Serialization.Assemblers;
-using Standalone.Core.Serialization.Assemblers.Builders;
-using Standalone.Core.Serialization.Assemblers.Criterion;
-using Standalone.Core.Serialization.DTO;
-using Standalone.Core.Serialization.DTO.Builders;
-using Standalone.Core.Serialization.DTO.Criterion;
-
 namespace Standalone.Core.tests.Serialization
 {
     [TestFixture]

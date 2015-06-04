@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F46B0AF8-B45B-4897-995F-BBA8A290999A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>dbqf.Serialization</RootNamespace>
+    <AssemblyName>dbqf.Serialization</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assemblers\AssemblyLine.cs" />
+    <Compile Include="Assemblers\Builders\BetweenBuilderAssembler.cs" />
+    <Compile Include="Assemblers\Builders\BooleanBuilderAssembler.cs" />
+    <Compile Include="Assemblers\Builders\BuilderAssembler.cs" />
+    <Compile Include="Assemblers\Builders\JunctionBuilderAssembler.cs" />
+    <Compile Include="Assemblers\Builders\LikeBuilderAssembler.cs" />
+    <Compile Include="Assemblers\Builders\NotBuilderAssembler.cs" />
+    <Compile Include="Assemblers\Builders\NullBuilderAssembler.cs" />
+    <Compile Include="Assemblers\Builders\SimpleBuilderAssembler.cs" />
+    <Compile Include="Assemblers\ConfigurationAssembler.cs" />
+    <Compile Include="Assemblers\Criterion\JunctionParameterAssembler.cs" />
+    <Compile Include="Assemblers\Criterion\NotParameterAssembler.cs" />
+    <Compile Include="Assemblers\Criterion\NullParameterAssembler.cs" />
+    <Compile Include="Assemblers\Criterion\ParameterAssembler.cs" />
+    <Compile Include="Assemblers\Criterion\SimpleParameterAssembler.cs" />
+    <Compile Include="Assemblers\Display\PartViewAssembler.cs" />
+    <Compile Include="Assemblers\FieldAssembler.cs" />
+    <Compile Include="Assemblers\FieldPathAssembler.cs" />
+    <Compile Include="Assemblers\IAssembler.cs" />
+    <Compile Include="Assemblers\Parsers\ParserAssembler.cs" />
+    <Compile Include="Assemblers\SubjectAssembler.cs" />
+    <Compile Include="DTO\Builders\BetweenBuilderDTO.cs" />
+    <Compile Include="DTO\Builders\BooleanBuilderDTO.cs" />
+    <Compile Include="DTO\Builders\JunctionBuilderDTO.cs" />
+    <Compile Include="DTO\Builders\LikeBuilderDTO.cs" />
+    <Compile Include="DTO\Builders\NotBuilderDTO.cs" />
+    <Compile Include="DTO\Builders\NullBuilderDTO.cs" />
+    <Compile Include="DTO\Builders\ParameterBuilderDTO.cs" />
+    <Compile Include="DTO\Builders\SimpleBuilderDTO.cs" />
+    <Compile Include="DTO\ConfigurationDTO.cs" />
+    <Compile Include="DTO\Criterion\BetweenParameterDTO.cs" />
+    <Compile Include="DTO\Criterion\BetweenValueDTO.cs" />
+    <Compile Include="DTO\Criterion\ConjunctionDTO.cs" />
+    <Compile Include="DTO\Criterion\DisjunctionDTO.cs" />
+    <Compile Include="DTO\Criterion\JunctionDTO.cs" />
+    <Compile Include="DTO\Criterion\LikeParameterDTO.cs" />
+    <Compile Include="DTO\Criterion\NotParameterDTO.cs" />
+    <Compile Include="DTO\Criterion\NullParameterDTO.cs" />
+    <Compile Include="DTO\Criterion\ParameterContainer.cs" />
+    <Compile Include="DTO\Criterion\ParameterDTO.cs" />
+    <Compile Include="DTO\Criterion\SimpleParameterDTO.cs" />
+    <Compile Include="DTO\Display\PartViewDTO.cs" />
+    <Compile Include="DTO\FieldDTO.cs" />
+    <Compile Include="DTO\FieldListDTO.cs" />
+    <Compile Include="DTO\FieldPathDTO.cs" />
+    <Compile Include="DTO\MatrixNodeDTO.cs" />
+    <Compile Include="DTO\Parsers\ChainedParserDTO.cs" />
+    <Compile Include="DTO\Parsers\ConvertParserDTO.cs" />
+    <Compile Include="DTO\Parsers\DelimitedParserDTO.cs" />
+    <Compile Include="DTO\Parsers\ParserDTO.cs" />
+    <Compile Include="DTO\SubjectDTO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializableDictionary.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\dbqf.core\dbqf.core.csproj">
+      <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
+      <Name>dbqf.core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

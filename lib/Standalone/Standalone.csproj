@@ -46,9 +46,6 @@
     <Reference Include="NDesk.Options">
       <HintPath>..\packages\NDesk.Options.0.2.1\lib\NDesk.Options.dll</HintPath>
     </Reference>
-    <Reference Include="protobuf-net">
-      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.94.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
@@ -137,6 +134,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\dbqf.Serialization\dbqf.Serialization.csproj">
+      <Project>{f46b0af8-b45b-4897-995f-bba8a290999a}</Project>
+      <Name>dbqf.Serialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\dbqf.tests\dbqf.tests.csproj">
       <Project>{bc5aaa8e-d0f7-48de-9f71-3a7c21bdd6d1}</Project>
       <Name>dbqf.tests</Name>

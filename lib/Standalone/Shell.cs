@@ -1,21 +1,11 @@
-﻿using dbqf.Configuration;
-using ProtoBuf.Meta;
-using Standalone.Forms;
-using Standalone.Core.Initialisers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using dbqf.Display;
 using System.Windows.Forms;
-using System.ComponentModel;
-using System.Text.RegularExpressions;
-using Standalone.Core.Data;
-using Standalone.Properties;
-using dbqf.Criterion;
+using dbqf.Display;
 using Standalone.Core;
+using Standalone.Core.Initialisers;
+using Standalone.Forms;
+using Standalone.Properties;
 
 namespace Standalone
 {

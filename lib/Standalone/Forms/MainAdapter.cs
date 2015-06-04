@@ -14,11 +14,9 @@ using dbqf.WinForms;
 using Standalone.Core.Data;
 using Standalone.Core.Data.Processing;
 using Standalone.Core.Export;
-using Standalone.Core.Serialization.Assemblers.Criterion;
-using Standalone.Core.Serialization.DTO.Criterion;
 using System.IO;
 using Standalone.Core.Serialization.Assemblers;
-using Standalone.Core.Serialization.Assemblers.Builders;
+using Standalone.Core;
 
 namespace Standalone.Forms
 {

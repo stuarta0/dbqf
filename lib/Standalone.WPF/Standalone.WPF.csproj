@@ -146,6 +146,10 @@
       <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
       <Name>dbqf.core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\dbqf.Serialization\dbqf.Serialization.csproj">
+      <Project>{f46b0af8-b45b-4897-995f-bba8a290999a}</Project>
+      <Name>dbqf.Serialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\dbqf.WPF\dbqf.WPF.csproj">
       <Project>{a4415051-8be4-4d13-9a30-a9495a4701ee}</Project>
       <Name>dbqf.WPF</Name>

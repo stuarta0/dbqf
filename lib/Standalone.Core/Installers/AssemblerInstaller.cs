@@ -1,18 +1,12 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Standalone.Core.Serialization.Assemblers;
-using Standalone.Core.Serialization.Assemblers.Criterion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Standalone.Core.Serialization.DTO.Builders;
-using dbqf.Display.Builders;
 using dbqf.Criterion;
-using Standalone.Core.Serialization.DTO.Criterion;
-using Standalone.Core.Serialization.Assemblers.Builders;
+using dbqf.Serialization.Assemblers;
+using dbqf.Serialization.Assemblers.Builders;
+using dbqf.Serialization.Assemblers.Criterion;
+using dbqf.Serialization.DTO.Criterion;
+using Standalone.Core.Serialization.Assemblers;
 
 namespace Standalone.Core.Installers
 {
@@ -21,19 +15,16 @@ namespace Standalone.Core.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Classes.FromThisAssembly()
-                .InNamespace("Standalone.Core.Serialization.Assemblers")
-                .WithService.DefaultInterfaces());
-
-            container.Register(
-                Classes.FromThisAssembly()
-                .InNamespace("Standalone.Core.Serialization.Assemblers.Parsers")
-                .WithService.DefaultInterfaces());
-
-            container.Register(
-                Classes.FromThisAssembly()
-                .InNamespace("Standalone.Core.Serialization.Assemblers.Display")
-                .WithService.DefaultInterfaces());
+                Component.For<ProjectAssembler>(),
+                Classes.FromAssemblyContaining<ConfigurationAssembler>()
+                    .InNamespace("dbqf.Serialization.Assemblers")
+                    .WithService.DefaultInterfaces(),
+                Classes.FromAssemblyContaining<ConfigurationAssembler>()
+                    .InNamespace("dbqf.Serialization.Assemblers.Parsers")
+                    .WithService.DefaultInterfaces(),
+                Classes.FromAssemblyContaining<ConfigurationAssembler>()
+                    .InNamespace("dbqf.Serialization.Assemblers.Display")
+                    .WithService.DefaultInterfaces());
 
             container.Register(
                 Component.For<AssemblyLine<IParameter, ParameterDTO>>().UsingFactoryMethod(kernel => {

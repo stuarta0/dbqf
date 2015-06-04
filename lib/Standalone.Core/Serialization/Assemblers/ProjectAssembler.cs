@@ -1,12 +1,5 @@
-﻿using dbqf.Configuration;
-using ProtoBuf.Meta;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using dbqf.Serialization.Assemblers;
 using Standalone.Core.Serialization.DTO;
-using Standalone.Core.Data;
 
 namespace Standalone.Core.Serialization.Assemblers
 {

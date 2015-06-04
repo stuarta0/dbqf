@@ -1,14 +1,9 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using System.Windows.Forms;
+using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Castle.Windsor.Installer;
 using dbqf.Display;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using dbqf.Serialization.Assemblers;
 using Standalone.Core.Data;
 using Standalone.Core.Export;
 
@@ -31,7 +26,7 @@ namespace Standalone.Installers
                 Component.For<ParserFactory>().UsingFactoryMethod<ParserFactory>(kernel =>
                 {
                     var factory = new ParserFactory();
-                    factory.ParserLookup = kernel.Resolve<Standalone.Core.Serialization.Assemblers.FieldAssembler>().ParserLookup;
+                    factory.ParserLookup = kernel.Resolve<FieldAssembler>().ParserLookup;
                     return factory;
                 }));
 

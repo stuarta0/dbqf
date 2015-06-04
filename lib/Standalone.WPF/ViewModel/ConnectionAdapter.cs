@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using dbqf.WPF;
 using PropertyChanged;
+using Standalone.Core;
 using Standalone.Core.Data;
 
 namespace Standalone.WPF.ViewModel

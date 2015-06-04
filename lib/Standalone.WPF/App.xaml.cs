@@ -27,7 +27,7 @@ namespace Standalone.WPF
                 Settings.Default.Save();
             }
             if (Settings.Default.SavedConnections == null)
-                Settings.Default.SavedConnections = new Core.Serialization.ConnectionDictionary();
+                Settings.Default.SavedConnections = new dbqf.Serialization.ConnectionDictionary();
 
             var container = BootstrapContainer();
             var shell = container.Resolve<Standalone.Core.IShell>();

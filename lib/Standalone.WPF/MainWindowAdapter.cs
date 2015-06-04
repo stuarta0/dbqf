@@ -18,6 +18,7 @@ using System.Windows;
 using System.Windows.Input;
 using Standalone.WPF.ViewModel;
 using Standalone.WPF.Controls;
+using Standalone.Core;
 
 namespace Standalone.WPF
 {

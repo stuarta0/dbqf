@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using dbqf.Configuration;
 using PropertyChanged;
+using Standalone.Core;
 using Standalone.Core.Data;
 
 namespace Standalone.WPF.ViewModel

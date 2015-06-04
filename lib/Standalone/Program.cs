@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using dbqf.Serialization;
 
 namespace Standalone
 {
@@ -31,7 +32,7 @@ namespace Standalone
                 Settings.Default.Save();
             }
             if (Settings.Default.SavedConnections == null)
-                Settings.Default.SavedConnections = new Core.Serialization.ConnectionDictionary();
+                Settings.Default.SavedConnections = new ConnectionDictionary();
 
             var container = BootstrapContainer();
             var shell = container.Resolve<Standalone.Core.IShell>();

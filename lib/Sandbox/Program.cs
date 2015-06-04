@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using dbqf.Configuration;
-using dbqf.Parsers;
-using Standalone.Core.Data;
+using dbqf.Serialization.Assemblers;
+using dbqf.Serialization.Assemblers.Parsers;
+using Standalone.Core;
 using Standalone.Core.Serialization.Assemblers;
-using Standalone.Core.Serialization.Assemblers.Parsers;
 using Standalone.Core.Serialization.DTO;
 
 namespace Sandbox
@@ -29,9 +26,9 @@ namespace Sandbox
 
 
             var dto = assembler.Create(new Project() { Configuration = new dbqf.tests.Chinook() });
-            var list = new List<Standalone.Core.Serialization.DTO.Parsers.ParserDTO>();
-            list.Add(new Standalone.Core.Serialization.DTO.Parsers.DelimitedParserDTO(new string[] { ",", ";", "<", Environment.NewLine, "\"", "\t" }));
-            list.Add(new Standalone.Core.Serialization.DTO.Parsers.ConvertParserDTO() { FromType = typeof(object).FullName, ToType = typeof(string).FullName });
+            var list = new List<dbqf.Serialization.DTO.Parsers.ParserDTO>();
+            list.Add(new dbqf.Serialization.DTO.Parsers.DelimitedParserDTO(new string[] { ",", ";", "<", Environment.NewLine, "\"", "\t" }));
+            list.Add(new dbqf.Serialization.DTO.Parsers.ConvertParserDTO() { FromType = typeof(object).FullName, ToType = typeof(string).FullName });
             dto.Configuration.Subjects[0].Fields[0].Parsers = list;
             File.Delete(@"E:\chinook.proj.xml");
 
