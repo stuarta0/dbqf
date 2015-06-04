@@ -6,7 +6,7 @@ using System.Text;
 
 namespace dbqf.Display.Standard
 {
-    public abstract class StandardAdapter<T> : INotifyPropertyChanged, IGetParameter
+    public abstract class StandardAdapter<T> : INotifyPropertyChanged, IView<StandardPart<T>>
     {
         protected List<FieldPath> _paths;
         protected IControlFactory<T> _controlFactory;

@@ -42,6 +42,10 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="PropertyChanged, Version=0.0.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.1.48.2.0\Lib\NET35\PropertyChanged.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite">
@@ -59,6 +63,9 @@
     <Compile Include="Data\ISqlResults.cs" />
     <Compile Include="Data\ParserFactory.cs" />
     <Compile Include="Data\Processing\ExposedSqlGenerator.cs" />
+    <Compile Include="ApplicationBase.cs" />
+    <Compile Include="Display\ConnectionAdapter.cs" />
+    <Compile Include="Display\ProjectAdapter.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Data\ResultFactory.cs" />
     <Compile Include="Data\SQLiteResults.cs" />
@@ -99,7 +106,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="FodyWeavers.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -108,8 +117,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.1.28.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.28.3\build\Fody.targets'))" />
   </Target>
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" />
+  <Import Project="..\packages\Fody.1.28.3\build\Fody.targets" Condition="Exists('..\packages\Fody.1.28.3\build\Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

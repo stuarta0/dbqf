@@ -17,130 +17,60 @@ using Standalone.Core.Export;
 using System.IO;
 using Standalone.Core.Serialization.Assemblers;
 using Standalone.Core;
+using PropertyChanged;
 
 namespace Standalone.Forms
 {
-    public class MainAdapter : INotifyPropertyChanged, Core.IApplication
+    public class MainAdapter : Core.ApplicationBase, INotifyPropertyChanged
     {
-        public Project Project { get; private set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public ResultFactory ResultFactory { get; set; }
         public IFieldPathFactory PathFactory { get; private set; }
-        public ExportServiceFactory ExportFactory { get; set; }
-        public IViewPersistence ViewPersistence { get; set; }
     
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
         public AdvancedView Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
 
-        public string ApplicationTitle
-        {
-            get
-            {
-                return String.Concat("Database Query Framework",
-                    String.IsNullOrWhiteSpace(Project.Title) ? "" : String.Concat(" - ", Project.Title));
-            }
-        }
-
-        public BindingList<ISubject> SubjectSource { get; private set; }
-        public ISubject SelectedSubject
-        {
-            get { return _subject; }
-            set
-            {
-                _subject = value;
-                RefreshPaths();
-                OnPropertyChanged("SelectedSubject");
-                if (SelectedSubjectChanged != null)
-                    SelectedSubjectChanged(this, EventArgs.Empty);
-            }
-        }
-        private ISubject _subject;
-        public event EventHandler SelectedSubjectChanged;
-
-        public string ResultSQL
-        {
-            get { return _resultSql; }
-            set
-            {
-                if (_resultSql == value)
-                    return;
-                _resultSql = value;
-                OnPropertyChanged("ResultSQL");
-            }
-        }
-        private string _resultSql;
-
-        public BindingSource Result
-        {
-            get { return _result; }
-            private set
-            {
-                if (_result == value)
-                    return;
-                _result = value;
-                OnPropertyChanged("Result");
-            }
-        }
-        private BindingSource _result;
-
-        public bool IsSearching
-        {
-            get { return _searchWorker != null; }
-        }
-        private BackgroundWorker SearchWorker
-        {
-            get { return _searchWorker; }
-            set
-            {
-                if (_searchWorker == value)
-                    return;
-                _searchWorker = value;
-                OnPropertyChanged("IsSearching");
-            }
-        }
-        private BackgroundWorker _searchWorker;
-        
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
+        public BindingSource Result { get; private set; }
 
         public MainAdapter(
             Project project, IFieldPathFactory pathFactory, 
             PresetView preset, StandardView standard, AdvancedView advanced, 
-            RetrieveFieldsView fields, IViewPersistence viewPersistence)
+            RetrieveFieldsView fields)
+            : base(project)
         {
+            PathFactory = pathFactory;
+
             Preset = preset;
             Standard = standard;
             Advanced = advanced;
             RetrieveFields = fields;
-            ViewPersistence = viewPersistence;
 
             Preset.Adapter.Search += Adapter_Search;
             Standard.Adapter.Search += Adapter_Search;
             Advanced.Adapter.Search += Adapter_Search;
 
-            Project = project;
+            SelectedSubjectChanged += delegate { RefreshPaths(); };
             Project.CurrentConnectionChanged += delegate { RefreshPaths(); };
-            PathFactory = pathFactory;
-            
-            SubjectSource = new BindingList<ISubject>(Project.Configuration);
-            SelectedSubject = SubjectSource[0];
-
             Result = new BindingSource();
+            RefreshPaths();
         }
 
         private void RefreshPaths()
         {
             // ask the factory twice as the individual views alter the path instances differently
-            if (_subject != null)
+            if (SelectedSubject != null)
             {
                 Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));
                 Standard.Adapter.SetPaths(PathFactory.GetFields(SelectedSubject));
             }
+        }
+
+        public void Reset()
+        {
+            SelectedSubject = SelectedSubject;
         }
 
         void Adapter_Search(object sender, EventArgs e)
@@ -154,13 +84,6 @@ namespace Standalone.Forms
             }
 
             Search(where);
-        }
-
-        public void CancelSearch()
-        {
-            if (SearchWorker != null)
-                SearchWorker.CancelAsync();
-            SearchWorker = null;
         }
 
         public void Search(IParameter parameter)
@@ -220,64 +143,9 @@ namespace Standalone.Forms
             worker.RunWorkerAsync();
         }
 
-        public void Reset()
+        protected override void Export(string filename, IExportService service)
         {
-
-        }
-
-        public void Export(string filename)
-        {
-            var ext = System.IO.Path.GetExtension(filename);
-            ExportServiceFactory.ExportType etype;
-            if (ext.Equals(".csv", StringComparison.OrdinalIgnoreCase))
-                etype = ExportServiceFactory.ExportType.CommaSeparated;
-            else if (ext.Equals(".txt", StringComparison.OrdinalIgnoreCase))
-                etype = ExportServiceFactory.ExportType.TabDelimited;
-            else
-            {
-                MessageBox.Show(String.Concat("Export to file with extension ", ext, " not implemented."), "Export", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-
-            ExportFactory.Create(etype).Export(filename, (DataTable)Result.DataSource);
-        }
-
-        public void Open(string filename)
-        {
-            IList<IPartView> parts = ViewPersistence.Load(filename);
-            if (parts == null)
-            {
-                MessageBox.Show("Failed to load search.", "Open", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-
-            foreach (var p in Preset.Adapter.Parts)
-            {
-                int index = parts.IndexOf(p);
-                if (index >= 0)
-                    p.CopyFrom(parts[index]);
-            }
-        }
-
-        public void Save(string filename)
-        {
-            List<IPartView> parts = new List<IPartView>();
-            foreach (var p in Preset.Adapter.Parts)
-            {
-                if (p.GetParameter() != null)
-                    parts.Add(p);
-            }
-
-            if (parts.Count > 0)
-            {
-                try { ViewPersistence.Save(filename, parts); }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Could not save search.\n" + ex.Message, "Save", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-            }
-            else
-                MessageBox.Show("Please select at least one parameter to save.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            service.Export(filename, (DataTable)Result.DataSource);
         }
     }
 }

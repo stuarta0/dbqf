@@ -19,10 +19,9 @@ namespace Standalone.Installers
             container.Register(
                 Component.For<IShell>().ImplementedBy<Shell>(),
                 Component.For<Main>(),
-                Component.For<MainAdapter>(),
+                Component.For<IApplication, MainAdapter>().ImplementedBy<MainAdapter>(),
                 Component.For<RetrieveFieldsView>(),
-                Component.For<RetrieveFieldsViewAdapter>(),
-                Component.For<Standalone.Core.IApplication>().UsingFactoryMethod<MainAdapter>(kernel => kernel.Resolve<MainAdapter>())
+                Component.For<RetrieveFieldsViewAdapter>()
             );
         }
     }

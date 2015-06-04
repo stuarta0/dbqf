@@ -196,7 +196,7 @@ namespace Standalone.Forms
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ofdLoad.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-                Adapter.Open(ofdLoad.FileName);
+                Adapter.Load(ofdLoad.FileName);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)

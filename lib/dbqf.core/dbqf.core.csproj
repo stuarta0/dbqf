@@ -91,6 +91,7 @@
     <Compile Include="Display\Advanced\AdvancedAdapter.cs" />
     <Compile Include="Display\Advanced\AdvancedPart.cs" />
     <Compile Include="Display\Builders\JunctionBuilder.cs" />
+    <Compile Include="Display\IView.cs" />
     <Compile Include="Display\FieldPathFactory.cs" />
     <Compile Include="Display\IFieldPathFactory.cs" />
     <Compile Include="Display\IParameterBuilderFactory.cs" />

@@ -7,29 +7,25 @@ using System.Collections.ObjectModel;
 
 namespace dbqf.Display.Preset
 {
-    public abstract class PresetAdapter<T> : INotifyPropertyChanged, IGetParameter
+    public class PresetAdapter<T> : INotifyPropertyChanged, IView<PresetPart<T>>
     {
-        // need list of fields/controls to display in preset
-        // should this adapter be given a factory to generate controls?
-        // needs call to trigger search (actually from each control)
-
         protected IControlFactory<T> _controlFactory;
         protected IParameterBuilderFactory _builderFactory;
         public PresetAdapter(IControlFactory<T> controlFactory, IParameterBuilderFactory builderFactory)
         {
             _controlFactory = controlFactory;
             _builderFactory = builderFactory;
-            _parts = new List<PresetPart<T>>();
+            _parts = new BindingList<PresetPart<T>>();
         }
 
         /// <summary>
         /// Gets the controls to display on the preset control. 
         /// </summary>
-        public virtual ReadOnlyCollection<PresetPart<T>> Parts
+        public virtual BindingList<PresetPart<T>> Parts
         {
-            get { return _parts.AsReadOnly(); }
+            get { return _parts; }
         }
-        protected List<PresetPart<T>> _parts;
+        protected BindingList<PresetPart<T>> _parts;
 
         public event EventHandler Search;
         private void OnSearch(object sender, EventArgs e)
@@ -49,7 +45,7 @@ namespace dbqf.Display.Preset
             if (paths == null)
                 paths = new List<FieldPath>();
 
-            var newParts = new List<PresetPart<T>>();
+            var newParts = new BindingList<PresetPart<T>>();
             foreach (var path in paths)
             {
                 path.Description += ":";
@@ -99,23 +95,6 @@ namespace dbqf.Display.Preset
             }
 
             return con;
-        }
-
-        /// <summary>
-        /// Try to set a parameter in the Preset view.  If it cannot be represented it will throw.
-        /// </summary>
-        /// <param name="p"></param>
-        public virtual void SetParameter(IParameter p)
-        {
-            // valid conditions:
-            // - p is a Conjunction, unwrap and determine if we can represent it for each PresetPart
-            // - otherwise, see if p can be represented in any 1 PresetPart
-
-            // considerations:
-            // - once a combination of fieldpath/parameterbuilder/control is matched to a parameter, it can't be used again
-            // - if we have a parser that manipulated the value from the control, it needs to be able to revert the incoming value
-            // - if we used adapter.SetParameter(adapter.GetParameter()) it should always round-trip OK.
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

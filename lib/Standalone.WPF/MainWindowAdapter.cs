@@ -258,5 +258,28 @@ namespace Standalone.WPF
         {
             throw new NotImplementedException();
         }
+
+
+        public IView<IPartView> CurrentView
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public void Save(string filename)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Load(string filename)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
