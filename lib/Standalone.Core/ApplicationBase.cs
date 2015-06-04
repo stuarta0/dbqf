@@ -35,7 +35,7 @@ namespace Standalone.Core
             }
         }
 
-        public IView<IPartView> CurrentView { get; set; }
+        public IView CurrentView { get; set; }
         public BindingList<ISubject> SubjectSource { get; private set; }
         public virtual ISubject SelectedSubject { get; set; }
         public event EventHandler SelectedSubjectChanged = delegate { };
@@ -96,7 +96,7 @@ namespace Standalone.Core
             if (parts == null)
                 throw new ApplicationException("Failed to load search.");
 
-            foreach (var p in CurrentView.Parts)
+            foreach (var p in CurrentView.GetParts())
             {
                 int index = parts.IndexOf(p);
                 if (index >= 0)
@@ -110,7 +110,7 @@ namespace Standalone.Core
                 return;
 
             List<IPartView> parts = new List<IPartView>();
-            foreach (var p in CurrentView.Parts)
+            foreach (var p in CurrentView.GetParts())
             {
                 if (p.GetParameter() != null)
                     parts.Add(p);

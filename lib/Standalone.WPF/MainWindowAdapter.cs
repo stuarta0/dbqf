@@ -260,7 +260,7 @@ namespace Standalone.WPF
         }
 
 
-        public IView<IPartView> CurrentView
+        public IView CurrentView
         {
             get
             {

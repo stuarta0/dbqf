@@ -13,7 +13,7 @@ namespace Standalone.Core
         ISubject SelectedSubject { get; set; }
         string ApplicationTitle { get; }
         string ResultSQL { get; set; }
-        IView<IPartView> CurrentView { get; set; }
+        IView CurrentView { get; set; }
 
         void Save(string filename);
         void Load(string filename);

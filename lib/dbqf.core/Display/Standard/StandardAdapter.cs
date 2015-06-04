@@ -32,6 +32,11 @@ namespace dbqf.Display.Standard
             }
         }
         protected BindingList<StandardPart<T>> _parts;
+        public IEnumerable<IPartView> GetParts()
+        {
+            foreach (var part in Parts)
+                yield return part;
+        }
 
         public event EventHandler Search;
         private void OnSearch(object sender, EventArgs e)

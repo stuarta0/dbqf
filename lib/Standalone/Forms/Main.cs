@@ -9,6 +9,7 @@ using dbqf.Configuration;
 using dbqf.Criterion;
 using dbqf.WinForms;
 using Standalone.Core;
+using dbqf.Display;
 
 namespace Standalone.Forms
 {
@@ -111,12 +112,8 @@ namespace Standalone.Forms
         private void tabControlParameters_SelectedIndexChanged(object sender, EventArgs e)
         {
             var tab = tabControlParameters.SelectedTab.Tag;
-            if (tab is PresetView)
-                _currentAdapter = ((PresetView)tab).Adapter;
-            else if (tab is StandardView)
-                _currentAdapter = ((StandardView)tab).Adapter;
-            else if (tab is AdvancedView)
-                _currentAdapter = ((AdvancedView)tab).Adapter;
+            if (tab is IView)
+                Adapter.CurrentView = (IView)tab;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -136,9 +133,10 @@ namespace Standalone.Forms
 
         private void Main_Load(object sender, EventArgs e)
         {
-            SetupView(Adapter.Preset, tabPreset);
-            SetupView(Adapter.Standard, tabStandard);
-            SetupView(Adapter.Advanced, tabAdvanced);
+            SetupView(Adapter.Preset, tabPreset).Tag = 
+                Adapter.CurrentView = Adapter.Preset.Adapter;
+            SetupView(Adapter.Standard, tabStandard).Tag = Adapter.Standard.Adapter;
+            SetupView(Adapter.Advanced, tabAdvanced).Tag = Adapter.Advanced.Adapter;
             SetupView(Adapter.RetrieveFields, tabOutput);
 
             // datagridview also has bad control designer, this has to be in the load event
@@ -148,11 +146,12 @@ namespace Standalone.Forms
             catch { }
         }
         
-        private void SetupView(Control control, TabPage parent)
+        private TabPage SetupView(Control control, TabPage parent)
         {
             control.Dock = DockStyle.Fill;
             parent.Controls.Add(control);
             parent.Tag = control;
+            return parent;
         }
 
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)

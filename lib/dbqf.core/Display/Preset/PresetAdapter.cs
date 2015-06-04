@@ -26,6 +26,11 @@ namespace dbqf.Display.Preset
             get { return _parts; }
         }
         protected BindingList<PresetPart<T>> _parts;
+        public IEnumerable<IPartView> GetParts()
+        {
+            foreach (var part in Parts)
+                yield return part;
+        }
 
         public event EventHandler Search;
         private void OnSearch(object sender, EventArgs e)
