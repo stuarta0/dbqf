@@ -57,13 +57,18 @@ namespace Standalone.Core.Export
         {
             if (_universe == null)
                 _universe = new Type[] { 
+                    /* ParameterBuilders */
                     typeof(BetweenBuilderDTO),
                     typeof(BooleanBuilderDTO),
                     typeof(JunctionBuilderDTO),
                     typeof(LikeBuilderDTO),
                     typeof(NotBuilderDTO),
                     typeof(NullBuilderDTO),
-                    typeof(SimpleBuilderDTO)
+                    typeof(SimpleBuilderDTO),
+
+                    /* Value types */
+                    typeof(BetweenValue),
+                    typeof(DateValue)
                 };
             return _universe;
         }
