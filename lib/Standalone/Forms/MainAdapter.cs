@@ -157,8 +157,16 @@ namespace Standalone.Forms
         {
             // reset the view if there is no parameter (to catch the case where StandardView has parts but no actual search)
             // or if the user asks to replace their existing search
-            if (CurrentView.GetParameter() == null || MessageBox.Show("Do you want to replace your current search with the saved search?\n\nNote: Choosing No will update your current search; leaving other parameters in place.", "Load", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (CurrentView.GetParameter() == null)
                 CurrentView.Reset();
+            else
+            {
+                var result = MessageBox.Show("You have existing search terms.\n\nDo you want to replace these terms instead of merging them?", "Load", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                    CurrentView.Reset();
+                else if (result == DialogResult.Cancel)
+                    return;
+            }
             base.Load(filename);
         }
     }
