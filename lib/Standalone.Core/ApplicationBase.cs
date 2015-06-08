@@ -92,11 +92,13 @@ namespace Standalone.Core
             if (ViewPersistence == null)
                 return;
 
-            IList<IPartView> parts = ViewPersistence.Load(filename);
-            if (parts == null)
-                throw new ApplicationException("Failed to load search.");
+            // may throw a load exception
+            SearchDocument doc = ViewPersistence.Load(filename);
 
-            CurrentView.SetParts(parts);
+            // TODO: set the current view
+            // TODO: set output fields
+            SelectedSubject = doc.Subject;
+            CurrentView.SetParts(doc.Parts);
         }
 
         public virtual void Save(string filename)
@@ -104,16 +106,24 @@ namespace Standalone.Core
             if (ViewPersistence == null)
                 return;
 
+            var doc = new SearchDocument(Project)
+            {
+                SearchType = CurrentView.ToString(),
+                Subject = SelectedSubject,
+                Parts = new List<IPartView>()
+            };
+
+            // TODO: persist output fields
+
             // only save parts that have a parameter
-            List<IPartView> parts = new List<IPartView>();
             foreach (var p in CurrentView.GetParts())
             {
                 if (p.GetParameter() != null)
-                    parts.Add(p);
+                    doc.Parts.Add(p);
             }
 
-            if (parts.Count > 0)
-                ViewPersistence.Save(filename, parts);
+            if (doc.Parts.Count > 0)
+                ViewPersistence.Save(filename, doc);
             else
                 throw new ArgumentException("Select at least one parameter to save.");
         }

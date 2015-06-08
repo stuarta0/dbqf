@@ -37,6 +37,7 @@ namespace Standalone.Core
         {
             Project = project;
             Cacher = cacher;
+            OnConnectionChanged();
 
             foreach (var i in initialisers)
                 i.Initialise();

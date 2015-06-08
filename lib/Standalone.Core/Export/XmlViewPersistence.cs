@@ -3,53 +3,44 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 using dbqf.Display;
-using dbqf.Serialization.Assemblers.Display;
 using dbqf.Serialization.DTO.Builders;
 using dbqf.Serialization.DTO.Display;
+using Standalone.Core.Serialization.Assemblers;
+using Standalone.Core.Serialization.DTO;
 
 namespace Standalone.Core.Export
 {
     public class XmlViewPersistence : IViewPersistence
     {
-        private PartViewAssembler _assembler;
-        public XmlViewPersistence(PartViewAssembler assembler)
+        private SearchDocumentAssembler _assembler;
+        public XmlViewPersistence(SearchDocumentAssembler assembler)
         {
             _assembler = assembler;
         }
 
-        public void Save(string filename, IList<IPartView> parts)
+        public void Save(string filename, SearchDocument doc)
         {
-            if (parts == null)
+            if (doc == null)
                 return;
-
-            var dtos = new List<PartViewDTO>();
-            foreach (var p in parts)
-                dtos.Add(_assembler.Create(p));
 
             var ws = new XmlWriterSettings();
             ws.Indent = true;
             ws.IndentChars = "  ";
             ws.CheckCharacters = true;
 
-            var serializer = new XmlSerializer(typeof(List<PartViewDTO>), GetUniverse());
+            var serializer = new XmlSerializer(typeof(SearchDocumentDTO), GetUniverse());
             using (var writer = XmlWriter.Create(filename, ws))
-                serializer.Serialize(writer, dtos);
+                serializer.Serialize(writer, _assembler.Create(doc));
         }
 
-        public IList<IPartView> Load(string filename)
+        public SearchDocument Load(string filename)
         {
             var rs = new XmlReaderSettings();
             rs.CheckCharacters = true; // required to read special characters like new line and tab
 
-            var serializer = new XmlSerializer(typeof(List<PartViewDTO>), GetUniverse());
+            var serializer = new XmlSerializer(typeof(SearchDocumentDTO), GetUniverse());
             using (var reader = XmlReader.Create(filename, rs))
-            {
-                List<IPartView> result = new List<IPartView>();
-                var dtos = ((List<PartViewDTO>)serializer.Deserialize(reader));
-                foreach (var dto in dtos)
-                    result.Add(_assembler.Restore(dto));
-                return result;
-            }
+                return _assembler.Restore((SearchDocumentDTO)serializer.Deserialize(reader));
         }
 
         private static Type[] _universe;

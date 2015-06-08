@@ -10,8 +10,8 @@ namespace Standalone.Core.Export
     // TODO: don't work with IPartView, use IView (not yet created)
     public interface IViewPersistence
     {
-        void Save(string filename, IList<IPartView> parts);
+        void Save(string filename, SearchDocument doc);
 
-        IList<IPartView> Load(string filename);
+        SearchDocument Load(string filename);
     }
 }

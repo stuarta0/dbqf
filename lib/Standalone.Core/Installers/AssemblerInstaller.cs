@@ -27,6 +27,9 @@ namespace Standalone.Core.Installers
                     .WithService.DefaultInterfaces());
 
             container.Register(
+                Component.For<SearchDocumentAssembler>());
+
+            container.Register(
                 Component.For<AssemblyLine<IParameter, ParameterDTO>>().UsingFactoryMethod(kernel => {
                     var pathAssembler = kernel.Resolve<FieldPathAssembler>();
                     var root = new JunctionParameterAssembler();

@@ -17,6 +17,11 @@ namespace Standalone.Core
         public Guid Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the version of this project file.
+        /// </summary>
+        public Version Version { get; set; }
+
+        /// <summary>
         /// Gets or sets a name for this project, as shown in the application title bar.
         /// </summary>
         public string Title { get; set; }
