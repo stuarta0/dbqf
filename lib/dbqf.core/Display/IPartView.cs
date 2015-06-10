@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using dbqf.Criterion;
-using dbqf.Display.Builders;
+using dbqf.Criterion.Builders;
 using dbqf.Parsers;
 
 namespace dbqf.Display

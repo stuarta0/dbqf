@@ -1,12 +1,8 @@
-﻿using dbqf.Criterion;
-using dbqf.Display;
-using dbqf.Display.Builders;
-using dbqf.Parsers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using dbqf.Criterion;
+using dbqf.Criterion.Builders;
+using dbqf.Parsers;
 
 namespace Standalone.Core.Data
 {
@@ -19,8 +15,6 @@ namespace Standalone.Core.Data
 
         public Parser Create(FieldPath path, ParameterBuilder builder)
         {
-            return null;
-
             Parser parser = null;
             if (ParserLookup != null && ParserLookup.ContainsKey(path.Last))
                 parser = ParserLookup[path.Last];

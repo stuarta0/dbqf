@@ -169,6 +169,8 @@ namespace dbqf.Display.Standard
 
             if (con.Count == 0)
                 return null;
+            else if (con.Count == 1)
+                return con[0];
             return con;
         }
 

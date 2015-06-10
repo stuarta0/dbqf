@@ -15,6 +15,7 @@ namespace dbqf.Serialization.DTO.Parsers
         [XmlArrayItem("DelimitedParser", typeof(DelimitedParserDTO))]
         [XmlArrayItem("ChainedParser", typeof(ChainedParserDTO))]
         [XmlArrayItem("ConvertParser", typeof(ConvertParserDTO))]
+        [XmlArrayItem("DateParser", typeof(DateParserDTO))]
         public List<ParserDTO> Parsers { get; set; } 
     }
 }

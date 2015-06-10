@@ -1,11 +1,9 @@
-﻿using dbqf.Display;
-using dbqf.Parsers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using dbqf.Criterion.Values;
+using dbqf.Parsers;
 
 namespace Standalone.Core.Data
 {
@@ -178,9 +176,16 @@ namespace Standalone.Core.Data
                 return basedate.AddYears(increment);
         }
 
-        protected override DateValue ParseDate(object value)
+        protected override object ParseDate(object value)
         {
-            if (value is string)
+            if (value is BetweenValue)
+            {
+                var between = value as BetweenValue;
+                between.From = between.From == null ? null : ParseDate(between.From);
+                between.To = between.To == null ? null : ParseDate(between.To);
+                return between;
+            }
+            else if (value is string)
             {
                 var str = ((string)value).Trim();
                 foreach (var matcher in _matchers)

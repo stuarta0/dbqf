@@ -1,10 +1,5 @@
-﻿using dbqf.Configuration;
-using dbqf.Criterion;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using dbqf.Display;
-using dbqf.Display.Builders;
+﻿using dbqf.Criterion;
+using dbqf.Criterion.Builders;
 
 namespace dbqf.Display
 {

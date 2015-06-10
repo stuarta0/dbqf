@@ -1,9 +1,8 @@
-﻿using dbqf.Display;
-using dbqf.WinForms.UIElements.Controls;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
+using dbqf.Criterion.Values;
+using dbqf.Display;
+using dbqf.WinForms.UIElements.Controls;
 
 namespace dbqf.WinForms.UIElements
 {

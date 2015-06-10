@@ -1,9 +1,5 @@
-﻿using dbqf.Criterion;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace dbqf.Display.Builders
+﻿
+namespace dbqf.Criterion.Builders
 {
     public abstract class ParameterBuilder
     {

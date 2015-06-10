@@ -1,9 +1,6 @@
-﻿using dbqf.Criterion;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using dbqf.Criterion.Values;
 
-namespace dbqf.Display.Builders
+namespace dbqf.Criterion.Builders
 {
     public class BetweenBuilder : ParameterBuilder
     {

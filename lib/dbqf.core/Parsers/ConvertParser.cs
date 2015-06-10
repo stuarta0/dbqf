@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using dbqf.Criterion.Values;
 
 namespace dbqf.Parsers
 {
     /// <summary>
-    /// Interface defined to support covariance between ConvertParsers.
+    /// Cannot support covariance for primitive types, therefore a ConvertParser must implement type properties.
     /// </summary>
-    /// <typeparam name="Tfrom"></typeparam>
-    /// <typeparam name="Tto"></typeparam>
-    public interface IConvertParser<out Tfrom, out Tto>
+    public interface IConvertParser
     {
+        Type From { get; }
+        Type To { get; }
     }
 
     /// <summary>
     /// Parses objects using built-in Convert.ChangeType().
     /// </summary>
-    public class ConvertParser<Tfrom, Tto> : Parser, IConvertParser<Tfrom, Tto>
+    public class ConvertParser<Tfrom, Tto> : Parser, IConvertParser
     {
+        public Type From { get { return typeof(Tfrom); } }
+        public Type To { get { return typeof(Tto); } }
+
         public ConvertParser()
         {
         }
@@ -50,7 +53,14 @@ namespace dbqf.Parsers
             var result = new List<object>();
             foreach (var v in values)
             {
-                if (v != null)
+                if (v is BetweenValue)
+                {
+                    var between = v as BetweenValue;
+                    between.From = between.From == null ? null : Parse(to, between.From)[0];
+                    between.To = between.To == null ? null : Parse(to, between.To)[0];
+                    result.Add(between);
+                }
+                else if (v != null)
                 {
                     try { result.Add(Convert.ChangeType(v, to)); }
                     catch (Exception ex)
@@ -60,6 +70,16 @@ namespace dbqf.Parsers
                 }
             }
             return result.ToArray();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is IConvertParser)
+            {
+                return From.Equals(((IConvertParser)obj).From)
+                    && To.Equals(((IConvertParser)obj).To);
+            }
+            return base.Equals(obj);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using dbqf.Criterion.Values;
 
 namespace dbqf.Parsers
 {
@@ -37,10 +37,20 @@ namespace dbqf.Parsers
             {
                 if (v != null)
                 {
-                    var str = v.ToString();
-                    var split = str.Split(Delimiters, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i = 0; i < split.Length; i++)
-                        result.Add(split[i].Trim());
+                    if (v is BetweenValue)
+                    {
+                        var between = v as BetweenValue;
+                        between.From = Parse(between.From);
+                        between.To = Parse(between.To);
+                        result.Add(between);
+                    }
+                    else
+                    {
+                        var str = v.ToString();
+                        var split = str.Split(Delimiters, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < split.Length; i++)
+                            result.Add(split[i].Trim());
+                    }
                 }
             }
             return result.ToArray();
@@ -61,6 +71,24 @@ namespace dbqf.Parsers
                 strs[i] = values[i].ToString();
 
             return new object[] { String.Join(Delimiters[0], strs) };
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is DelimitedParser)
+            {
+                var other = obj as DelimitedParser;
+                if (Delimiters.Length == other.Delimiters.Length)
+                {
+                    for (int i = 0; i < Delimiters.Length; i++)
+                        if (!Delimiters[i].Equals(other.Delimiters[i]))
+                            return false;
+                    return true;
+                }
+                return false;
+            }
+
+            return base.Equals(obj);
         }
     }
 }

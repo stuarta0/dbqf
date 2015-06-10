@@ -20,8 +20,10 @@ using PropertyChanged;
 namespace Standalone.Core
 {
     [ImplementPropertyChanged]
-    public class ApplicationBase : IApplication
+    public class ApplicationBase : IApplication, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Project Project { get; protected set; }
         public ExportServiceFactory ExportFactory { get; set; }
         public IViewPersistence ViewPersistence { get; set; }

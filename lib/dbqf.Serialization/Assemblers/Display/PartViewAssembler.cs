@@ -44,7 +44,7 @@ namespace dbqf.Serialization.Assemblers.Display
         private class PartViewImpl : IPartView
         {
             public dbqf.Criterion.FieldPath SelectedPath { get; set; }
-            public dbqf.Display.Builders.ParameterBuilder SelectedBuilder { get; set; }
+            public dbqf.Criterion.Builders.ParameterBuilder SelectedBuilder { get; set; }
             public object[] Values { get; set; }
             public dbqf.Parsers.Parser Parser { get; set; }
 

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
-using dbqf.Display;
+using dbqf.Criterion.Values;
 using dbqf.Serialization.DTO.Builders;
 using dbqf.Serialization.DTO.Display;
+using dbqf.Serialization.DTO.Parsers;
 using Standalone.Core.Serialization.Assemblers;
 using Standalone.Core.Serialization.DTO;
 
@@ -56,6 +57,12 @@ namespace Standalone.Core.Export
                     typeof(NotBuilderDTO),
                     typeof(NullBuilderDTO),
                     typeof(SimpleBuilderDTO),
+
+                    /* Parsers */
+                    typeof(DateParserDTO),
+                    typeof(ChainedParserDTO),
+                    typeof(DelimitedParserDTO),
+                    typeof(ConvertParserDTO),
 
                     /* Value types */
                     typeof(BetweenValue),

@@ -1,4 +1,4 @@
-﻿using dbqf.Display;
+﻿using dbqf.Criterion.Values;
 using dbqf.Parsers;
 using NUnit.Framework;
 using System;

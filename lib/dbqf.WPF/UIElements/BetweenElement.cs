@@ -1,8 +1,7 @@
-﻿using dbqf.Display;
+﻿using System;
+using dbqf.Criterion.Values;
+using dbqf.Display;
 using dbqf.WPF.UIElements.Controls;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace dbqf.WPF.UIElements
 {

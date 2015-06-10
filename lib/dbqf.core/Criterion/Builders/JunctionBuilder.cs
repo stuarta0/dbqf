@@ -1,9 +1,5 @@
-﻿using dbqf.Criterion;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace dbqf.Display.Builders
+﻿
+namespace dbqf.Criterion.Builders
 {
     public class JunctionBuilder : ParameterBuilder
     {
@@ -42,7 +38,16 @@ namespace dbqf.Display.Builders
 
             Junction j = (Type == JunctionType.Conjunction ? (Junction)new Conjunction() : new Disjunction());
             foreach (var v in values)
-                j.Add(Other.Build(path, v));
+            {
+                var p = Other.Build(path, v);
+                if (p != null)
+                    j.Add(p);
+            }
+
+            if (j.Count == 0)
+                return null;
+            else if (j.Count == 1)
+                return j[0];
             return j;
         }
 

@@ -83,6 +83,7 @@
     <Compile Include="DTO\MatrixNodeDTO.cs" />
     <Compile Include="DTO\Parsers\ChainedParserDTO.cs" />
     <Compile Include="DTO\Parsers\ConvertParserDTO.cs" />
+    <Compile Include="DTO\Parsers\DateParserDTO.cs" />
     <Compile Include="DTO\Parsers\DelimitedParserDTO.cs" />
     <Compile Include="DTO\Parsers\ParserDTO.cs" />
     <Compile Include="DTO\SubjectDTO.cs" />

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace dbqf.Parsers
 {
@@ -49,6 +47,24 @@ namespace dbqf.Parsers
             for (int i = Parsers.Count - 1; i >= 0; i--)
                 values = Parsers[i].Revert(values);
             return values;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ChainedParser)
+            {
+                var other = obj as ChainedParser;
+                if (Parsers.Count == other.Parsers.Count)
+                {
+                    for (int i = 0; i < Parsers.Count; i++)
+                        if (!Parsers[i].Equals(other.Parsers[i]))
+                            return false;
+                    return true;
+                }
+                return false;
+            }
+
+            return base.Equals(obj);
         }
     }
 }

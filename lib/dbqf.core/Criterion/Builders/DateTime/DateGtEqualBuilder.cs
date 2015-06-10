@@ -1,15 +1,12 @@
-﻿using dbqf.Criterion;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using dbqf.Criterion.Values;
 
-namespace dbqf.Display.Builders
+namespace dbqf.Criterion.Builders
 {
-    public class DateLtEqualBuilder : ParameterBuilder
+    public class DateGtEqualBuilder : ParameterBuilder
     {
-        public DateLtEqualBuilder()
+        public DateGtEqualBuilder()
         {
-            Label = "<=";
+            Label = ">=";
         }
 
         /// <summary>
@@ -27,7 +24,7 @@ namespace dbqf.Display.Builders
             if (values[0] is DateValue)
             {
                 var date = (DateValue)values[0];
-                return new SimpleParameter(path, "<", date.Upper);
+                return new SimpleParameter(path, ">=", date.Lower);
             }
 
             return null;

@@ -1,13 +1,9 @@
-﻿using dbqf.Configuration;
-using dbqf.Criterion;
-using dbqf.Display;
-using dbqf.Display.Builders;
-using dbqf.Parsers;
-using dbqf.Display.Preset;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
+using dbqf.Configuration;
+using dbqf.Criterion;
+using dbqf.Criterion.Builders;
+using dbqf.Display;
 
 namespace dbqf.WinForms.UIElements
 {

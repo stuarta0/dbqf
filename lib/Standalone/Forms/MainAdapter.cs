@@ -21,9 +21,9 @@ using PropertyChanged;
 
 namespace Standalone.Forms
 {
-    public class MainAdapter : Core.ApplicationBase, INotifyPropertyChanged
+    [ImplementPropertyChanged]
+    public class MainAdapter : Core.ApplicationBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ResultFactory ResultFactory { get; set; }
         public IFieldPathFactory PathFactory { get; private set; }

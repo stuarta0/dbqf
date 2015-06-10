@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using dbqf.Display;
+using dbqf.Criterion.Values;
 
 namespace dbqf.Parsers
 {
@@ -10,6 +9,11 @@ namespace dbqf.Parsers
     /// </summary>
     public class DateParser : Parser
     {
+        /// <summary>
+        /// Gets or sets a value indicating whether parsing an invalid date will return null.
+        /// </summary>
+        public bool AllowNulls { get; set; }
+
         /// <summary>
         /// Given each value in the parameters, determine the date boundaries.
         /// </summary>
@@ -21,7 +25,7 @@ namespace dbqf.Parsers
             foreach (var v in values)
             {
                 var date = ParseDate(v);
-                if (date != null)
+                if (date != null || AllowNulls)
                     result.Add(date);
             }
             return result.ToArray();
@@ -53,11 +57,18 @@ namespace dbqf.Parsers
             return result.ToArray();
         }
 
-        protected virtual DateValue ParseDate(object value)
+        protected virtual object ParseDate(object value)
         {
             if (value is DateTime)
             {
                 return new DateValue(((DateTime)value).Date, ((DateTime)value).Date.AddDays(1));
+            }
+            else if (value is BetweenValue)
+            {
+                var between = value as BetweenValue;
+                between.From = between.From == null ? null : ParseDate(between.From);
+                between.To = between.To == null ? null : ParseDate(between.To);
+                return between;
             }
             else if (value is string)
             {
@@ -129,6 +140,13 @@ namespace dbqf.Parsers
             }
 
             return _formats;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is DateParser)
+                return AllowNulls.Equals(((DateParser)obj).AllowNulls);
+            return base.Equals(obj);
         }
     }
 }

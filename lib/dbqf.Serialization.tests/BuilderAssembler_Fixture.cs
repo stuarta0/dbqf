@@ -1,5 +1,5 @@
 ﻿using dbqf.Criterion;
-using dbqf.Display.Builders;
+using dbqf.Criterion.Builders;
 using dbqf.Serialization.Assemblers.Builders;
 using dbqf.Serialization.DTO.Builders;
 using NUnit.Framework;

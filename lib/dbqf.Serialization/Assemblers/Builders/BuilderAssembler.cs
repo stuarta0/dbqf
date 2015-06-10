@@ -1,4 +1,4 @@
-﻿using dbqf.Display.Builders;
+﻿using dbqf.Criterion.Builders;
 using dbqf.Serialization.Assemblers.Criterion;
 using dbqf.Serialization.DTO.Builders;
 

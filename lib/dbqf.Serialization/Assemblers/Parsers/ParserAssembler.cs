@@ -27,19 +27,24 @@ namespace dbqf.Serialization.Assemblers.Parsers
             {
                 return new DelimitedParser(((DelimitedParserDTO)dto).GetDelimiters());
             }
+            else if (dto is DateParserDTO)
+            {
+                return new DateParser() { AllowNulls = ((DateParserDTO)dto).AllowNulls };
+            }
 
             return null;
         }
 
         public ParserDTO Create(Parser source)
         {
-            if (source is IConvertParser<object, object>)
+            if (source is IConvertParser)
             {
-                Type[] generics = source.GetType().GetGenericArguments();
-                var dto = new ConvertParserDTO();
-                dto.FromType = generics[0].FullName;
-                dto.ToType = generics[1].FullName;
-                return dto;
+                var convert = source as IConvertParser;
+                return new ConvertParserDTO()
+                {
+                    FromType = convert.From.FullName,
+                    ToType = convert.To.FullName
+                };
             }
             else if (source is ChainedParser)
             {
@@ -51,6 +56,10 @@ namespace dbqf.Serialization.Assemblers.Parsers
             else if (source is DelimitedParser)
             {
                 return new DelimitedParserDTO(((DelimitedParser)source).Delimiters);
+            }
+            else if (source is DateParser)
+            {
+                return new DateParserDTO() { AllowNulls = ((DateParser)source).AllowNulls };
             }
 
             return null;

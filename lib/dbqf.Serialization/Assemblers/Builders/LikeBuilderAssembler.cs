@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Text;
 using dbqf.Criterion;
-using dbqf.Display.Builders;
+using dbqf.Criterion.Builders;
 using dbqf.Serialization.DTO.Builders;
 
 namespace dbqf.Serialization.Assemblers.Builders
