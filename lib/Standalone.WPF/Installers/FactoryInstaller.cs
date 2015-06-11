@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Standalone.Core.Export;
 
 namespace Standalone.WPF.Installers
 {
@@ -30,7 +31,9 @@ namespace Standalone.WPF.Installers
                     return factory;
                 }));
 
-            container.Register(Component.For<Standalone.Core.Export.ExportServiceFactory>());
+            container.Register(
+                Component.For<Standalone.Core.Export.ExportServiceFactory>(),
+                Component.For<IViewPersistence>().ImplementedBy<XmlViewPersistence>());
         }
     }
 }

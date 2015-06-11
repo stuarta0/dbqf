@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Standalone.Core;
+using Standalone.WPF.ViewModel;
 
 namespace Standalone.WPF.Installers
 {
@@ -22,7 +23,8 @@ namespace Standalone.WPF.Installers
                 Component.For<Standalone.WPF.MainWindowAdapter>(),
                 Component.For<Standalone.WPF.Controls.RetrieveFieldsView>(),
                 Component.For<Standalone.WPF.Controls.RetrieveFieldsViewAdapter>(),
-                Component.For<Standalone.Core.IApplication>().UsingFactoryMethod<MainWindowAdapter>(kernel => kernel.Resolve<MainWindowAdapter>())
+                Component.For<Standalone.Core.IApplication>().UsingFactoryMethod<MainWindowAdapter>(kernel => kernel.Resolve<MainWindowAdapter>()),
+                Component.For<IDialogService>().ImplementedBy<DialogService>()
             );
         }
     }

@@ -37,6 +37,8 @@ namespace dbqf.WPF.UIElements
         {
             if (values != null && values.Length > 0 && values[0] != null)
                 _text.Text = values[0].ToString();
+            else
+                _text.Text = null;
         }
     }
 }

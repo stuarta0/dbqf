@@ -23,6 +23,12 @@ namespace Standalone.Core
     public class ApplicationBase : IApplication, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public ApplicationBase(Project project)
         {
             _views = new Dictionary<string, IView>();
@@ -38,12 +44,12 @@ namespace Standalone.Core
         public BindingList<ISubject> SubjectSource { get; private set; }
         public virtual ISubject SelectedSubject { get; set; }
         public event EventHandler SelectedSubjectChanged = delegate { };
-        private void OnSelectedSubjectChanged()
+        protected void OnSelectedSubjectChanged()
         {
             SelectedSubjectChanged(this, EventArgs.Empty);
         }
 
-        public IView CurrentView { get; set; }
+        public virtual IView CurrentView { get; set; }
         public event EventHandler CurrentViewChanged = delegate { };
         private void OnCurrentViewChanged()
         {
@@ -74,7 +80,8 @@ namespace Standalone.Core
             get
             {
                 return String.Concat("Database Query Framework",
-                    String.IsNullOrWhiteSpace(Project.Title) ? "" : String.Concat(" - ", Project.Title));
+                    String.IsNullOrWhiteSpace(Project.Title) ? "" : String.Concat(" - ", Project.Title),
+                    " (", Project.CurrentConnection.DisplayName, ")");
             }
         }
 

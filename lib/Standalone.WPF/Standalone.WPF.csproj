@@ -94,6 +94,8 @@
     <Compile Include="MainWindowAdapter.cs" />
     <Compile Include="Shell.cs" />
     <Compile Include="ViewModel\ConnectionAdapter.cs" />
+    <Compile Include="ViewModel\DialogService.cs" />
+    <Compile Include="ViewModel\IDialogService.cs" />
     <Compile Include="ViewModel\ProjectAdapter.cs" />
     <Page Include="Controls\RetrieveFieldsView.xaml">
       <SubType>Designer</SubType>

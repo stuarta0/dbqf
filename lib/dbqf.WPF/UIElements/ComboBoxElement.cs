@@ -46,6 +46,13 @@ namespace dbqf.WPF.UIElements
                 else
                     combo.Text = values[0].ToString();
             }
+            else
+            {
+                if (!combo.IsEditable)
+                    combo.SelectedItem = null;
+                else
+                    combo.Text = null;
+            }
         }
     }
 }

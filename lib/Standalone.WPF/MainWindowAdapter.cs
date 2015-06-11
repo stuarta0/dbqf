@@ -22,31 +22,20 @@ using Standalone.Core;
 
 namespace Standalone.WPF
 {
-    public class MainWindowAdapter : INotifyPropertyChanged, Core.IApplication
+    [ImplementPropertyChanged]
+    public class MainWindowAdapter : Core.ApplicationBase
     {
         public ProjectAdapter ProjectAdapter { get; private set; }
         public ResultFactory ResultFactory { get; set; }
         public IFieldPathFactory PathFactory { get; private set; }
-        public ExportServiceFactory ExportFactory { get; set; }
+        public IDialogService DialogService { get; set; }
 
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
         public FieldPathCombo Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         #region Application Appearance
-
-        public string ApplicationTitle
-        {
-            get
-            {
-                return String.Concat("Database Query Framework",
-                    String.IsNullOrWhiteSpace(ProjectAdapter.Title) ? "" : String.Concat(" - ", ProjectAdapter.Title),
-                    " (", ProjectAdapter.CurrentConnection.DisplayName, ")");
-            }
-        }
 
         public GridLength ViewColumnSize
         {
@@ -104,42 +93,112 @@ namespace Standalone.WPF
 
         #endregion
 
-        public ObservableCollection<ISubject> SubjectSource { get; private set; }
-        public ISubject SelectedSubject
+        #region Commands
+
+        public ICommand SaveAsCommand
         {
-            get { return _subject; }
-            set
+            get
             {
-                _subject = value;
-                RefreshPaths();
-                if (SelectedSubjectChanged != null)
-                    SelectedSubjectChanged(this, EventArgs.Empty);
+                if (_saveAsCommand == null)
+                    _saveAsCommand = new RelayCommand(p => Save(DialogService.SaveFileDialog("dbqf Search (*.dbqf)|*.dbqf")));
+                return _saveAsCommand;
             }
         }
-        private ISubject _subject;
-        public event EventHandler SelectedSubjectChanged;
+        private ICommand _saveAsCommand;
+
+        public ICommand OpenCommand
+        {
+            get
+            {
+                if (_openCommand == null)
+                    _openCommand = new RelayCommand(p => Load(DialogService.OpenFileDialog("dbqf Search (*.dbqf)|*.dbqf")));
+                return _openCommand;
+            }
+        }
+        private ICommand _openCommand;
+
+        public ICommand ExportCommand
+        {
+            get
+            {
+                if (_exportCommand == null)
+                    _exportCommand = new RelayCommand(p => Export(DialogService.SaveFileDialog("Comma-separated (*.csv)|*.csv|Tab-delimited (*.txt)|*.txt")));
+                return _exportCommand;
+            }
+        }
+        private ICommand _exportCommand;
+
+        public ICommand SearchCommand
+        {
+            get
+            {
+                if (_searchCommand == null)
+                    _searchCommand = new RelayCommand(p => Search(CurrentView.GetParameter()));
+                return _searchCommand;
+            }
+        }
+        private ICommand _searchCommand;
+
+        public ICommand ResetCommand
+        {
+            get
+            {
+                if (_resetCommand == null)
+                    _resetCommand = new RelayCommand(p => CurrentView.Reset());
+                return _resetCommand;
+            }
+        }
+        private ICommand _resetCommand;
+
+        #endregion
+
+        #region View Handling
+
+        public override IView CurrentView
+        {
+            get
+            {
+                return base.CurrentView;
+            }
+            set
+            {
+                base.CurrentView = value;
+                OnPropertyChanged("TabIndex");
+            }
+        }
+
+        /// <summary>
+        /// Very hacky.
+        /// </summary>
+        public int TabIndex
+        {
+            get 
+            { 
+                return new List<IView>() { Preset.Adapter, Standard.Adapter }.IndexOf(CurrentView);
+            }
+            set
+            {
+                var list = new List<IView>() { Preset.Adapter, Standard.Adapter };
+                if (value >= 0 && value < list.Count)
+                    CurrentView = list[value];
+                OnPropertyChanged("TabIndex");
+            }
+        }
+
+        #endregion
 
         [AlsoNotifyFor("ResultHeader")]
         public DataTable Result { get; private set; }
-        public string ResultSQL { get; set; }
         public string ResultHeader
         {
             get { return String.Concat("Results", Result == null ? string.Empty : String.Concat(" (", Result.Rows.Count, ")")); }
         }
 
-        [AlsoNotifyFor("IsSearching")]
-        private BackgroundWorker SearchWorker { get; set; }
-
-        public bool IsSearching
-        {
-            get { return SearchWorker != null; }
-        }
-
-
         public MainWindowAdapter(
             Project project, IFieldPathFactory pathFactory, 
             PresetView preset, StandardView standard, FieldPathCombo advanced, 
             RetrieveFieldsView fields)
+            : base(project)
         {
             _appWidth = Properties.Settings.Default.AppWidth;
             _appHeight = Properties.Settings.Default.AppHeight;
@@ -150,6 +209,8 @@ namespace Standalone.WPF
             Standard = standard;
             Advanced = advanced;
             RetrieveFields = fields;
+            _views.Add("Preset", preset.Adapter);
+            _views.Add("Standard", standard.Adapter);
 
             Preset.Adapter.Search += Adapter_Search;
             Standard.Adapter.Search += Adapter_Search;
@@ -159,18 +220,19 @@ namespace Standalone.WPF
             ProjectAdapter.Project.CurrentConnectionChanged += delegate 
             {
                 RefreshPaths();
-                PropertyChanged(this, new PropertyChangedEventArgs("ApplicationTitle")); 
+                OnPropertyChanged("ApplicationTitle"); 
             };
             PathFactory = pathFactory;
-            
-            SubjectSource = new ObservableCollection<ISubject>(ProjectAdapter.Configuration);
-            SelectedSubject = SubjectSource[0];
+
+            CurrentView = Preset.Adapter;
+            SelectedSubjectChanged += delegate { RefreshPaths(); };
+            RefreshPaths();
         }
 
         private void RefreshPaths()
         {
             // ask the factory twice as the individual views alter the path instances differently
-            if (_subject != null)
+            if (SelectedSubject != null)
             {
                 Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));
                 Standard.Adapter.SetPaths(PathFactory.GetFields(SelectedSubject));
@@ -188,13 +250,6 @@ namespace Standalone.WPF
             }
 
             Search(where);
-        }
-
-        public void CancelSearch()
-        {
-            if (SearchWorker != null)
-                SearchWorker.CancelAsync();
-            SearchWorker = null;
         }
 
         public void Search(IParameter parameter)
@@ -252,34 +307,6 @@ namespace Standalone.WPF
                 }
             };
             worker.RunWorkerAsync();
-        }
-
-        public void Export(string filename)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public IView CurrentView
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public void Save(string filename)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Load(string filename)
-        {
-            throw new NotImplementedException();
         }
     }
 }

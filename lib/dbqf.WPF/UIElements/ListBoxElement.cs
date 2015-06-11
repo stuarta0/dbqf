@@ -46,6 +46,8 @@ namespace dbqf.WPF.UIElements
                 foreach (var item in values)
                     list.SelectedItems.Add(item);
             }
+            else
+                list.SelectedItems.Clear();
         }
     }
 }

@@ -10,9 +10,9 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem.Items>
-                    <MenuItem Header="Open..."/>
-                    <MenuItem Header="Save As..."/>
-                    <MenuItem Header="Export..."/>
+                    <MenuItem Header="Open..." Command="{Binding OpenCommand}"/>
+                    <MenuItem Header="Save As..." Command="{Binding SaveAsCommand}"/>
+                    <MenuItem Header="Export..." Command="{Binding ExportCommand}"/>
                     <Separator />
                     <MenuItem Header="Exit"/>
                 </MenuItem.Items>
@@ -40,10 +40,10 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <ComboBox Margin="3,3,3,3" Width="120" ItemsSource="{Binding SubjectSource}" SelectedItem="{Binding SelectedSubject}" />
-                    <Button Content="Search" Width="70" Margin="3,3,3,3" />
-                    <Button Content="Reset" Width="70" Margin="3,3,3,3" />
+                    <Button Content="Search" Width="70" Margin="3,3,3,3" Command="{Binding SearchCommand}" />
+                    <Button Content="Reset" Width="70" Margin="3,3,3,3" Command="{Binding ResetCommand}" />
                 </StackPanel>
-                <TabControl Grid.Row="1">
+                <TabControl Grid.Row="1" SelectedIndex="{Binding TabIndex}">
                     <TabItem Header="Preset">
                         <ContentControl Content="{Binding Preset}" />
                     </TabItem>
