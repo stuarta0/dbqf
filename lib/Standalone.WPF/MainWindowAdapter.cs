@@ -314,13 +314,35 @@ namespace Standalone.WPF
             service.Export(filename, Result);
         }
 
-        protected override void Load(string filename, bool reset)
+        protected override SearchDocument Load(string filename, bool reset)
         {
-            try { base.Load(filename, true); }
+            SearchDocument doc = null;
+            try { doc = base.Load(filename, true); }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Load", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return null;
             }
+
+            var list = RetrieveFields.Adapter.Fields;
+            list.Clear();
+            if (doc.Outputs != null && doc.Outputs.Count > 0)
+            {
+                list.Clear();
+                foreach (var path in doc.Outputs)
+                    list.Add(path);
+            }
+
+            return doc;
+        }
+
+        protected override SearchDocument CreateSearchDocument()
+        {
+            var doc = base.CreateSearchDocument();
+            var adapter = RetrieveFields.Adapter;
+            if (adapter.UseFields && adapter.Fields.Count > 0)
+                doc.Outputs = new List<FieldPath>(adapter.Fields);
+            return doc;
         }
     }
 }

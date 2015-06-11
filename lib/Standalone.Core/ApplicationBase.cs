@@ -118,15 +118,14 @@ namespace Standalone.Core
         {
             Load(filename, true);
         }
-        protected virtual void Load(string filename, bool reset)
+        protected virtual SearchDocument Load(string filename, bool reset)
         {
             if (ViewPersistence == null)
-                return;
+                return null;
 
             // may throw a load exception
             SearchDocument doc = ViewPersistence.Load(filename);
 
-            // TODO: set output fields
             SelectedSubject = doc.Subject;
             if (!_views.ContainsKey(doc.SearchType))
                 throw new ArgumentException(String.Format("Could not determine the appropriate view to display (View requested: {0}).", doc.SearchType));
@@ -134,21 +133,17 @@ namespace Standalone.Core
             if (reset)
                 CurrentView.Reset();
             CurrentView.SetParts(doc.Parts);
+            return doc;
         }
 
-        public virtual void Save(string filename)
+        protected virtual SearchDocument CreateSearchDocument()
         {
-            if (ViewPersistence == null)
-                return;
-
             var doc = new SearchDocument(Project)
             {
                 SearchType = GetViewKey(CurrentView),
                 Subject = SelectedSubject,
                 Parts = new List<IPartView>()
             };
-
-            // TODO: persist output fields
 
             // only save parts that have a parameter
             foreach (var p in CurrentView.GetParts())
@@ -157,6 +152,15 @@ namespace Standalone.Core
                     doc.Parts.Add(p);
             }
 
+            return doc;
+        }
+
+        public virtual void Save(string filename)
+        {
+            if (ViewPersistence == null)
+                return;
+
+            var doc = CreateSearchDocument();
             if (doc.Parts.Count > 0)
                 ViewPersistence.Save(filename, doc);
             else
