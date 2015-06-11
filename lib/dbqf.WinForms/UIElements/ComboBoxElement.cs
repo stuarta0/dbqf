@@ -12,14 +12,44 @@ namespace dbqf.WinForms.UIElements
 {
     public class ComboBoxElement : ErrorProviderElement
     {
+        /// <summary>
+        /// Cached value is used when DropDownList SelectedItem is set before ComboBox.DataSource, or BindingList.ResetBindings() is called.
+        /// </summary>
+        private object _cache = null;
         public ComboBoxElement(BindingList<object> list, ComboBoxStyle style)
         {
             var combo = new ComboBox();
             combo.DataSource = list;
             combo.DropDownStyle = style;
 
-            combo.TextChanged += (sender, e) => OnChanged();
-            combo.SelectedIndexChanged += (sender, e) => OnChanged();
+            // BindingList<T>.ResetBindings() when set as ComboBox.DataSource will clear the SelectedValue (and subsequently Text) of the combo
+            // therefore, hook ListChanged, cache the current SelectedValue/Text and on SelectedValueChanged, check if there's a cached value and set it.
+            // Also, if SetValues() is called before the list data exists and we have DropDownList, we'll need to cache the value for when the list updates.
+            list.ListChanged += (s, e) => 
+            {
+                if (_cache == null)
+                    _cache = style == ComboBoxStyle.DropDownList ? combo.SelectedItem : combo.Text;
+            };
+            combo.SelectedValueChanged += (s, e) => 
+            { 
+                if (_cache != null)
+                {
+                    var value = _cache;
+                    _cache = null;
+                    if (style == ComboBoxStyle.DropDownList)
+                        combo.SelectedItem = value;
+                    else
+                        combo.Text = value.ToString();
+                }
+            };
+
+            // TextChanged handles list selection and user input
+            combo.TextChanged += (sender, e) =>{ OnChanged(); };
+
+            // SelectedIndexChanged handles DropDownList selection
+            combo.SelectedIndexChanged += (sender, e) => { OnChanged(); };
+
+            // Detect Enter key and trigger search
             combo.KeyDown += (sender, e) => { if (e.KeyCode == Keys.Enter) OnSearch(); };
             Element = combo;
 
@@ -50,9 +80,9 @@ namespace dbqf.WinForms.UIElements
             else
             {
                 if (combo.DropDownStyle == ComboBoxStyle.DropDownList)
-                    combo.SelectedItem = values[0];
+                    combo.SelectedItem = (_cache = values[0]);
                 else
-                    combo.Text = values[0].ToString();
+                    combo.Text = (_cache = values[0]).ToString();
             }
         }
     }

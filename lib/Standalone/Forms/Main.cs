@@ -60,6 +60,18 @@ namespace Standalone.Forms
                 cboSearchFor.SelectedItem = Adapter.SelectedSubject;
             };
 
+            Adapter.CurrentViewChanged += (s, e) =>
+            {
+                foreach (TabPage tp in tabControlParameters.TabPages)
+                {
+                    if (tp.Tag == Adapter.CurrentView)
+                    {
+                        tabControlParameters.SelectedTab = tp;
+                        break;
+                    }
+                }
+            };
+
             // update datagridview when new data arrives
             Adapter.Result.DataSourceChanged += (s, e) => {
                 var data = ((DataTable)Adapter.Result.DataSource);

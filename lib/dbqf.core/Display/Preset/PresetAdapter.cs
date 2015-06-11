@@ -31,14 +31,40 @@ namespace dbqf.Display.Preset
             foreach (var part in Parts)
                 yield return part;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parts"></param>
+        /// <exception cref="System.ApplicationException">Thrown if some parts couldn't be represented in this view.</exception>
         public void SetParts(IEnumerable<IPartView> parts)
         {
+            int total = 0;
+            var skipped = new List<IPartView>();
             var myParts = new List<IPartView>(GetParts());
             foreach (var p in parts)
             {
+                total++;
                 int index = myParts.IndexOf(p);
                 if (index >= 0)
                     myParts[index].CopyFrom(p);
+                else
+                    skipped.Add(p);
+            }
+
+            // if skipped contains values, we should throw an exception here with the remaining parts
+            if (skipped.Count > 0)
+            {
+                var message = new StringBuilder();
+                message.AppendLine(String.Format("Could not load {0} of {1} parameters:", skipped.Count, total));
+                foreach (var p in skipped)
+                    message.AppendLine(String.Format("- {0} {1} {2}",
+                        p.SelectedPath.Description,
+                        p.SelectedBuilder.Label,
+                        p.Values != null ? 
+                            String.Join(", ", p.Values.Convert<object, string>(v => v != null ? v.ToString() : "").ToArray())
+                            : string.Empty));
+
+                throw new ApplicationException(message.ToString());
             }
         }
 

@@ -23,21 +23,18 @@ namespace Standalone.Core
     public class ApplicationBase : IApplication, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public ApplicationBase(Project project)
+        {
+            _views = new Dictionary<string, IView>();
+            Project = project;
+            SubjectSource = new BindingList<ISubject>(Project.Configuration);
+            SelectedSubject = SubjectSource[0];
+        }
 
         public Project Project { get; protected set; }
         public ExportServiceFactory ExportFactory { get; set; }
         public IViewPersistence ViewPersistence { get; set; }
-    
-        public string ApplicationTitle
-        {
-            get
-            {
-                return String.Concat("Database Query Framework",
-                    String.IsNullOrWhiteSpace(Project.Title) ? "" : String.Concat(" - ", Project.Title));
-            }
-        }
-
-        public IView CurrentView { get; set; }
+        public string ResultSQL { get; set; }
         public BindingList<ISubject> SubjectSource { get; private set; }
         public virtual ISubject SelectedSubject { get; set; }
         public event EventHandler SelectedSubjectChanged = delegate { };
@@ -46,7 +43,12 @@ namespace Standalone.Core
             SelectedSubjectChanged(this, EventArgs.Empty);
         }
 
-        public string ResultSQL { get; set; }
+        public IView CurrentView { get; set; }
+        public event EventHandler CurrentViewChanged = delegate { };
+        private void OnCurrentViewChanged()
+        {
+            CurrentViewChanged(this, EventArgs.Empty);
+        }
 
         [AlsoNotifyFor("IsSearching")]
         protected BackgroundWorker SearchWorker { get; set; }
@@ -55,11 +57,25 @@ namespace Standalone.Core
             get { return SearchWorker != null; }
         }
 
-        public ApplicationBase(Project project)
+        /// <summary>
+        /// Represents a string key mapping to an IView used for persistence and automatically changing view.
+        /// </summary>
+        protected Dictionary<string, IView> _views;
+        protected string GetViewKey(IView view)
         {
-            Project = project;
-            SubjectSource = new BindingList<ISubject>(Project.Configuration);
-            SelectedSubject = SubjectSource[0];
+            foreach (var pair in _views)
+                if (pair.Value == view)
+                    return pair.Key;
+            return null;
+        }
+    
+        public string ApplicationTitle
+        {
+            get
+            {
+                return String.Concat("Database Query Framework",
+                    String.IsNullOrWhiteSpace(Project.Title) ? "" : String.Concat(" - ", Project.Title));
+            }
         }
 
         public virtual void CancelSearch()
@@ -89,7 +105,13 @@ namespace Standalone.Core
         {
         }
 
+        /// <exception cref="System.ArgumentException">Thrown if the view SearchType can't be found in the application.</exception>
+        /// <exception cref="System.ApplicationException">Thrown if some parts couldn't be represented in the view.</exception>
         public virtual void Load(string filename)
+        {
+            Load(filename, true);
+        }
+        protected virtual void Load(string filename, bool reset)
         {
             if (ViewPersistence == null)
                 return;
@@ -97,9 +119,13 @@ namespace Standalone.Core
             // may throw a load exception
             SearchDocument doc = ViewPersistence.Load(filename);
 
-            // TODO: set the current view
             // TODO: set output fields
             SelectedSubject = doc.Subject;
+            if (!_views.ContainsKey(doc.SearchType))
+                throw new ArgumentException(String.Format("Could not determine the appropriate view to display (View requested: {0}).", doc.SearchType));
+            CurrentView = _views[doc.SearchType];
+            if (reset)
+                CurrentView.Reset();
             CurrentView.SetParts(doc.Parts);
         }
 
@@ -110,7 +136,7 @@ namespace Standalone.Core
 
             var doc = new SearchDocument(Project)
             {
-                SearchType = CurrentView.ToString(),
+                SearchType = GetViewKey(CurrentView),
                 Subject = SelectedSubject,
                 Parts = new List<IPartView>()
             };

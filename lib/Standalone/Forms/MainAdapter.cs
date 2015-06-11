@@ -24,7 +24,6 @@ namespace Standalone.Forms
     [ImplementPropertyChanged]
     public class MainAdapter : Core.ApplicationBase
     {
-
         public ResultFactory ResultFactory { get; set; }
         public IFieldPathFactory PathFactory { get; private set; }
     
@@ -46,6 +45,10 @@ namespace Standalone.Forms
             Preset = preset;
             Standard = standard;
             Advanced = advanced;
+            _views.Add("Preset", preset.Adapter);
+            _views.Add("Standard", standard.Adapter);
+            //_views.Add("Advanced", advanced.Adapter);
+
             RetrieveFields = fields;
 
             Preset.Adapter.Search += Adapter_Search;
@@ -153,21 +156,13 @@ namespace Standalone.Forms
             service.Export(filename, (DataTable)Result.DataSource);
         }
 
-        public override void Load(string filename)
+        protected override void Load(string filename, bool reset)
         {
-            // reset the view if there is no parameter (to catch the case where StandardView has parts but no actual search)
-            // or if the user asks to replace their existing search
-            if (CurrentView.GetParameter() == null)
-                CurrentView.Reset();
-            else
+            try { base.Load(filename, true); }
+            catch (Exception ex)
             {
-                var result = MessageBox.Show("You have existing search terms.\n\nDo you want to replace these terms instead of merging them?", "Load", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                    CurrentView.Reset();
-                else if (result == DialogResult.Cancel)
-                    return;
+                MessageBox.Show(ex.Message, "Load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            base.Load(filename);
         }
     }
 }

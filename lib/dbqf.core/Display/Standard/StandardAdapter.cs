@@ -42,6 +42,7 @@ namespace dbqf.Display.Standard
         /// Add as many parts as required that we can validly represent in the current setup.  This will leave other parts in place.
         /// </summary>
         /// <param name="parts"></param>
+        /// <exception cref="System.ApplicationException">Thrown if some parts couldn't be represented in this view.</exception>
         public void SetParts(IEnumerable<IPartView> parts)
         {
             // only adding parts, so leave existing Parts alone
@@ -49,10 +50,12 @@ namespace dbqf.Display.Standard
             //   can we copy from p?  if so, do it, otherwise try the next part
             //   if we get to the end and the last part we added couldn't be populated, remove it
 
+            int total = 0;
             var skipped = new List<IPartView>();
             StandardPart<T> part = null;
             foreach (var p in parts)
             {
+                total++;
                 if (part == null)
                     part = AddPart();
                 if (part.CanCopyFrom(p))
@@ -68,6 +71,20 @@ namespace dbqf.Display.Standard
                 this.RemovePart(part);
 
             // if skipped contains values, we should throw an exception here with the remaining parts
+            if (skipped.Count > 0)
+            {
+                var message = new StringBuilder();
+                message.AppendLine(String.Format("Could not load {0} of {1} parameters:", skipped.Count, total));
+                foreach (var p in skipped)
+                    message.AppendLine(String.Format("- {0} {1} {2}",
+                        p.SelectedPath.Description,
+                        p.SelectedBuilder.Label,
+                        p.Values != null ? 
+                            String.Join(", ", p.Values.Convert<object, string>(v => v != null ? v.ToString() : "").ToArray())
+                            : string.Empty));
+                
+                throw new ApplicationException(message.ToString());
+            }
         }
 
         public event EventHandler Search;

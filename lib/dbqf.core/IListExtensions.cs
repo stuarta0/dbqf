@@ -34,4 +34,12 @@ public static class IListExtensions
             converted.Add(convertor(item));
         return converted;
     }
+
+    public static T[] ToArray<T>(this IList<T> source)
+    {
+        var array = new T[source.Count];
+        for (int i = 0; i < source.Count; i++)
+            array[i] = source[i];
+        return array;
+    }
 }
