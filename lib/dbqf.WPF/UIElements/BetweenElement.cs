@@ -96,6 +96,11 @@ namespace dbqf.WPF.UIElements
                         _element2.SetValues(values[1]);
                 }
             }
+            else
+            {
+                _element1.SetValues(null);
+                _element2.SetValues(null);
+            }
         }
 
         protected virtual object GetValue(object[] values)

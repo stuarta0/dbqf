@@ -18,8 +18,8 @@ namespace Standalone.WPF.Installers.Views
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<StandardView>().LifestyleTransient(),
-                Component.For<StandardAdapter<System.Windows.UIElement>>().ImplementedBy<WpfStandardAdapter>().LifestyleTransient()
+                Component.For<StandardView>().LifestyleSingleton(),
+                Component.For<StandardAdapter<System.Windows.UIElement>>().ImplementedBy<Standalone.Core.Display.StandardAdapter<System.Windows.UIElement>>().LifestyleSingleton()
             );
         }
     }

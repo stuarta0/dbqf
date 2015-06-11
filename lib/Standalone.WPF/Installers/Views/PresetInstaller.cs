@@ -17,8 +17,8 @@ namespace Standalone.WPF.Installers.Views
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<PresetView>().LifestyleTransient(),
-                Component.For<PresetAdapter<System.Windows.UIElement>>().ImplementedBy<WpfPresetAdapter>().LifestyleTransient()
+                Component.For<PresetView>().LifestyleSingleton(),
+                Component.For<PresetAdapter<System.Windows.UIElement>>().ImplementedBy<Standalone.Core.Display.PresetAdapter<System.Windows.UIElement>>().LifestyleSingleton()
             );
         }
     }

@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Standalone.Core.Export;
+using Standalone.Core.Data;
+using dbqf.Serialization.Assemblers;
 
 namespace Standalone.WPF.Installers
 {
@@ -24,10 +26,13 @@ namespace Standalone.WPF.Installers
                 .WithService.DefaultInterfaces());
 
             container.Register(
-                Component.For<IControlFactory<System.Windows.UIElement>>().UsingFactoryMethod<WpfControlFactory>(kernel =>
+                Component.For<IControlFactory<System.Windows.UIElement>>().ImplementedBy<WpfControlFactory>());
+
+            container.Register(
+                Component.For<ParserFactory>().UsingFactoryMethod<ParserFactory>(kernel =>
                 {
-                    var factory = new WpfControlFactory();
-                    //factory.ParserLookup = kernel.Resolve<Standalone.Core.Serialization.Assemblers.FieldAssembler>().ParserLookup;
+                    var factory = new ParserFactory();
+                    factory.ParserLookup = kernel.Resolve<FieldAssembler>().ParserLookup;
                     return factory;
                 }));
 
