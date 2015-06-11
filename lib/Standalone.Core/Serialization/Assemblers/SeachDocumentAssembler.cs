@@ -41,7 +41,28 @@ namespace Standalone.Core.Serialization.Assemblers
                 },
                 SearchType = dto.SearchType
             };
+            
+            // verify project before continuing
+            var errors = new StringBuilder();
+            if (!_project.Id.Equals(doc.Project.Id))
+                errors.AppendLine("This search document was saved for a different project.");
+            int compare = 0;
+            if ((doc.Project.Version == null && _project.Version != null) || (doc.Project.Version != null && _project.Version == null))
+                errors.AppendLine("This search document was saved for a different version of the project.");
+            else if (!(doc.Project.Version == null && _project.Version == null))
+                compare = doc.Project.Version.CompareTo(_project.Version);
+            if (compare != 0)
+                errors.AppendLine(compare > 0 ? "The search document was saved for a newer version of the project." : "The search document was saved for an older version of the project.");
+            if (errors.Length > 0)
+                throw new SearchDocumentRestoreException(errors.ToString());
 
+            // if the project was OK, try to restore the subject
+            if (dto.SubjectIndex >= 0 && dto.SubjectIndex < _project.Configuration.Count)
+                doc.Subject = _project.Configuration[dto.SubjectIndex];
+            else
+                throw new SearchDocumentRestoreException(String.Format("Search index {0} does not exist in the project.", dto.SubjectIndex));
+
+            // now restore output/parts
             if (dto.Outputs != null)
             {
                 doc.Outputs = new List<FieldPath>();
@@ -55,26 +76,6 @@ namespace Standalone.Core.Serialization.Assemblers
                 foreach (var p in dto.Parts)
                     doc.Parts.Add(_partAssembler.Restore(p));
             }
-
-            // verify project
-            var errors = new StringBuilder();
-            if (!_project.Id.Equals(doc.Project.Id))
-                errors.AppendLine("Project identifier does not match the search document identifier.");
-            int compare = 0;
-            if ((doc.Project.Version == null && _project.Version != null) || (doc.Project.Version != null && _project.Version == null))
-                errors.AppendLine("Version mismatch between search document and project.");
-            else if (!(doc.Project.Version == null && _project.Version == null))
-                compare = doc.Project.Version.CompareTo(_project.Version);
-            if (compare != 0)
-                errors.AppendLine(compare > 0 ? "The search document was saved for a newer version of the project." : "The search document was saved for an older version of the project.");
-            if (errors.Length > 0)
-                throw new SearchDocumentRestoreException(errors.ToString());
-
-            // if the project was OK, try to restore the subject
-            if (dto.SubjectIndex >= 0 && dto.SubjectIndex < _project.Configuration.Count)
-                doc.Subject = _project.Configuration[dto.SubjectIndex];
-            else
-                throw new SearchDocumentRestoreException(String.Format("Search index {0} does not exist in the project.", dto.SubjectIndex));
 
             return doc;
         }
