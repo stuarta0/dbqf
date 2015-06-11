@@ -308,5 +308,19 @@ namespace Standalone.WPF
             };
             worker.RunWorkerAsync();
         }
+
+        protected override void Export(string filename, IExportService service)
+        {
+            service.Export(filename, Result);
+        }
+
+        protected override void Load(string filename, bool reset)
+        {
+            try { base.Load(filename, true); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Load", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
     }
 }
