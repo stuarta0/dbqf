@@ -26,21 +26,29 @@ namespace dbqf.Display.Preset
             get { return _parts; }
         }
         protected BindingList<PresetPart<T>> _parts;
-        public IEnumerable<IPartView> GetParts()
+        public IPartViewJunction GetParts()
         {
+            var conjunction = new PartViewJunction() { Type = JunctionType.Conjunction };
             foreach (var part in Parts)
-                yield return part;
+            {
+                if (part.GetParameter() != null)
+                    conjunction.Add(part);
+            }
+            return conjunction;
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="parts"></param>
         /// <exception cref="System.ApplicationException">Thrown if some parts couldn't be represented in this view.</exception>
-        public void SetParts(IEnumerable<IPartView> parts)
+        public void SetParts(IPartViewJunction parts)
         {
             int total = 0;
             var skipped = new List<IPartView>();
-            var myParts = new List<IPartView>(GetParts());
+            var myParts = new List<IPartView>();
+            foreach (var p in Parts)
+                myParts.Add(p);
+
             foreach (var p in parts)
             {
                 total++;
@@ -57,12 +65,7 @@ namespace dbqf.Display.Preset
                 var message = new StringBuilder();
                 message.AppendLine(String.Format("Could not load {0} of {1} parameters:", skipped.Count, total));
                 foreach (var p in skipped)
-                    message.AppendLine(String.Format("- {0} {1} {2}",
-                        p.SelectedPath.Description,
-                        p.SelectedBuilder.Label,
-                        p.Values != null ? 
-                            String.Join(", ", p.Values.Convert<object, string>(v => v != null ? v.ToString() : "").ToArray())
-                            : string.Empty));
+                    message.AppendLine(String.Concat("- ", p.ToString()));
 
                 throw new ApplicationException(message.ToString());
             }

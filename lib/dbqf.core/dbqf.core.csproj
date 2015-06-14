@@ -97,6 +97,7 @@
     <Compile Include="Display\IParameterBuilderFactory.cs" />
     <Compile Include="Display\IPartView.cs" />
     <Compile Include="Display\ListRequestedArgs.cs" />
+    <Compile Include="Display\PartViewJunction.cs" />
     <Compile Include="Display\Standard\StandardAdapter.cs" />
     <Compile Include="Display\Standard\StandardPart.cs" />
     <Compile Include="Criterion\Builders\BetweenBuilder.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Criterion\Values\BetweenValue.cs" />
     <Compile Include="Criterion\Values\DateValue.cs" />
     <Compile Include="Display\ParameterBuilderFactory.cs" />
+    <Compile Include="JunctionType.cs" />
     <Compile Include="Parsers\ConvertParser.cs" />
     <Compile Include="Parsers\ChainedParser.cs" />
     <Compile Include="Parsers\Parser.cs" />

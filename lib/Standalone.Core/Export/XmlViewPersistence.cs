@@ -66,7 +66,10 @@ namespace Standalone.Core.Export
 
                     /* Value types */
                     typeof(BetweenValue),
-                    typeof(DateValue)
+                    typeof(DateValue),
+
+                    /* PartViews */
+                    typeof(PartViewDTO)
                 };
             return _universe;
         }

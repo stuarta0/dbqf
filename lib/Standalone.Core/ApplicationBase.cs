@@ -138,21 +138,12 @@ namespace Standalone.Core
 
         protected virtual SearchDocument CreateSearchDocument()
         {
-            var doc = new SearchDocument(Project)
+            return new SearchDocument(Project)
             {
                 SearchType = GetViewKey(CurrentView),
                 Subject = SelectedSubject,
-                Parts = new List<IPartView>()
+                Parts = CurrentView.GetParts()
             };
-
-            // only save parts that have a parameter
-            foreach (var p in CurrentView.GetParts())
-            {
-                if (p.GetParameter() != null)
-                    doc.Parts.Add(p);
-            }
-
-            return doc;
         }
 
         public virtual void Save(string filename)

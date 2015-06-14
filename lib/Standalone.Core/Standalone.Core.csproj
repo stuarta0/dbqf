@@ -89,7 +89,7 @@
     <Compile Include="ListCacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchDocument.cs" />
-    <Compile Include="Serialization\Assemblers\SeachDocumentAssembler.cs" />
+    <Compile Include="Serialization\Assemblers\SearchDocumentAssembler.cs" />
     <Compile Include="Serialization\Assemblers\ProjectAssembler.cs" />
     <Compile Include="Serialization\Assemblers\SearchDocumentRestoreException.cs" />
     <Compile Include="Serialization\DTO\ProjectDTO.cs" />

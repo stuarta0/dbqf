@@ -10,16 +10,16 @@ namespace dbqf.Display
     public interface IView : IGetParameter
     {
         /// <summary>
-        /// Gets a list of parts contained in this view.
+        /// Gets a list of parts that have values currently contained in this view.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<IPartView> GetParts();
+        IPartViewJunction GetParts();
 
         /// <summary>
-        /// Sets a list of parts for a view.
+        /// Sets a list of parts that have values for a view.
         /// </summary>
         /// <param name="parts"></param>
-        void SetParts(IEnumerable<IPartView> parts);
+        void SetParts(IPartViewJunction parts);
 
         /// <summary>
         /// Resets current parameters in the view.

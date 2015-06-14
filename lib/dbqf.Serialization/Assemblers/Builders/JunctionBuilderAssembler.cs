@@ -16,7 +16,7 @@ namespace dbqf.Serialization.Assemblers.Builders
             if (sb == null)
                 return base.Restore(dto);
 
-            return new JunctionBuilder("Conjunction".Equals(sb.Type) ? JunctionBuilder.JunctionType.Conjunction : JunctionBuilder.JunctionType.Disjunction)
+            return new JunctionBuilder("Conjunction".Equals(sb.Type) ? JunctionType.Conjunction : JunctionType.Disjunction)
             {
                 Label = sb.Label,
                 Other = base.Chain.Restore(sb.Other)

@@ -28,13 +28,11 @@ namespace Standalone.Core
         /// <summary>
         /// Gets or sets the set of parts that contain values for searching in this document.
         /// </summary>
-        [XmlElement]
-        public IList<IPartView> Parts { get; set; }
+        public IPartViewJunction Parts { get; set; }
 
         /// <summary>
         /// Gets or sets the list of fields to use for custom output.  Null for default fields.
         /// </summary>
-        [XmlArray]
         public List<FieldPath> Outputs { get; set; }
 
         public SearchDocument()

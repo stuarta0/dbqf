@@ -1,4 +1,5 @@
-﻿using dbqf.Criterion;
+﻿using dbqf;
+using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.Serialization.Assemblers;
 using dbqf.Serialization.Assemblers.Display;
@@ -72,9 +73,10 @@ namespace Standalone.Core.Serialization.Assemblers
 
             if (dto.Parts != null)
             {
-                doc.Parts = new List<IPartView>();
-                foreach (var p in dto.Parts)
-                    doc.Parts.Add(_partAssembler.Restore(p));
+                var parts = _partAssembler.Restore(dto.Parts);
+                if (parts is IPartViewNode)
+                    parts = new PartViewJunction(JunctionType.Conjunction) { parts };
+                doc.Parts = (IPartViewJunction)parts;
             }
 
             return doc;
@@ -102,11 +104,7 @@ namespace Standalone.Core.Serialization.Assemblers
             }
 
             if (source.Parts != null)
-            {
-                dto.Parts = new List<PartViewDTO>();
-                foreach (var p in source.Parts)
-                    dto.Parts.Add(_partAssembler.Create(p));
-            }
+                dto.Parts = _partAssembler.Create(source.Parts);
 
             return dto;
         }

@@ -3,7 +3,6 @@ namespace dbqf.Criterion.Builders
 {
     public class JunctionBuilder : ParameterBuilder
     {
-        public enum JunctionType { Conjunction = 1, Disjunction = 2 };
         public virtual JunctionType Type { get; set; }
         public virtual ParameterBuilder Other { get; set; }
         

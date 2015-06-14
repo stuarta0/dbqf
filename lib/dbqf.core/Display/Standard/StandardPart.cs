@@ -10,7 +10,7 @@ namespace dbqf.Display.Standard
     /// Encapsulates logic relating to how to display a field in the standard search control.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class StandardPart<T> : IPartView, INotifyPropertyChanged, IDisposable
+    public class StandardPart<T> : IPartViewNode, INotifyPropertyChanged, IDisposable
     {
         protected IParameterBuilderFactory _builderFactory;
         protected IControlFactory<T> _controlFactory;
@@ -204,23 +204,25 @@ namespace dbqf.Display.Standard
         {
             if (CanCopyFrom(other))
             {
-                SelectedPath = other.SelectedPath; // this will call SelectedBuilder and UIElement setters
-                SelectedBuilder = other.SelectedBuilder; // this will call UIElement setter
-                Values = other.Values;
-                Parser = other.Parser;
+                var node = (IPartViewNode)other;
+                SelectedPath = node.SelectedPath; // this will call SelectedBuilder and UIElement setters
+                SelectedBuilder = node.SelectedBuilder; // this will call UIElement setter
+                Values = node.Values;
+                Parser = node.Parser;
             }
         }
 
         public virtual bool CanCopyFrom(IPartView other)
         {
-            if (other == null)
+            if (other == null || !(other is IPartViewNode))
                 return false;
 
             // ensure we can represent the path
-            if (Paths.Contains(other.SelectedPath))
+            var node = (IPartViewNode)other;
+            if (Paths.Contains(node.SelectedPath))
             {
                 // ensure there is a builder that can represent the incoming builder
-                return _builderFactory.Build(other.SelectedPath).Contains(other.SelectedBuilder);
+                return _builderFactory.Build(node.SelectedPath).Contains(node.SelectedBuilder);
 
                 // value and parser are irrelevant here
             }
@@ -239,7 +241,7 @@ namespace dbqf.Display.Standard
                 return false;
 
             // we can't use SelectedPath/SelectedBuilder/Parser since
-            // there may be more than StandardPart with the same set of values
+            // there may be more than one StandardPart with the same set of values
             // For example: 
             //   [0] = Name contains 'john'
             //   [1] = Name contains 'smith'
@@ -252,6 +254,16 @@ namespace dbqf.Display.Standard
             if (obj is IPartView)
                 return Equals((IPartView)obj);
             return base.Equals(obj);
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1} {2}",
+                SelectedPath.Description,
+                SelectedBuilder.Label,
+                Values != null ?
+                    String.Join(", ", Values.Convert<object, string>(v => v != null ? v.ToString() : string.Empty).ToArray())
+                    : string.Empty);
         }
     }
 }
