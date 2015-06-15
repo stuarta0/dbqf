@@ -44,6 +44,7 @@ namespace Sandbox
         private class SubjectName
         {
             public string Name;
+            public string MemberName;
             public Dictionary<IField, string> FieldNames;
             public string this[IField field]
             {
@@ -57,6 +58,7 @@ namespace Sandbox
                 FieldNames = new Dictionary<IField,string>();
                 foreach (var field in subject)
                     FieldNames.Add(field, reg.Replace(field.DisplayName, ""));
+                MemberName = String.Concat("_", Name.ToLower());
             }
         }
 
@@ -109,19 +111,23 @@ namespace {0}
             foreach (var subject in configuration)
             {
                 sb.AppendLine(String.Format(@"
-        private ISubject {0};
+        private Subject {0};
         public ISubject {1}
         {{
             get
             {{
                 if ({0} == null)
+                {{
                     {0} = new Subject({2})
-                        .Sql(@{3})",
-                    String.Concat("_", names[subject].Name.ToLower()),
+                        .Sql(@{3});",
+                    names[subject].MemberName,
                     names[subject].Name,
                     Quote(subject.DisplayName),
                     Quote(subject.Source)
                     ));
+
+                sb.AppendLine(String.Format(@"
+                    {0}", names[subject].MemberName));
 
                 // fill in the fields
                 foreach (var field in subject)
@@ -146,12 +152,13 @@ namespace {0}
                                 field == subject.IdField ? "FieldId" : field == subject.DefaultField ? "FieldDefault" : "Field",
                                 Quote(field.SourceName),
                                 Quote(field.DisplayName),
-                                field.DataType.Name,
+                                field.DataType.FullName,
                                 list
                                 ));
                     }
                 }
                 sb.AppendLine(String.Format(@"
+                ;}}
                 return {0};
             }}
         }}
