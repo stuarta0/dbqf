@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows.Input;
+using dbqf.WPF;
 
 namespace Standalone.WPF.Controls
 {
@@ -43,6 +45,17 @@ namespace Standalone.WPF.Controls
             else
                 UseFields = false;
         }
+
+        public ICommand ResetCommand
+        {
+            get
+            {
+                if (_resetCommand == null)
+                    _resetCommand = new RelayCommand(p => Fields.Clear());
+                return _resetCommand;
+            }
+        }
+        private ICommand _resetCommand;
 
         #region Node class definitions
 

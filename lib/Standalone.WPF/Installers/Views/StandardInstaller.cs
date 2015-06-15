@@ -19,7 +19,7 @@ namespace Standalone.WPF.Installers.Views
         {
             container.Register(
                 Component.For<StandardView>().LifestyleSingleton(),
-                Component.For<StandardAdapter<System.Windows.UIElement>>().ImplementedBy<Standalone.Core.Display.StandardAdapter<System.Windows.UIElement>>().LifestyleSingleton()
+                Component.For<StandardAdapter<System.Windows.UIElement>>().ImplementedBy<Standalone.WPF.Display.WpfStandardAdapter>().LifestyleSingleton()
             );
         }
     }

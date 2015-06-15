@@ -85,6 +85,7 @@
       <DependentUpon>RetrieveFieldsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\RetrieveFieldsViewAdapter.cs" />
+    <Compile Include="Display\WpfStandardAdapter.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
     <Compile Include="Installers\DataInstaller.cs" />
     <Compile Include="Installers\FactoryInstaller.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Xml.Serialization;
 using dbqf.Serialization.DTO.Parsers;
 
@@ -29,7 +30,8 @@ namespace dbqf.Serialization.DTO
 
         #region IRelationField
 
-        [System.ComponentModel.DefaultValue(-1)]
+        [DefaultValue(-1)]
+        [XmlAttribute("RelatedSubject")]
         public int RelatedSubjectIndex { get; set; }
 
         [XmlElement("OutputType")]
@@ -42,11 +44,14 @@ namespace dbqf.Serialization.DTO
 
         #region dbqf Properties
 
-        [XmlArray]
+        [XmlArray()]
         [XmlArrayItem("DelimitedParser", typeof(DelimitedParserDTO))]
         [XmlArrayItem("ChainedParser", typeof(ChainedParserDTO))]
         [XmlArrayItem("ConvertParser", typeof(ConvertParserDTO))]
         public List<ParserDTO> Parsers { get; set; }
+
+        [XmlIgnore]
+        public bool ParsersSpecified { get { return Parsers != null && Parsers.Count > 0; } }
 
         #endregion
 

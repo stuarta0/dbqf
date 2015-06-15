@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ConfigurationConvertor.cs" />
     <Compile Include="ConfigurationValidation.cs" />
+    <Compile Include="FluentGenerator.cs" />
     <Compile Include="v1\Actions\ProcessAction.cs" />
     <Compile Include="v1\Actions\SubjectAction.cs" />
     <Compile Include="v1\Actions\UriAction.cs" />

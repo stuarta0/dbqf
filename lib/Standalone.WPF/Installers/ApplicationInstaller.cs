@@ -17,8 +17,7 @@ namespace Standalone.WPF.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<Shell>(),
-                Component.For<IShell>().UsingFactoryMethod<Shell>(kernel => kernel.Resolve<Shell>()),
+                Component.For<IShell, Shell>().ImplementedBy<Shell>(),
                 Component.For<Standalone.WPF.MainWindow>(),
                 Component.For<Standalone.WPF.MainWindowAdapter>(),
                 Component.For<Standalone.WPF.Controls.RetrieveFieldsView>(),

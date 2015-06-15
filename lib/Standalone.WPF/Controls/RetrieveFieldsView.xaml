@@ -33,6 +33,6 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
-        <Button Grid.Row="2" Content="Reset" HorizontalAlignment="Right" Width="70" />
+        <Button Grid.Row="2" Content="Reset" HorizontalAlignment="Right" Width="70" Command="{Binding ResetCommand}" />
     </Grid>
 </UserControl>
