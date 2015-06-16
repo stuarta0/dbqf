@@ -9,6 +9,12 @@ namespace Standalone.Core.Export
 {
     public interface IExportService
     {
-        void Export(string filename, DataTable data);
+        /// <summary>
+        /// Exports data to a file.
+        /// </summary>
+        /// <param name="filename">Export data to this file.</param>
+        /// <param name="data">The data to export.</param>
+        /// <returns>True if the file was opened by the service, false if the file is closed.</returns>
+        bool Export(string filename, DataTable data);
     }
 }

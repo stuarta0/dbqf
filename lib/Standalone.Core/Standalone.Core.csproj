@@ -66,6 +66,10 @@
     <Compile Include="ApplicationBase.cs" />
     <Compile Include="Display\ConnectionAdapter.cs" />
     <Compile Include="Display\ProjectAdapter.cs" />
+    <Compile Include="Export\Filter.cs" />
+    <Compile Include="Export\IExportServiceFactory.cs" />
+    <Compile Include="Installers\ParserInstaller.cs" />
+    <Compile Include="Installers\IOInstaller.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Data\ResultFactory.cs" />
     <Compile Include="Data\SQLiteResults.cs" />

@@ -9,7 +9,7 @@ using Standalone.Core.Export;
 
 namespace Standalone.Installers
 {
-    public class FactoryInstaller : IWindsorInstaller
+    public class WinFormsFactoryInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
@@ -21,18 +21,6 @@ namespace Standalone.Installers
 
             container.Register(
                 Component.For<IControlFactory<Control>>().ImplementedBy<dbqf.WinForms.UIElements.WinFormsControlFactory>());
-
-            container.Register(
-                Component.For<ParserFactory>().UsingFactoryMethod<ParserFactory>(kernel =>
-                {
-                    var factory = new ParserFactory();
-                    factory.ParserLookup = kernel.Resolve<FieldAssembler>().ParserLookup;
-                    return factory;
-                }));
-
-            container.Register(
-                Component.For<ExportServiceFactory>(),
-                Component.For<IViewPersistence>().ImplementedBy<XmlViewPersistence>());
         }
     }
 }

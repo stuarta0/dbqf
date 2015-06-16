@@ -38,7 +38,7 @@ namespace Standalone.Core
         }
 
         public Project Project { get; protected set; }
-        public ExportServiceFactory ExportFactory { get; set; }
+        public IExportServiceFactory ExportFactory { get; set; }
         public IViewPersistence ViewPersistence { get; set; }
         public string ResultSQL { get; set; }
         public BindingList<ISubject> SubjectSource { get; private set; }
@@ -92,24 +92,9 @@ namespace Standalone.Core
             SearchWorker = null;
         }
 
-        public virtual void Export(string filename)
+        public virtual bool Export(string filename)
         {
-            if (ExportFactory == null)
-                return; 
-
-            var ext = System.IO.Path.GetExtension(filename);
-            ExportServiceFactory.ExportType etype;
-            if (ext.Equals(".csv", StringComparison.OrdinalIgnoreCase))
-                etype = ExportServiceFactory.ExportType.CommaSeparated;
-            else if (ext.Equals(".txt", StringComparison.OrdinalIgnoreCase))
-                etype = ExportServiceFactory.ExportType.TabDelimited;
-            else
-                throw new NotImplementedException(String.Concat("Export to file with extension ", ext, " not implemented."));
-
-            Export(filename, ExportFactory.Create(etype));
-        }
-        protected virtual void Export(string filename, IExportService service)
-        {
+            return false;
         }
 
         /// <exception cref="System.ArgumentException">Thrown if the view SearchType can't be found in the application.</exception>

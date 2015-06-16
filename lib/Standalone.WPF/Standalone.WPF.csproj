@@ -88,7 +88,7 @@
     <Compile Include="Display\WpfStandardAdapter.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
     <Compile Include="Installers\DataInstaller.cs" />
-    <Compile Include="Installers\FactoryInstaller.cs" />
+    <Compile Include="Installers\WpfFactoryInstaller.cs" />
     <Compile Include="Installers\Views\FieldPathComboInstaller.cs" />
     <Compile Include="Installers\Views\StandardInstaller.cs" />
     <Compile Include="Installers\Views\PresetInstaller.cs" />

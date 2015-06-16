@@ -122,7 +122,13 @@ namespace Standalone.WPF
             get
             {
                 if (_exportCommand == null)
-                    _exportCommand = new RelayCommand(p => Export(DialogService.SaveFileDialog("Comma-separated (*.csv)|*.csv|Tab-delimited (*.txt)|*.txt")));
+                    _exportCommand = new RelayCommand(p =>
+                        {
+                            // TODO: handle exceptions in export
+                            Export(DialogService.SaveFileDialog(
+                                String.Join("|", ExportFactory.GetFilters().Convert<Filter, string>(p2 => String.Concat(p2.Name, "|", p2.FilePattern)))
+                            ));
+                        });
                 return _exportCommand;
             }
         }
@@ -309,9 +315,9 @@ namespace Standalone.WPF
             worker.RunWorkerAsync();
         }
 
-        protected override void Export(string filename, IExportService service)
+        public override bool Export(string filename)
         {
-            service.Export(filename, Result);
+            return ExportFactory.Create(filename).Export(filename, Result);
         }
 
         protected override SearchDocument Load(string filename, bool reset)

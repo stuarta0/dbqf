@@ -91,7 +91,7 @@
     <Compile Include="Forms\RetrieveFieldsViewAdapter.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
     <Compile Include="Installers\DataInstaller.cs" />
-    <Compile Include="Installers\FactoryInstaller.cs" />
+    <Compile Include="Installers\WinFormsFactoryInstaller.cs" />
     <Compile Include="Installers\Views\FieldPathComboInstaller.cs" />
     <Compile Include="Installers\Views\AdvancedInstaller.cs" />
     <Compile Include="Installers\Views\StandardInstaller.cs" />

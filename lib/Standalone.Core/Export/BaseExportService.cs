@@ -18,7 +18,7 @@ namespace Standalone.Core.Export
             replacer = new Regex("(\\r\\n)|(\")");
         }
 
-        public virtual void Export(string filename, DataTable data)
+        public virtual bool Export(string filename, DataTable data)
         {
             var contents = new StringBuilder();
 
@@ -40,6 +40,7 @@ namespace Standalone.Core.Export
             }
 
             System.IO.File.WriteAllText(filename, contents.ToString());
+            return false;
         }
 
         public virtual string Quote(string value)

@@ -151,9 +151,9 @@ namespace Standalone.Forms
             worker.RunWorkerAsync();
         }
 
-        protected override void Export(string filename, IExportService service)
+        public override bool Export(string filename)
         {
-            service.Export(filename, (DataTable)Result.DataSource);
+            return ExportFactory.Create(filename).Export(filename, (DataTable)Result.DataSource);
         }
 
         protected override SearchDocument Load(string filename, bool reset)

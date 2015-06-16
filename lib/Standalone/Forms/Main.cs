@@ -10,6 +10,7 @@ using dbqf.Criterion;
 using dbqf.WinForms;
 using Standalone.Core;
 using dbqf.Display;
+using Standalone.Core.Export;
 
 namespace Standalone.Forms
 {
@@ -177,15 +178,34 @@ namespace Standalone.Forms
                 MessageBox.Show("There are no results to export.  Please perform a search first, then export.", "Export");
                 return;
             }
+            else if (Adapter.ExportFactory == null)
+            {
+                MessageBox.Show("No mechanism provided for export.", "Export");
+                return;
+            }
 
+            sfdExport.Filter = String.Join("|", Adapter.ExportFactory.GetFilters().Convert<Filter, string>(p => String.Concat(p.Name, "|", p.FilePattern)));
             if (sfdExport.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
-                Adapter.Export(sfdExport.FileName);
-                var result = MessageBox.Show(this, String.Concat("Do you want to open ", System.IO.Path.GetFileName(sfdExport.FileName), "?"), "Export", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                bool opened = false;
+                try
                 {
-                    try { System.Diagnostics.Process.Start(sfdExport.FileName); }
-                    catch (Exception ex) { MessageBox.Show(this, String.Concat("Unable to open file.", Environment.NewLine, ex.Message), "Export", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
+                    opened = Adapter.Export(sfdExport.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("There was an error while exporting the results.\n" + ex.Message, "Export", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                if (!opened)
+                {
+                    var result = MessageBox.Show(this, String.Concat("Do you want to open ", System.IO.Path.GetFileName(sfdExport.FileName), "?"), "Export", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        try { System.Diagnostics.Process.Start(sfdExport.FileName); }
+                        catch (Exception ex) { MessageBox.Show(this, String.Concat("Unable to open file.", Environment.NewLine, ex.Message), "Export", MessageBoxButtons.OK, MessageBoxIcon.Exclamation); }
+                    }
                 }
             }
         }
