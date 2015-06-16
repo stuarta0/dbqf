@@ -2,9 +2,11 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using dbqf.Criterion;
+using dbqf.Criterion.Builders;
 using dbqf.Serialization.Assemblers;
 using dbqf.Serialization.Assemblers.Builders;
 using dbqf.Serialization.Assemblers.Criterion;
+using dbqf.Serialization.DTO.Builders;
 using dbqf.Serialization.DTO.Criterion;
 using Standalone.Core.Serialization.Assemblers;
 
@@ -43,12 +45,18 @@ namespace Standalone.Core.Installers
                 Component.For<BuilderAssembler>().UsingFactoryMethod(kernel =>
                 {
                     BuilderAssembler root = new JunctionBuilderAssembler();
-                    root.Add(new NullBuilderAssembler())
-                        .Add(new NotBuilderAssembler())
+                    root.Add(new NotBuilderAssembler())
                         .Add(new SimpleBuilderAssembler())
                         .Add(new BooleanBuilderAssembler())
                         .Add(new LikeBuilderAssembler())
-                        .Add(new BetweenBuilderAssembler());
+                        .Add(new BuilderAssembler<BetweenBuilder, BetweenBuilderDTO>())
+                        .Add(new BuilderAssembler<NullBuilder, NullBuilderDTO>())
+                        .Add(new BuilderAssembler<DateBetweenBuilder, DateBetweenBuilderDTO>())
+                        .Add(new BuilderAssembler<DateEqualsBuilder, DateEqualsBuilderDTO>())
+                        .Add(new BuilderAssembler<DateGtBuilder, DateGtBuilderDTO>())
+                        .Add(new BuilderAssembler<DateGtEqualBuilder, DateGtEqualBuilderDTO>())
+                        .Add(new BuilderAssembler<DateLtBuilder, DateLtBuilderDTO>())
+                        .Add(new BuilderAssembler<DateLtEqualBuilder, DateLtEqualBuilderDTO>());
 
                     var item = root;
                     while (item != null)

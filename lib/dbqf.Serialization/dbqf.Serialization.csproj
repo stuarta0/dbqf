@@ -36,13 +36,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assemblers\AssemblyLine.cs" />
-    <Compile Include="Assemblers\Builders\BetweenBuilderAssembler.cs" />
     <Compile Include="Assemblers\Builders\BooleanBuilderAssembler.cs" />
+    <Compile Include="Assemblers\Builders\BuilderAssemblerGeneric.cs" />
     <Compile Include="Assemblers\Builders\BuilderAssembler.cs" />
     <Compile Include="Assemblers\Builders\JunctionBuilderAssembler.cs" />
     <Compile Include="Assemblers\Builders\LikeBuilderAssembler.cs" />
     <Compile Include="Assemblers\Builders\NotBuilderAssembler.cs" />
-    <Compile Include="Assemblers\Builders\NullBuilderAssembler.cs" />
     <Compile Include="Assemblers\Builders\SimpleBuilderAssembler.cs" />
     <Compile Include="Assemblers\ConfigurationAssembler.cs" />
     <Compile Include="Assemblers\Criterion\JunctionParameterAssembler.cs" />
@@ -58,6 +57,7 @@
     <Compile Include="Assemblers\SubjectAssembler.cs" />
     <Compile Include="DTO\Builders\BetweenBuilderDTO.cs" />
     <Compile Include="DTO\Builders\BooleanBuilderDTO.cs" />
+    <Compile Include="DTO\Builders\DateBuilders.cs" />
     <Compile Include="DTO\Builders\JunctionBuilderDTO.cs" />
     <Compile Include="DTO\Builders\LikeBuilderDTO.cs" />
     <Compile Include="DTO\Builders\NotBuilderDTO.cs" />
@@ -96,6 +96,7 @@
       <Name>dbqf.core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
