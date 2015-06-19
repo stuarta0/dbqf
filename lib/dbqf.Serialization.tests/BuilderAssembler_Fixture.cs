@@ -94,7 +94,7 @@ namespace dbqf.Serialization.tests
         public void NullBuilder_Restore()
         {
             // Arrange
-            var assemblerUnderTest = new NullBuilderAssembler(null);
+            var assemblerUnderTest = new BuilderAssembler<NullBuilder, NullBuilderDTO>(null);
             var dto = new NullBuilderDTO()
             {
                 Label = "test"
@@ -114,7 +114,7 @@ namespace dbqf.Serialization.tests
         public void NullBuilder_Create()
         {
             // Arrange
-            var assemblerUnderTest = new NullBuilderAssembler(null);
+            var assemblerUnderTest = new BuilderAssembler<NullBuilder, NullBuilderDTO>(null);
             var builder = new NullBuilder()
             {
                 Label = "test"
@@ -268,7 +268,7 @@ namespace dbqf.Serialization.tests
         public void BetweenBuilder_Restore()
         {
             // Arrange
-            var assemblerUnderTest = new BetweenBuilderAssembler(null);
+            var assemblerUnderTest = new BuilderAssembler<BetweenBuilder, BetweenBuilderDTO>(null);
             var dto = new BetweenBuilderDTO()
             {
                 Label = "test"
@@ -288,7 +288,7 @@ namespace dbqf.Serialization.tests
         public void BetweenBuilder_Create()
         {
             // Arrange
-            var assemblerUnderTest = new BetweenBuilderAssembler(null);
+            var assemblerUnderTest = new BuilderAssembler<BetweenBuilder, BetweenBuilderDTO>(null);
             var builder = new BetweenBuilder()
             {
                 Label = "test"
