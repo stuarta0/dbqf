@@ -113,17 +113,17 @@ namespace Standalone.Forms
             else
             {
                 if (node is SubjectNode)
-                    toExpand = ((SubjectNode)node).Subject;
-                else if (node is FieldNode)
                 {
-                    if (((FieldNode)node).Field is IRelationField)
-                        toExpand = ((IRelationField)((FieldNode)node).Field).RelatedSubject;
-                    else
-                        yield break; // can't expand non-relation fields
+                    foreach (var f in PathFactory.GetFields(((SubjectNode)node).Subject))
+                        yield return new FieldNode() { Parent = node, HasChildren = f[0] is IRelationField, Field = f[0] };
                 }
-
-                foreach (var f in PathFactory.GetFields(toExpand))
-                    yield return new FieldNode() { Parent = node, HasChildren = f[0] is IRelationField, Field = f[0] };
+                else if (node is FieldNode && ((FieldNode)node).Field is IRelationField)
+                {
+                    foreach (var f in PathFactory.GetFields((IRelationField)((FieldNode)node).Field))
+                        yield return new FieldNode() { Parent = node, HasChildren = f[0] is IRelationField, Field = f[0] };
+                }
+                else
+                    yield break;
             }
         }
 
@@ -146,7 +146,7 @@ namespace Standalone.Forms
             }
             else if (n is FieldNode && ((FieldNode)n).Field is IRelationField)
             {
-                var fields = PathFactory.GetFields(((IRelationField)((FieldNode)n).Field).RelatedSubject);
+                var fields = PathFactory.GetFields((IRelationField)((FieldNode)n).Field);
                 foreach (var f in fields)
                 {
                     // ensure hierarchy is maintained

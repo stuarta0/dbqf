@@ -129,7 +129,7 @@ namespace Standalone.WPF.Controls
                     {
                         base.Children = new ObservableCollection<Node>();
                         if (Field is IRelationField)
-                            foreach (var f in _factory.GetFields(((IRelationField)Field).RelatedSubject))
+                            foreach (var f in _factory.GetFields((IRelationField)Field))
                                 base.Children.Add(new FieldNode(f[0], _factory) { Parent = this });
                     }
                     return base.Children;
@@ -160,7 +160,7 @@ namespace Standalone.WPF.Controls
             }
             else if (n is FieldNode && ((FieldNode)n).Field is IRelationField)
             {
-                var fields = PathFactory.GetFields(((IRelationField)((FieldNode)n).Field).RelatedSubject);
+                var fields = PathFactory.GetFields((IRelationField)((FieldNode)n).Field);
                 foreach (var f in fields)
                 {
                     // ensure hierarchy is maintained
