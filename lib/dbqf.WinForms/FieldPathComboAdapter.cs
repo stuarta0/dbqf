@@ -24,7 +24,7 @@ namespace dbqf.WinForms
         /// <summary>
         /// Gets or sets the FieldPath that defines which combos will be displayed.
         /// </summary>
-        public FieldPath SelectedPath
+        public IFieldPath SelectedPath
         {
             get { return _path; }
             set
@@ -51,12 +51,12 @@ namespace dbqf.WinForms
 
                 // now fix up the combo sources
                 for (int i = indexOfChange; i < _path.Count; i++)
-                    ComboSource.Add(new BindingList<IField>(_pathFactory.GetFields(_path[i].Subject).Convert<FieldPath, IField>(p => p[0])));
+                    ComboSource.Add(new BindingList<IField>(_pathFactory.GetFields(_path[i].Subject).Convert<IFieldPath, IField>(p => p[0])));
                 ComboSource.RaiseListChangedEvents = true;
                 ComboSource.ResetBindings();
             }
         }
-        private FieldPath _path;
+        private IFieldPath _path;
 
         private IFieldPathFactory _pathFactory;
         public FieldPathComboAdapter(IFieldPathFactory pathFactory)

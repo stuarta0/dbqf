@@ -187,7 +187,7 @@ namespace Standalone.Forms
             var doc = base.CreateSearchDocument();
             var adapter = RetrieveFields.Adapter;
             if (adapter.UseFields && adapter.Fields.Count > 0)
-                doc.Outputs = new List<FieldPath>(adapter.Fields);
+                doc.Outputs = new List<IFieldPath>(adapter.Fields);
             return doc;
         }
     }

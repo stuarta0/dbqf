@@ -11,7 +11,7 @@ namespace dbqf.Criterion.Builders
         /// <summary>
         /// Ignores values, just provides a NullParameter.
         /// </summary>
-        public override IParameter Build(FieldPath path, params object[] values)
+        public override IParameter Build(IFieldPath path, params object[] values)
         {
             return new NullParameter(path);
         }

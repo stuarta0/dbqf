@@ -22,7 +22,7 @@ namespace dbqf.WinForms.Standard
         protected override StandardPart<Control> CreatePart()
         {
             var part = new WinFormsStandardPart(_builderFactory, _controlFactory);
-            part.Paths = new BindingList<FieldPath>(_paths);
+            part.Paths = new BindingList<IFieldPath>(_paths);
             part.UIElement = _controlFactory.Build(part.Paths[0], _builderFactory.GetDefault(part.Paths[0]));
             return part;
         }

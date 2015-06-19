@@ -8,7 +8,7 @@ namespace dbqf.Criterion
 {
     public class LikeParameter : IParameter
     {
-        public FieldPath Path { get; private set; }
+        public IFieldPath Path { get; private set; }
         public string Value { get; private set; }
         public MatchMode Mode { get; private set; }
 
@@ -22,12 +22,12 @@ namespace dbqf.Criterion
         {
         }
 
-        public LikeParameter(FieldPath path, string value)
+        public LikeParameter(IFieldPath path, string value)
             : this(path, value, MatchMode.Anywhere)
         {
         }
 
-        public LikeParameter(FieldPath path, string value, MatchMode mode)
+        public LikeParameter(IFieldPath path, string value, MatchMode mode)
         {
             Path = path;
             Value = value;

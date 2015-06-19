@@ -53,7 +53,7 @@ namespace dbqf.Processing
             _paths = new Dictionary<IRelationField, UniqueFieldPath>();
         }
 
-        public virtual void Add(FieldPath path)
+        public virtual void Add(IFieldPath path)
         {
             // nothing to do if we're at the end of the path
             if (path.Count <= 1)
@@ -70,7 +70,7 @@ namespace dbqf.Processing
                 throw new ArgumentException(String.Format("Cannot add given FieldPath to UniqueFieldPath as parent subjects at this point differ ({0}, trying to add {1}).", Field.ToString(), path[0].ToString()));
         }
 
-        public virtual UniqueFieldPath this[FieldPath key]
+        public virtual UniqueFieldPath this[IFieldPath key]
         {
             get
             {
@@ -119,7 +119,7 @@ namespace dbqf.Processing
         /// </summary>
         /// <param name="paths"></param>
         /// <returns></returns>
-        public static UniqueFieldPaths FromPaths(IList<FieldPath> paths)
+        public static UniqueFieldPaths FromPaths(IList<IFieldPath> paths)
         {
             var root = new UniqueFieldPaths();
             foreach (var path in paths)
@@ -143,7 +143,7 @@ namespace dbqf.Processing
             return root;
         }
 
-        public virtual UniqueFieldPath this[FieldPath key]
+        public virtual UniqueFieldPath this[IFieldPath key]
         {
             get
             {

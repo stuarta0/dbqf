@@ -34,7 +34,7 @@ namespace dbqf.Display.Standard
         /// <summary>
         /// Gets or sets the list of field paths to use within this control.
         /// </summary>
-        public virtual BindingList<FieldPath> Paths
+        public virtual BindingList<IFieldPath> Paths
         {
             get { return _paths; }
             set
@@ -47,7 +47,7 @@ namespace dbqf.Display.Standard
                 SelectedPath = _paths[0];
             }
         }
-        private BindingList<FieldPath> _paths;
+        private BindingList<IFieldPath> _paths;
 
         /// <summary>
         /// Gets the list of builders that are relevant to the current SelectedPath.
@@ -66,7 +66,7 @@ namespace dbqf.Display.Standard
         /// <summary>
         /// Gets or sets the field used for this control.
         /// </summary>
-        public virtual FieldPath SelectedPath 
+        public virtual IFieldPath SelectedPath 
         {
             get { return _path; }
             set
@@ -79,7 +79,7 @@ namespace dbqf.Display.Standard
                 SelectedBuilder = Builders[0];
             }
         }
-        protected FieldPath _path;
+        protected IFieldPath _path;
 
         /// <summary>
         /// Gets or sets the parameter builder to use with this control.

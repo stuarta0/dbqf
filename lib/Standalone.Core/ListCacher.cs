@@ -14,7 +14,7 @@ namespace Standalone.Core
 {
     public class ListCacher
     {
-        protected Dictionary<FieldPath, CacheData> _listCache;
+        protected Dictionary<IFieldPath, CacheData> _listCache;
         protected class CacheData
         {
             public BackgroundWorker CurrentWorker;
@@ -36,16 +36,16 @@ namespace Standalone.Core
 
         public ListCacher(ResultFactory factory, IConfiguration configuration)
         {
-            _listCache = new Dictionary<FieldPath, CacheData>();
+            _listCache = new Dictionary<IFieldPath, CacheData>();
             ResultFactory = factory;
         }
 
-        public bool ContainsKey(FieldPath path)
+        public bool ContainsKey(IFieldPath path)
         {
             return _listCache.ContainsKey(path);
         }
 
-        public BindingList<object> this[FieldPath key]
+        public BindingList<object> this[IFieldPath key]
         {
             get
             {
@@ -108,7 +108,7 @@ namespace Standalone.Core
         /// Adds or updates data for a FieldPath list in the cache.  If it already exists, it will query the data again.
         /// </summary>
         /// <param name="path"></param>
-        public virtual void UpdateCache(dbqf.Criterion.FieldPath path)
+        public virtual void UpdateCache(dbqf.Criterion.IFieldPath path)
         {
             // if item exists in cache, clear and update
             // if item does not exist in cache, add it

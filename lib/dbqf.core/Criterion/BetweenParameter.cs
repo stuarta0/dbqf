@@ -8,7 +8,7 @@ namespace dbqf.Criterion
 {
     public class BetweenParameter : IParameter
     {
-        private FieldPath _path;
+        private IFieldPath _path;
         private object _lo;
         private object _hi;
 
@@ -17,7 +17,7 @@ namespace dbqf.Criterion
         {
         }
 
-        public BetweenParameter(FieldPath path, object lo, object hi)
+        public BetweenParameter(IFieldPath path, object lo, object hi)
         {
             _path = path;
             _lo = lo;

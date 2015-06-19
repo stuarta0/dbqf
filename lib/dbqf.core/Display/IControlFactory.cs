@@ -11,7 +11,7 @@ namespace dbqf.Display
         /// <param name="path">The field path that may be used to determine the control to build.</param>
         /// <param name="builder">The parameter builder that may be used to determine the control to build.</param>
         /// <returns></returns>
-        UIElement<T> Build(FieldPath path, ParameterBuilder builder);
+        UIElement<T> Build(IFieldPath path, ParameterBuilder builder);
 
         /// <summary>
         /// Occurs when a control is built that could support a list of suggestions.

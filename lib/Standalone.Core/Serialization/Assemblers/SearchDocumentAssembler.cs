@@ -66,7 +66,7 @@ namespace Standalone.Core.Serialization.Assemblers
             // now restore output/parts
             if (dto.Outputs != null)
             {
-                doc.Outputs = new List<FieldPath>();
+                doc.Outputs = new List<IFieldPath>();
                 foreach (var f in dto.Outputs)
                     doc.Outputs.Add(_pathAssembler.Restore(f));
             }

@@ -25,7 +25,7 @@ namespace dbqf.Criterion.Builders
             Other = other;
         }
 
-        public override IParameter Build(FieldPath path, params object[] values)
+        public override IParameter Build(IFieldPath path, params object[] values)
         {
             var other = Other.Build(path, values);
             if (other == null)

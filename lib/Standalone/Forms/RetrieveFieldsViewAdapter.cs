@@ -28,12 +28,12 @@ namespace Standalone.Forms
         /// <summary>
         /// Gets or sets the current path for adding a custom field path.
         /// </summary>
-        public FieldPath SelectedPath { get; set; }
+        public IFieldPath SelectedPath { get; set; }
 
         /// <summary>
         /// Gets the collection of user-defined field paths that should be retrieved.
         /// </summary>
-        public BindingList<FieldPath> Fields { get; set; }
+        public BindingList<IFieldPath> Fields { get; set; }
 
         public IFieldPathFactory PathFactory { get; private set; }
         private IConfiguration _configuration;
@@ -41,7 +41,7 @@ namespace Standalone.Forms
         {
             _configuration = configuration;
             PathFactory = pathFactory;
-            Fields = new BindingList<FieldPath>();
+            Fields = new BindingList<IFieldPath>();
             Fields.ListChanged += Fields_ListChanged;
         }
 
@@ -127,7 +127,7 @@ namespace Standalone.Forms
             }
         }
 
-        public IEnumerable<FieldPath> Add(Node n)
+        public IEnumerable<IFieldPath> Add(Node n)
         {
             // if node is SubjectNode, add all fields (and defaults for IRelationFields)
             // if node is FieldNode with an IRelationField, add all fields for the related subject (and defaults for IRelationFields)
@@ -173,7 +173,7 @@ namespace Standalone.Forms
                 }
                 if (!Fields.Contains(path))
                     Fields.Add(path);
-                return new FieldPath[] { path };
+                return new IFieldPath[] { path };
             }
         }
 

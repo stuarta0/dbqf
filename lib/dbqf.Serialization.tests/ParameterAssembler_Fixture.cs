@@ -13,7 +13,7 @@ namespace Standalone.Core.tests.Serialization
     {
         private class FieldPathAssemblerStub : FieldPathAssembler
         {
-            public static FieldPath Source { get; private set; }
+            public static IFieldPath Source { get; private set; }
             public static FieldPathDTO DTO { get; private set; }
             static FieldPathAssemblerStub()
             {
@@ -26,12 +26,12 @@ namespace Standalone.Core.tests.Serialization
             {
             }
 
-            public override FieldPath Restore(FieldPathDTO dto)
+            public override IFieldPath Restore(FieldPathDTO dto)
             {
                 return Source;
             }
 
-            public override FieldPathDTO Create(FieldPath source)
+            public override FieldPathDTO Create(IFieldPath source)
             {
                 return DTO;
             }

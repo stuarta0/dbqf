@@ -9,7 +9,7 @@ namespace dbqf.WPF.UIElements
     public class WpfControlFactory: IControlFactory<UIElement>
     {
         public event ListRequestedEventHandler ListRequested;
-        private ListRequestedArgs OnListRequired(FieldPath path)
+        private ListRequestedArgs OnListRequired(IFieldPath path)
         {
             var args = new ListRequestedArgs(path);
             if (ListRequested != null)
@@ -17,7 +17,7 @@ namespace dbqf.WPF.UIElements
             return args;
         }
 
-        public UIElement<UIElement> Build(FieldPath path, ParameterBuilder builder)
+        public UIElement<UIElement> Build(IFieldPath path, ParameterBuilder builder)
         {
             UIElement<System.Windows.UIElement> c;
             var f = path.Last;

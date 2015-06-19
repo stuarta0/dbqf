@@ -26,7 +26,7 @@ namespace dbqf.WPF
         /// <summary>
         /// Gets or sets the FieldPath that defines which combos will be displayed.
         /// </summary>
-        public FieldPath SelectedPath
+        public IFieldPath SelectedPath
         {
             get { return _path; }
             set
@@ -52,13 +52,13 @@ namespace dbqf.WPF
                 // now fix up the combo sources
                 for (int i = indexOfChange; i < _path.Count; i++)
                 {
-                    var d = new FieldPathDepth(_pathFactory.GetFields(_path[i].Subject).Convert<FieldPath, IField>(p => p[0]), _path[i]);
+                    var d = new FieldPathDepth(_pathFactory.GetFields(_path[i].Subject).Convert<IFieldPath, IField>(p => p[0]), _path[i]);
                     d.SelectedFieldChanged += SelectedFieldChanged;
                     Depth.Add(d);
                 }
             }
         }
-        private FieldPath _path;
+        private IFieldPath _path;
 
         void SelectedFieldChanged(object sender, EventArgs e)
         {

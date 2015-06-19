@@ -80,6 +80,7 @@
     <Compile Include="Criterion\Conjunction.cs" />
     <Compile Include="Criterion\Disjunction.cs" />
     <Compile Include="Criterion\FieldPath.cs" />
+    <Compile Include="Criterion\IFieldPath.cs" />
     <Compile Include="Criterion\IGetParameter.cs" />
     <Compile Include="Criterion\Junction.cs" />
     <Compile Include="Criterion\NotParameter.cs" />

@@ -28,7 +28,7 @@ namespace dbqf.Criterion.Builders
         /// <summary>
         /// Ignores values and just creates SimpleParameters that do or don't equal Value.
         /// </summary>
-        public override IParameter Build(FieldPath path, params object[] values)
+        public override IParameter Build(IFieldPath path, params object[] values)
         {
             return new SimpleParameter(path, (Value ? "<>" : "="), 0);
         }

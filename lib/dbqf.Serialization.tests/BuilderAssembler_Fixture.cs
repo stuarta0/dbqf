@@ -13,7 +13,7 @@ namespace dbqf.Serialization.tests
         {
             private class ParameterBuilderStub : ParameterBuilder
             {
-                public override IParameter Build(FieldPath path, params object[] values)
+                public override IParameter Build(IFieldPath path, params object[] values)
                 {
                     return null;
                 }

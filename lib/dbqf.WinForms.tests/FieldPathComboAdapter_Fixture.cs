@@ -16,9 +16,14 @@ namespace dbqf.WinForms.tests
     {
         private class Factory : IFieldPathFactory
         {
-            public IList<FieldPath> GetFields(Configuration.ISubject subject)
+            public IList<IFieldPath> GetFields(Configuration.ISubject subject)
             {
-                return subject.Convert<IField, FieldPath>(f => new FieldPath(f));
+                return subject.Convert<IField, IFieldPath>(f => new FieldPath(f));
+            }
+
+            public IList<IFieldPath> GetFields(IRelationField field)
+            {
+                return GetFields(field.RelatedSubject);
             }
         }
 

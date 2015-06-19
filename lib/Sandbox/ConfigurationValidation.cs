@@ -37,7 +37,7 @@ namespace Sandbox
                 // check subject and all non-related fields first
                 var fields = subject.FindAll<IField>(f => !(f is IRelationField))
                     .ToList<IField>()
-                    .ConvertAll<FieldPath>(f => FieldPath.FromDefault(f));
+                    .ConvertAll<IFieldPath>(f => FieldPath.FromDefault(f));
 
                 var generator = new ExposedSqlGenerator(_configuration);
                 generator
@@ -59,7 +59,7 @@ namespace Sandbox
 
 
                 // now check all RelationFields individually for validity
-                foreach (var rf in subject.FindAll<IField>(f => f is RelationField))
+                foreach (var rf in subject.FindAll<IField>(f => f is IRelationField))
                 {
                     var path = FieldPath.FromDefault(rf);
 

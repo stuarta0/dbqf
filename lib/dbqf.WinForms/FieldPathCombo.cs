@@ -54,8 +54,9 @@ namespace dbqf.WinForms
         private void cboFields_SelectedIndexChanged(object sender, EventArgs e)
         {
             var replaceFrom = layoutFieldPaths.Controls.IndexOf((Control)sender);
-            Adapter.SelectedPath = Adapter.SelectedPath[0, replaceFrom]
-                + (IField)((ComboBox)sender).SelectedItem;
+            var path = Adapter.SelectedPath[0, replaceFrom];
+            path.Add((IField)((ComboBox)sender).SelectedItem);
+            Adapter.SelectedPath = path;
         }
     }
 }

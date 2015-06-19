@@ -49,7 +49,7 @@ namespace dbqf.Display.Advanced
         /// <summary>
         /// Gets or sets the list of field paths to use within this control.
         /// </summary>
-        public virtual BindingList<FieldPath> Paths
+        public virtual BindingList<IFieldPath> Paths
         {
             get { return _paths; }
             set
@@ -59,7 +59,7 @@ namespace dbqf.Display.Advanced
                 SelectedPath = _paths[0];
             }
         }
-        private BindingList<FieldPath> _paths;
+        private BindingList<IFieldPath> _paths;
 
         /// <summary>
         /// Gets the list of builders that are relevant to the current SelectedPath.
@@ -84,7 +84,7 @@ namespace dbqf.Display.Advanced
                     return;
                 _subject = value;
                 OnPropertyChanged("SelectedSubject");
-                Paths = new BindingList<FieldPath>(_pathFactory.GetFields(_subject));
+                Paths = new BindingList<IFieldPath>(_pathFactory.GetFields(_subject));
                 SelectedPath = Paths[0];
             }
         }
@@ -93,7 +93,7 @@ namespace dbqf.Display.Advanced
         /// <summary>
         /// Gets or sets the field path used for this control.
         /// </summary>
-        public virtual FieldPath SelectedPath 
+        public virtual IFieldPath SelectedPath 
         {
             get { return _path; }
             set
@@ -106,7 +106,7 @@ namespace dbqf.Display.Advanced
                 SelectedBuilder = Builders[0];
             }
         }
-        protected FieldPath _path;
+        protected IFieldPath _path;
 
         /// <summary>
         /// Gets or sets the parameter builder to use with this control.
