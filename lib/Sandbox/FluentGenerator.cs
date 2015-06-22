@@ -119,43 +119,23 @@ namespace {0}
                 if ({0} == null)
                 {{
                     {0} = new Subject({2})
-                        .Sql(@{3});",
+                        .Sql(@{3})
+                        .{4};",
                     names[subject].MemberName,
                     names[subject].Name,
                     Quote(subject.DisplayName),
-                    Quote(subject.Source)
+                    Quote(subject.Source),
+                    FieldText(subject.IdField, names) // we need to set this up before continuing with the remaining fields as RelationFields reference the related subject IdField for DataType
                     ));
 
                 sb.AppendLine(String.Format(@"
                     {0}", names[subject].MemberName));
 
-                // fill in the fields
+                // fill in the fields (ID field is already taken care of)
                 foreach (var field in subject)
                 {
-                    string list = null;
-                    if (field.List != null)
-                        list = String.Format("{{ List = new FieldList() {{ Source = {0}, Type = FieldListType.{1} }}}}", Quote(field.List.Source), field.List.Type.ToString());
-
-                    if (field is IRelationField)
-                    {
-                        sb.AppendLine(String.Format(@"                        .{0}(new RelationField({1}, {2}, {3}){4})",
-                                field == subject.IdField ? "FieldId" : field == subject.DefaultField ? "FieldDefault" : "Field",
-                                Quote(field.SourceName),
-                                Quote(field.DisplayName),
-                                names[((IRelationField)field).RelatedSubject].Name,
-                                list
-                                ));
-                    }
-                    else
-                    {
-                        sb.AppendLine(String.Format(@"                        .{0}(new Field({1}, {2}, typeof({3})){4})",
-                                field == subject.IdField ? "FieldId" : field == subject.DefaultField ? "FieldDefault" : "Field",
-                                Quote(field.SourceName),
-                                Quote(field.DisplayName),
-                                field.DataType.FullName,
-                                list
-                                ));
-                    }
+                    if (field != subject.IdField)
+                        sb.AppendLine(String.Concat(@"                        .", FieldText(field, names)));
                 }
                 sb.AppendLine(String.Format(@"
                 ;}}
@@ -171,6 +151,33 @@ namespace {0}
 }");
 
             return sb.ToString();
+        }
+
+        private string FieldText(IField field, Dictionary<ISubject, SubjectName> names)
+        {
+            var subject = field.Subject;
+            string list = null;
+            if (field.List != null)
+                list = String.Format("{{ List = new FieldList() {{ Source = {0}, Type = FieldListType.{1} }}}}", Quote(field.List.Source), field.List.Type.ToString());
+
+            if (field is IRelationField)
+            {
+                return String.Format(@"{0}(new RelationField({1}, {2}, {3}){4})",
+                        field == subject.IdField ? "FieldId" : field == subject.DefaultField ? "FieldDefault" : "Field",
+                        Quote(field.SourceName),
+                        Quote(field.DisplayName),
+                        names[((IRelationField)field).RelatedSubject].Name,
+                        list);
+            }
+            else
+            {
+                return String.Format(@"{0}(new Field({1}, {2}, typeof({3})){4})",
+                        field == subject.IdField ? "FieldId" : field == subject.DefaultField ? "FieldDefault" : "Field",
+                        Quote(field.SourceName),
+                        Quote(field.DisplayName),
+                        field.DataType.FullName,
+                        list);
+            }
         }
 
         private string Quote(string value)
