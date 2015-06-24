@@ -57,8 +57,8 @@ namespace Standalone.Core
         }
 
         [AlsoNotifyFor("IsSearching")]
-        protected BackgroundWorker SearchWorker { get; set; }
-        public bool IsSearching
+        protected virtual BackgroundWorker SearchWorker { get; set; }
+        public virtual bool IsSearching
         {
             get { return SearchWorker != null; }
         }
@@ -137,10 +137,10 @@ namespace Standalone.Core
                 return;
 
             var doc = CreateSearchDocument();
-            if (doc.Parts.Count > 0)
-                ViewPersistence.Save(filename, doc);
+            if (doc.Parts.Count == 0 && doc.Outputs.Count == 0)
+                throw new ArgumentException("Saving a search requires at least one parameter or output field.");
             else
-                throw new ArgumentException("Select at least one parameter to save.");
+                ViewPersistence.Save(filename, doc);
         }
     }
 }

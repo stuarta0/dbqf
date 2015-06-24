@@ -156,6 +156,17 @@ namespace Standalone.WPF
         }
         private ICommand _resetCommand;
 
+        public ICommand CancelSearchCommand
+        {
+            get
+            {
+                if (_cancelCommand == null)
+                    _cancelCommand = new RelayCommand(p => CancelSearch());
+                return _cancelCommand;
+            }
+        }
+        private ICommand _cancelCommand;
+
         #endregion
 
         #region View Handling
@@ -192,6 +203,23 @@ namespace Standalone.WPF
         }
 
         #endregion
+
+        protected override BackgroundWorker SearchWorker
+        {
+            get
+            {
+                return base.SearchWorker;
+            }
+            set
+            {
+                base.SearchWorker = value;
+                OnPropertyChanged("IsSearchingVisibility");
+            }
+        }
+        public Visibility IsSearchingVisibility
+        {
+            get { return IsSearching ? Visibility.Visible : Visibility.Hidden; }
+        }
 
         [AlsoNotifyFor("ResultHeader")]
         public DataTable Result { get; private set; }
@@ -348,7 +376,21 @@ namespace Standalone.WPF
             var adapter = RetrieveFields.Adapter;
             if (adapter.UseFields && adapter.Fields.Count > 0)
                 doc.Outputs = new List<IFieldPath>(adapter.Fields);
+            else
+                doc.Outputs = new List<IFieldPath>();
             return doc;
+        }
+
+        public override void Save(string filename)
+        {
+            try
+            {
+                base.Save(filename);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Save", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
     }
 }

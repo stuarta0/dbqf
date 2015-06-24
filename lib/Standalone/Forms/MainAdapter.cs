@@ -188,7 +188,21 @@ namespace Standalone.Forms
             var adapter = RetrieveFields.Adapter;
             if (adapter.UseFields && adapter.Fields.Count > 0)
                 doc.Outputs = new List<IFieldPath>(adapter.Fields);
+            else
+                doc.Outputs = new List<IFieldPath>();
             return doc;
+        }
+
+        public override void Save(string filename)
+        {
+            try
+            {
+                base.Save(filename);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Save", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
     }
 }
