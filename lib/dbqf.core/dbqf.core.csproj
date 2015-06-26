@@ -89,7 +89,8 @@
     <Compile Include="Criterion\MatchMode.cs" />
     <Compile Include="Criterion\SimpleParameter.cs" />
     <Compile Include="Display\Advanced\AdvancedAdapter.cs" />
-    <Compile Include="Display\Advanced\AdvancedPart.cs" />
+    <Compile Include="Display\Advanced\AdvancedPartJunction.cs" />
+    <Compile Include="Display\Advanced\AdvancedPartNode.cs" />
     <Compile Include="Criterion\Builders\JunctionBuilder.cs" />
     <Compile Include="Display\IView.cs" />
     <Compile Include="Display\FieldPathFactory.cs" />

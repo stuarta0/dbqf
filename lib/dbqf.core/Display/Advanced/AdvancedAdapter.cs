@@ -7,34 +7,35 @@ using System.Text;
 
 namespace dbqf.Display.Advanced
 {
-    public abstract class AdvancedAdapter<T> : INotifyPropertyChanged, IGetParameter
+    public abstract class AdvancedAdapter<T> : IView, INotifyPropertyChanged
     {
         protected List<ISubject> _subjects;
         protected IFieldPathFactory _pathFactory;
-        protected IControlFactory<T> _controlFactory;
         protected IParameterBuilderFactory _builderFactory;
+        protected IControlFactory<T> _controlFactory;
+
         public AdvancedAdapter(IList<ISubject> subjects, IFieldPathFactory pathFactory, IControlFactory<T> controlFactory, IParameterBuilderFactory builderFactory)
         {
             _pathFactory = pathFactory;
             _controlFactory = controlFactory;
             _builderFactory = builderFactory;
-            Part = new AdvancedPart<T>(_pathFactory, _builderFactory, _controlFactory);
-            Part.Subjects = new BindingList<ISubject>(subjects);
+            //Part = new AdvancedPart<T>(_pathFactory, _builderFactory, _controlFactory);
+            //Part.Subjects = new BindingList<ISubject>(subjects);
         }
 
-        /// <summary>
-        /// Gets the control to display for creating a parameter.
-        /// </summary>
-        public virtual AdvancedPart<T> Part
-        {
-            get { return _part; }
-            protected set
-            {
-                _part = value;
-                OnPropertyChanged("Part");
-            }
-        }
-        protected AdvancedPart<T> _part;
+        ///// <summary>
+        ///// Gets the control to display for creating a parameter.
+        ///// </summary>
+        //public virtual AdvancedPart<T> Part
+        //{
+        //    get { return _part; }
+        //    protected set
+        //    {
+        //        _part = value;
+        //        OnPropertyChanged("Part");
+        //    }
+        //}
+        //protected AdvancedPart<T> _part;
 
         public event EventHandler Search;
         private void OnSearch(object sender, EventArgs e)
@@ -53,16 +54,6 @@ namespace dbqf.Display.Advanced
         public virtual IParameter GetParameter()
         {
             throw new NotImplementedException();
-
-            //var con = new Conjunction();
-            //foreach (var c in Parts)
-            //{
-            //    var p = c.GetParameter();
-            //    if (p != null)
-            //        con.Add(p);
-            //}
-
-            //return con;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
