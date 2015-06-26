@@ -6,6 +6,7 @@ using dbqf.Criterion.Values;
 using dbqf.Serialization.DTO.Builders;
 using dbqf.Serialization.DTO.Display;
 using dbqf.Serialization.DTO.Parsers;
+using Standalone.Core.Data;
 using Standalone.Core.Serialization.Assemblers;
 using Standalone.Core.Serialization.DTO;
 
@@ -58,8 +59,16 @@ namespace Standalone.Core.Export
                     typeof(NullBuilderDTO),
                     typeof(SimpleBuilderDTO),
 
+                    typeof(DateBetweenBuilderDTO),
+                    typeof(DateEqualsBuilderDTO),
+                    typeof(DateGtBuilderDTO),
+                    typeof(DateGtEqualBuilderDTO),
+                    typeof(DateLtBuilderDTO),
+                    typeof(DateLtEqualBuilderDTO),
+
                     /* Parsers */
                     typeof(DateParserDTO),
+                    typeof(ExtendedDateParser),
                     typeof(ChainedParserDTO),
                     typeof(DelimitedParserDTO),
                     typeof(ConvertParserDTO),

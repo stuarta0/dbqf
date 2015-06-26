@@ -20,7 +20,7 @@ namespace dbqf.Criterion.Values
 
         public override string ToString()
         {
-            return String.Concat("{0} to {1}", (From != null ? From.ToString() : "minimum"), (To != null ? To.ToString() : "maximum"));
+            return String.Format("{0} to {1}", (From != null ? From.ToString() : "minimum"), (To != null ? To.ToString() : "maximum"));
         }
     }
 }

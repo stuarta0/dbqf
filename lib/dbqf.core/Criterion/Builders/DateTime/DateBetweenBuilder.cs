@@ -41,5 +41,15 @@ namespace dbqf.Criterion.Builders
 
             return null;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is DateBetweenBuilder)
+            {
+                var other = (DateBetweenBuilder)obj;
+                return base.Eq(this.Label, other.Label);
+            }
+            return base.Equals(obj);
+        }
     }
 }

@@ -29,5 +29,15 @@ namespace dbqf.Criterion.Builders
 
             return null;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is DateLtBuilder)
+            {
+                var other = (DateLtBuilder)obj;
+                return base.Eq(this.Label, other.Label);
+            }
+            return base.Equals(obj);
+        }
     }
 }
