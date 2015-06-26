@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Controls;
+using System.Windows.Markup;
+using System.IO;
+using System.Windows;
 
 namespace dbqf.WPF.UIElements
 {
@@ -14,10 +17,20 @@ namespace dbqf.WPF.UIElements
     {
         public ComboBoxElement(BindingList<object> list, bool isEditable)
         {
-            var combo = new ComboBox();
+            // use XAML to construct our combo with virtualizing stack panel to alleviate massive lists
+            var xaml = @"
+    <ComboBox VirtualizingStackPanel.IsVirtualizing=""True"" VirtualizingStackPanel.VirtualizationMode=""Recycling"" xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
+        <ComboBox.ItemsPanel>
+            <ItemsPanelTemplate >
+                <VirtualizingStackPanel/>
+            </ItemsPanelTemplate>
+        </ComboBox.ItemsPanel>
+    </ComboBox>";
+
+            var combo = (ComboBox)XamlReader.Load(System.Xml.XmlReader.Create(new StringReader(xaml)));
             combo.ItemsSource = list;
             combo.IsEditable = isEditable;
-            combo.IsTextSearchEnabled = false;
+            combo.IsTextSearchEnabled = true;
 
             combo.TextInput += (sender, e) => OnChanged();
             combo.SelectionChanged += (sender, e) => OnChanged();
@@ -28,7 +41,6 @@ namespace dbqf.WPF.UIElements
         public override object[] GetValues()
         {
             var combo = (ComboBox)Element;
-            object[] values = null;
             if (!combo.IsEditable && combo.SelectedItem != null && !String.IsNullOrEmpty(combo.SelectedItem.ToString()))
                 return new object[] { combo.SelectedItem };
             else if (!String.IsNullOrEmpty(combo.Text))
