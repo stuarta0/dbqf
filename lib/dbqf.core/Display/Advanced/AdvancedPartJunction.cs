@@ -11,7 +11,7 @@ namespace dbqf.Display.Advanced
     /// Encapsulates logic relating to how to display a junction in the advanced search control.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class AdvancedPartJunction : PartViewJunction
+    public class AdvancedPartJunction<T> : PartViewJunction
     {
         /// <summary>
         /// Construct a new AdvancedPartJunction that represents an IPartViewJunction.

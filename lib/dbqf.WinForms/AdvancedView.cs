@@ -23,9 +23,9 @@ namespace dbqf.WinForms
         {
             InitializeComponent();
             _adapter = adapter;
-            var ctl = new AdvancedPartView(_adapter.Part, pathSelector);
-            ctl.Dock = DockStyle.Fill;
-            layout.Controls.Add(ctl, 0, 0);
+            //var ctl = new AdvancedPartView(_adapter.Part, pathSelector);
+            //ctl.Dock = DockStyle.Fill;
+            //layout.Controls.Add(ctl, 0, 0);
         }
     }
 }

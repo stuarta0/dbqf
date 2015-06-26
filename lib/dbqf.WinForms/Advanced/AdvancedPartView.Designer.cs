@@ -87,7 +87,7 @@
             // 
             // bsAdvancedPart
             // 
-            this.bsAdvancedPart.DataSource = typeof(dbqf.WinForms.Advanced.WinFormsAdvancedPart);
+            this.bsAdvancedPart.DataSource = typeof(dbqf.WinForms.Advanced.WinFormsAdvancedPartNode);
             // 
             // buildersBindingSource
             // 

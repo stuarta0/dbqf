@@ -7,6 +7,10 @@ using System.Text;
 
 namespace dbqf.Display.Advanced
 {
+    /// <summary>
+    /// Parts in the Advanced view represent the user-constructed tree of parameters.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class AdvancedAdapter<T> : IView, INotifyPropertyChanged
     {
         protected List<ISubject> _subjects;
@@ -53,6 +57,7 @@ namespace dbqf.Display.Advanced
 
         public virtual IParameter GetParameter()
         {
+            // starting at the root IPartViewJunction, recurse over the tree and construct the IParameter
             throw new NotImplementedException();
         }
 
@@ -61,6 +66,22 @@ namespace dbqf.Display.Advanced
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public IPartViewJunction GetParts()
+        {
+            // return IPartViewJunction of root parts
+            throw new NotImplementedException();
+        }
+
+        public void SetParts(IPartViewJunction parts)
+        {
+            // convert tree of data in IPartViewJunction into AdvancedPartJunction/Node.
+        }
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
         }
     }
 }

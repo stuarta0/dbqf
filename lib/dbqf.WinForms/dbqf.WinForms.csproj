@@ -86,7 +86,7 @@
       <DependentUpon>AdvancedPartView.cs</DependentUpon>
     </Compile>
     <Compile Include="Advanced\WinFormsAdvancedAdapter.cs" />
-    <Compile Include="Advanced\WinFormsAdvancedPart.cs" />
+    <Compile Include="Advanced\WinFormsAdvancedPartNode.cs" />
     <Compile Include="Controls\BindableComboBox.cs">
       <SubType>Component</SubType>
     </Compile>

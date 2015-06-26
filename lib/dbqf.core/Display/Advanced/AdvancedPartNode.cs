@@ -11,7 +11,7 @@ namespace dbqf.Display.Advanced
     /// Encapsulates logic relating to how to display a field in the advanced search control.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class AdvancedPartNode : IPartViewNode, INotifyPropertyChanged
+    public class AdvancedPartNode<T> : IPartViewNode, INotifyPropertyChanged
     {
         /// <summary>
         /// Construct a new AdvancedPartNode that represents an IPartViewNode.
@@ -22,7 +22,7 @@ namespace dbqf.Display.Advanced
         }
 
 
-        public virtual FieldPath SelectedPath
+        public virtual IFieldPath SelectedPath
         {
             get { return _field; }
             set
@@ -33,7 +33,7 @@ namespace dbqf.Display.Advanced
                 OnPropertyChanged("Path");
             }
         }
-        protected FieldPath _field;
+        protected IFieldPath _field;
 
         /// <summary>
         /// Gets or sets the parameter builder to use with this control.
@@ -110,6 +110,46 @@ namespace dbqf.Display.Advanced
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        /// <summary>
+        /// AdvancedPart will copy all values from the other view (as long as it's an IPartViewNode).
+        /// </summary>
+        /// <param name="other"></param>
+        public void CopyFrom(IPartView other)
+        {
+            if (other == null || !(other is IPartViewNode))
+                return;
+
+            var node = (IPartViewNode)other;
+            SelectedPath = node.SelectedPath;
+            SelectedBuilder = node.SelectedBuilder;
+            Values = node.Values;
+            Parser = node.Parser;
+        }
+
+        /// <summary>
+        /// AdvancedPart considered equal when the path, builder and parser are equal.
+        /// Note: value is ignored in equality test.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(IPartView other)
+        {
+            if (other == null || !(other is IPartViewNode))
+                return false;
+
+            var node = (IPartViewNode)other;
+            return SelectedPath.Equals(node.SelectedPath)
+                && SelectedBuilder.Equals(node.SelectedBuilder)
+                && Parser.Equals(Parser, node.Parser);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is IPartView)
+                return Equals((IPartView)obj);
+            return base.Equals(obj);
         }
     }
 }
