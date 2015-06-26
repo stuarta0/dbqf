@@ -12,7 +12,7 @@ namespace dbqf.Display.Preset
     /// <typeparam name="T"></typeparam>
     public class PresetPart<T> : IPartViewNode, INotifyPropertyChanged, IDisposable
     {
-        public PresetPart(FieldPath path)
+        public PresetPart(IFieldPath path)
         {
             SelectedPath = path;
             FullWidth = false;
@@ -24,7 +24,7 @@ namespace dbqf.Display.Preset
                 UIElement.Dispose();
         }
         
-        public virtual FieldPath SelectedPath 
+        public virtual IFieldPath SelectedPath 
         {
             get { return _field; }
             set
@@ -35,7 +35,7 @@ namespace dbqf.Display.Preset
                 OnPropertyChanged("Path");
             }
         }
-        protected FieldPath _field;
+        protected IFieldPath _field;
 
         /// <summary>
         /// Gets or sets the parameter builder to use with this control.

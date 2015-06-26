@@ -83,11 +83,11 @@ namespace dbqf.Display.Preset
         /// </summary>
         /// <param name="subject"></param>
         /// <returns></returns>
-        public virtual void SetParts(IEnumerable<FieldPath> paths)
+        public virtual void SetParts(IEnumerable<IFieldPath> paths)
         {
             // if no paths given, 
             if (paths == null)
-                paths = new List<FieldPath>();
+                paths = new List<IFieldPath>();
 
             var newParts = new BindingList<PresetPart<T>>();
             foreach (var path in paths)
@@ -116,7 +116,7 @@ namespace dbqf.Display.Preset
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        protected virtual PresetPart<T> CreatePart(FieldPath path)
+        protected virtual PresetPart<T> CreatePart(IFieldPath path)
         {
             var part = new PresetPart<T>(path);
             part.SelectedBuilder = _builderFactory.GetDefault(part.SelectedPath);

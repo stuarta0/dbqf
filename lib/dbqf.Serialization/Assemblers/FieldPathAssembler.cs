@@ -7,7 +7,7 @@ namespace dbqf.Serialization.Assemblers
     /// <summary>
     /// TODO: see ProtoBuf surrogate for FieldPath and implicit operators on FieldPathDTO
     /// </summary>
-    public class FieldPathAssembler : IAssembler<FieldPath, FieldPathDTO>
+    public class FieldPathAssembler : IAssembler<IFieldPath, FieldPathDTO>
     {
         private IConfiguration _configuration;
         public FieldPathAssembler(IConfiguration configuration)
@@ -15,7 +15,7 @@ namespace dbqf.Serialization.Assemblers
             _configuration = configuration;
         }
 
-        public virtual FieldPath Restore(FieldPathDTO dto)
+        public virtual IFieldPath Restore(FieldPathDTO dto)
         {
             var path = new FieldPath();
             var curSubject = _configuration[dto.SubjectIndex];
@@ -29,7 +29,7 @@ namespace dbqf.Serialization.Assemblers
             return path;
         }
 
-        public virtual FieldPathDTO Create(FieldPath source)
+        public virtual FieldPathDTO Create(IFieldPath source)
         {
             var dto = new FieldPathDTO();
             dto.SubjectIndex = _configuration.IndexOf(source.Root);

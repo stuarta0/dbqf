@@ -68,6 +68,7 @@
     <Compile Include="Display\ProjectAdapter.cs" />
     <Compile Include="Export\Filter.cs" />
     <Compile Include="Export\IExportServiceFactory.cs" />
+    <Compile Include="Installers\FactoryInstaller.cs" />
     <Compile Include="Installers\ParserInstaller.cs" />
     <Compile Include="Installers\IOInstaller.cs" />
     <Compile Include="Project.cs" />

@@ -30,7 +30,7 @@ namespace dbqf.Criterion.Builders
         /// <summary>
         /// Works with any value that can be interpreted by the data provider being used.
         /// </summary>
-        public override IParameter Build(FieldPath path, params object[] values)
+        public override IParameter Build(IFieldPath path, params object[] values)
         {
             if (values == null)
                 return Other.Build(path, null);

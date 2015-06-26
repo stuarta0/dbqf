@@ -99,19 +99,19 @@ namespace Standalone.Forms
         {
             if (e.Button != System.Windows.Forms.MouseButtons.None)
             {
-                lstCustom.DoDragDrop(new List<FieldPath>(lstCustom.SelectedItems.Cast<FieldPath>()), DragDropEffects.Move);
+                lstCustom.DoDragDrop(new List<IFieldPath>(lstCustom.SelectedItems.Cast<IFieldPath>()), DragDropEffects.Move);
             }
         }
 
         private void tree_DragDrop(object sender, DragEventArgs e)
         {
-            foreach (var f in (List<FieldPath>)e.Data.GetData(typeof(List<FieldPath>)))
+            foreach (var f in (List<IFieldPath>)e.Data.GetData(typeof(List<IFieldPath>)))
                 Adapter.Fields.Remove(f);
         }
 
         private void tree_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(List<FieldPath>)))
+            if (e.Data.GetDataPresent(typeof(List<IFieldPath>)))
                 e.Effect = DragDropEffects.Move;
             else
                 e.Effect = DragDropEffects.None;
@@ -125,7 +125,7 @@ namespace Standalone.Forms
         {
             if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
             {
-                foreach (var f in new List<FieldPath>(lstCustom.SelectedItems.Cast<FieldPath>()))
+                foreach (var f in new List<IFieldPath>(lstCustom.SelectedItems.Cast<IFieldPath>()))
                     Adapter.Fields.Remove(f);
             }
         }

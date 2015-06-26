@@ -34,7 +34,7 @@ namespace dbqf.Display
         /// <summary>
         /// Gets or sets the FieldPath that this path relates to.
         /// </summary>
-        FieldPath SelectedPath { get; set; }
+        IFieldPath SelectedPath { get; set; }
 
         /// <summary>
         /// Gets or sets the ParameterBuilder used to create an IParameter.

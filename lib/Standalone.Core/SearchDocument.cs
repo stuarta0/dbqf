@@ -33,7 +33,7 @@ namespace Standalone.Core
         /// <summary>
         /// Gets or sets the list of fields to use for custom output.  Null for default fields.
         /// </summary>
-        public List<FieldPath> Outputs { get; set; }
+        public List<IFieldPath> Outputs { get; set; }
 
         public SearchDocument()
         { }

@@ -24,7 +24,7 @@ namespace dbqf.WinForms
         /// <summary>
         /// Gets or sets the FieldPath that defines which combos will be displayed.
         /// </summary>
-        public FieldPath SelectedPath
+        public IFieldPath SelectedPath
         {
             get { return _path; }
             set
@@ -51,12 +51,24 @@ namespace dbqf.WinForms
 
                 // now fix up the combo sources
                 for (int i = indexOfChange; i < _path.Count; i++)
-                    ComboSource.Add(new BindingList<IField>(_pathFactory.GetFields(_path[i].Subject).Convert<FieldPath, IField>(p => p[0])));
+                {
+                    IList<IFieldPath> paths;
+                    if (i > 0 && _path[i - 1] is IRelationField)
+                        paths = _pathFactory.GetFields((IRelationField)_path[i - 1]);
+                    else
+                        paths = _pathFactory.GetFields(_path[i].Subject);
+
+                    var fields = paths.Convert<IFieldPath, IField>(p => p[0]);
+                    if (!fields.Contains(_path[i]))
+                        ; // what do we do if the factory returns a list of fields that doesn't contain this part of the path?
+
+                    ComboSource.Add(new BindingList<IField>(fields));
+                }
                 ComboSource.RaiseListChangedEvents = true;
                 ComboSource.ResetBindings();
             }
         }
-        private FieldPath _path;
+        private IFieldPath _path;
 
         private IFieldPathFactory _pathFactory;
         public FieldPathComboAdapter(IFieldPathFactory pathFactory)

@@ -80,7 +80,7 @@ namespace Standalone.Forms
                 {
                     foreach (DataGridViewColumn c in dataGridView1.Columns)
                     {
-                        var path = (FieldPath)data.Columns[c.DataPropertyName].ExtendedProperties["FieldPath"];
+                        var path = (IFieldPath)data.Columns[c.DataPropertyName].ExtendedProperties["FieldPath"];
                         c.DefaultCellStyle.Format = path.Last.DisplayFormat;
                     }
 

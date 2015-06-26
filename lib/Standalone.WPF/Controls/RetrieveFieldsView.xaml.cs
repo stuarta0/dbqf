@@ -69,7 +69,7 @@ namespace Standalone.WPF.Controls
         {
             if (e.Key == Key.Back || e.Key == Key.Delete)
             {
-                foreach (var f in new List<FieldPath>(lstCustom.SelectedItems.Cast<FieldPath>()))
+                foreach (var f in new List<IFieldPath>(lstCustom.SelectedItems.Cast<IFieldPath>()))
                     Adapter.Fields.Remove(f);
             }
         }

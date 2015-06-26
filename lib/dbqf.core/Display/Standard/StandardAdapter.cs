@@ -8,7 +8,7 @@ namespace dbqf.Display.Standard
 {
     public abstract class StandardAdapter<T> : INotifyPropertyChanged, IView<StandardPart<T>>
     {
-        protected List<FieldPath> _paths;
+        protected List<IFieldPath> _paths;
         protected IControlFactory<T> _controlFactory;
         protected IParameterBuilderFactory _builderFactory;
         public StandardAdapter(IControlFactory<T> controlFactory, IParameterBuilderFactory builderFactory)
@@ -99,13 +99,13 @@ namespace dbqf.Display.Standard
         /// </summary>
         /// <param name="subject"></param>
         /// <returns></returns>
-        public virtual void SetPaths(IEnumerable<FieldPath> paths)
+        public virtual void SetPaths(IEnumerable<IFieldPath> paths)
         {
             // if no paths given, 
             if (paths == null)
-                paths = new List<FieldPath>();
+                paths = new List<IFieldPath>();
 
-            _paths = new List<FieldPath>();
+            _paths = new List<IFieldPath>();
             foreach (var path in paths)
                 _paths.Add(path);
 
@@ -161,7 +161,7 @@ namespace dbqf.Display.Standard
         protected virtual StandardPart<T> CreatePart()
         {
             var part = new StandardPart<T>(_builderFactory, _controlFactory);
-            part.Paths = new BindingList<FieldPath>(_paths);
+            part.Paths = new BindingList<IFieldPath>(_paths);
             return part;
         }
 

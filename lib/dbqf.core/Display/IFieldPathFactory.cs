@@ -7,6 +7,8 @@ namespace dbqf.Display
 {
     public interface IFieldPathFactory
     {
-        IList<FieldPath> GetFields(ISubject subject);
+        IList<IFieldPath> GetFields(ISubject subject);
+
+        IList<IFieldPath> GetFields(IRelationField field);
     }
 }

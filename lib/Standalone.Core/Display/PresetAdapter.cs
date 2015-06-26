@@ -18,7 +18,7 @@ namespace Standalone.Core.Display
             Parser = parserFactory;
         }
 
-        protected override dbqf.Display.Preset.PresetPart<T> CreatePart(dbqf.Criterion.FieldPath path)
+        protected override dbqf.Display.Preset.PresetPart<T> CreatePart(dbqf.Criterion.IFieldPath path)
         {
             var part = base.CreatePart(path);
             part.Parser = Parser.Create(part.SelectedPath, part.SelectedBuilder);

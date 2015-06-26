@@ -23,7 +23,7 @@ namespace dbqf.Configuration
                     return;
 
                 _parent = value;
-                OnPropertyChanged("Parent");
+                OnPropertyChanged("Subject");
             }
         }
         private ISubject _parent;
@@ -103,7 +103,6 @@ namespace dbqf.Configuration
                     _type = value;
 
                 OnPropertyChanged("DataType");
-                OnPropertyChanged("DataTypeName");
             }
         }
         private Type _type;
@@ -190,12 +189,6 @@ namespace dbqf.Configuration
 
             return String.Concat(prefix, Name);
         }
-
-        // TODO: determine if using base HashCode calculation (object pointer?) causes side effects
-        //public override int GetHashCode()
-        //{
-        //    return (Subject.Source + this.SourceName).GetHashCode();
-        //}
 
         #region INotifyPropertyChanged Members
 

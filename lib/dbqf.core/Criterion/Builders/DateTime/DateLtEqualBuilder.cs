@@ -16,7 +16,7 @@ namespace dbqf.Criterion.Builders
         /// <param name="path"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-        public override IParameter Build(FieldPath path, params object[] values)
+        public override IParameter Build(IFieldPath path, params object[] values)
         {
             if (values == null || values.Length == 0)
                 return null;
@@ -28,6 +28,16 @@ namespace dbqf.Criterion.Builders
             }
 
             return null;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is DateLtEqualBuilder)
+            {
+                var other = (DateLtEqualBuilder)obj;
+                return base.Eq(this.Label, other.Label);
+            }
+            return base.Equals(obj);
         }
     }
 }

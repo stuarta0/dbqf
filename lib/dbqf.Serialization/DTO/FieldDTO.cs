@@ -5,6 +5,7 @@ using dbqf.Serialization.DTO.Parsers;
 
 namespace dbqf.Serialization.DTO
 {
+    [System.Diagnostics.DebuggerDisplay("{DisplayName} DTO")]
     public class FieldDTO
     {
         #region IField

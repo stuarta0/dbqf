@@ -15,7 +15,7 @@ namespace dbqf.Display
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public virtual IList<ParameterBuilder> Build(FieldPath path)
+        public virtual IList<ParameterBuilder> Build(IFieldPath path)
         {
             var builders = new List<ParameterBuilder>();
 
@@ -86,7 +86,7 @@ namespace dbqf.Display
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public virtual ParameterBuilder GetDefault(FieldPath path)
+        public virtual ParameterBuilder GetDefault(IFieldPath path)
         {
             ParameterBuilder b;
             if (path.Last.DataType == typeof(string))

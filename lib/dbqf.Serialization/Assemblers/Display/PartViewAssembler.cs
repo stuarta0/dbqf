@@ -67,7 +67,7 @@ namespace dbqf.Serialization.Assemblers.Display
 
         private class PartViewNodeImpl : IPartViewNode
         {
-            public dbqf.Criterion.FieldPath SelectedPath { get; set; }
+            public dbqf.Criterion.IFieldPath SelectedPath { get; set; }
             public dbqf.Criterion.Builders.ParameterBuilder SelectedBuilder { get; set; }
             public object[] Values { get; set; }
             public dbqf.Parsers.Parser Parser { get; set; }

@@ -81,6 +81,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\LoadingControl.xaml.cs">
+      <DependentUpon>LoadingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LoadingAdorner.cs" />
     <Compile Include="Controls\RetrieveFieldsView.xaml.cs">
       <DependentUpon>RetrieveFieldsView.xaml</DependentUpon>
     </Compile>
@@ -98,6 +102,10 @@
     <Compile Include="ViewModel\DialogService.cs" />
     <Compile Include="ViewModel\IDialogService.cs" />
     <Compile Include="ViewModel\ProjectAdapter.cs" />
+    <Page Include="Controls\LoadingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\RetrieveFieldsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,6 +137,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\stopwatch-gif-preloader.gif" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

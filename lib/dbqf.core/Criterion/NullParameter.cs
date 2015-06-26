@@ -8,14 +8,14 @@ namespace dbqf.Criterion
 {
     public class NullParameter : IParameter
     {
-        public FieldPath Path { get; private set; }
+        public IFieldPath Path { get; private set; }
 
         public NullParameter(IField field)
             : this(FieldPath.FromDefault(field))
         {
         }
 
-        public NullParameter(FieldPath path)
+        public NullParameter(IFieldPath path)
         {
             Path = path;
         }

@@ -21,7 +21,7 @@ namespace dbqf.WPF.Standard
         protected override StandardPart<UIElement> CreatePart()
         {
             var part = new WpfStandardPart(_builderFactory, _controlFactory);
-            part.Paths = new BindingList<FieldPath>(_paths);
+            part.Paths = new BindingList<IFieldPath>(_paths);
             return part;
         }
 

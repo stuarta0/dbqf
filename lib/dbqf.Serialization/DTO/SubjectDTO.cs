@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 namespace dbqf.Serialization.DTO
 {
+    [System.Diagnostics.DebuggerDisplay("{DisplayName} DTO")]
     public class SubjectDTO
     {
         [XmlElement]

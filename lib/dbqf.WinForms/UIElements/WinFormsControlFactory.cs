@@ -13,7 +13,7 @@ namespace dbqf.WinForms.UIElements
         /// Occurs when a control is generated that could support a list of suggestions.
         /// </summary>
         public event ListRequestedEventHandler ListRequested;
-        private ListRequestedArgs OnListRequired(FieldPath path)
+        private ListRequestedArgs OnListRequired(IFieldPath path)
         {
             var args = new ListRequestedArgs(path);
             if (ListRequested != null)
@@ -21,7 +21,7 @@ namespace dbqf.WinForms.UIElements
             return args;
         }
 
-        public virtual UIElement<Control> Build(FieldPath path, ParameterBuilder builder)
+        public virtual UIElement<Control> Build(IFieldPath path, ParameterBuilder builder)
         {
             UIElement<Control> c;
             var f = path.Last;
