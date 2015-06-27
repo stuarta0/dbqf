@@ -9,6 +9,16 @@ namespace dbqf.Display.Advanced
 {
     /// <summary>
     /// Parts in the Advanced view represent the user-constructed tree of parameters.
+    /// 
+    /// Layout will be:
+    /// - Subject (IList of ISubject)
+    /// - Field (IFieldPathCombo)
+    /// - Criterion (IParameterBuilderFactory)
+    /// - Control (IControlFactory)
+    /// - AND/OR buttons to add to IPartView
+    /// - AdvancedPartViewJunction (hierarchy of IPartViews)
+    /// 
+    /// In addition, SelectedPart may be useful to know what to do when AND/OR clicked
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class AdvancedAdapter<T> : IView, INotifyPropertyChanged
@@ -17,12 +27,14 @@ namespace dbqf.Display.Advanced
         protected IFieldPathFactory _pathFactory;
         protected IParameterBuilderFactory _builderFactory;
         protected IControlFactory<T> _controlFactory;
+        protected IFieldPathComboBox _pathCombo;
 
-        public AdvancedAdapter(IList<ISubject> subjects, IFieldPathFactory pathFactory, IControlFactory<T> controlFactory, IParameterBuilderFactory builderFactory)
+        public AdvancedAdapter(IList<ISubject> subjects, IFieldPathFactory pathFactory, IControlFactory<T> controlFactory, IParameterBuilderFactory builderFactory, IFieldPathComboBox pathCombo)
         {
             _pathFactory = pathFactory;
             _controlFactory = controlFactory;
             _builderFactory = builderFactory;
+            _pathCombo = pathCombo;
             //Part = new AdvancedPart<T>(_pathFactory, _builderFactory, _controlFactory);
             //Part.Subjects = new BindingList<ISubject>(subjects);
         }

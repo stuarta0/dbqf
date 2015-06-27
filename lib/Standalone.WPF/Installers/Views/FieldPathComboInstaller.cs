@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using dbqf.WPF;
+using dbqf.Display;
 
 namespace Standalone.WPF.Installers.Views
 {
@@ -17,7 +18,7 @@ namespace Standalone.WPF.Installers.Views
         {
             container.Register(
                 Component.For<FieldPathCombo>().LifestyleTransient(),
-                Component.For<FieldPathComboAdapter>().LifestyleTransient()
+                Component.For<IFieldPathComboBox, FieldPathComboAdapter>().LifestyleTransient()
             );
         }
     }

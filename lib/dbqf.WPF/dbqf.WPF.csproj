@@ -55,7 +55,6 @@
     <Compile Include="FieldPathCombo.xaml.cs">
       <DependentUpon>FieldPathCombo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FieldPathComboAdapter.cs" />
     <Compile Include="PresetView.xaml.cs">
       <DependentUpon>PresetView.xaml</DependentUpon>
     </Compile>

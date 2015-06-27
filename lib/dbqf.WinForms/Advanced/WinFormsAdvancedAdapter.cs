@@ -12,8 +12,8 @@ namespace dbqf.WinForms.Advanced
 {
     public class WinFormsAdvancedAdapter : AdvancedAdapter<Control>
     {
-        public WinFormsAdvancedAdapter(IList<ISubject> subjects, IFieldPathFactory pathFactory, IParameterBuilderFactory builderFactory, IControlFactory<Control> controlFactory)
-            : base(subjects, pathFactory, controlFactory, builderFactory)
+        public WinFormsAdvancedAdapter(IList<ISubject> subjects, IFieldPathFactory pathFactory, IParameterBuilderFactory builderFactory, IControlFactory<Control> controlFactory, IFieldPathComboBox pathCombo)
+            : base(subjects, pathFactory, controlFactory, builderFactory, pathCombo)
         {
         }
     }

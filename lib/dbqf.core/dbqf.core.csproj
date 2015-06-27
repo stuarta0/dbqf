@@ -93,6 +93,8 @@
     <Compile Include="Display\Advanced\AdvancedPartJunction.cs" />
     <Compile Include="Display\Advanced\AdvancedPartNode.cs" />
     <Compile Include="Criterion\Builders\JunctionBuilder.cs" />
+    <Compile Include="Display\FieldPathComboAdapter.cs" />
+    <Compile Include="Display\IFieldPathComboBox.cs" />
     <Compile Include="Display\IView.cs" />
     <Compile Include="Display\FieldPathFactory.cs" />
     <Compile Include="Display\IFieldPathFactory.cs" />

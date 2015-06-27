@@ -98,7 +98,6 @@
     <Compile Include="FieldPathCombo.Designer.cs">
       <DependentUpon>FieldPathCombo.cs</DependentUpon>
     </Compile>
-    <Compile Include="FieldPathComboAdapter.cs" />
     <Compile Include="PresetView.cs">
       <SubType>UserControl</SubType>
     </Compile>
