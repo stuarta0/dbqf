@@ -75,6 +75,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.13\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -92,6 +95,7 @@
     <Compile Include="Display\WpfStandardAdapter.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
     <Compile Include="Installers\DataInstaller.cs" />
+    <Compile Include="Installers\Views\AdvancedInstaller.cs" />
     <Compile Include="Installers\WpfFactoryInstaller.cs" />
     <Compile Include="Installers\Views\FieldPathComboInstaller.cs" />
     <Compile Include="Installers\Views\StandardInstaller.cs" />

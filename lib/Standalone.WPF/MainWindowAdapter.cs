@@ -32,7 +32,7 @@ namespace Standalone.WPF
 
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
-        public FieldPathCombo Advanced { get; private set; }
+        public AdvancedView Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
 
         #region Application Appearance
@@ -191,11 +191,11 @@ namespace Standalone.WPF
         {
             get 
             { 
-                return new List<IView>() { Preset.Adapter, Standard.Adapter }.IndexOf(CurrentView);
+                return new List<IView>() { Preset.Adapter, Standard.Adapter, Advanced.Adapter }.IndexOf(CurrentView);
             }
             set
             {
-                var list = new List<IView>() { Preset.Adapter, Standard.Adapter };
+                var list = new List<IView>() { Preset.Adapter, Standard.Adapter, Advanced.Adapter };
                 if (value >= 0 && value < list.Count)
                     CurrentView = list[value];
                 OnPropertyChanged("TabIndex");
@@ -230,7 +230,7 @@ namespace Standalone.WPF
 
         public MainWindowAdapter(
             Project project, IFieldPathFactory pathFactory, 
-            PresetView preset, StandardView standard, FieldPathCombo advanced, 
+            PresetView preset, StandardView standard, AdvancedView advanced, 
             RetrieveFieldsView fields)
             : base(project)
         {

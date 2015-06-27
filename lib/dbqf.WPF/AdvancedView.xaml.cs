@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dbqf.WPF.Advanced;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,12 @@ namespace dbqf.WPF
     /// </summary>
     public partial class AdvancedView : UserControl
     {
-        public AdvancedView()
+        public WpfAdvancedAdapter Adapter { get; private set; }
+        public AdvancedView(WpfAdvancedAdapter adapter)
         {
             InitializeComponent();
+            Adapter = adapter;
+            this.DataContext = adapter;
         }
     }
 }

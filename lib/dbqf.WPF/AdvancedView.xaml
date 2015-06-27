@@ -3,9 +3,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:uc="clr-namespace:dbqf.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Subject:" VerticalAlignment="Center" />
+        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Subjects}" SelectedItem="{Binding SelectedSubject}" DisplayMemberPath="DisplayName" Margin="0,0,0,3" />
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Field:" VerticalAlignment="Center" />
+        <uc:FieldPathCombo Adapter="{Binding FieldPathComboAdapter}" Margin="0,0,0,3" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Operator:" VerticalAlignment="Center" />
+        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Builders}" SelectedItem="{Binding SelectedBuilder}" DisplayMemberPath="Label" Margin="0,0,0,3" />
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Value:" VerticalAlignment="Center" />
+        <ContentControl Grid.Row="3" Grid.Column="1" Content="{Binding UIElement}" />
+        
+        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="AND" Padding="3,0,3,0" Margin="0,3,3,3" />
+            <Button Content="OR" Padding="3,0,3,0" Margin="0,3,3,3" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Vertical" Background="White">
             
+        </StackPanel>
     </Grid>
 </UserControl>
