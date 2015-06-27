@@ -16,6 +16,7 @@ namespace dbqf.WPF.Standard
         public WpfStandardAdapter(IControlFactory<UIElement> controlFactory, IParameterBuilderFactory builderFactory)
             : base(controlFactory, builderFactory)
         {
+            IsSharedSizeScope = false;
         }
 
         protected override StandardPart<UIElement> CreatePart()
@@ -35,5 +36,10 @@ namespace dbqf.WPF.Standard
             }
         }
         private ICommand _addCommand;
+
+        /// <summary>
+        /// Gets or sets whether the columns should be sized evenly or on a per-part basis.
+        /// </summary>
+        public bool IsSharedSizeScope { get; set; }
     }
 }
