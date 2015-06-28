@@ -77,8 +77,9 @@ namespace Standalone.Core
 
         /// <summary>
         /// Takes the current view parts and moves them to the next view in the _views collection.
+        /// May throw exceptions if the target view can't display the incoming parts correctly.
         /// </summary>
-        public void Refine()
+        public virtual void Refine()
         {
             IView prev = null;
             foreach (var view in _views)
@@ -86,8 +87,8 @@ namespace Standalone.Core
                 if (prev != null)
                 {
                     view.Value.Reset();
-                    view.Value.SetParts(prev.GetParts());
                     CurrentView = view.Value;
+                    view.Value.SetParts(prev.GetParts());
                     break;
                 }
                 else if (view.Value == CurrentView)

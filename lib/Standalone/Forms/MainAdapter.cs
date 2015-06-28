@@ -61,6 +61,15 @@ namespace Standalone.Forms
             RefreshPaths();
         }
 
+        public override void Refine()
+        {
+            try { base.Refine(); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Refine", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
         private void RefreshPaths()
         {
             // ask the factory twice as the individual views alter the path instances differently

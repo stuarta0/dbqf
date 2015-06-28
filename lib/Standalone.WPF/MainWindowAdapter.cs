@@ -274,6 +274,14 @@ namespace Standalone.WPF
             RefreshPaths();
         }
 
+        public override void Refine()
+        {
+            try { base.Refine(); }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message, "Refine", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
+
         private void RefreshPaths()
         {
             // HACK: ask the factory twice as the individual views alter the path instances differently
