@@ -20,17 +20,15 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Subject:" VerticalAlignment="Center" />
-        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Subjects}" SelectedItem="{Binding SelectedSubject}" DisplayMemberPath="DisplayName" Margin="0,0,0,3" />
-
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Field:" VerticalAlignment="Center" />
-        <uc:FieldPathCombo Adapter="{Binding FieldPathComboAdapter}" Margin="0,0,0,3" />
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Field:" VerticalAlignment="Center" />
+        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding SubjectSource}" SelectedItem="{Binding SelectedSubject}" DisplayMemberPath="DisplayName" Margin="3,0,0,3" />
+        <uc:FieldPathCombo Grid.Row="1" Grid.Column="1" DataContext="{Binding FieldPathComboAdapter}" Margin="3,0,0,0" />
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Operator:" VerticalAlignment="Center" />
-        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Builders}" SelectedItem="{Binding SelectedBuilder}" DisplayMemberPath="Label" Margin="0,0,0,3" />
+        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding BuilderSource}" SelectedItem="{Binding SelectedBuilder}" DisplayMemberPath="Label" Margin="3,0,0,3" />
 
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Value:" VerticalAlignment="Center" />
-        <ContentControl Grid.Row="3" Grid.Column="1" Content="{Binding UIElement}" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Value:" VerticalAlignment="Center" Visibility="{Binding ValueVisibility}" />
+        <ContentControl Grid.Row="3" Grid.Column="1" Content="{Binding UIElement.Element}" IsTabStop="False" VerticalAlignment="Center" MinHeight="22" Visibility="{Binding ValueVisibility}" Margin="3,0,0,0" />
         
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="AND" Padding="3,0,3,0" Margin="0,3,3,3" />

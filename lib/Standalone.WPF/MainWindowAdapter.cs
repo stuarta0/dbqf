@@ -245,6 +245,7 @@ namespace Standalone.WPF
             RetrieveFields = fields;
             _views.Add("Preset", preset.Adapter);
             _views.Add("Standard", standard.Adapter);
+            _views.Add("Advanced", advanced.Adapter);
 
             Preset.Adapter.Search += Adapter_Search;
             Standard.Adapter.Search += Adapter_Search;

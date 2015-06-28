@@ -1,5 +1,6 @@
 ﻿using dbqf.Configuration;
 using dbqf.Criterion;
+using dbqf.Criterion.Builders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,52 +21,100 @@ namespace dbqf.Display.Advanced
     /// 
     /// In addition, SelectedPart may be useful to know what to do when AND/OR clicked
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of UI control in use.</typeparam>
     public abstract class AdvancedAdapter<T> : IView, INotifyPropertyChanged
     {
-        protected List<ISubject> _subjects;
-        protected IFieldPathFactory _pathFactory;
         protected IParameterBuilderFactory _builderFactory;
         protected IControlFactory<T> _controlFactory;
         protected IFieldPathComboBox _pathCombo;
 
-        public AdvancedAdapter(IList<ISubject> subjects, IFieldPathFactory pathFactory, IControlFactory<T> controlFactory, IParameterBuilderFactory builderFactory, IFieldPathComboBox pathCombo)
+        public AdvancedAdapter(
+            IList<ISubject> subjects, 
+            IFieldPathComboBox pathCombo, 
+            IParameterBuilderFactory builderFactory, 
+            IControlFactory<T> controlFactory)
         {
-            _pathFactory = pathFactory;
-            _controlFactory = controlFactory;
+            // hook up utilities first so we can trickle down the initial ParameterBuilder/UIElement creation
             _builderFactory = builderFactory;
+            _controlFactory = controlFactory;
             _pathCombo = pathCombo;
-            //Part = new AdvancedPart<T>(_pathFactory, _builderFactory, _controlFactory);
-            //Part.Subjects = new BindingList<ISubject>(subjects);
+            _pathCombo.SelectedPathChanged += PathCombo_SelectedPathChanged;
+
+            // now set subject source (begins process of creating initial set of options for user)
+            SubjectSource = new BindingList<ISubject>(subjects);
         }
 
-        ///// <summary>
-        ///// Gets the control to display for creating a parameter.
-        ///// </summary>
-        //public virtual AdvancedPart<T> Part
-        //{
-        //    get { return _part; }
-        //    protected set
-        //    {
-        //        _part = value;
-        //        OnPropertyChanged("Part");
-        //    }
-        //}
-        //protected AdvancedPart<T> _part;
+        private void PathCombo_SelectedPathChanged(object sender, EventArgs e)
+        {
+            BuilderSource = new BindingList<ParameterBuilder>(_builderFactory.Build(_pathCombo.SelectedPath));
+        }
+
+        public virtual BindingList<ISubject> SubjectSource
+        {
+            get { return _subjects; }
+            set
+            {
+                _subjects = value;
+                OnPropertyChanged("SubjectSource");
+                SelectedSubject = _subjects[0];
+            }
+        }
+        private BindingList<ISubject> _subjects;
+
+        public virtual ISubject SelectedSubject
+        {
+            get { return _selectedSubject; }
+            set
+            {
+                _selectedSubject = value;
+                OnPropertyChanged("SelectedSubject");
+                _pathCombo.SelectedPath = FieldPath.FromDefault(_selectedSubject.DefaultField);
+            }
+        }
+        private ISubject _selectedSubject;
+
+        public virtual BindingList<ParameterBuilder> BuilderSource
+        {
+            get { return _builders; }
+            set
+            {
+                _builders = value;
+                OnPropertyChanged("BuilderSource");
+                SelectedBuilder = _builders[0];
+            }
+        }
+        private BindingList<ParameterBuilder> _builders;
+
+        public virtual ParameterBuilder SelectedBuilder
+        {
+            get { return _selectedBuilder; }
+            set
+            {
+                _selectedBuilder = value;
+                OnPropertyChanged("SelectedBuilder");
+                UIElement = _controlFactory.Build(_pathCombo.SelectedPath, _selectedBuilder);
+            }
+        }
+        private ParameterBuilder _selectedBuilder;
+
+        public virtual UIElement<T> UIElement
+        {
+            get { return _uiElement; }
+            set
+            {
+                _uiElement = value;
+                OnPropertyChanged("UIElement");
+            }
+        }
+        private UIElement<T> _uiElement;
+
 
         public event EventHandler Search;
-        private void OnSearch(object sender, EventArgs e)
+        protected void OnSearch(object sender, EventArgs e)
         {
             if (Search != null)
                 Search(this, EventArgs.Empty);
         }
-
-        /// <summary>
-        /// Factory method to create concrete part.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        //protected abstract AdvancedPart<T> CreatePart();
 
         public virtual IParameter GetParameter()
         {
@@ -80,18 +129,18 @@ namespace dbqf.Display.Advanced
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public IPartViewJunction GetParts()
+        public virtual IPartViewJunction GetParts()
         {
             // return IPartViewJunction of root parts
             throw new NotImplementedException();
         }
 
-        public void SetParts(IPartViewJunction parts)
+        public virtual void SetParts(IPartViewJunction parts)
         {
             // convert tree of data in IPartViewJunction into AdvancedPartJunction/Node.
         }
 
-        public void Reset()
+        public virtual void Reset()
         {
             throw new NotImplementedException();
         }

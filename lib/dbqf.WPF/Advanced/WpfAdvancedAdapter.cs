@@ -11,15 +11,30 @@ namespace dbqf.WPF.Advanced
 {
     public class WpfAdvancedAdapter : AdvancedAdapter<System.Windows.UIElement>
     {
-        public WpfAdvancedAdapter(IList<ISubject> subjects, IFieldPathFactory pathFactory, IControlFactory<System.Windows.UIElement> controlFactory, IParameterBuilderFactory builderFactory, IFieldPathComboBox pathCombo)
-            : base(subjects, pathFactory, controlFactory, builderFactory, pathCombo)
+        public WpfAdvancedAdapter(IList<ISubject> subjects, IFieldPathComboBox pathCombo, IParameterBuilderFactory builderFactory, IControlFactory<System.Windows.UIElement> controlFactory)
+            : base(subjects, pathCombo, builderFactory, controlFactory)
         {
-            
         }
 
         public FieldPathComboAdapter FieldPathComboAdapter
         {
             get { return (FieldPathComboAdapter)base._pathCombo; }
+        }
+
+        // override required to fire ValueVisibility changed
+        public override UIElement<UIElement> UIElement
+        {
+            get { return base.UIElement; }
+            set
+            {
+                base.UIElement = value;
+                OnPropertyChanged("ValueVisibility");
+            }
+        }
+
+        public Visibility ValueVisibility
+        {
+            get { return UIElement == null || UIElement.Element == null ? Visibility.Collapsed : Visibility.Visible; }
         }
     }
 }

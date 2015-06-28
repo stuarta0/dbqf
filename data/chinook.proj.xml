@@ -37,10 +37,9 @@
             </List>
             <Parsers />
           </Field>
-          <Field Source="ArtistId">
+          <Field Source="ArtistId" RelatedSubject="0">
             <Type>System.Int32</Type>
             <DisplayName>Artist</DisplayName>
-            <RelatedSubjectIndex>0</RelatedSubjectIndex>
             <Parsers />
           </Field>
         </Fields>
@@ -59,10 +58,9 @@ LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId</Source>
             <Type>System.String</Type>
             <Parsers />
           </Field>
-          <Field Source="AlbumId">
+          <Field Source="AlbumId" RelatedSubject="1">
             <Type>System.Int32</Type>
             <DisplayName>Album</DisplayName>
-            <RelatedSubjectIndex>1</RelatedSubjectIndex>
             <Parsers />
           </Field>
           <Field Source="Composer">
