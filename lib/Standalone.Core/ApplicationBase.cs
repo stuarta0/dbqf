@@ -74,6 +74,26 @@ namespace Standalone.Core
                     return pair.Key;
             return null;
         }
+
+        /// <summary>
+        /// Takes the current view parts and moves them to the next view in the _views collection.
+        /// </summary>
+        public void Refine()
+        {
+            IView prev = null;
+            foreach (var view in _views)
+            {
+                if (prev != null)
+                {
+                    view.Value.Reset();
+                    view.Value.SetParts(prev.GetParts());
+                    CurrentView = view.Value;
+                    break;
+                }
+                else if (view.Value == CurrentView)
+                    prev = view.Value;
+            }
+        }
     
         public string ApplicationTitle
         {

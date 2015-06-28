@@ -42,8 +42,9 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <ComboBox Margin="3,3,3,3" Width="120" ItemsSource="{Binding SubjectSource}" SelectedItem="{Binding SelectedSubject}" />
-                    <Button Content="Search" Width="70" Margin="3,3,3,3" Command="{Binding SearchCommand}" />
-                    <Button Content="Reset" Width="70" Margin="3,3,3,3" Command="{Binding ResetCommand}" />
+                    <Button Content="Search" Width="70" Margin="0,3,3,3" Command="{Binding SearchCommand}" />
+                    <Button Content="Reset" Width="70" Margin="0,3,3,3" Command="{Binding ResetCommand}" />
+                    <Button Content="Refine" Width="70" Margin="3,3,3,3" Command="{Binding RefineCommand}" />
                 </StackPanel>
                 <TabControl Grid.Row="1" SelectedIndex="{Binding TabIndex}">
                     <TabItem Header="Preset">

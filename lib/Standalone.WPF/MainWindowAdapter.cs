@@ -167,16 +167,26 @@ namespace Standalone.WPF
         }
         private ICommand _cancelCommand;
 
+        public ICommand RefineCommand
+        {
+            get
+            {
+                if (_refineCommand == null)
+                    _refineCommand = new RelayCommand(p => Refine());
+                return _refineCommand;
+            }
+        }
+        private ICommand _refineCommand;
+
+
+
         #endregion
 
         #region View Handling
 
         public override IView CurrentView
         {
-            get
-            {
-                return base.CurrentView;
-            }
+            get { return base.CurrentView; }
             set
             {
                 base.CurrentView = value;
@@ -185,7 +195,7 @@ namespace Standalone.WPF
         }
 
         /// <summary>
-        /// Very hacky.
+        /// HACK
         /// </summary>
         public int TabIndex
         {
@@ -249,7 +259,7 @@ namespace Standalone.WPF
 
             Preset.Adapter.Search += Adapter_Search;
             Standard.Adapter.Search += Adapter_Search;
-            //Advanced.Adapter.Search += Adapter_Search;
+            Advanced.Adapter.Search += Adapter_Search;
 
             ProjectAdapter = new ProjectAdapter(project);
             ProjectAdapter.Project.CurrentConnectionChanged += delegate 
@@ -266,7 +276,7 @@ namespace Standalone.WPF
 
         private void RefreshPaths()
         {
-            // ask the factory twice as the individual views alter the path instances differently
+            // HACK: ask the factory twice as the individual views alter the path instances differently
             if (SelectedSubject != null)
             {
                 Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));

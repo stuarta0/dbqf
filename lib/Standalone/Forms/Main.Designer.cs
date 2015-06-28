@@ -52,7 +52,7 @@
             this.btnSearch = new System.Windows.Forms.ToolStripButton();
             this.btnReset = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnEnhance = new System.Windows.Forms.ToolStripButton();
+            this.btnRefine = new System.Windows.Forms.ToolStripButton();
             this.tabControlResults = new System.Windows.Forms.TabControl();
             this.tabResults = new System.Windows.Forms.TabPage();
             this.pnlLoading = new System.Windows.Forms.Panel();
@@ -246,7 +246,7 @@
             this.btnSearch,
             this.btnReset,
             this.toolStripSeparator1,
-            this.btnEnhance});
+            this.btnRefine});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(354, 25);
@@ -284,15 +284,15 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // btnEnhance
+            // btnRefine
             // 
-            this.btnEnhance.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnEnhance.Enabled = false;
-            this.btnEnhance.Image = ((System.Drawing.Image)(resources.GetObject("btnEnhance.Image")));
-            this.btnEnhance.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnEnhance.Name = "btnEnhance";
-            this.btnEnhance.Size = new System.Drawing.Size(56, 22);
-            this.btnEnhance.Text = "Enhance";
+            this.btnRefine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnRefine.Image = ((System.Drawing.Image)(resources.GetObject("btnRefine.Image")));
+            this.btnRefine.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRefine.Name = "btnRefine";
+            this.btnRefine.Size = new System.Drawing.Size(44, 22);
+            this.btnRefine.Text = "Refine";
+            this.btnRefine.Click += new System.EventHandler(this.btnRefine_Click);
             // 
             // tabControlResults
             // 
@@ -401,6 +401,7 @@
             this.txtSql.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtSql.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.txtSql.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSql.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.txtSql.IsReplaceMode = false;
             this.txtSql.Language = FastColoredTextBoxNS.Language.SQL;
             this.txtSql.LeftBracket = '(';
@@ -481,7 +482,7 @@
         private System.Windows.Forms.ToolStripButton btnSearch;
         private System.Windows.Forms.ToolStripButton btnReset;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton btnEnhance;
+        private System.Windows.Forms.ToolStripButton btnRefine;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;

@@ -233,5 +233,10 @@ namespace Standalone.Forms
             if (sfdSave.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
                 Adapter.Save(sfdSave.FileName);
         }
+
+        private void btnRefine_Click(object sender, EventArgs e)
+        {
+            Adapter.Refine();
+        }
     }
 }
