@@ -88,7 +88,12 @@ namespace dbqf.WPF.Advanced
         /// <param name="type"></param>
         private void Add(JunctionType type)
         {
-            var toAdd = new WpfAdvancedPartNode();
+            var toAdd = new WpfAdvancedPartNode()
+                {
+                    SelectedPath = _pathCombo.SelectedPath,
+                    SelectedBuilder = SelectedBuilder,
+                    Values = this.UIElement.GetValues()
+                };
 
             // if Parts null, just add node
             if (Parts == null)
@@ -100,7 +105,7 @@ namespace dbqf.WPF.Advanced
                 if (sibling == null)
                     sibling = Parts;
 
-                // if the sibling has a container junction and it's a conjunction, add it to this
+                // if the sibling has a container and it's the same type of junction, add it to the same container
                 WpfAdvancedPartJunction container = null;
                 if (sibling.Container != null && sibling.Container.Type == type)
                     container = sibling.Container;

@@ -129,6 +129,7 @@ namespace dbqf.Display.Standard
                 }
 
                 OnPropertyChanged("UIElement");
+                OnPropertyChanged("Values");
             }
         }
         protected UIElement<T> _control;

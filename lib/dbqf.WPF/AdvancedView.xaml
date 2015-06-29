@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:uc="clr-namespace:dbqf.WPF"
+             xmlns:types="clr-namespace:dbqf.WPF.Advanced"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -31,6 +32,7 @@
                 <Line X1="11" Y1="5" X2="5" Y2="11" Stroke="White" StrokeThickness="2" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
             </Canvas>
         </ControlTemplate>
+        
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -62,95 +64,43 @@
         </StackPanel>
         
         <!-- container for IPartViewJunctions -->
-        <ContentControl Grid.Row="5" Grid.ColumnSpan="2" Background="White">
-            
-            <!-- IPartViewJunction OR -->
-            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" CornerRadius="5" BorderBrush="Black" BorderThickness="1" Padding="3" Margin="3,0,0,0">
-                    <StackPanel Orientation="Vertical">
-
-                        <!-- IPartViewJunction AND -->
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" CornerRadius="5" BorderBrush="Black" BorderThickness="1" Padding="3" Margin="15,0,0,0" >
-                                <StackPanel Orientation="Vertical">
-
-                                    <!-- IPartViewNode -->
-                                    <StackPanel Background="{x:Static SystemColors.HighlightBrush}" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,3,3,0">
-                                        <TextBlock Text="" VerticalAlignment="Center" Margin="3,0,0,0" />
-                                        <TextBlock Foreground="{x:Static SystemColors.HighlightTextBrush}" Text="Artist Name contains Florence" VerticalAlignment="Center" />
-                                        <Button Command="{Binding DeleteCommand}">
-                                            <Button.Template>
-                                                <ControlTemplate TargetType="Button">
-                                                    <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
-                                                </ControlTemplate>
-                                            </Button.Template>
-                                        </Button>
-                                    </StackPanel>
-
-                                    <!-- IPartViewNode -->
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,3,3,0" >
-                                        <TextBlock Text="AND " VerticalAlignment="Center" Margin="3,0,0,0" />
-                                        <TextBlock Text="Format = MP3" VerticalAlignment="Center" />
-                                        <Button Command="{Binding DeleteCommand}">
-                                            <Button.Template>
-                                                <ControlTemplate TargetType="Button">
-                                                    <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
-                                                </ControlTemplate>
-                                            </Button.Template>
-                                        </Button>
-                                    </StackPanel>
-                                    
-                                <!-- End AND -->
-                                </StackPanel>
-                            </Border>
-                            <Button Grid.Column="1" Command="{Binding DeleteCommand}">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="Button">
-                                        <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                        </Grid>
-
-                        <!-- IPartViewJunction -->
-                        <StackPanel Orientation="Vertical" Width="Auto">
-                            <TextBlock Text="OR" />
-
-                            <!-- IPartViewNode -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15,3,3,0">
-                                <TextBlock Text="" VerticalAlignment="Center" Margin="3,0,0,0" />
-                                <TextBlock Text="Album Name starts with The" VerticalAlignment="Center" />
-                                <Button Command="{Binding DeleteCommand}">
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="Button">
-                                            <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-                            </StackPanel>
-
-                        </StackPanel>
-                        
-                    <!-- End OR -->
-                    </StackPanel>
-                </Border>
-                <Button Grid.Column="1" Command="{Binding DeleteCommand}">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </Grid>
-            
+        <ContentControl Grid.Row="5" Grid.ColumnSpan="2" Background="White" Content="{Binding Parts}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type types:WpfAdvancedPartJunction}">
+                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" ShowGridLines="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ItemsControl Grid.Column="0" ItemsSource="{Binding Parts}" />
+                        <Button Grid.Column="1" Command="{Binding DeleteCommand}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type types:WpfAdvancedPartNode}">
+                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" ShowGridLines="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Prefix}" Padding="0,0,3,0" />
+                        <TextBlock Grid.Column="1" Text="{Binding Description}" />
+                        <Button Grid.Column="2" Command="{Binding DeleteCommand}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ContentControl.Resources>
         </ContentControl>
     </Grid>
 </UserControl>

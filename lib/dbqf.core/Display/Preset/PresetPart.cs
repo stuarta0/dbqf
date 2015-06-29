@@ -32,7 +32,7 @@ namespace dbqf.Display.Preset
                 if (value == _field)
                     return;
                 _field = value;
-                OnPropertyChanged("Path");
+                OnPropertyChanged("SelectedPath");
             }
         }
         protected IFieldPath _field;
@@ -48,7 +48,7 @@ namespace dbqf.Display.Preset
                 if (value == _builder)
                     return;
                 _builder = value;
-                OnPropertyChanged("Builder");
+                OnPropertyChanged("SelectedBuilder");
             }
         }
         protected ParameterBuilder _builder;
@@ -63,6 +63,7 @@ namespace dbqf.Display.Preset
             {
                 _control = value;
                 OnPropertyChanged("UIElement");
+                OnPropertyChanged("Values");
             }
         }
         protected UIElement<T> _control;

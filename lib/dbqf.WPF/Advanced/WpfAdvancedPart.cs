@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
 namespace dbqf.WPF.Advanced
 {
-    public abstract class WpfAdvancedPart
+    public abstract class WpfAdvancedPart : INotifyPropertyChanged
     {
         public event EventHandler DeleteRequested = delegate { };
         protected virtual void OnDeleteRequested()
@@ -14,10 +15,14 @@ namespace dbqf.WPF.Advanced
             DeleteRequested(this, EventArgs.Empty);
         }
 
-        public WpfAdvancedPartJunction Container
+        public virtual WpfAdvancedPartJunction Container
         {
             get { return _container; }
-            set { _container = value; }
+            set 
+            { 
+                _container = value;
+                OnPropertyChanged("Container");
+            }
         }
         private WpfAdvancedPartJunction _container;
 
@@ -31,5 +36,12 @@ namespace dbqf.WPF.Advanced
             }
         }
         private ICommand _deleteCommand;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
