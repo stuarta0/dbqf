@@ -41,8 +41,9 @@ namespace dbqf.WPF.Advanced
             get 
             {
                 var sb = new StringBuilder();
-                foreach (var obj in Values)
-                    sb.Append(obj);
+                if (Values != null)
+                    foreach (var obj in Values)
+                        sb.Append(obj);
                 return String.Concat(SelectedPath.Description, " ", SelectedBuilder.Label, " ", sb); 
             }
         }

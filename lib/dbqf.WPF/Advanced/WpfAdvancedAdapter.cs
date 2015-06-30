@@ -60,13 +60,13 @@ namespace dbqf.WPF.Advanced
         }
         private ICommand _orCommand;
 
-        public WpfAdvancedPart Parts
+        public WpfAdvancedPart Part
         {
             get { return _parts; }
             set
             {
                 _parts = value;
-                OnPropertyChanged("Parts");
+                OnPropertyChanged("Part");
             }
         }
         private WpfAdvancedPart _parts;
@@ -94,16 +94,17 @@ namespace dbqf.WPF.Advanced
                     SelectedBuilder = SelectedBuilder,
                     Values = this.UIElement.GetValues()
                 };
+            toAdd.DeleteRequested += Part_DeleteRequested;
 
             // if Parts null, just add node
-            if (Parts == null)
-                Parts = toAdd;
+            if (Part == null)
+                Part = toAdd;
             else
             {
                 // if we have a selected part, add as a sibling to this, otherwise add it as a sibling to the last item
                 var sibling = SelectedPart;
                 if (sibling == null)
-                    sibling = Parts;
+                    sibling = Part;
 
                 // if the sibling has a container and it's the same type of junction, add it to the same container
                 WpfAdvancedPartJunction container = null;
@@ -114,11 +115,19 @@ namespace dbqf.WPF.Advanced
                 if (container == null)
                 {
                     container = new WpfAdvancedPartJunction() { Type = type };
-                    if (Parts == sibling) // root case
-                        Parts = container;
+                    if (Part == sibling) // root case
+                        Part = container;
                     else if (sibling.Container != null) // otherwise, replace index in original container
-                        sibling.Container.Parts[sibling.Container.Parts.IndexOf(sibling)] = container;
+                    {
+                        // it seems replacing the index directly messes with UI data templating
+                        // so if we remove it and insert the container at the old items location, it works
+                        var c = sibling.Container;
+                        var index = c.Parts.IndexOf(sibling);
+                        c.Parts.Remove(sibling);
+                        c.Parts.Insert(index, container);
+                    }
                     container.Parts.Add(sibling);
+                    container.DeleteRequested += Part_DeleteRequested;
                 }
 
                 // and finally, add the new node to the junction
@@ -126,6 +135,16 @@ namespace dbqf.WPF.Advanced
             }
 
             SelectedPart = toAdd;
+        }
+
+        void Part_DeleteRequested(object sender, EventArgs e)
+        {
+            
+        }
+
+        public override void Reset()
+        {
+            Part = null;
         }
     }
 }

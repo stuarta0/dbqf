@@ -64,43 +64,47 @@
         </StackPanel>
         
         <!-- container for IPartViewJunctions -->
-        <ContentControl Grid.Row="5" Grid.ColumnSpan="2" Background="White" Content="{Binding Parts}">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type types:WpfAdvancedPartJunction}">
-                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" ShowGridLines="True">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <ItemsControl Grid.Column="0" ItemsSource="{Binding Parts}" />
-                        <Button Grid.Column="1" Command="{Binding DeleteCommand}">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </Grid>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type types:WpfAdvancedPartNode}">
-                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" ShowGridLines="True">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Prefix}" Padding="0,0,3,0" />
-                        <TextBlock Grid.Column="1" Text="{Binding Description}" />
-                        <Button Grid.Column="2" Command="{Binding DeleteCommand}">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </Grid>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
+        <Border Grid.Row="5" Grid.ColumnSpan="2" BorderThickness="1" CornerRadius="2" BorderBrush="Black" Background="White" Padding="6">
+            <ContentPresenter Content="{Binding Part}" Grid.IsSharedSizeScope="True">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type types:WpfAdvancedPartJunction}">
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" BorderThickness="1" CornerRadius="2" BorderBrush="Black" Padding="6">
+                                <ItemsControl ItemsSource="{Binding Parts}" />
+                            </Border>
+                            <Button Grid.Column="1" Command="{Binding DeleteCommand}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type types:WpfAdvancedPartNode}">
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="prefixCol" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Prefix}" Padding="0,0,3,0" />
+                            <TextBlock Grid.Column="1" Text="{Binding Description}" />
+                            <Button Grid.Column="2" Command="{Binding DeleteCommand}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
+        </Border>
     </Grid>
 </UserControl>
