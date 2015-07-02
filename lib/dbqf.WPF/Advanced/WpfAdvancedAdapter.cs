@@ -74,7 +74,7 @@ namespace dbqf.WPF.Advanced
         public WpfAdvancedPart SelectedPart
         {
             get { return _selectedPart; }
-            set
+            private set
             {
                 _selectedPart = value;
                 OnPropertyChanged("SelectedPart");
@@ -94,7 +94,7 @@ namespace dbqf.WPF.Advanced
                     SelectedBuilder = SelectedBuilder,
                     Values = this.UIElement.GetValues()
                 };
-            toAdd.DeleteRequested += Part_DeleteRequested;
+            AddHandlers(toAdd);
 
             // if Parts null, just add node
             if (Part == null)
@@ -110,6 +110,8 @@ namespace dbqf.WPF.Advanced
                 WpfAdvancedPartJunction container = null;
                 if (sibling.Container != null && sibling.Container.Type == type)
                     container = sibling.Container;
+                else if (sibling == Part && sibling is WpfAdvancedPartJunction && ((WpfAdvancedPartJunction)sibling).Type == type)
+                    container = (WpfAdvancedPartJunction)sibling;
 
                 // no parent? (either no container, or the sibling's container is a different junction type)
                 if (container == null)
@@ -122,29 +124,128 @@ namespace dbqf.WPF.Advanced
                         // it seems replacing the index directly messes with UI data templating
                         // so if we remove it and insert the container at the old items location, it works
                         var c = sibling.Container;
-                        var index = c.Parts.IndexOf(sibling);
-                        c.Parts.Remove(sibling);
-                        c.Parts.Insert(index, container);
+                        var index = c.IndexOf(sibling);
+                        c.Remove(sibling);
+                        c.Insert(index, container);
                     }
-                    container.Parts.Add(sibling);
-                    container.DeleteRequested += Part_DeleteRequested;
+                    container.Add(sibling);
+                    AddHandlers(container);
                 }
 
                 // and finally, add the new node to the junction
                 container.Parts.Add(toAdd);
             }
 
-            SelectedPart = toAdd;
+            toAdd.IsSelected = true;
+        }
+
+        private void AddHandlers(WpfAdvancedPart part)
+        {
+            part.DeleteRequested += Part_DeleteRequested;
+            part.IsSelectedChanged += Part_IsSelectedChanged;
+        }
+        private void RemoveHandlers(WpfAdvancedPart part)
+        {
+            part.DeleteRequested -= Part_DeleteRequested;
+            part.IsSelectedChanged -= Part_IsSelectedChanged;
+
+            // is the selected part in the hierarchy being removed?
+            if (SelectedPart == part)
+                SelectedPart = null;
+            else if (SelectedPart != null)
+            {
+                var junction = SelectedPart.Container;
+                while (junction != null)
+                {
+                    // yep, one of the parent junctions of the SelectedPart is the one being removed
+                    if (junction == part)
+                    {
+                        SelectedPart = null;
+                        break;
+                    }
+                    junction = junction.Container;
+                }
+            }
+        }
+
+        void Part_IsSelectedChanged(object sender, EventArgs e)
+        {
+            var part = (WpfAdvancedPart)sender;
+            if (SelectedPart != null && SelectedPart != part)
+                SelectedPart.IsSelected = false;
+
+            if (part.IsSelected)
+                SelectedPart = part;
+            else
+                SelectedPart = null;
         }
 
         void Part_DeleteRequested(object sender, EventArgs e)
         {
-            
+            var part = sender as WpfAdvancedPart;
+            RemoveHandlers(part);
+
+            if (Part == part)
+                Part = null;
+            else
+            {
+                var container = part.Container;
+                container.Parts.Remove(part);
+
+                // remove the container if it's only got 1 item left
+                if (container.Parts.Count == 1)
+                {
+                    RemoveHandlers(container);
+                    var parentContainer = container.Container;
+                    if (parentContainer == null)
+                        Part = container.Parts[0];
+                    else
+                    {
+                        var index = parentContainer.Parts.IndexOf(container);
+                        parentContainer.Parts.Remove(container);
+
+                        // if the parent container junction type is the same as what we're inserting, merge the parts
+                        var toMerge = container.Parts[0];
+                        if (toMerge is WpfAdvancedPartJunction && ((WpfAdvancedPartJunction)toMerge).Type == parentContainer.Type)
+                        {
+                            RemoveHandlers(toMerge);
+                            foreach (var p in (WpfAdvancedPartJunction)toMerge)
+                                parentContainer.Add(p);
+                        }
+                        else
+                            parentContainer.Insert(index, container.Parts[0]);
+                    }
+                }
+            }
         }
 
         public override void Reset()
         {
             Part = null;
+        }
+
+        public override IPartViewJunction GetParts()
+        {
+            if (Part is IPartViewNode)
+            {
+                var junction = new WpfAdvancedPartJunction();
+                junction.Add(Part);
+                return junction;
+            }
+            
+            return (IPartViewJunction)Part;
+        }
+
+        public override void SetParts(IPartViewJunction parts)
+        {
+            // convert all parts to AdvancedParts
+        }
+        
+        public override Criterion.IParameter GetParameter()
+        {
+            if (Part != null)
+                return Part.GetParameter();
+            return null;
         }
     }
 }

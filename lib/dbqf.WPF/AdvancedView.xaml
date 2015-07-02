@@ -3,36 +3,72 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:uc="clr-namespace:dbqf.WPF"
              xmlns:types="clr-namespace:dbqf.WPF.Advanced"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <ControlTemplate x:Key="CloseImage">
-            <Canvas Width="16" Height="16">
-                <Rectangle Width="16" Height="16" RadiusX="4" RadiusY="4" >
-                    <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FFFF9090" Offset="0.3"/>
-                            <GradientStop Color="#FFD02D2D" Offset="0.45"/>
-                            <GradientStop Color="#FFFF9090" Offset="1"/>
-                            <GradientStop Color="#FFFFEAEA"/>
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                    <Rectangle.Stroke>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FFAD515D" Offset="0"/>
-                            <GradientStop Color="#FF7E2F3C" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Rectangle.Stroke>
-                </Rectangle>
-                <Line X1="5" Y1="5" X2="11" Y2="11" Stroke="#FF9E2424" StrokeThickness="4" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
-                <Line X1="11" Y1="5" X2="5" Y2="11" Stroke="#FF9E2424" StrokeThickness="4" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
-                <Line X1="5" Y1="5" X2="11" Y2="11" Stroke="White" StrokeThickness="2" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
-                <Line X1="11" Y1="5" X2="5" Y2="11" Stroke="White" StrokeThickness="2" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
-            </Canvas>
+        <ControlTemplate x:Key="CloseImageInactive" TargetType="{x:Type Button}">
+            <ContentControl Margin="5">
+                <Canvas Width="12" Height="12">
+                    <Rectangle Width="12" Height="12" RadiusX="2" RadiusY="2" >
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFEAEAEA"/>
+                                <GradientStop Color="#FFC8C8C8" Offset="0.3"/>
+                                <GradientStop Color="#FFA0A0A0" Offset="0.45"/>
+                                <GradientStop Color="#FFC8C8C8" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                        <Rectangle.Stroke>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFCBCBCB" Offset="0"/>
+                                <GradientStop Color="#FFB4B4B4" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Stroke>
+                    </Rectangle>
+                    <Line X1="4" Y1="4" X2="8" Y2="8" Stroke="White" StrokeThickness="1" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
+                    <Line X1="8" Y1="4" X2="4" Y2="8" Stroke="White" StrokeThickness="1" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
+                </Canvas>
+            </ContentControl>
         </ControlTemplate>
-        
+        <ControlTemplate x:Key="CloseImageActive" TargetType="{x:Type Button}">
+            <ContentControl Margin="3">
+                <Canvas Width="16" Height="16">
+                    <Rectangle Width="16" Height="16" RadiusX="4" RadiusY="4" >
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFFF9090" Offset="0.3"/>
+                                <GradientStop Color="#FFD02D2D" Offset="0.45"/>
+                                <GradientStop Color="#FFFF9090" Offset="1"/>
+                                <GradientStop Color="#FFFFEAEA"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                        <Rectangle.Stroke>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFAD515D" Offset="0"/>
+                                <GradientStop Color="#FF7E2F3C" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Stroke>
+                    </Rectangle>
+                    <Line X1="5" Y1="5" X2="11" Y2="11" Stroke="#FF9E2424" StrokeThickness="4" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
+                    <Line X1="11" Y1="5" X2="5" Y2="11" Stroke="#FF9E2424" StrokeThickness="4" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
+                    <Line X1="5" Y1="5" X2="11" Y2="11" Stroke="White" StrokeThickness="2" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
+                    <Line X1="11" Y1="5" X2="5" Y2="11" Stroke="White" StrokeThickness="2" StrokeEndLineCap="Round" StrokeStartLineCap="Round" />
+                </Canvas>
+            </ContentControl>
+        </ControlTemplate>
+        <Style x:Key="CloseButtonStyle" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Template" Value="{StaticResource CloseImageInactive}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Template" Value="{StaticResource CloseImageActive}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -57,12 +93,12 @@
 
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Value:" VerticalAlignment="Center" Visibility="{Binding ValueVisibility}" />
         <ContentControl Grid.Row="3" Grid.Column="1" Content="{Binding UIElement.Element}" IsTabStop="False" VerticalAlignment="Center" MinHeight="22" Visibility="{Binding ValueVisibility}" Margin="3,0,0,0" />
-        
+
         <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="AND" Padding="3,0,3,0" Margin="0,3,3,3" Command="{Binding AndCommand}" />
             <Button Content="OR" Padding="3,0,3,0" Margin="0,3,3,3" Command="{Binding OrCommand}" />
         </StackPanel>
-        
+
         <!-- container for IPartViewJunctions -->
         <Border Grid.Row="5" Grid.ColumnSpan="2" BorderThickness="1" CornerRadius="2" BorderBrush="Black" Background="White" Padding="6">
             <ContentPresenter Content="{Binding Part}" Grid.IsSharedSizeScope="True">
@@ -70,37 +106,41 @@
                     <DataTemplate DataType="{x:Type types:WpfAdvancedPartJunction}">
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" BorderThickness="1" CornerRadius="2" BorderBrush="Black" Padding="6">
+                            <TextBlock Grid.Column="0" Text="{Binding Prefix}" Margin="0,0,3,0" VerticalAlignment="Center" />
+                            <Border Grid.Column="1" BorderThickness="1" CornerRadius="2" BorderBrush="Black" Padding="6">
                                 <ItemsControl ItemsSource="{Binding Parts}" />
                             </Border>
-                            <Button Grid.Column="1" Command="{Binding DeleteCommand}">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="Button">
-                                        <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
+                            <Button Grid.Column="2" Command="{Binding DeleteCommand}" Style="{StaticResource CloseButtonStyle}" />
                         </Grid>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type types:WpfAdvancedPartNode}">
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <Grid.Style>
+                                <Style TargetType="{x:Type Grid}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Background" Value="#FFE1F0FF" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <i:InvokeCommandAction Command="{Binding SelectCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="prefixCol" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Prefix}" Padding="0,0,3,0" />
-                            <TextBlock Grid.Column="1" Text="{Binding Description}" />
-                            <Button Grid.Column="2" Command="{Binding DeleteCommand}">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="Button">
-                                        <ContentControl Template="{StaticResource CloseImage}" Margin="3" />
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
+                            <TextBlock Grid.Column="0" Text="{Binding Prefix}" VerticalAlignment="Center" Padding="0,0,3,0" />
+                            <TextBlock Grid.Column="1" Text="{Binding Description}" VerticalAlignment="Center" />
+                            <Button Grid.Column="2" Command="{Binding DeleteCommand}" Style="{StaticResource CloseButtonStyle}" />
                         </Grid>
                     </DataTemplate>
                 </ContentPresenter.Resources>

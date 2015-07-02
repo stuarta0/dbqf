@@ -62,6 +62,9 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />

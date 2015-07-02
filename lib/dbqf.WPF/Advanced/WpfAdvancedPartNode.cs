@@ -5,35 +5,17 @@ using dbqf.Parsers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace dbqf.WPF.Advanced
 {
+    [DebuggerDisplay("{Description}")]
     public class WpfAdvancedPartNode : WpfAdvancedPart
     {
         public WpfAdvancedPartNode()
         {
-        }
-
-        public override WpfAdvancedPartJunction Container
-        {
-            get { return base.Container; }
-            set
-            {
-                base.Container = value;
-                OnPropertyChanged("Prefix");
-            }
-        }
-
-        public string Prefix
-        {
-            get 
-            {
-                if (Container != null && Container.Parts.IndexOf(this) > 0)
-                    return Container.TypeName;
-                return string.Empty; 
-            }
         }
 
         public string Description
@@ -48,8 +30,6 @@ namespace dbqf.WPF.Advanced
             }
         }
 
-
-        
         public virtual IFieldPath SelectedPath
         {
             get { return _field; }
@@ -113,13 +93,12 @@ namespace dbqf.WPF.Advanced
         /// Using the control and builder, constructs the final parameter based on what the user has selected.
         /// </summary>
         /// <returns>The parameter or null if no parameter can be provided.</returns>
-        public virtual IParameter GetParameter()
+        public override IParameter GetParameter()
         {
             var values = Values;
             if (Parser != null && values != null)
                 values = Parser.Parse(values);
             return SelectedBuilder.Build(SelectedPath, values);
         }
-      
     }
 }
