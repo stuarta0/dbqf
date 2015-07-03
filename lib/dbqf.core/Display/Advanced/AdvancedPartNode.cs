@@ -4,14 +4,16 @@ using dbqf.Configuration;
 using dbqf.Criterion;
 using dbqf.Criterion.Builders;
 using dbqf.Parsers;
+using System.Text;
+using System.Diagnostics;
 
 namespace dbqf.Display.Advanced
 {
     /// <summary>
     /// Encapsulates logic relating to how to display a field in the advanced search control.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class AdvancedPartNode<T> : IPartViewNode, INotifyPropertyChanged
+    [DebuggerDisplay("{Description}")]
+    public class AdvancedPartNode : AdvancedPart, IPartViewNode
     {
         /// <summary>
         /// Construct a new AdvancedPartNode that represents an IPartViewNode.
@@ -21,6 +23,17 @@ namespace dbqf.Display.Advanced
         {
         }
 
+        public string Description
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                if (Values != null)
+                    foreach (var obj in Values)
+                        sb.Append(obj);
+                return String.Concat(SelectedPath.Description, " ", SelectedBuilder.Label, " ", sb);
+            }
+        }
 
         public virtual IFieldPath SelectedPath
         {
@@ -30,7 +43,8 @@ namespace dbqf.Display.Advanced
                 if (value == _field)
                     return;
                 _field = value;
-                OnPropertyChanged("Path");
+                OnPropertyChanged("SelectedPath");
+                OnPropertyChanged("Description");
             }
         }
         protected IFieldPath _field;
@@ -46,39 +60,26 @@ namespace dbqf.Display.Advanced
                 if (value == _builder)
                     return;
                 _builder = value;
-                OnPropertyChanged("Builder");
+                OnPropertyChanged("SelectedBuilder");
+                OnPropertyChanged("Description");
             }
         }
         protected ParameterBuilder _builder;
-
-        /// <summary>
-        /// Gets the control to display on the preset control.  Type should be base control/widget type depending on the UI system in use.
-        /// </summary>
-        public virtual UIElement<T> UIElement
-        {
-            get { return _control; }
-            set
-            {
-                _control = value;
-                OnPropertyChanged("UIElement");
-            }
-        }
-        protected UIElement<T> _control;
 
         public virtual object[] Values
         {
             get
             {
-                if (UIElement == null)
-                    return null;
-                return UIElement.GetValues();
+                return _values;
             }
             set
             {
-                if (UIElement != null)
-                    UIElement.SetValues(value);
+                _values = value;
+                OnPropertyChanged("Values");
+                OnPropertyChanged("Description");
             }
         }
+        private object[] _values;
 
         public virtual Parser Parser
         {
@@ -97,7 +98,7 @@ namespace dbqf.Display.Advanced
         /// Using the control and builder, constructs the final parameter based on what the user has selected.
         /// </summary>
         /// <returns>The parameter or null if no parameter can be provided.</returns>
-        public virtual IParameter GetParameter()
+        public override IParameter GetParameter()
         {
             var values = Values;
             if (Parser != null && values != null)
@@ -105,29 +106,17 @@ namespace dbqf.Display.Advanced
             return SelectedBuilder.Build(SelectedPath, values);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+        public override void CopyFrom(IPartView other)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (other is IPartViewNode)
+            {
+                var node = ((IPartViewNode)other);
+                this.SelectedPath = node.SelectedPath;
+                this.SelectedBuilder = node.SelectedBuilder;
+                this.Parser = node.Parser;
+                this.Values = node.Values;
+            }
         }
-        
-        /// <summary>
-        /// AdvancedPart will copy all values from the other view (as long as it's an IPartViewNode).
-        /// </summary>
-        /// <param name="other"></param>
-        public void CopyFrom(IPartView other)
-        {
-            if (other == null || !(other is IPartViewNode))
-                return;
-
-            var node = (IPartViewNode)other;
-            SelectedPath = node.SelectedPath;
-            SelectedBuilder = node.SelectedBuilder;
-            Values = node.Values;
-            Parser = node.Parser;
-        }
-
         /// <summary>
         /// AdvancedPart considered equal when the path, builder and parser are equal.
         /// Note: value is ignored in equality test.
@@ -142,7 +131,8 @@ namespace dbqf.Display.Advanced
             var node = (IPartViewNode)other;
             return SelectedPath.Equals(node.SelectedPath)
                 && SelectedBuilder.Equals(node.SelectedBuilder)
-                && Parser.Equals(Parser, node.Parser);
+                && Parser.Equals(Parser, node.Parser)
+                && (Values != null ? Values.Equals(node.Values) : true);
         }
 
         public override bool Equals(object obj)

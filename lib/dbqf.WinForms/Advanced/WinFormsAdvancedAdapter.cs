@@ -16,5 +16,20 @@ namespace dbqf.WinForms.Advanced
             : base(subjects, pathCombo, builderFactory, controlFactory)
         {
         }
+
+        protected override AdvancedPartNode CreateNode()
+        {
+            return new WinFormsAdvancedPartNode()
+            {
+                SelectedPath = _pathCombo.SelectedPath,
+                SelectedBuilder = SelectedBuilder,
+                Values = this.UIElement.GetValues()
+            };
+        }
+
+        protected override AdvancedPartJunction CreateJunction(JunctionType type)
+        {
+            return new WinFormsAdvancedPartJunction(type);
+        }
     }
 }

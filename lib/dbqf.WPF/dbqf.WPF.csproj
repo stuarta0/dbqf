@@ -61,7 +61,6 @@
       <DependentUpon>AdvancedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Advanced\WpfAdvancedAdapter.cs" />
-    <Compile Include="Advanced\WpfAdvancedPart.cs" />
     <Compile Include="Advanced\WpfAdvancedPartNode.cs" />
     <Compile Include="Advanced\WpfAdvancedPartJunction.cs" />
     <Compile Include="FieldPathCombo.xaml.cs">

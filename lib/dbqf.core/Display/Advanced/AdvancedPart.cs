@@ -1,38 +1,12 @@
-﻿using dbqf.Display;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
-using System.Windows;
-using System.Windows.Input;
 
-namespace dbqf.WPF.Advanced
+namespace dbqf.Display.Advanced
 {
-    public abstract class WpfAdvancedPart : IPartView, INotifyPropertyChanged
+    public abstract class AdvancedPart : IPartView, INotifyPropertyChanged
     {
-        #region Delete
-
-        public event EventHandler DeleteRequested = delegate { };
-        protected virtual void OnDeleteRequested()
-        {
-            DeleteRequested(this, EventArgs.Empty);
-        }
-        public ICommand DeleteCommand
-        {
-            get
-            {
-                if (_deleteCommand == null)
-                    _deleteCommand = new RelayCommand(p => OnDeleteRequested());
-                return _deleteCommand;
-            }
-        }
-        private ICommand _deleteCommand;
-
-        #endregion
-
-        #region Select
-
         public event EventHandler IsSelectedChanged = delegate { };
         protected virtual void OnIsSelectedChanged()
         {
@@ -43,6 +17,8 @@ namespace dbqf.WPF.Advanced
             get { return _isSelected; }
             set
             {
+                if (_isSelected == value)
+                    return;
                 _isSelected = value;
                 OnIsSelectedChanged();
                 OnPropertyChanged("IsSelected");
@@ -50,30 +26,25 @@ namespace dbqf.WPF.Advanced
         }
         private bool _isSelected;
 
-        public ICommand SelectCommand
+        public event EventHandler DeleteRequested = delegate { };
+        protected virtual void OnDeleteRequested()
         {
-            get
-            {
-                if (_selectCommand == null)
-                    _selectCommand = new RelayCommand(p => IsSelected = !IsSelected);
-                return _selectCommand;
-            }
+            DeleteRequested(this, EventArgs.Empty);
         }
-        private ICommand _selectCommand;
 
-        #endregion
-
-        public virtual WpfAdvancedPartJunction Container
+        public virtual AdvancedPartJunction Container
         {
             get { return _container; }
-            set 
-            { 
+            set
+            {
+                if (_container == value)
+                    return;
                 _container = value;
                 OnPropertyChanged("Container");
                 OnPropertyChanged("Prefix");
             }
         }
-        private WpfAdvancedPartJunction _container;
+        private AdvancedPartJunction _container;
 
         public string Prefix
         {
