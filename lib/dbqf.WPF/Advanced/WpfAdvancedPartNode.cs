@@ -100,5 +100,17 @@ namespace dbqf.WPF.Advanced
                 values = Parser.Parse(values);
             return SelectedBuilder.Build(SelectedPath, values);
         }
+
+        public override void CopyFrom(IPartView other)
+        {
+            if (other is IPartViewNode)
+            {
+                var node = ((IPartViewNode)other);
+                this.SelectedPath = node.SelectedPath;
+                this.SelectedBuilder = node.SelectedBuilder;
+                this.Parser = node.Parser;
+                this.Values = node.Values;
+            }
+        }
     }
 }

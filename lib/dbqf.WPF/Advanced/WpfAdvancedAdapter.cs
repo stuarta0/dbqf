@@ -76,7 +76,15 @@ namespace dbqf.WPF.Advanced
             get { return _selectedPart; }
             private set
             {
+                if (_selectedPart == value)
+                    return;
+                if (_selectedPart != null)
+                    _selectedPart.IsSelected = false;
+
                 _selectedPart = value;
+                if (_selectedPart != null)
+                    _selectedPart.IsSelected = true;
+
                 OnPropertyChanged("SelectedPart");
             }
         }
@@ -171,12 +179,9 @@ namespace dbqf.WPF.Advanced
         void Part_IsSelectedChanged(object sender, EventArgs e)
         {
             var part = (WpfAdvancedPart)sender;
-            if (SelectedPart != null && SelectedPart != part)
-                SelectedPart.IsSelected = false;
-
             if (part.IsSelected)
                 SelectedPart = part;
-            else
+            else if (part == SelectedPart)
                 SelectedPart = null;
         }
 
@@ -236,9 +241,57 @@ namespace dbqf.WPF.Advanced
             return (IPartViewJunction)Part;
         }
 
+
+        private class PartLoader
+        {
+            public IPartView Current { get; set; }
+            public WpfAdvancedPartJunction Junction { get; set; }
+            public PartLoader(IPartView current)
+            {
+                Current = current;
+                Junction = null;
+            }
+            public PartLoader(IPartView current, WpfAdvancedPartJunction junction)
+                : this(current)
+            {
+                Junction = junction;
+            }
+        }
         public override void SetParts(IPartViewJunction parts)
         {
             // convert all parts to AdvancedParts
+            // TODO: ensure we don't have any single-item junctions
+            var queue = new Queue<PartLoader>();
+            queue.Enqueue(new PartLoader(parts));
+
+            while (queue.Count > 0)
+            {
+                var load = queue.Dequeue();
+                if (load.Current is IPartViewJunction)
+                {
+                    var junction = new WpfAdvancedPartJunction() { Type = ((IPartViewJunction)load.Current).Type };
+                    AddHandlers(junction);
+
+                    foreach (var p in (IPartViewJunction)load.Current)
+                        queue.Enqueue(new PartLoader(p, junction));
+
+                    if (load.Junction == null)
+                        Part = junction;
+                    else
+                        load.Junction.Add(junction);
+                }
+                else
+                {
+                    var node = new WpfAdvancedPartNode();
+                    AddHandlers(node);
+
+                    node.CopyFrom(load.Current);
+                    if (load.Junction == null)
+                        Part = node;
+                    else
+                        load.Junction.Add(node);
+                }
+            }
         }
         
         public override Criterion.IParameter GetParameter()

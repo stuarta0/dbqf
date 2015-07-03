@@ -100,51 +100,67 @@
         </StackPanel>
 
         <!-- container for IPartViewJunctions -->
-        <Border Grid.Row="5" Grid.ColumnSpan="2" BorderThickness="1" CornerRadius="2" BorderBrush="Black" Background="White" Padding="6">
-            <ContentPresenter Content="{Binding Part}" Grid.IsSharedSizeScope="True">
-                <ContentPresenter.Resources>
-                    <DataTemplate DataType="{x:Type types:WpfAdvancedPartJunction}">
-                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Prefix}" Margin="0,0,3,0" VerticalAlignment="Center" />
-                            <Border Grid.Column="1" BorderThickness="1" CornerRadius="2" BorderBrush="Black" Padding="6">
-                                <ItemsControl ItemsSource="{Binding Parts}" />
-                            </Border>
-                            <Button Grid.Column="2" Command="{Binding DeleteCommand}" Style="{StaticResource CloseButtonStyle}" />
-                        </Grid>
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type types:WpfAdvancedPartNode}">
-                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-                            <Grid.Style>
-                                <Style TargetType="{x:Type Grid}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                            <Setter Property="Background" Value="#FFE1F0FF" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Grid.Style>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseDown">
-                                    <i:InvokeCommandAction Command="{Binding SelectCommand}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="prefixCol" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Prefix}" VerticalAlignment="Center" Padding="0,0,3,0" />
-                            <TextBlock Grid.Column="1" Text="{Binding Description}" VerticalAlignment="Center" />
-                            <Button Grid.Column="2" Command="{Binding DeleteCommand}" Style="{StaticResource CloseButtonStyle}" />
-                        </Grid>
-                    </DataTemplate>
-                </ContentPresenter.Resources>
-            </ContentPresenter>
+        <Border Grid.Row="5" Grid.ColumnSpan="2" BorderThickness="1" CornerRadius="2" BorderBrush="Black" Background="White">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" Padding="6">
+                <ContentPresenter Content="{Binding Part}" Grid.IsSharedSizeScope="True">
+                    <ContentPresenter.Resources>
+                        <DataTemplate DataType="{x:Type types:WpfAdvancedPartJunction}">
+                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Prefix}" Margin="0,0,3,0" VerticalAlignment="Center" />
+                                <Border Grid.Column="1" BorderThickness="1" CornerRadius="2" BorderBrush="Black" Padding="6,3,6,6" Margin="0,6,0,0">
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="Background" Value="#FFE1F0FF" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <!--<i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDown">
+                                            <i:InvokeCommandAction Command="{Binding SelectCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>-->
+                                    <ItemsControl ItemsSource="{Binding Parts}" />
+                                </Border>
+                                <Button Grid.Column="2" Command="{Binding DeleteCommand}" Style="{StaticResource CloseButtonStyle}" />
+                            </Grid>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type types:WpfAdvancedPartNode}">
+                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0">
+                                <Grid.Style>
+                                    <Style TargetType="{x:Type Grid}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="Background" Value="#FFE1F0FF" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDown">
+                                        <i:InvokeCommandAction Command="{Binding SelectCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="prefixCol" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Prefix}" VerticalAlignment="Center" Padding="0,0,3,0" />
+                                <TextBlock Grid.Column="1" Text="{Binding Description}" VerticalAlignment="Center" />
+                                <Button Grid.Column="2" Command="{Binding DeleteCommand}" Style="{StaticResource CloseButtonStyle}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ContentPresenter.Resources>
+                </ContentPresenter>
+            </ScrollViewer>
         </Border>
     </Grid>
 </UserControl>
