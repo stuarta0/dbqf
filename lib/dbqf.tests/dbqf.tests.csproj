@@ -64,6 +64,9 @@
   <ItemGroup>
     <Compile Include="Chinook.cs" />
     <Compile Include="Configuration\QueryConfig_Fixture.cs" />
+    <Compile Include="Display\Advanced\AdvancedAdapter_Delete_Fixture.cs" />
+    <Compile Include="Display\Advanced\AdvancedAdapter_Selection_Fixture.cs" />
+    <Compile Include="Display\Advanced\AdvancedAdapter_Add_Fixture.cs" />
     <Compile Include="Display\Parsers\ConvertParser_Fixture.cs" />
     <Compile Include="Display\Parsers\ChainedParser_Fixture.cs" />
     <Compile Include="Display\Parsers\DelimitedParser_Fixture.cs" />
