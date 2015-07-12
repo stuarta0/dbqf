@@ -28,9 +28,21 @@ namespace dbqf.Display.Advanced
             get
             {
                 var sb = new StringBuilder();
-                if (Values != null)
-                    foreach (var obj in Values)
-                        sb.Append(obj);
+                if (Values != null && Values.Length > 0)
+                {
+                    var junctionName = "or";
+                    if (SelectedBuilder is JunctionBuilder && ((JunctionBuilder)SelectedBuilder).Type == JunctionType.Conjunction)
+                        junctionName = "and";
+
+                    sb.Append(Values[0]);
+                    for (int i = 1; i < Values.Length; i++)
+                    {
+                        if (i == Values.Length - 1)
+                            sb.AppendFormat(" {0} {1}", junctionName, Values[i]);
+                        else
+                            sb.AppendFormat(", {0}", Values[i]);
+                    }
+                }
                 return String.Concat(SelectedPath.Description, " ", SelectedBuilder.Label, " ", sb);
             }
         }
