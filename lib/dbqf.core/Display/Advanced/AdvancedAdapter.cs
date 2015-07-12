@@ -147,11 +147,14 @@ namespace dbqf.Display.Advanced
 
         protected virtual AdvancedPartNode CreateNode()
         {
+            if (UIElement != null && UIElement.GetValues() == null)
+                return null;
+
             return new AdvancedPartNode()
             {
                 SelectedPath = _pathCombo.SelectedPath,
                 SelectedBuilder = SelectedBuilder,
-                Values = this.UIElement.GetValues()
+                Values = (UIElement != null ? UIElement.GetValues() : null)
             };
         }
 
@@ -167,6 +170,9 @@ namespace dbqf.Display.Advanced
         public virtual void Add(JunctionType type)
         {
             var toAdd = CreateNode();
+            if (toAdd == null)
+                return;
+
             AddHandlers(toAdd);
 
             // if Parts null, just add node

@@ -19,11 +19,14 @@ namespace dbqf.WinForms.Advanced
 
         protected override AdvancedPartNode CreateNode()
         {
+            if (UIElement != null && UIElement.GetValues() == null)
+                return null;
+
             return new WinFormsAdvancedPartNode()
             {
                 SelectedPath = _pathCombo.SelectedPath,
                 SelectedBuilder = SelectedBuilder,
-                Values = this.UIElement.GetValues()
+                Values = (UIElement != null ? UIElement.GetValues() : null)
             };
         }
 
