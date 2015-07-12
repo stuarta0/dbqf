@@ -9,7 +9,7 @@ namespace Standalone.WPF.Display
 {
     public class WpfStandardAdapter : dbqf.WPF.Standard.WpfStandardAdapter
     {
-        public ParserFactory Parser { get; set; }
+        public ParserFactory Parser { get; private set; }
 
         public WpfStandardAdapter(IControlFactory<UIElement> controlFactory, IParameterBuilderFactory builderFactory, ParserFactory parserFactory)
             : base(controlFactory, builderFactory)

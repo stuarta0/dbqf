@@ -13,7 +13,7 @@ namespace Standalone.WPF.Installers.Views
         {
             container.Register(
                 Component.For<AdvancedView>().LifestyleSingleton(),
-                Component.For<AdvancedAdapter<System.Windows.UIElement>, WpfAdvancedAdapter>().ImplementedBy<WpfAdvancedAdapter>().LifestyleSingleton()
+                Component.For<AdvancedAdapter<System.Windows.UIElement>, WpfAdvancedAdapter>().ImplementedBy<Standalone.WPF.Display.WpfAdvancedAdapter>().LifestyleSingleton()
             );
         }
     }

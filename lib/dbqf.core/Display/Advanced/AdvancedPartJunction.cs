@@ -55,7 +55,15 @@ namespace dbqf.Display.Advanced
         {
             Junction junction = (Type == JunctionType.Conjunction ? (Junction)new Conjunction() : new Disjunction());
             foreach (var p in this)
-                junction.Add(p.GetParameter());
+            {
+                var toAdd = p.GetParameter();
+                if (toAdd != null)
+                    junction.Add(toAdd);
+            }
+
+            if (junction.Count == 0)
+                return null;
+
             return junction;
         }
 
