@@ -66,7 +66,7 @@ namespace dbqf.WPF.Advanced
             {
                 SelectedPath = _pathCombo.SelectedPath,
                 SelectedBuilder = SelectedBuilder,
-                Values = this.UIElement.GetValues()
+                Values = (UIElement != null ? UIElement.GetValues() : null)
             };
         }
 
