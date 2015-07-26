@@ -49,9 +49,6 @@ namespace dbqf.WinForms.Advanced
 
         protected override AdvancedPartNode CreateNode()
         {
-            if (UIElement != null && UIElement.GetValues() == null)
-                return null;
-
             return new WinFormsAdvancedPartNode()
             {
                 SelectedPath = _pathCombo.SelectedPath,
@@ -65,28 +62,17 @@ namespace dbqf.WinForms.Advanced
             return new WinFormsAdvancedPartJunction(type);
         }
 
-        public override void Add(JunctionType type)
+        public override AdvancedPart Part
         {
-            base.Add(type);
-            OnRebuildRequired();
-        }
-
-        protected override void Remove(AdvancedPart part)
-        {
-            base.Remove(part);
-            OnRebuildRequired();
-        }
-
-        public override void Reset()
-        {
-            base.Reset();
-            OnRebuildRequired();
-        }
-
-        public override void SetParts(IPartViewJunction parts)
-        {
-            base.SetParts(parts);
-            OnRebuildRequired();
+            get
+            {
+                return base.Part;
+            }
+            set
+            {
+                base.Part = value;
+                OnRebuildRequired();
+            }
         }
     }
 }

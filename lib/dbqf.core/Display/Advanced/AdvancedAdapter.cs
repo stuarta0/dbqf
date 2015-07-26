@@ -56,6 +56,9 @@ namespace dbqf.Display.Advanced
             get { return _subjects; }
             set
             {
+                if (object.Equals(_subjects, value))
+                    return;
+
                 _subjects = value;
                 OnPropertyChanged("SubjectSource");
                 SelectedSubject = _subjects[0];
@@ -68,6 +71,9 @@ namespace dbqf.Display.Advanced
             get { return _selectedSubject; }
             set
             {
+                if (object.Equals(_selectedSubject, value))
+                    return;
+
                 _selectedSubject = value;
                 OnPropertyChanged("SelectedSubject");
                 _pathCombo.SelectedPath = FieldPath.FromDefault(_selectedSubject.DefaultField);
@@ -80,6 +86,9 @@ namespace dbqf.Display.Advanced
             get { return _builders; }
             set
             {
+                if (object.Equals(_builders, value))
+                    return;
+
                 _builders = value;
                 OnPropertyChanged("BuilderSource");
                 SelectedBuilder = _builders[0];
@@ -92,6 +101,9 @@ namespace dbqf.Display.Advanced
             get { return _selectedBuilder; }
             set
             {
+                if (object.Equals(_selectedBuilder, value))
+                    return;
+
                 _selectedBuilder = value;
                 OnPropertyChanged("SelectedBuilder");
                 UIElement = _controlFactory.Build(_pathCombo.SelectedPath, _selectedBuilder);
@@ -114,7 +126,7 @@ namespace dbqf.Display.Advanced
 
         #region Advanced Search Specific
 
-        public AdvancedPart Part
+        public virtual AdvancedPart Part
         {
             get { return _parts; }
             set
@@ -125,7 +137,7 @@ namespace dbqf.Display.Advanced
         }
         private AdvancedPart _parts;
 
-        public AdvancedPart SelectedPart
+        public virtual AdvancedPart SelectedPart
         {
             get { return _selectedPart; }
             private set
@@ -144,18 +156,41 @@ namespace dbqf.Display.Advanced
         }
         private AdvancedPart _selectedPart;
 
-
+        /// <summary>
+        /// Factory method to return a new node with properties set.
+        /// </summary>
+        /// <returns></returns>
         protected virtual AdvancedPartNode CreateNode()
         {
-            if (UIElement != null && UIElement.GetValues() == null)
-                return null;
-
             return new AdvancedPartNode()
             {
                 SelectedPath = _pathCombo.SelectedPath,
                 SelectedBuilder = SelectedBuilder,
                 Values = (UIElement != null ? UIElement.GetValues() : null)
             };
+        }
+
+        /// <summary>
+        /// Creates a new node optionally from a template part.  If no template provided, logic ensures a 
+        /// node can be added at this time by checking UIElement for values.
+        /// </summary>
+        /// <param name="template"></param>
+        /// <returns></returns>
+        protected virtual AdvancedPartNode CreateNode(IPartView template)
+        {
+            if (template != null)
+            {
+                var node = CreateNode();
+                node.CopyFrom(template);
+                return node;
+            }
+            else
+            {
+                if (UIElement != null && UIElement.GetValues() == null)
+                    return null;
+
+                return CreateNode();
+            }
         }
 
         protected virtual AdvancedPartJunction CreateJunction(JunctionType type)
@@ -169,7 +204,7 @@ namespace dbqf.Display.Advanced
         /// <param name="type"></param>
         public virtual void Add(JunctionType type)
         {
-            var toAdd = CreateNode();
+            var toAdd = CreateNode(null);
             if (toAdd == null)
                 return;
 
@@ -364,10 +399,9 @@ namespace dbqf.Display.Advanced
                 }
                 else
                 {
-                    var node = CreateNode();
+                    var node = CreateNode(load.Current);
                     AddHandlers(node);
 
-                    node.CopyFrom(load.Current);
                     if (load.Junction == null)
                         Part = node;
                     else

@@ -89,7 +89,7 @@
             this.cboBuilders.Location = new System.Drawing.Point(60, 30);
             this.cboBuilders.Name = "cboBuilders";
             this.cboBuilders.Size = new System.Drawing.Size(218, 21);
-            this.cboBuilders.TabIndex = 21;
+            this.cboBuilders.TabIndex = 4;
             // 
             // bsAdapter
             // 
@@ -117,7 +117,7 @@
             this.lblOperator.Location = new System.Drawing.Point(3, 34);
             this.lblOperator.Name = "lblOperator";
             this.lblOperator.Size = new System.Drawing.Size(51, 13);
-            this.lblOperator.TabIndex = 20;
+            this.lblOperator.TabIndex = 3;
             this.lblOperator.Text = "Operator:";
             // 
             // lblValue
@@ -127,7 +127,7 @@
             this.lblValue.Location = new System.Drawing.Point(3, 54);
             this.lblValue.Name = "lblValue";
             this.lblValue.Size = new System.Drawing.Size(37, 13);
-            this.lblValue.TabIndex = 22;
+            this.lblValue.TabIndex = 5;
             this.lblValue.Text = "Value:";
             // 
             // cboSubject
@@ -163,7 +163,7 @@
             this.layoutAndOr.RowCount = 1;
             this.layoutAndOr.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.layoutAndOr.Size = new System.Drawing.Size(92, 29);
-            this.layoutAndOr.TabIndex = 23;
+            this.layoutAndOr.TabIndex = 7;
             // 
             // btnAnd
             // 
@@ -180,7 +180,7 @@
             this.btnOr.Location = new System.Drawing.Point(49, 3);
             this.btnOr.Name = "btnOr";
             this.btnOr.Size = new System.Drawing.Size(40, 23);
-            this.btnOr.TabIndex = 0;
+            this.btnOr.TabIndex = 1;
             this.btnOr.Text = "OR";
             this.btnOr.UseVisualStyleBackColor = true;
             this.btnOr.Click += new System.EventHandler(this.btnOr_Click);
@@ -195,7 +195,7 @@
             this.pnlParameters.Location = new System.Drawing.Point(3, 99);
             this.pnlParameters.Name = "pnlParameters";
             this.pnlParameters.Size = new System.Drawing.Size(275, 194);
-            this.pnlParameters.TabIndex = 24;
+            this.pnlParameters.TabIndex = 8;
             // 
             // fieldPathCombo
             // 
@@ -207,7 +207,7 @@
             this.fieldPathCombo.Margin = new System.Windows.Forms.Padding(0);
             this.fieldPathCombo.Name = "fieldPathCombo";
             this.fieldPathCombo.Size = new System.Drawing.Size(224, 1);
-            this.fieldPathCombo.TabIndex = 25;
+            this.fieldPathCombo.TabIndex = 2;
             // 
             // AdvancedView
             // 

@@ -33,6 +33,7 @@ namespace dbqf.WinForms
                     _adapter.PropertyChanged += Adapter_PropertyChanged;
                     bsAdapter.DataSource = _adapter;
                     fieldPathCombo.Adapter = _adapter.FieldPathComboAdapter;
+                    CreateElement();
                 }
                 else
                     bsAdapter.DataSource = typeof(WinFormsAdvancedAdapter);
@@ -68,14 +69,15 @@ namespace dbqf.WinForms
                 var control = Adapter.UIElement.Element;
                 control.Size = new Size(1, 1);
                 control.Dock = DockStyle.Fill;
+                control.TabIndex = 6;
                 //control.Anchor = AnchorStyles.Left | AnchorStyles.Right;
                 layoutMain.Controls.Add(control, 1, 3);
                 //control.TabIndex = 3;
 
-                // try to move focus to the new control by defering the focus call
-                // (still doesn't work when tabbing into the control - only works via click)
-                if (hadFocus)
-                    this.BeginInvoke(new MethodInvoker(() => { control.Focus(); }));
+                //// try to move focus to the new control by defering the focus call
+                //// (still doesn't work when tabbing into the control - only works via click)
+                //if (hadFocus)
+                //    this.BeginInvoke(new MethodInvoker(() => { control.Focus(); }));
             }
 
             layoutMain.ResumeLayout();
@@ -87,7 +89,15 @@ namespace dbqf.WinForms
                 c.Dispose();
             pnlParameters.Controls.Clear();
 
+            if (Adapter.Part == null)
+                return;
 
+            if (Adapter.Part is WinFormsAdvancedPartJunction)
+                pnlParameters.Controls.Add(new AdvancedPartJunctionView((WinFormsAdvancedPartJunction)Adapter.Part));
+            else if (Adapter.Part is WinFormsAdvancedPartNode)
+                pnlParameters.Controls.Add(new AdvancedPartNodeView((WinFormsAdvancedPartNode)Adapter.Part));
+            else
+                throw new Exception("Unknown part type when rebuilding AdvancedView UI.");
         }
 
         private void btnAnd_Click(object sender, EventArgs e)

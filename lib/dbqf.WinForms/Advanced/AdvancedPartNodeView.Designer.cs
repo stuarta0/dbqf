@@ -32,8 +32,8 @@
             this.layoutMain = new System.Windows.Forms.TableLayoutPanel();
             this.btnDelete = new System.Windows.Forms.Button();
             this.lblPrefix = new System.Windows.Forms.Label();
-            this.bsNode = new System.Windows.Forms.BindingSource(this.components);
             this.lblDescription = new System.Windows.Forms.Label();
+            this.bsNode = new System.Windows.Forms.BindingSource(this.components);
             this.layoutMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bsNode)).BeginInit();
             this.SuspendLayout();
@@ -48,6 +48,7 @@
             this.layoutMain.Controls.Add(this.btnDelete, 2, 0);
             this.layoutMain.Controls.Add(this.lblPrefix, 0, 0);
             this.layoutMain.Controls.Add(this.lblDescription, 1, 0);
+            this.layoutMain.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", this.bsNode, "NodeBackColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.layoutMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutMain.Location = new System.Drawing.Point(0, 0);
             this.layoutMain.Name = "layoutMain";
@@ -80,10 +81,6 @@
             this.lblPrefix.TabIndex = 0;
             this.lblPrefix.Text = "Prefix";
             // 
-            // bsNode
-            // 
-            this.bsNode.DataSource = typeof(dbqf.Display.Advanced.AdvancedPartNode);
-            // 
             // lblDescription
             // 
             this.lblDescription.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -94,6 +91,10 @@
             this.lblDescription.Size = new System.Drawing.Size(60, 13);
             this.lblDescription.TabIndex = 1;
             this.lblDescription.Text = "Description";
+            // 
+            // bsNode
+            // 
+            this.bsNode.DataSource = typeof(dbqf.WinForms.Advanced.WinFormsAdvancedPartNode);
             // 
             // AdvancedPartNodeView
             // 

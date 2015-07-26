@@ -47,7 +47,7 @@ namespace Standalone.Forms
             Advanced = advanced;
             _views.Add("Preset", preset.Adapter);
             _views.Add("Standard", standard.Adapter);
-            //_views.Add("Advanced", advanced.Adapter);
+            _views.Add("Advanced", advanced.Adapter);
 
             RetrieveFields = fields;
 

@@ -12,7 +12,7 @@ namespace dbqf.Display.Advanced
     /// <summary>
     /// Encapsulates logic relating to how to display a junction in the advanced search control.
     /// </summary>
-    [DebuggerDisplay("{Type} Junction {Parts.Count}")]
+    [DebuggerDisplay("{Type} Count={Parts.Count}")]
     public class AdvancedPartJunction : AdvancedPart, IPartViewJunction
     {
         /// <summary>

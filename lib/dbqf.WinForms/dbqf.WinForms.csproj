@@ -175,6 +175,7 @@
     <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedAdapter.datasource" />
     <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPart.datasource" />
     <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPartJunction.datasource" />
+    <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPartNode.datasource" />
     <None Include="Properties\DataSources\dbqf.WinForms.Standard.WinFormsStandardPart.datasource" />
     <None Include="Resources\firefox-close.png" />
   </ItemGroup>
