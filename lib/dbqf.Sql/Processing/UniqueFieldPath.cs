@@ -130,15 +130,6 @@ namespace dbqf.Sql.Processing
                     root._paths.Add(uniquePath = new UniqueFieldPath(subject));
 
                 uniquePath.Add(path);
-
-                /*var list = root._root[path[0].Subject];
-                var ufp = list.Find(m => m.Field.Equals(path[0]));
-                if (ufp == null)
-                {
-                    ufp = new UniqueFieldPath() {};
-                    ufp.Add(path);
-                    list.Add(ufp);
-                }*/
             }
             return root;
         }
@@ -154,7 +145,6 @@ namespace dbqf.Sql.Processing
                 return ufp[key];
             }
         }
-
 
         public IEnumerator<UniqueFieldPath> GetEnumerator()
         {

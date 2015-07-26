@@ -9,6 +9,7 @@ using dbqf.Configuration;
 using dbqf.Criterion;
 using dbqf.Display;
 using Standalone.Core.Data;
+using dbqf.Sql.Configuration;
 
 namespace Standalone.Core
 {
@@ -22,7 +23,7 @@ namespace Standalone.Core
         }
 
         public ResultFactory ResultFactory { get; set; }
-        public IConfiguration Configuration { get; set; }
+        public IMatrixConfiguration Configuration { get; set; }
         public Connection Connection 
         {
             get { return _connection; }

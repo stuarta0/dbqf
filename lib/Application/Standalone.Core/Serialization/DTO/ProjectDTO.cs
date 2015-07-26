@@ -20,6 +20,6 @@ namespace Standalone.Core.Serialization.DTO
 
         public List<Connection> Connections { get; set; }
 
-        public ConfigurationDTO Configuration { get; set; }
+        public MatrixConfigurationDTO Configuration { get; set; }
     }
 }

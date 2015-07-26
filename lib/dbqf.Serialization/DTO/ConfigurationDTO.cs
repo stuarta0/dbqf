@@ -12,14 +12,6 @@ namespace dbqf.Serialization.DTO
         public SubjectDTO[] Subjects { get; /* public setter for XML */ set; }
 
         /// <summary>
-        /// Gets or sets a 2-dimensional lookup of subject indicies in the Subjects array that represents
-        /// the matrix for a given configuration.  Since protobuf doesn't support nested/jagged arrays,
-        /// we use a helper class to wrap the second tier.
-        /// </summary>
-        [XmlArrayItem("Node")]
-        public MatrixNodeDTO[] Matrix { get; /* public setter for XML */ set; }
-
-        /// <summary>
         /// Gets or sets subject at index.
         /// </summary>
         public SubjectDTO this[int i]
@@ -27,6 +19,27 @@ namespace dbqf.Serialization.DTO
             get { return Subjects[i]; }
             set { Subjects[i] = value; }
         }
+
+        public ConfigurationDTO()
+        {
+        }
+
+        public ConfigurationDTO(int size)
+        {
+            Subjects = new SubjectDTO[size];
+        }
+    }
+
+    [XmlRoot("Configuration")]
+    public class MatrixConfigurationDTO : ConfigurationDTO
+    {
+        /// <summary>
+        /// Gets or sets a 2-dimensional lookup of subject indicies in the Subjects array that represents
+        /// the matrix for a given configuration.  Since protobuf doesn't support nested/jagged arrays,
+        /// we use a helper class to wrap the second tier.
+        /// </summary>
+        [XmlArrayItem("Node")]
+        public MatrixNodeDTO[] Matrix { get; /* public setter for XML */ set; }
 
         /// <summary>
         /// Resolves 2-dimensional matrix lookup with single dimensional Matrix list.
@@ -37,13 +50,14 @@ namespace dbqf.Serialization.DTO
             set { Matrix[i * Subjects.Length + j] = value; }
         }
 
-        public ConfigurationDTO()
+        public MatrixConfigurationDTO()
+            : base()
         {
         }
 
-        public ConfigurationDTO(int size)
+        public MatrixConfigurationDTO(int size)
+            : base(size)
         {
-            Subjects = new SubjectDTO[size];
             Matrix = new MatrixNodeDTO[size * size];
         }
     }

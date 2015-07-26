@@ -1,18 +1,19 @@
 ﻿using dbqf.Configuration;
 using dbqf.Serialization.DTO;
+using dbqf.Sql.Configuration;
 namespace dbqf.Serialization.Assemblers
 {
-    public class ConfigurationAssembler : IAssembler<IConfiguration, ConfigurationDTO>
+    public class MatrixConfigurationAssembler : IAssembler<IMatrixConfiguration, MatrixConfigurationDTO>
     {
         private SubjectAssembler _subjectAssembler;
-        public ConfigurationAssembler(SubjectAssembler subjectAssembler)
+        public MatrixConfigurationAssembler(SubjectAssembler subjectAssembler)
         {
             _subjectAssembler = subjectAssembler;
         }
 
-        public IConfiguration Restore(ConfigurationDTO dto)
+        public IMatrixConfiguration Restore(MatrixConfigurationDTO dto)
         {
-            var configuration = new ConfigurationImpl();
+            var configuration = new MatrixConfiguration();
             var count = dto.Subjects.Length;
 
             for (int i = 0; i < count; i++)
@@ -39,9 +40,9 @@ namespace dbqf.Serialization.Assemblers
             return configuration;
         }
 
-        public ConfigurationDTO Create(IConfiguration source)
+        public MatrixConfigurationDTO Create(IMatrixConfiguration source)
         {
-            var dto = new ConfigurationDTO(source.Count);
+            var dto = new MatrixConfigurationDTO(source.Count);
             for (int i = 0; i < source.Count; i++)
             {
                 dto[i] = _subjectAssembler.Create(source[i]);

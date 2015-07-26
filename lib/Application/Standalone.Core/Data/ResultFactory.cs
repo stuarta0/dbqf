@@ -1,4 +1,5 @@
 ﻿using dbqf.Configuration;
+using dbqf.Sql.Configuration;
 using dbqf.Sql.Processing;
 using Standalone.Core.Data.Processing;
 using System;
@@ -21,12 +22,12 @@ namespace Standalone.Core.Data
             _commandTimeout = commandTimeout;
         }
 
-        public ExposedSqlGenerator CreateSqlGenerator(IConfiguration configuration)
+        public ExposedSqlGenerator CreateSqlGenerator(IMatrixConfiguration configuration)
         {
             return new ExposedSqlGenerator(configuration);
         }
 
-        public SqlListGenerator CreateSqlListGenerator(IConfiguration configuration)
+        public SqlListGenerator CreateSqlListGenerator(IMatrixConfiguration configuration)
         {
             return new SqlListGenerator(configuration);
         }

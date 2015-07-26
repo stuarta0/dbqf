@@ -1,17 +1,18 @@
 ﻿using dbqf.Configuration;
+using dbqf.Sql.Configuration;
 
 namespace dbqf.core.tests
 {
-    public class Chinook : ConfigurationImpl
+    public class Chinook : MatrixConfiguration
     {
         public Chinook()
             : base()
         {
             this
-                .Subject(Artist)
-                .Subject(Album)
-                .Subject(Track)
-                .Subject(Playlist)
+                .MatrixSubject(Artist)
+                .MatrixSubject(Album)
+                .MatrixSubject(Track)
+                .MatrixSubject(Playlist)
 
                 .Matrix(Artist, Album, "SELECT ArtistId FromID, AlbumID ToID FROM Album", "")
                 .Matrix(Artist, Track, "SELECT ArtistId FromID, TrackID ToID FROM Album INNER JOIN Track ON Album.AlbumId = Track.AlbumId", "")

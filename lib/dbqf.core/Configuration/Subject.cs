@@ -40,9 +40,8 @@ namespace dbqf.Configuration
         private IConfiguration _configuration;
         
         /// <summary>
-        /// Gets or sets the source from where this subject data is retrieved.  This can be a database object name or a full SQL query.
-        /// If the source is a table or view, then the framework will use a SELECT statement.  If the source is a stored procedure, then 
-        /// the framework will use an EXEC statement.  Regardless of where the data comes from, the source must output a field named 'ID'.
+        /// Gets or sets the source from where this subject data is retrieved.  
+        /// In the case of an Sql configuration, Source would contain the SQL statement to retrieve results for this subject.
         /// </summary>
         public string Source
         {

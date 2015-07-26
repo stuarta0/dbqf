@@ -1,6 +1,7 @@
 ﻿using dbqf.Configuration;
 using dbqf.Criterion;
 using dbqf.Processing;
+using dbqf.Sql.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,7 +14,7 @@ namespace dbqf.Sql.Processing
     /// </summary>
     public class SqlGenerator
     {
-        protected IConfiguration _configuration;
+        protected IMatrixConfiguration _configuration;
         protected List<IFieldPath> _columns;
         protected ISubject _target;
         protected IParameter _where;
@@ -40,7 +41,7 @@ namespace dbqf.Sql.Processing
             }
         }
 
-        public SqlGenerator(IConfiguration configuration)
+        public SqlGenerator(IMatrixConfiguration configuration)
         {
             _configuration = configuration;
             _columns = new List<IFieldPath>();

@@ -1,5 +1,6 @@
 ﻿using dbqf.Configuration;
 using dbqf.Criterion;
+using dbqf.Sql.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,13 +14,13 @@ namespace dbqf.Sql.Processing
     /// </summary>
     public class SqlListGenerator
     {
-        protected IConfiguration _configuration;
+        protected IMatrixConfiguration _configuration;
         protected IFieldPath _path;
         protected string _idColumn;
         protected string _valueColumn;
         protected string _sortByColumn;
 
-        public SqlListGenerator(IConfiguration configuration)
+        public SqlListGenerator(IMatrixConfiguration configuration)
         {
             _configuration = configuration;
         }

@@ -114,8 +114,6 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Configuration\IField.cs" />
     <Compile Include="Configuration\ISubject.cs" />
-    <Compile Include="Configuration\MatrixNode.cs" />
-    <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Hierarchy\DataNode.cs" />
     <Compile Include="Hierarchy\TemplateNode.cs" />
     <Compile Include="Processing\PlaceholderParser.cs" />

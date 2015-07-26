@@ -1,4 +1,5 @@
 ﻿using dbqf.Configuration;
+using dbqf.Sql.Configuration;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace dbqf.core.tests.Configuration
         public void Fluent_config()
         {
             var sql = "SELECT * FROM Table";
-            var config = new ConfigurationImpl();
+            var config = new MatrixConfiguration();
             config
                 .Subject(new Subject()
                     .Sql(sql)
@@ -63,7 +64,7 @@ namespace dbqf.core.tests.Configuration
         public void Fluent_config_complex_field()
         {
             ISubject s1, s2;
-            var config = new ConfigurationImpl();
+            var config = new MatrixConfiguration();
             config
                 .Subject(s1 = new Subject()
                     .Field(new Field("column1", "display1", typeof(string))))
@@ -84,7 +85,7 @@ namespace dbqf.core.tests.Configuration
         public void Fluent_config_matrix()
         {
             ISubject s1, s2;
-            var config = new ConfigurationImpl();
+            var config = new MatrixConfiguration();
             config
                 .Subject(s1 = new Subject()
                     .Field(new Field("column1", "display1", typeof(string))))

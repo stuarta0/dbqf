@@ -18,13 +18,13 @@ namespace Standalone.Core.Installers
         {
             container.Register(
                 Component.For<ProjectAssembler>(),
-                Classes.FromAssemblyContaining<ConfigurationAssembler>()
+                Classes.FromAssemblyContaining<MatrixConfigurationAssembler>()
                     .InNamespace("dbqf.Serialization.Assemblers")
                     .WithService.DefaultInterfaces(),
-                Classes.FromAssemblyContaining<ConfigurationAssembler>()
+                Classes.FromAssemblyContaining<MatrixConfigurationAssembler>()
                     .InNamespace("dbqf.Serialization.Assemblers.Parsers")
                     .WithService.DefaultInterfaces(),
-                Classes.FromAssemblyContaining<ConfigurationAssembler>()
+                Classes.FromAssemblyContaining<MatrixConfigurationAssembler>()
                     .InNamespace("dbqf.Serialization.Assemblers.Display")
                     .WithService.DefaultInterfaces());
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace dbqf.Configuration
+namespace dbqf.Sql.Configuration
 {
     /// <summary>
     /// Represents a node in the query matrix of how to get from one subject to another.

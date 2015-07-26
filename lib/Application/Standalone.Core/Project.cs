@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Diagnostics;
+using dbqf.Sql.Configuration;
 
 namespace Standalone.Core
 {
@@ -34,7 +35,7 @@ namespace Standalone.Core
         /// <summary>
         /// Gets or sets the configuration that will be searched.
         /// </summary>
-        public IConfiguration Configuration { get; set; }
+        public IMatrixConfiguration Configuration { get; set; }
 
         private Connection _current;
         public Connection CurrentConnection 

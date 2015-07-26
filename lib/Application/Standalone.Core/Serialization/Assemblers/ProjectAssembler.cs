@@ -5,8 +5,8 @@ namespace Standalone.Core.Serialization.Assemblers
 {
     public class ProjectAssembler : IAssembler<Project, ProjectDTO>
     {
-        private ConfigurationAssembler _configurationAssembler;
-        public ProjectAssembler(ConfigurationAssembler configurationAssembler)
+        private MatrixConfigurationAssembler _configurationAssembler;
+        public ProjectAssembler(MatrixConfigurationAssembler configurationAssembler)
         {
             _configurationAssembler = configurationAssembler;
         }

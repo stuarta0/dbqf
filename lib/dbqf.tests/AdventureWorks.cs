@@ -1,4 +1,5 @@
 ﻿using dbqf.Configuration;
+using dbqf.Sql.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace dbqf.core.tests
 {
-    public sealed class AdventureWorks : ConfigurationImpl
+    public sealed class AdventureWorks : MatrixConfiguration
     {
         private ISubject _products, _materials, _category, _subCategory, _contacts, _sales, _salesDetails;
 
         public AdventureWorks()
         {
             this
-                .Subject(Products)
-                .Subject(BillOfMaterials)
-                .Subject(ProductCategory)
-                .Subject(ProductSubCategory)
-                .Subject(Contacts)
-                .Subject(SalesOrders)
-                .Subject(SalesOrderDetails)
+                .MatrixSubject(Products)
+                .MatrixSubject(BillOfMaterials)
+                .MatrixSubject(ProductCategory)
+                .MatrixSubject(ProductSubCategory)
+                .MatrixSubject(Contacts)
+                .MatrixSubject(SalesOrders)
+                .MatrixSubject(SalesOrderDetails)
 
                 .Matrix(Products, Products, "SELECT ProductID AS FromID, ProductID AS ToID FROM Production.Products", "Search for products")
                 .Matrix(Products, BillOfMaterials, "SELECT [ProductAssemblyID] AS FromID, [BillOfMaterialsID] AS ToID FROM Production.BillOfMaterials", "Search for components that make up a product")

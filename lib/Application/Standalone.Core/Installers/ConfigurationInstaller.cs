@@ -5,6 +5,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using dbqf.Configuration;
+using dbqf.Sql.Configuration;
 using Standalone.Core.Data;
 using Standalone.Core.Serialization.Assemblers;
 using Standalone.Core.Serialization.DTO;
@@ -44,7 +45,7 @@ namespace Standalone.Core.Installers
 
                     return assembler.Restore(dto);
                 }),
-                Component.For<IConfiguration>()
+                Component.For<IConfiguration, IMatrixConfiguration>()
                     .UsingFactoryMethod<IConfiguration>(kernel => kernel.Resolve<Project>().Configuration),
                 Component.For<IList<ISubject>>()
                     .UsingFactoryMethod(kernel => kernel.Resolve<IConfiguration>())
