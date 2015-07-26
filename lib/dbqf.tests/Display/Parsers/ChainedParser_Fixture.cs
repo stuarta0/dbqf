@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dbqf.tests.Display.Parsers
+namespace dbqf.core.tests.Display.Parsers
 {
     [TestFixture]
     public class ChainedParser_Fixture

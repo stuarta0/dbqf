@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dbqf.tests.Configuration
+namespace dbqf.core.tests.Configuration
 {
     [TestFixture]
     public class QueryConfig_Fixture

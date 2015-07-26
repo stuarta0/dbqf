@@ -25,7 +25,7 @@ namespace Sandbox
             Project p;
 
 
-            //var dto = assembler.Create(new Project() { Configuration = new dbqf.tests.Chinook() });
+            //var dto = assembler.Create(new Project() { Configuration = new dbqf.core.tests.Chinook() });
             //var list = new List<dbqf.Serialization.DTO.Parsers.ParserDTO>();
             //list.Add(new dbqf.Serialization.DTO.Parsers.DelimitedParserDTO(new string[] { ",", ";", "<", Environment.NewLine, "\"", "\t" }));
             //list.Add(new dbqf.Serialization.DTO.Parsers.ConvertParserDTO() { FromType = typeof(object).FullName, ToType = typeof(string).FullName });
@@ -39,7 +39,7 @@ namespace Sandbox
             //using (XmlWriter writer = XmlWriter.Create(@"E:\chinook.proj.xml", ws))
             //    serializer.Serialize(writer, dto);
 
-            //File.WriteAllText(@"E:\AssetAsystConfiguration.cs", new FluentGenerator().Generate(new dbqf.tests.Chinook(), "dbqf.tests", "Chinook"));
+            //File.WriteAllText(@"E:\AssetAsystConfiguration.cs", new FluentGenerator().Generate(new dbqf.core.tests.Chinook(), "dbqf.core.tests", "Chinook"));
 
 
 

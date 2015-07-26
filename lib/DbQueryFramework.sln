@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.core", "dbqf.core\dbqf.core.csproj", "{AB9BDEC4-8264-49A2-B2B6-EF6276341535}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.WinForms", "dbqf.WinForms\dbqf.WinForms.csproj", "{B4727DD4-CEF3-4740-8B90-CE6E2B1C8D26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.WinForms", "Frontends\dbqf.WinForms\dbqf.WinForms.csproj", "{B4727DD4-CEF3-4740-8B90-CE6E2B1C8D26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.tests", "dbqf.tests\dbqf.tests.csproj", "{BC5AAA8E-D0F7-48DE-9F71-3A7C21BDD6D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.core.tests", "dbqf.tests\dbqf.core.tests.csproj", "{BC5AAA8E-D0F7-48DE-9F71-3A7C21BDD6D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9649AF8E-CB1C-4542-9554-5379DFBFC79D}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,21 +17,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9649AF
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standalone", "Standalone\Standalone.csproj", "{5AAD85B2-212D-421C-9C9B-8B2675550E1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standalone", "Application\Standalone\Standalone.csproj", "{5AAD85B2-212D-421C-9C9B-8B2675550E1E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{5EB67725-5496-492F-8C0C-09760F6198C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.WinForms.tests", "dbqf.WinForms.tests\dbqf.WinForms.tests.csproj", "{4BCD0945-359F-4381-98D5-2D913CBE4A76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.WinForms.tests", "Frontends\dbqf.WinForms.tests\dbqf.WinForms.tests.csproj", "{4BCD0945-359F-4381-98D5-2D913CBE4A76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standalone.Core", "Standalone.Core\Standalone.Core.csproj", "{A9091ADB-FC19-4982-BCE4-6A0425F974D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standalone.Core", "Application\Standalone.Core\Standalone.Core.csproj", "{A9091ADB-FC19-4982-BCE4-6A0425F974D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standalone.WPF", "Standalone.WPF\Standalone.WPF.csproj", "{AF36D489-5EAC-4555-84A2-5FD03D700AD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standalone.WPF", "Application\Standalone.WPF\Standalone.WPF.csproj", "{AF36D489-5EAC-4555-84A2-5FD03D700AD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.WPF", "dbqf.WPF\dbqf.WPF.csproj", "{A4415051-8BE4-4D13-9A30-A9495A4701EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.WPF", "Frontends\dbqf.WPF\dbqf.WPF.csproj", "{A4415051-8BE4-4D13-9A30-A9495A4701EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.Serialization", "dbqf.Serialization\dbqf.Serialization.csproj", "{F46B0AF8-B45B-4897-995F-BBA8A290999A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.Serialization.tests", "dbqf.Serialization.tests\dbqf.Serialization.tests.csproj", "{281B5D3F-E4B0-480C-A0CD-4CB3F34B8240}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backends", "Backends", "{E4968957-1350-4AA4-82BF-E83C8888498F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontends", "Frontends", "{9CE70242-D692-454D-86FE-6A001FA98D0F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{97A28804-E6C4-4345-966A-8E54CE7FFD8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{F27BB0CD-16AC-446E-A3AA-8CEBE3F37EAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,5 +94,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B4727DD4-CEF3-4740-8B90-CE6E2B1C8D26} = {9CE70242-D692-454D-86FE-6A001FA98D0F}
+		{5AAD85B2-212D-421C-9C9B-8B2675550E1E} = {97A28804-E6C4-4345-966A-8E54CE7FFD8F}
+		{4BCD0945-359F-4381-98D5-2D913CBE4A76} = {9CE70242-D692-454D-86FE-6A001FA98D0F}
+		{A9091ADB-FC19-4982-BCE4-6A0425F974D6} = {97A28804-E6C4-4345-966A-8E54CE7FFD8F}
+		{AF36D489-5EAC-4555-84A2-5FD03D700AD2} = {97A28804-E6C4-4345-966A-8E54CE7FFD8F}
+		{A4415051-8BE4-4D13-9A30-A9495A4701EE} = {9CE70242-D692-454D-86FE-6A001FA98D0F}
 	EndGlobalSection
 EndGlobal

@@ -7,8 +7,8 @@
     <ProjectGuid>{BC5AAA8E-D0F7-48DE-9F71-3A7C21BDD6D1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>dbqf.tests</RootNamespace>
-    <AssemblyName>dbqf.tests</AssemblyName>
+    <RootNamespace>dbqf.core.tests</RootNamespace>
+    <AssemblyName>dbqf.core.tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

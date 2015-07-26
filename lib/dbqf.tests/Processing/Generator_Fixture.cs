@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dbqf.tests.Processing
+namespace dbqf.core.tests.Processing
 {
     [TestFixture]
     public class Generator_Fixture
@@ -19,7 +19,7 @@ namespace dbqf.tests.Processing
             gen.UpdateCommand(cmd);
 
             Console.WriteLine(cmd.CommandText);
-            var comparer = new dbqf.tests.SqlProvider.SqlCommandComparer(Properties.Settings.Default.ConnectionString);
+            var comparer = new dbqf.core.tests.SqlProvider.SqlCommandComparer(Properties.Settings.Default.ConnectionString);
             comparer.Test(cmd.CommandText, sql);
         }
 

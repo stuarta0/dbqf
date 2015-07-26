@@ -1,7 +1,7 @@
 ﻿using dbqf.Configuration;
 using dbqf.Criterion;
 using dbqf.Display;
-using dbqf.tests;
+using dbqf.core.tests;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

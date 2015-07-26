@@ -5,7 +5,7 @@ using NUnit.Framework;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace dbqf.tests.SqlProvider
+namespace dbqf.core.tests.SqlProvider
 {
     class SqlCommandComparer
     {

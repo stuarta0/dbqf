@@ -162,7 +162,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\dbqf.core\dbqf.core.csproj">
+    <ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
       <Project>{AB9BDEC4-8264-49A2-B2B6-EF6276341535}</Project>
       <Name>dbqf.core</Name>
     </ProjectReference>

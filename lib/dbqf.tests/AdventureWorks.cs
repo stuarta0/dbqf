@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dbqf.tests
+namespace dbqf.core.tests
 {
     public sealed class AdventureWorks : ConfigurationImpl
     {

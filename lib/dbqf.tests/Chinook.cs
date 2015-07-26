@@ -1,6 +1,6 @@
 ﻿using dbqf.Configuration;
 
-namespace dbqf.tests
+namespace dbqf.core.tests
 {
     public class Chinook : ConfigurationImpl
     {

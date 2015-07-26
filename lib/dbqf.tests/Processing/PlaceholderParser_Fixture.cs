@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dbqf.tests.Processing
+namespace dbqf.core.tests.Processing
 {
     [TestFixture]
     public class PlaceholderParser_Fixture

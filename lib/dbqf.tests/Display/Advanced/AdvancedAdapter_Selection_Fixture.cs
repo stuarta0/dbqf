@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dbqf.tests.Display.Advanced
+namespace dbqf.core.tests.Display.Advanced
 {
     [TestFixture]
     public class AdvancedAdapter_Selection_Fixture

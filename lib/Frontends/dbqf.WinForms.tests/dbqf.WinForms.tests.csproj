@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,13 +51,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\dbqf.core\dbqf.core.csproj">
+    <ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
       <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
       <Name>dbqf.core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\dbqf.tests\dbqf.tests.csproj">
+    <ProjectReference Include="..\..\dbqf.tests\dbqf.core.tests.csproj">
       <Project>{bc5aaa8e-d0f7-48de-9f71-3a7c21bdd6d1}</Project>
-      <Name>dbqf.tests</Name>
+      <Name>dbqf.core.tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\dbqf.WinForms\dbqf.WinForms.csproj">
       <Project>{b4727dd4-cef3-4740-8b90-ce6e2b1c8d26}</Project>
