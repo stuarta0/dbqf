@@ -13,6 +13,8 @@ namespace dbqf.Parsers
         Type To { get; }
     }
 
+    public enum FailBehaviour { ThrowException, ExcludeValue };
+
     /// <summary>
     /// Parses objects using built-in Convert.ChangeType().
     /// </summary>
@@ -20,6 +22,11 @@ namespace dbqf.Parsers
     {
         public Type From { get { return typeof(Tfrom); } }
         public Type To { get { return typeof(Tto); } }
+
+        /// <summary>
+        /// Gets or sets the behaviour to use when a value cannot be parsed.
+        /// </summary>
+        public FailBehaviour Behaviour { get; set; }
 
         public ConvertParser()
         {
@@ -65,7 +72,8 @@ namespace dbqf.Parsers
                     try { result.Add(Convert.ChangeType(v, to)); }
                     catch (Exception ex)
                     {
-                        throw new FormatException(String.Format("Could not convert value '{0}' to {1}.", v, to.Name), ex);
+                        if (Behaviour == FailBehaviour.ThrowException)
+                            throw new FormatException(String.Format("Could not convert value '{0}' to {1}.", v, to.Name), ex);
                     }
                 }
             }

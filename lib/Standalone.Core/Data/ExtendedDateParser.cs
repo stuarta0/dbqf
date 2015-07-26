@@ -187,7 +187,7 @@ namespace Standalone.Core.Data
             }
             else if (value is string)
             {
-                var str = ((string)value).Trim();
+                var str = ((string)value).Trim().ToLower();
                 foreach (var matcher in _matchers)
                 {
                     var match = matcher.Key.Match(str);
