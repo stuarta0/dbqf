@@ -46,6 +46,10 @@ namespace dbqf.Display.Advanced
 
         private void PathCombo_SelectedPathChanged(object sender, EventArgs e)
         {
+            // since we're creating a new instance of BuilderSource here, we can let it handle
+            // creating the UIElement in the case where the SelectedBuilder stays the same
+            // (otherwise in some cases the field path would change, but the SelectedBuilder 
+            // would stay the same and not recreate a new UIElement)
             BuilderSource = new BindingList<ParameterBuilder>(_builderFactory.Build(_pathCombo.SelectedPath));
         }
 
@@ -91,7 +95,18 @@ namespace dbqf.Display.Advanced
 
                 _builders = value;
                 OnPropertyChanged("BuilderSource");
-                SelectedBuilder = _builders[0];
+
+                // due to short-circuiting property changes, if we detect that the SelectedBuilder
+                // doesn't change, update the UIElement regardless
+                // Application flow for this behaviour is:
+                // - Change field path
+                // - Builders get rebuilt, index 0 set as SelectedBuilder
+                // (new logic here to catch case when SelectedBuilder decides it's the same builder instance)
+                // - if SelectedBuilder changed, rebuild UIElement
+                if (object.Equals(_selectedBuilder, _builders[0]))
+                    UIElement = _controlFactory.Build(_pathCombo.SelectedPath, _selectedBuilder);
+                else
+                    SelectedBuilder = _builders[0];
             }
         }
         private BindingList<ParameterBuilder> _builders;
