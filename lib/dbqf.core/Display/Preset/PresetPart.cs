@@ -10,9 +10,9 @@ namespace dbqf.Display.Preset
     /// Encapsulates logic relating to how to display a field in the preset search control.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class PresetPart<T> : IPartView, INotifyPropertyChanged, IDisposable
+    public class PresetPart<T> : IPartViewNode, INotifyPropertyChanged, IDisposable
     {
-        public PresetPart(FieldPath path)
+        public PresetPart(IFieldPath path)
         {
             SelectedPath = path;
             FullWidth = false;
@@ -24,7 +24,7 @@ namespace dbqf.Display.Preset
                 UIElement.Dispose();
         }
         
-        public virtual FieldPath SelectedPath 
+        public virtual IFieldPath SelectedPath 
         {
             get { return _field; }
             set
@@ -32,10 +32,10 @@ namespace dbqf.Display.Preset
                 if (value == _field)
                     return;
                 _field = value;
-                OnPropertyChanged("Path");
+                OnPropertyChanged("SelectedPath");
             }
         }
-        protected FieldPath _field;
+        protected IFieldPath _field;
 
         /// <summary>
         /// Gets or sets the parameter builder to use with this control.
@@ -48,7 +48,7 @@ namespace dbqf.Display.Preset
                 if (value == _builder)
                     return;
                 _builder = value;
-                OnPropertyChanged("Builder");
+                OnPropertyChanged("SelectedBuilder");
             }
         }
         protected ParameterBuilder _builder;
@@ -63,6 +63,7 @@ namespace dbqf.Display.Preset
             {
                 _control = value;
                 OnPropertyChanged("UIElement");
+                OnPropertyChanged("Values");
             }
         }
         protected UIElement<T> _control;
@@ -132,16 +133,16 @@ namespace dbqf.Display.Preset
         }
 
         /// <summary>
-        /// PresetPart will only copy values from the other view.  
+        /// PresetPart will only copy values from the other view and will only do so if Equals(IPartView) is true. 
         /// The reasoning is that PresetPart has no way to update the UIElement if the SelectedBuilder changes.
         /// </summary>
         /// <param name="other"></param>
         public void CopyFrom(IPartView other)
         {
-            if (other == null)
+            if (other == null || !Equals(other))
                 return;
 
-            this.Values = other.Values;
+            this.Values = ((IPartViewNode)other).Values;
         }
 
         /// <summary>
@@ -152,12 +153,13 @@ namespace dbqf.Display.Preset
         /// <returns></returns>
         public bool Equals(IPartView other)
         {
-            if (other == null)
+            if (other == null || !(other is IPartViewNode))
                 return false;
 
-            return SelectedPath.Equals(other.SelectedPath)
-                && SelectedBuilder.Equals(other.SelectedBuilder)
-                && Parser.Equals(Parser, other.Parser);
+            var node = (IPartViewNode)other;
+            return SelectedPath.Equals(node.SelectedPath)
+                && SelectedBuilder.Equals(node.SelectedBuilder)
+                && Parser.Equals(Parser, node.Parser);
         }
 
         public override bool Equals(object obj)
@@ -165,6 +167,16 @@ namespace dbqf.Display.Preset
             if (obj is IPartView)
                 return Equals((IPartView)obj);
             return base.Equals(obj);
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1} {2}", 
+                SelectedPath.Description,
+                SelectedBuilder.Label,
+                Values != null ? 
+                    String.Join(", ", Values.Convert<object, string>(v => v != null ? v.ToString() : string.Empty).ToArray())
+                    : string.Empty);
         }
     }
 }

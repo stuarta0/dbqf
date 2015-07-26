@@ -26,9 +26,22 @@ namespace Standalone.Core.Installers
                     var args = Environment.GetCommandLineArgs();
                     var assembler = kernel.Resolve<ProjectAssembler>();
                     var deserializer = new System.Xml.Serialization.XmlSerializer(typeof(ProjectDTO));
-                    ProjectDTO dto;
-                    using (TextReader reader = new StreamReader(args[1]))
-                        dto = (ProjectDTO)deserializer.Deserialize(reader);
+                    ProjectDTO dto = null;
+
+                    try
+                    {
+                        using (TextReader reader = new StreamReader(args[1]))
+                            dto = (ProjectDTO)deserializer.Deserialize(reader);
+                    }
+                    catch (Exception ex)
+                    {
+                        // halt application (not currently in a message loop)
+                        // TODO: need to inform the user that we couldn't load the project: this is why
+                        // we shouldn't have this logic in the installer, we need to farm it out to something
+                        // else (plus we'll get a more responsive application as it'll load the UI immediately)
+                        Environment.Exit(-1);
+                    }
+
                     return assembler.Restore(dto);
                 }),
                 Component.For<IConfiguration>()

@@ -15,7 +15,7 @@ using dbqf.Serialization.Assemblers;
 
 namespace Standalone.WPF.Installers
 {
-    public class FactoryInstaller : IWindsorInstaller
+    public class WpfFactoryInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
@@ -27,18 +27,6 @@ namespace Standalone.WPF.Installers
 
             container.Register(
                 Component.For<IControlFactory<System.Windows.UIElement>>().ImplementedBy<WpfControlFactory>());
-
-            container.Register(
-                Component.For<ParserFactory>().UsingFactoryMethod<ParserFactory>(kernel =>
-                {
-                    var factory = new ParserFactory();
-                    factory.ParserLookup = kernel.Resolve<FieldAssembler>().ParserLookup;
-                    return factory;
-                }));
-
-            container.Register(
-                Component.For<Standalone.Core.Export.ExportServiceFactory>(),
-                Component.For<IViewPersistence>().ImplementedBy<XmlViewPersistence>());
         }
     }
 }

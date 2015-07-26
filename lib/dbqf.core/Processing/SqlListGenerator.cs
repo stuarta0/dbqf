@@ -14,7 +14,7 @@ namespace dbqf.Processing
     public class SqlListGenerator
     {
         protected IConfiguration _configuration;
-        protected FieldPath _path;
+        protected IFieldPath _path;
         protected string _idColumn;
         protected string _valueColumn;
         protected string _sortByColumn;
@@ -24,7 +24,7 @@ namespace dbqf.Processing
             _configuration = configuration;
         }
 
-        public SqlListGenerator Path(FieldPath path)
+        public SqlListGenerator Path(IFieldPath path)
         {
             _path = path;
             return this;

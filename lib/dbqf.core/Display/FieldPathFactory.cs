@@ -8,9 +8,9 @@ namespace dbqf.Display
 {
     public class FieldPathFactory : IFieldPathFactory
     {
-        public virtual IList<FieldPath> GetFields(ISubject subject)
+        public virtual IList<IFieldPath> GetFields(ISubject subject)
         {
-            var result = new List<FieldPath>();
+            var result = new List<IFieldPath>();
             foreach (var f in subject)
             {
                 if (!f.Equals(subject.IdField))
@@ -23,6 +23,11 @@ namespace dbqf.Display
                 }
             }
             return result;
+        }
+
+        public virtual IList<IFieldPath> GetFields(IRelationField field)
+        {
+            return GetFields(field.RelatedSubject);
         }
     }
 }

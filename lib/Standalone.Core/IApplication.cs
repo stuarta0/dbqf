@@ -17,6 +17,6 @@ namespace Standalone.Core
 
         void Save(string filename);
         void Load(string filename);
-        void Export(string filename);
+        bool Export(string filename);
     }
 }

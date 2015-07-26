@@ -9,7 +9,7 @@ namespace dbqf.Criterion
     /// Represents a sequential path through a number of fields.  Will validate that the path is valid when fields are added to the list.
     /// Only the last item may be an IField.  All others must be IRelationField.
     /// </summary>
-    public class FieldPath : IList<IField>
+    public class FieldPath : dbqf.Criterion.IFieldPath
     {
         private List<IField> _fields;
 
@@ -114,9 +114,9 @@ namespace dbqf.Criterion
 
         public override bool Equals(object obj)
         {
-            if (obj is FieldPath)
+            if (obj is IFieldPath)
             {
-                var other = (FieldPath)obj;
+                var other = (IFieldPath)obj;
                 if (this.Count != other.Count)
                     return false;
                 for (int i = 0; i < this.Count; i++)
@@ -127,13 +127,7 @@ namespace dbqf.Criterion
             return base.Equals(obj);
         }
 
-        /// <summary>
-        /// Python-esque list slicing.  Can use negative 'to' to indicate number of items from the end.
-        /// </summary>
-        /// <param name="from">The index that slicing should start from (inclusive).</param>
-        /// <param name="to">The index that slicing should end at (not inclusive, i.e. this[to] will no longer exist in the collection but this[to-1] will).  Use null to indicate end of list.</param>
-        /// <returns></returns>
-        public FieldPath this[int from, int? to]
+        public IFieldPath this[int from, int? to]
         {
             get
             {
@@ -230,7 +224,7 @@ namespace dbqf.Criterion
         /// Add another field path to this path.  Will ensure it's still a valid path from root to last.
         /// </summary>
         /// <param name="other"></param>
-        public void Add(FieldPath other)
+        public void Add(IFieldPath other)
         {
             foreach (var f in other)
                 Add(f);

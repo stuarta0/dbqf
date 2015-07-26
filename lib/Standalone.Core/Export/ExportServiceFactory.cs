@@ -6,22 +6,79 @@ using System.Threading.Tasks;
 
 namespace Standalone.Core.Export
 {
-    public class ExportServiceFactory
+    public class ExportServiceFactory : IExportServiceFactory
     {
-        public enum ExportType
+        protected Filter[] _filters;
+        public ExportServiceFactory()
         {
-            CommaSeparated,
-            TabDelimited
+            _filters = new Filter[] {
+                new CsvFilter(),
+                new TabFilter()
+            };
         }
 
-        public IExportService Create(ExportType type)
-        {
-            if (type == ExportType.CommaSeparated)
-                return new CsvExportService();
-            else if (type == ExportType.TabDelimited)
-                return new TabDelimitedExportService();
+        #region Filter Classes
 
+        protected abstract class ServiceFilter : Filter
+        {
+            public ServiceFilter(string name, string pattern)
+                : base(name, pattern)
+            {
+            }
+
+            public abstract IExportService CreateService();
+        }
+
+        protected class CsvFilter : ServiceFilter
+        {
+            public CsvFilter()
+                : base("Comma-delimited (*.csv)", "csv")
+            {
+            }
+
+            public override IExportService CreateService()
+            {
+                return new CsvExportService();
+            }
+        }
+
+        protected class TabFilter : ServiceFilter
+        {
+            public TabFilter()
+                : base("Tab-delimited (*.txt)", "txt")
+            {
+            }
+
+            public override IExportService CreateService()
+            {
+                return new TabDelimitedExportService();
+            }
+        }
+
+        #endregion
+
+        #region IExportServiceFactory Implementation
+
+        public virtual Filter[] GetFilters()
+        {
+            return _filters;
+        }
+
+        public virtual IExportService Create(Filter filter)
+        {
+            if (filter is ServiceFilter)
+                return ((ServiceFilter)filter).CreateService();
             throw new NotImplementedException();
         }
+
+        public virtual IExportService Create(string filename)
+        {
+            foreach (var filter in _filters)
+                if (filter.IsMatch(filename))
+                    return Create(filter);
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

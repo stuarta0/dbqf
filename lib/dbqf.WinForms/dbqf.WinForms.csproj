@@ -34,31 +34,6 @@
     <DocumentationFile>
     </DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <DocumentationFile>..\bin\x86\Debug\dbqf.WinForms.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>..\bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <WarningLevel>4</WarningLevel>
-    <NoWarn>
-    </NoWarn>
-  </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
@@ -79,14 +54,21 @@
     <Compile Include="AdvancedView.Designer.cs">
       <DependentUpon>AdvancedView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Advanced\AdvancedPartView.cs">
+    <Compile Include="Advanced\AdvancedPartJunctionView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Advanced\AdvancedPartView.Designer.cs">
-      <DependentUpon>AdvancedPartView.cs</DependentUpon>
+    <Compile Include="Advanced\AdvancedPartJunctionView.Designer.cs">
+      <DependentUpon>AdvancedPartJunctionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Advanced\AdvancedPartNodeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Advanced\AdvancedPartNodeView.Designer.cs">
+      <DependentUpon>AdvancedPartNodeView.cs</DependentUpon>
     </Compile>
     <Compile Include="Advanced\WinFormsAdvancedAdapter.cs" />
-    <Compile Include="Advanced\WinFormsAdvancedPart.cs" />
+    <Compile Include="Advanced\WinFormsAdvancedPartJunction.cs" />
+    <Compile Include="Advanced\WinFormsAdvancedPartNode.cs" />
     <Compile Include="Controls\BindableComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -98,7 +80,6 @@
     <Compile Include="FieldPathCombo.Designer.cs">
       <DependentUpon>FieldPathCombo.cs</DependentUpon>
     </Compile>
-    <Compile Include="FieldPathComboAdapter.cs" />
     <Compile Include="PresetView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -150,8 +131,11 @@
     <EmbeddedResource Include="AdvancedView.resx">
       <DependentUpon>AdvancedView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Advanced\AdvancedPartView.resx">
-      <DependentUpon>AdvancedPartView.cs</DependentUpon>
+    <EmbeddedResource Include="Advanced\AdvancedPartJunctionView.resx">
+      <DependentUpon>AdvancedPartJunctionView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Advanced\AdvancedPartNodeView.resx">
+      <DependentUpon>AdvancedPartNodeView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FieldPathCombo.resx">
       <DependentUpon>FieldPathCombo.cs</DependentUpon>
@@ -187,7 +171,11 @@
     <None Include="..\DbQueryFramework.Key.pfx">
       <Link>DbQueryFramework.Key.pfx</Link>
     </None>
+    <None Include="Properties\DataSources\dbqf.Display.Advanced.AdvancedPartNode.datasource" />
+    <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedAdapter.datasource" />
     <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPart.datasource" />
+    <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPartJunction.datasource" />
+    <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPartNode.datasource" />
     <None Include="Properties\DataSources\dbqf.WinForms.Standard.WinFormsStandardPart.datasource" />
     <None Include="Resources\firefox-close.png" />
   </ItemGroup>

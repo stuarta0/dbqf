@@ -47,7 +47,7 @@ namespace Standalone.Forms
             Advanced = advanced;
             _views.Add("Preset", preset.Adapter);
             _views.Add("Standard", standard.Adapter);
-            //_views.Add("Advanced", advanced.Adapter);
+            _views.Add("Advanced", advanced.Adapter);
 
             RetrieveFields = fields;
 
@@ -59,6 +59,15 @@ namespace Standalone.Forms
             Project.CurrentConnectionChanged += delegate { RefreshPaths(); };
             Result = new BindingSource();
             RefreshPaths();
+        }
+
+        public override void Refine()
+        {
+            try { base.Refine(); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Refine", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void RefreshPaths()
@@ -151,9 +160,9 @@ namespace Standalone.Forms
             worker.RunWorkerAsync();
         }
 
-        protected override void Export(string filename, IExportService service)
+        public override bool Export(string filename)
         {
-            service.Export(filename, (DataTable)Result.DataSource);
+            return ExportFactory.Create(filename).Export(filename, (DataTable)Result.DataSource);
         }
 
         protected override SearchDocument Load(string filename, bool reset)
@@ -187,8 +196,22 @@ namespace Standalone.Forms
             var doc = base.CreateSearchDocument();
             var adapter = RetrieveFields.Adapter;
             if (adapter.UseFields && adapter.Fields.Count > 0)
-                doc.Outputs = new List<FieldPath>(adapter.Fields);
+                doc.Outputs = new List<IFieldPath>(adapter.Fields);
+            else
+                doc.Outputs = new List<IFieldPath>();
             return doc;
+        }
+
+        public override void Save(string filename)
+        {
+            try
+            {
+                base.Save(filename);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Save", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
     }
 }

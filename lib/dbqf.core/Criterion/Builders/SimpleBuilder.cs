@@ -28,7 +28,7 @@ namespace dbqf.Criterion.Builders
         /// Works with any value that can be interpreted by the data provider being used.
         /// Only processes the first value.  Use JunctionBuilder to combine multiple.
         /// </summary>
-        public override IParameter Build(FieldPath path, params object[] values)
+        public override IParameter Build(IFieldPath path, params object[] values)
         {
             if (values == null || values.Length == 0)
                 return null;

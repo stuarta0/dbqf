@@ -16,17 +16,17 @@ namespace dbqf.Configuration
         /// </summary>
         public virtual ISubject RelatedSubject
         {
-            get { return _linkedSubject; }
+            get { return _relatedSubject; }
             set
             {
-                if (_linkedSubject == value)
+                if (_relatedSubject == value)
                     return;
 
-                _linkedSubject = value;
-                OnPropertyChanged("LinkedSubject");
+                _relatedSubject = value;
+                OnPropertyChanged("RelatedSubject");
             }
         }
-        private ISubject _linkedSubject;
+        private ISubject _relatedSubject;
 
 
         /// <summary>

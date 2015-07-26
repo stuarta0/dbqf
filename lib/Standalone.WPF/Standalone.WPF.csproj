@@ -27,7 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,7 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
@@ -62,6 +62,9 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -75,19 +78,29 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.13\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\LoadingControl.xaml.cs">
+      <DependentUpon>LoadingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LoadingAdorner.cs" />
     <Compile Include="Controls\RetrieveFieldsView.xaml.cs">
       <DependentUpon>RetrieveFieldsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\RetrieveFieldsViewAdapter.cs" />
+    <Compile Include="Display\WpfAdvancedAdapter.cs" />
+    <Compile Include="Display\WpfStandardAdapter.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
     <Compile Include="Installers\DataInstaller.cs" />
-    <Compile Include="Installers\FactoryInstaller.cs" />
+    <Compile Include="Installers\Views\AdvancedInstaller.cs" />
+    <Compile Include="Installers\WpfFactoryInstaller.cs" />
     <Compile Include="Installers\Views\FieldPathComboInstaller.cs" />
     <Compile Include="Installers\Views\StandardInstaller.cs" />
     <Compile Include="Installers\Views\PresetInstaller.cs" />
@@ -97,6 +110,10 @@
     <Compile Include="ViewModel\DialogService.cs" />
     <Compile Include="ViewModel\IDialogService.cs" />
     <Compile Include="ViewModel\ProjectAdapter.cs" />
+    <Page Include="Controls\LoadingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\RetrieveFieldsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,6 +145,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\stopwatch-gif-preloader.gif" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

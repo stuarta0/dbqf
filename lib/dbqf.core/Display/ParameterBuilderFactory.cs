@@ -15,7 +15,7 @@ namespace dbqf.Display
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public virtual IList<ParameterBuilder> Build(FieldPath path)
+        public virtual IList<ParameterBuilder> Build(IFieldPath path)
         {
             var builders = new List<ParameterBuilder>();
 
@@ -76,7 +76,7 @@ namespace dbqf.Display
 
             // pretty much always a disjunction when combining multiple values
             for (int i = 0; i < builders.Count; i++)
-                builders[i] = new JunctionBuilder(JunctionBuilder.JunctionType.Disjunction, builders[i]);
+                builders[i] = new JunctionBuilder(JunctionType.Disjunction, builders[i]);
 
             return builders;
         }
@@ -86,7 +86,7 @@ namespace dbqf.Display
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public virtual ParameterBuilder GetDefault(FieldPath path)
+        public virtual ParameterBuilder GetDefault(IFieldPath path)
         {
             ParameterBuilder b;
             if (path.Last.DataType == typeof(string))
@@ -98,7 +98,7 @@ namespace dbqf.Display
             else
                 b = new SimpleBuilder("=");
 
-            return new JunctionBuilder(JunctionBuilder.JunctionType.Disjunction, b);
+            return new JunctionBuilder(JunctionType.Disjunction, b);
         }
 
         private bool IsNumeric(Type t)

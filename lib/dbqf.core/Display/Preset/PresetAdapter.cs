@@ -26,21 +26,29 @@ namespace dbqf.Display.Preset
             get { return _parts; }
         }
         protected BindingList<PresetPart<T>> _parts;
-        public IEnumerable<IPartView> GetParts()
+        public IPartViewJunction GetParts()
         {
+            var conjunction = new PartViewJunction() { Type = JunctionType.Conjunction };
             foreach (var part in Parts)
-                yield return part;
+            {
+                if (part.GetParameter() != null)
+                    conjunction.Add(part);
+            }
+            return conjunction;
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="parts"></param>
         /// <exception cref="System.ApplicationException">Thrown if some parts couldn't be represented in this view.</exception>
-        public void SetParts(IEnumerable<IPartView> parts)
+        public void SetParts(IPartViewJunction parts)
         {
             int total = 0;
             var skipped = new List<IPartView>();
-            var myParts = new List<IPartView>(GetParts());
+            var myParts = new List<IPartView>();
+            foreach (var p in Parts)
+                myParts.Add(p);
+
             foreach (var p in parts)
             {
                 total++;
@@ -57,12 +65,7 @@ namespace dbqf.Display.Preset
                 var message = new StringBuilder();
                 message.AppendLine(String.Format("Could not load {0} of {1} parameters:", skipped.Count, total));
                 foreach (var p in skipped)
-                    message.AppendLine(String.Format("- {0} {1} {2}",
-                        p.SelectedPath.Description,
-                        p.SelectedBuilder.Label,
-                        p.Values != null ? 
-                            String.Join(", ", p.Values.Convert<object, string>(v => v != null ? v.ToString() : "").ToArray())
-                            : string.Empty));
+                    message.AppendLine(String.Concat("- ", p.ToString()));
 
                 throw new ApplicationException(message.ToString());
             }
@@ -80,11 +83,11 @@ namespace dbqf.Display.Preset
         /// </summary>
         /// <param name="subject"></param>
         /// <returns></returns>
-        public virtual void SetParts(IEnumerable<FieldPath> paths)
+        public virtual void SetParts(IEnumerable<IFieldPath> paths)
         {
             // if no paths given, 
             if (paths == null)
-                paths = new List<FieldPath>();
+                paths = new List<IFieldPath>();
 
             var newParts = new BindingList<PresetPart<T>>();
             foreach (var path in paths)
@@ -113,7 +116,7 @@ namespace dbqf.Display.Preset
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        protected virtual PresetPart<T> CreatePart(FieldPath path)
+        protected virtual PresetPart<T> CreatePart(IFieldPath path)
         {
             var part = new PresetPart<T>(path);
             part.SelectedBuilder = _builderFactory.GetDefault(part.SelectedPath);

@@ -19,7 +19,7 @@ namespace dbqf.Processing
             Parts = new List<object>();
         }
 
-        public SqlString AddField(FieldPath path)
+        public SqlString AddField(IFieldPath path)
         {
             Parts.Add(path);
             return this;

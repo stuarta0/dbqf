@@ -14,7 +14,7 @@ namespace dbqf.Criterion.Builders
         /// <param name="path"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-        public abstract IParameter Build(FieldPath path, params object[] values);
+        public abstract IParameter Build(IFieldPath path, params object[] values);
 
         protected virtual bool Eq(object prop, object otherProp)
         {

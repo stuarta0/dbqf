@@ -13,10 +13,10 @@ namespace dbqf.Processing
     public class SqlGenerator
     {
         protected IConfiguration _configuration;
-        protected List<FieldPath> _columns;
+        protected List<IFieldPath> _columns;
         protected ISubject _target;
         protected IParameter _where;
-        protected List<FieldPath> _groupBy;
+        protected List<IFieldPath> _groupBy;
         protected List<OrderedField> _orderBy;
 
         public bool AliasColumns { get; set; }
@@ -29,10 +29,10 @@ namespace dbqf.Processing
 
         protected class OrderedField
         {
-            public FieldPath Path;
+            public IFieldPath Path;
             public string Direction;
 
-            public OrderedField(FieldPath path, string direction)
+            public OrderedField(IFieldPath path, string direction)
             {
                 Path = path;
                 Direction = direction;
@@ -42,8 +42,8 @@ namespace dbqf.Processing
         public SqlGenerator(IConfiguration configuration)
         {
             _configuration = configuration;
-            _columns = new List<FieldPath>();
-            _groupBy = new List<FieldPath>();
+            _columns = new List<IFieldPath>();
+            _groupBy = new List<IFieldPath>();
             _orderBy = new List<OrderedField>();
             AliasColumns = true;
         }
@@ -58,13 +58,13 @@ namespace dbqf.Processing
         /// Uses a column in the select list.  Any additional joins that are required to use these columns will be included.
         /// Can be called multiple times.
         /// </summary>
-        public virtual SqlGenerator Column(FieldPath path)
+        public virtual SqlGenerator Column(IFieldPath path)
         {
             _columns.Add(path);
             return this;
         }
 
-        public virtual SqlGenerator Column(IEnumerable<FieldPath> path)
+        public virtual SqlGenerator Column(IEnumerable<IFieldPath> path)
         {
             foreach (var p in path)
                 Column(p);
@@ -98,7 +98,7 @@ namespace dbqf.Processing
         /// Define a column to sort by.  Any additional joins that are required to use these columns will be included.
         /// Can be called multiple times.
         /// </summary>
-        public virtual SqlGenerator OrderBy(FieldPath path, SortDirection direction)
+        public virtual SqlGenerator OrderBy(IFieldPath path, SortDirection direction)
         {
             _orderBy.Add(new OrderedField(path, (direction == SortDirection.Ascending ? "ASC" : "DESC")));
             return this;
@@ -108,7 +108,7 @@ namespace dbqf.Processing
         /// Define a column to group by.  Any additional joins that are required to use these columns will be included.
         /// Can be called multiple times.
         /// </summary>
-        public virtual SqlGenerator GroupBy(FieldPath path)
+        public virtual SqlGenerator GroupBy(IFieldPath path)
         {
             _groupBy.Add(path);
             return this;
@@ -119,7 +119,7 @@ namespace dbqf.Processing
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public virtual SqlGenerator ColumnGroupBy(FieldPath path)
+        public virtual SqlGenerator ColumnGroupBy(IFieldPath path)
         {
             Column(path);
             GroupBy(path);
@@ -131,7 +131,7 @@ namespace dbqf.Processing
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public virtual SqlGenerator ColumnOrderBy(FieldPath path, SortDirection direction)
+        public virtual SqlGenerator ColumnOrderBy(IFieldPath path, SortDirection direction)
         {
             Column(path);
             OrderBy(path, direction);
@@ -144,7 +144,7 @@ namespace dbqf.Processing
         /// <param name="path"></param>
         /// <param name="direction"></param>
         /// <returns></returns>
-        public virtual SqlGenerator ColumnOrderByGroupBy(FieldPath path, SortDirection direction)
+        public virtual SqlGenerator ColumnOrderByGroupBy(IFieldPath path, SortDirection direction)
         {
             Column(path);
             OrderBy(path, direction);
@@ -172,17 +172,17 @@ namespace dbqf.Processing
             Validate();
 
             // compile all required field paths; this will ensure every table we need to hit will be present
-            List<FieldPath> paths = new List<FieldPath>();
+            List<IFieldPath> paths = new List<IFieldPath>();
             paths.Add(new FieldPath(_target.IdField));
             paths.AddRange(_columns);
-            paths.AddRange(_orderBy.ConvertAll<FieldPath>(s => s.Path));
+            paths.AddRange(_orderBy.ConvertAll<IFieldPath>(s => s.Path));
             paths.AddRange(_groupBy);
 
             SqlString where = null;
             if (_where != null)
             {
                 where = _where.ToSqlString().Flatten();
-                paths.AddRange(where.Parts.FindAll(o => o is FieldPath).ConvertAll<FieldPath>(o => (FieldPath)o));
+                paths.AddRange(where.Parts.FindAll(o => o is IFieldPath).ConvertAll<IFieldPath>(o => (IFieldPath)o));
             }
 
             // add all field paths and calculate unique joins for all of them
@@ -202,8 +202,8 @@ namespace dbqf.Processing
                 int paramIdx = 0;
                 foreach (var part in where.Parts)
                 {
-                    if (part is FieldPath)
-                        whereStr.AppendFormat("{0}.[{1}]", aliases[(FieldPath)part].Alias, ((FieldPath)part).Last.SourceName);
+                    if (part is IFieldPath)
+                        whereStr.AppendFormat("{0}.[{1}]", aliases[(IFieldPath)part].Alias, ((IFieldPath)part).Last.SourceName);
                     else if (part is SqlStringParameter)
                     {
                         var p = (SqlStringParameter)part;

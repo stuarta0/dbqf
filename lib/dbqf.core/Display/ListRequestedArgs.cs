@@ -14,7 +14,7 @@ namespace dbqf.Display
         /// <summary>
         /// Gets the path that is requested to load list data.
         /// </summary>
-        public FieldPath Path { get; protected set; }
+        public IFieldPath Path { get; protected set; }
 
         /// <summary>
         /// Gets or sets the type of list for this path.
@@ -26,7 +26,7 @@ namespace dbqf.Display
         /// </summary>
         public BindingList<object> List { get; set; }
 
-        public ListRequestedArgs(FieldPath path)
+        public ListRequestedArgs(IFieldPath path)
         {
             Path = path;
         }

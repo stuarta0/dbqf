@@ -35,31 +35,6 @@
     <DocumentationFile>
     </DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <DocumentationFile>..\bin\x86\Debug\dbqf.core.xml</DocumentationFile>
-    <WarningLevel>4</WarningLevel>
-    <Optimize>false</Optimize>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>..\bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
@@ -80,6 +55,7 @@
     <Compile Include="Criterion\Conjunction.cs" />
     <Compile Include="Criterion\Disjunction.cs" />
     <Compile Include="Criterion\FieldPath.cs" />
+    <Compile Include="Criterion\IFieldPath.cs" />
     <Compile Include="Criterion\IGetParameter.cs" />
     <Compile Include="Criterion\Junction.cs" />
     <Compile Include="Criterion\NotParameter.cs" />
@@ -90,13 +66,18 @@
     <Compile Include="Criterion\SimpleParameter.cs" />
     <Compile Include="Display\Advanced\AdvancedAdapter.cs" />
     <Compile Include="Display\Advanced\AdvancedPart.cs" />
+    <Compile Include="Display\Advanced\AdvancedPartJunction.cs" />
+    <Compile Include="Display\Advanced\AdvancedPartNode.cs" />
     <Compile Include="Criterion\Builders\JunctionBuilder.cs" />
+    <Compile Include="Display\FieldPathComboAdapter.cs" />
+    <Compile Include="Display\IFieldPathComboBox.cs" />
     <Compile Include="Display\IView.cs" />
     <Compile Include="Display\FieldPathFactory.cs" />
     <Compile Include="Display\IFieldPathFactory.cs" />
     <Compile Include="Display\IParameterBuilderFactory.cs" />
     <Compile Include="Display\IPartView.cs" />
     <Compile Include="Display\ListRequestedArgs.cs" />
+    <Compile Include="Display\PartViewJunction.cs" />
     <Compile Include="Display\Standard\StandardAdapter.cs" />
     <Compile Include="Display\Standard\StandardPart.cs" />
     <Compile Include="Criterion\Builders\BetweenBuilder.cs" />
@@ -116,6 +97,7 @@
     <Compile Include="Criterion\Values\BetweenValue.cs" />
     <Compile Include="Criterion\Values\DateValue.cs" />
     <Compile Include="Display\ParameterBuilderFactory.cs" />
+    <Compile Include="JunctionType.cs" />
     <Compile Include="Parsers\ConvertParser.cs" />
     <Compile Include="Parsers\ChainedParser.cs" />
     <Compile Include="Parsers\Parser.cs" />

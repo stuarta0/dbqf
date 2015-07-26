@@ -6,7 +6,7 @@ namespace dbqf.Display
 {
     public interface IParameterBuilderFactory
     {
-        IList<ParameterBuilder> Build(FieldPath path);
-        ParameterBuilder GetDefault(FieldPath path);
+        IList<ParameterBuilder> Build(IFieldPath path);
+        ParameterBuilder GetDefault(IFieldPath path);
     }
 }

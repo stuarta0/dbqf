@@ -20,7 +20,7 @@ namespace Standalone.Core.Serialization.DTO
         public int SubjectIndex { get; set; }
 
         [XmlElement]
-        public List<PartViewDTO> Parts { get; set; }
+        public PartViewDTO Parts { get; set; }
 
         [XmlArray]
         public List<FieldPathDTO> Outputs { get; set; }

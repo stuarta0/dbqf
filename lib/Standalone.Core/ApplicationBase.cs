@@ -38,7 +38,7 @@ namespace Standalone.Core
         }
 
         public Project Project { get; protected set; }
-        public ExportServiceFactory ExportFactory { get; set; }
+        public IExportServiceFactory ExportFactory { get; set; }
         public IViewPersistence ViewPersistence { get; set; }
         public string ResultSQL { get; set; }
         public BindingList<ISubject> SubjectSource { get; private set; }
@@ -57,8 +57,8 @@ namespace Standalone.Core
         }
 
         [AlsoNotifyFor("IsSearching")]
-        protected BackgroundWorker SearchWorker { get; set; }
-        public bool IsSearching
+        protected virtual BackgroundWorker SearchWorker { get; set; }
+        public virtual bool IsSearching
         {
             get { return SearchWorker != null; }
         }
@@ -73,6 +73,27 @@ namespace Standalone.Core
                 if (pair.Value == view)
                     return pair.Key;
             return null;
+        }
+
+        /// <summary>
+        /// Takes the current view parts and moves them to the next view in the _views collection.
+        /// May throw exceptions if the target view can't display the incoming parts correctly.
+        /// </summary>
+        public virtual void Refine()
+        {
+            IView prev = null;
+            foreach (var view in _views)
+            {
+                if (prev != null)
+                {
+                    view.Value.Reset();
+                    CurrentView = view.Value;
+                    view.Value.SetParts(prev.GetParts());
+                    break;
+                }
+                else if (view.Value == CurrentView)
+                    prev = view.Value;
+            }
         }
     
         public string ApplicationTitle
@@ -92,24 +113,9 @@ namespace Standalone.Core
             SearchWorker = null;
         }
 
-        public virtual void Export(string filename)
+        public virtual bool Export(string filename)
         {
-            if (ExportFactory == null)
-                return; 
-
-            var ext = System.IO.Path.GetExtension(filename);
-            ExportServiceFactory.ExportType etype;
-            if (ext.Equals(".csv", StringComparison.OrdinalIgnoreCase))
-                etype = ExportServiceFactory.ExportType.CommaSeparated;
-            else if (ext.Equals(".txt", StringComparison.OrdinalIgnoreCase))
-                etype = ExportServiceFactory.ExportType.TabDelimited;
-            else
-                throw new NotImplementedException(String.Concat("Export to file with extension ", ext, " not implemented."));
-
-            Export(filename, ExportFactory.Create(etype));
-        }
-        protected virtual void Export(string filename, IExportService service)
-        {
+            return false;
         }
 
         /// <exception cref="System.ArgumentException">Thrown if the view SearchType can't be found in the application.</exception>
@@ -138,21 +144,12 @@ namespace Standalone.Core
 
         protected virtual SearchDocument CreateSearchDocument()
         {
-            var doc = new SearchDocument(Project)
+            return new SearchDocument(Project)
             {
                 SearchType = GetViewKey(CurrentView),
                 Subject = SelectedSubject,
-                Parts = new List<IPartView>()
+                Parts = CurrentView.GetParts()
             };
-
-            // only save parts that have a parameter
-            foreach (var p in CurrentView.GetParts())
-            {
-                if (p.GetParameter() != null)
-                    doc.Parts.Add(p);
-            }
-
-            return doc;
         }
 
         public virtual void Save(string filename)
@@ -161,10 +158,10 @@ namespace Standalone.Core
                 return;
 
             var doc = CreateSearchDocument();
-            if (doc.Parts.Count > 0)
-                ViewPersistence.Save(filename, doc);
+            if (doc.Parts.Count == 0 && doc.Outputs.Count == 0)
+                throw new ArgumentException("Saving a search requires at least one parameter or output field.");
             else
-                throw new ArgumentException("Select at least one parameter to save.");
+                ViewPersistence.Save(filename, doc);
         }
     }
 }

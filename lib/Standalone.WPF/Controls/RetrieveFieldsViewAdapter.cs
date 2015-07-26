@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows.Input;
+using dbqf.WPF;
 
 namespace Standalone.WPF.Controls
 {
@@ -21,7 +23,7 @@ namespace Standalone.WPF.Controls
         /// <summary>
         /// Gets the collection of user-defined field paths that should be retrieved.
         /// </summary>
-        public ObservableCollection<FieldPath> Fields { get; set; }
+        public ObservableCollection<IFieldPath> Fields { get; set; }
 
         public ObservableCollection<Node> Nodes { get; set; }
 
@@ -31,7 +33,7 @@ namespace Standalone.WPF.Controls
         {
             _configuration = configuration;
             PathFactory = pathFactory;
-            Fields = new ObservableCollection<FieldPath>();
+            Fields = new ObservableCollection<IFieldPath>();
             Fields.CollectionChanged += Fields_CollectionChanged;
             Nodes = new ObservableCollection<Node>(_configuration.Convert<ISubject, SubjectNode>(s => new SubjectNode(s, PathFactory)));
         }
@@ -43,6 +45,17 @@ namespace Standalone.WPF.Controls
             else
                 UseFields = false;
         }
+
+        public ICommand ResetCommand
+        {
+            get
+            {
+                if (_resetCommand == null)
+                    _resetCommand = new RelayCommand(p => Fields.Clear());
+                return _resetCommand;
+            }
+        }
+        private ICommand _resetCommand;
 
         #region Node class definitions
 
@@ -116,7 +129,7 @@ namespace Standalone.WPF.Controls
                     {
                         base.Children = new ObservableCollection<Node>();
                         if (Field is IRelationField)
-                            foreach (var f in _factory.GetFields(((IRelationField)Field).RelatedSubject))
+                            foreach (var f in _factory.GetFields((IRelationField)Field))
                                 base.Children.Add(new FieldNode(f[0], _factory) { Parent = this });
                     }
                     return base.Children;
@@ -128,7 +141,7 @@ namespace Standalone.WPF.Controls
 
         #region Node handling
 
-        public IEnumerable<FieldPath> Add(Node n)
+        public IEnumerable<IFieldPath> Add(Node n)
         {
             // if node is SubjectNode, add all fields (and defaults for IRelationFields)
             // if node is FieldNode with an IRelationField, add all fields for the related subject (and defaults for IRelationFields)
@@ -147,7 +160,7 @@ namespace Standalone.WPF.Controls
             }
             else if (n is FieldNode && ((FieldNode)n).Field is IRelationField)
             {
-                var fields = PathFactory.GetFields(((IRelationField)((FieldNode)n).Field).RelatedSubject);
+                var fields = PathFactory.GetFields((IRelationField)((FieldNode)n).Field);
                 foreach (var f in fields)
                 {
                     // ensure hierarchy is maintained
@@ -174,7 +187,7 @@ namespace Standalone.WPF.Controls
                 }
                 if (!Fields.Contains(path))
                     Fields.Add(path);
-                return new FieldPath[] { path };
+                return new IFieldPath[] { path };
             }
         }
 

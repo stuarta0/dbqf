@@ -32,7 +32,7 @@ namespace Standalone.WPF
 
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
-        public FieldPathCombo Advanced { get; private set; }
+        public AdvancedView Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
 
         #region Application Appearance
@@ -122,7 +122,13 @@ namespace Standalone.WPF
             get
             {
                 if (_exportCommand == null)
-                    _exportCommand = new RelayCommand(p => Export(DialogService.SaveFileDialog("Comma-separated (*.csv)|*.csv|Tab-delimited (*.txt)|*.txt")));
+                    _exportCommand = new RelayCommand(p =>
+                        {
+                            // TODO: handle exceptions in export
+                            Export(DialogService.SaveFileDialog(
+                                String.Join("|", ExportFactory.GetFilters().Convert<Filter, string>(p2 => String.Concat(p2.Name, "|", p2.FilePattern)))
+                            ));
+                        });
                 return _exportCommand;
             }
         }
@@ -150,16 +156,37 @@ namespace Standalone.WPF
         }
         private ICommand _resetCommand;
 
+        public ICommand CancelSearchCommand
+        {
+            get
+            {
+                if (_cancelCommand == null)
+                    _cancelCommand = new RelayCommand(p => CancelSearch());
+                return _cancelCommand;
+            }
+        }
+        private ICommand _cancelCommand;
+
+        public ICommand RefineCommand
+        {
+            get
+            {
+                if (_refineCommand == null)
+                    _refineCommand = new RelayCommand(p => Refine());
+                return _refineCommand;
+            }
+        }
+        private ICommand _refineCommand;
+
+
+
         #endregion
 
         #region View Handling
 
         public override IView CurrentView
         {
-            get
-            {
-                return base.CurrentView;
-            }
+            get { return base.CurrentView; }
             set
             {
                 base.CurrentView = value;
@@ -168,17 +195,17 @@ namespace Standalone.WPF
         }
 
         /// <summary>
-        /// Very hacky.
+        /// HACK
         /// </summary>
         public int TabIndex
         {
             get 
             { 
-                return new List<IView>() { Preset.Adapter, Standard.Adapter }.IndexOf(CurrentView);
+                return new List<IView>() { Preset.Adapter, Standard.Adapter, Advanced.Adapter }.IndexOf(CurrentView);
             }
             set
             {
-                var list = new List<IView>() { Preset.Adapter, Standard.Adapter };
+                var list = new List<IView>() { Preset.Adapter, Standard.Adapter, Advanced.Adapter };
                 if (value >= 0 && value < list.Count)
                     CurrentView = list[value];
                 OnPropertyChanged("TabIndex");
@@ -186,6 +213,23 @@ namespace Standalone.WPF
         }
 
         #endregion
+
+        protected override BackgroundWorker SearchWorker
+        {
+            get
+            {
+                return base.SearchWorker;
+            }
+            set
+            {
+                base.SearchWorker = value;
+                OnPropertyChanged("IsSearchingVisibility");
+            }
+        }
+        public Visibility IsSearchingVisibility
+        {
+            get { return IsSearching ? Visibility.Visible : Visibility.Hidden; }
+        }
 
         [AlsoNotifyFor("ResultHeader")]
         public DataTable Result { get; private set; }
@@ -196,7 +240,7 @@ namespace Standalone.WPF
 
         public MainWindowAdapter(
             Project project, IFieldPathFactory pathFactory, 
-            PresetView preset, StandardView standard, FieldPathCombo advanced, 
+            PresetView preset, StandardView standard, AdvancedView advanced, 
             RetrieveFieldsView fields)
             : base(project)
         {
@@ -211,10 +255,11 @@ namespace Standalone.WPF
             RetrieveFields = fields;
             _views.Add("Preset", preset.Adapter);
             _views.Add("Standard", standard.Adapter);
+            _views.Add("Advanced", advanced.Adapter);
 
             Preset.Adapter.Search += Adapter_Search;
             Standard.Adapter.Search += Adapter_Search;
-            //Advanced.Adapter.Search += Adapter_Search;
+            Advanced.Adapter.Search += Adapter_Search;
 
             ProjectAdapter = new ProjectAdapter(project);
             ProjectAdapter.Project.CurrentConnectionChanged += delegate 
@@ -229,9 +274,17 @@ namespace Standalone.WPF
             RefreshPaths();
         }
 
+        public override void Refine()
+        {
+            try { base.Refine(); }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message, "Refine", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
+
         private void RefreshPaths()
         {
-            // ask the factory twice as the individual views alter the path instances differently
+            // HACK: ask the factory twice as the individual views alter the path instances differently
             if (SelectedSubject != null)
             {
                 Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));
@@ -309,9 +362,9 @@ namespace Standalone.WPF
             worker.RunWorkerAsync();
         }
 
-        protected override void Export(string filename, IExportService service)
+        public override bool Export(string filename)
         {
-            service.Export(filename, Result);
+            return ExportFactory.Create(filename).Export(filename, Result);
         }
 
         protected override SearchDocument Load(string filename, bool reset)
@@ -341,8 +394,22 @@ namespace Standalone.WPF
             var doc = base.CreateSearchDocument();
             var adapter = RetrieveFields.Adapter;
             if (adapter.UseFields && adapter.Fields.Count > 0)
-                doc.Outputs = new List<FieldPath>(adapter.Fields);
+                doc.Outputs = new List<IFieldPath>(adapter.Fields);
+            else
+                doc.Outputs = new List<IFieldPath>();
             return doc;
+        }
+
+        public override void Save(string filename)
+        {
+            try
+            {
+                base.Save(filename);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Save", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace dbqf.Criterion
 {
     public class SimpleParameter : IParameter
     {
-        public FieldPath Path { get; protected set; }
+        public IFieldPath Path { get; protected set; }
         public string Operator { get; protected set;}
         public object Value { get; protected set; }
 
@@ -17,7 +17,7 @@ namespace dbqf.Criterion
         {
         }
 
-        public SimpleParameter(FieldPath path, string op, object value)
+        public SimpleParameter(IFieldPath path, string op, object value)
         {
             Path = path;
             Operator = op;

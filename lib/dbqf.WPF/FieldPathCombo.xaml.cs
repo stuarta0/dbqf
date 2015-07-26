@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dbqf.Display;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,12 +20,9 @@ namespace dbqf.WPF
     /// </summary>
     public partial class FieldPathCombo : UserControl
     {
-        public FieldPathComboAdapter Adapter { get; private set; }
-        public FieldPathCombo(FieldPathComboAdapter adapter)
+        public FieldPathCombo()
         {
             InitializeComponent();
-            Adapter = adapter;
-            this.DataContext = Adapter;
         }
     }
 }

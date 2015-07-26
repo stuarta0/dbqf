@@ -37,15 +37,15 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ItemsControl ItemsSource="{Binding Parts}" Grid.Row="0">
+            <ItemsControl ItemsSource="{Binding Parts}" Grid.Row="0" Grid.IsSharedSizeScope="{Binding IsSharedSizeScope}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid HorizontalAlignment="Stretch" Margin="3,3,3,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="C" />
                             </Grid.ColumnDefinitions>
                             <ComboBox Grid.Column="0" ItemsSource="{Binding Paths}" SelectedItem="{Binding SelectedPath}" DisplayMemberPath="Description" Margin="0,0,3,0" VerticalAlignment="Center" />
                             <ComboBox Grid.Column="1" ItemsSource="{Binding Builders}" SelectedItem="{Binding SelectedBuilder}" DisplayMemberPath="Label" Margin="0,0,3,0" VerticalAlignment="Center" />

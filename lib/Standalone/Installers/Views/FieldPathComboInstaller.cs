@@ -1,6 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using dbqf.Display;
 using dbqf.Display.Advanced;
 using dbqf.WinForms;
 using dbqf.WinForms.Advanced;
@@ -20,7 +21,7 @@ namespace Standalone.Installers.Views
             // Lifestyle Singleton because we know the control will only be used once in our application.
             container.Register(
                 Component.For<FieldPathCombo>().LifestyleSingleton(),
-                Component.For<FieldPathComboAdapter>().LifestyleSingleton()
+                Component.For<IFieldPathComboBox, FieldPathComboAdapter>().LifestyleSingleton()
             );
         }
     }

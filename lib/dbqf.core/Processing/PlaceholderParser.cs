@@ -19,9 +19,9 @@ namespace dbqf.Processing
         /// <param name="subject"></param>
         /// <param name="texts"></param>
         /// <returns></returns>
-        public virtual Dictionary<string, FieldPath> Parse(IConfiguration config, params string[] texts)
+        public virtual Dictionary<string, IFieldPath> Parse(IConfiguration config, params string[] texts)
         {
-            var fields = new Dictionary<string, FieldPath>();
+            var fields = new Dictionary<string, IFieldPath>();
 
             foreach (var t in texts)
             {
