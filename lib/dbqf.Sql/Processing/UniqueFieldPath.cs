@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace dbqf.Processing
+namespace dbqf.Sql.Processing
 {
     /// <summary>
     /// A recursive dictionary to store unique join paths for a database query.

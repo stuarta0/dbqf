@@ -12,7 +12,7 @@ namespace dbqf.Processing
     public class SqlString
     {
         // TODO: clean this up
-        internal List<object> Parts { get; private set; }
+        public List<object> Parts { get; private set; }
 
         public SqlString()
         {
@@ -57,7 +57,7 @@ namespace dbqf.Processing
         /// Takes any recursive SqlString parts and flattens them, resulting in an SqlString with only strings, fields and Parameters.
         /// </summary>
         /// <returns></returns>
-        internal SqlString Flatten()
+        public SqlString Flatten()
         {
             var sql = new SqlString();
             Flatten(sql);

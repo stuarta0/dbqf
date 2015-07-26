@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace dbqf.Processing
+namespace dbqf.Sql.Processing
 {
     /// <summary>
     /// 

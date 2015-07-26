@@ -1,11 +1,12 @@
 ﻿using dbqf.Configuration;
 using dbqf.Criterion;
+using dbqf.Processing;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace dbqf.Processing
+namespace dbqf.Sql.Processing
 {
     /// <summary>
     /// 
