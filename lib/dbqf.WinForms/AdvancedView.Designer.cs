@@ -29,56 +29,59 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.layout = new System.Windows.Forms.TableLayoutPanel();
+            this.layoutMain = new System.Windows.Forms.TableLayoutPanel();
             this.cboBuilders = new dbqf.WinForms.Controls.BindableComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.bsAdapter = new System.Windows.Forms.BindingSource(this.components);
+            this.builderSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.lblField = new System.Windows.Forms.Label();
+            this.lblOperator = new System.Windows.Forms.Label();
+            this.lblValue = new System.Windows.Forms.Label();
             this.cboSubject = new dbqf.WinForms.Controls.BindableComboBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.subjectSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.layoutAndOr = new System.Windows.Forms.TableLayoutPanel();
             this.btnAnd = new System.Windows.Forms.Button();
             this.btnOr = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.bsAdapter = new System.Windows.Forms.BindingSource(this.components);
-            this.subjectSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.builderSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.layout.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.pnlParameters = new System.Windows.Forms.Panel();
+            this.fieldPathCombo = new dbqf.WinForms.FieldPathCombo();
+            this.layoutMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bsAdapter)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.subjectSourceBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.builderSourceBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.subjectSourceBindingSource)).BeginInit();
+            this.layoutAndOr.SuspendLayout();
             this.SuspendLayout();
             // 
-            // layout
+            // layoutMain
             // 
-            this.layout.AutoSize = true;
-            this.layout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.layout.ColumnCount = 2;
-            this.layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.layout.Controls.Add(this.cboBuilders, 1, 2);
-            this.layout.Controls.Add(this.label1, 0, 0);
-            this.layout.Controls.Add(this.label3, 0, 2);
-            this.layout.Controls.Add(this.label4, 0, 3);
-            this.layout.Controls.Add(this.cboSubject, 1, 0);
-            this.layout.Controls.Add(this.tableLayoutPanel1, 1, 4);
-            this.layout.Controls.Add(this.panel1, 0, 5);
-            this.layout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.layout.Location = new System.Drawing.Point(0, 0);
-            this.layout.Name = "layout";
-            this.layout.RowCount = 6;
-            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.layout.Size = new System.Drawing.Size(281, 296);
-            this.layout.TabIndex = 0;
+            this.layoutMain.AutoSize = true;
+            this.layoutMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.layoutMain.ColumnCount = 2;
+            this.layoutMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.layoutMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.layoutMain.Controls.Add(this.cboBuilders, 1, 2);
+            this.layoutMain.Controls.Add(this.lblField, 0, 0);
+            this.layoutMain.Controls.Add(this.lblOperator, 0, 2);
+            this.layoutMain.Controls.Add(this.lblValue, 0, 3);
+            this.layoutMain.Controls.Add(this.cboSubject, 1, 0);
+            this.layoutMain.Controls.Add(this.layoutAndOr, 1, 4);
+            this.layoutMain.Controls.Add(this.pnlParameters, 0, 5);
+            this.layoutMain.Controls.Add(this.fieldPathCombo, 1, 1);
+            this.layoutMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutMain.Location = new System.Drawing.Point(0, 0);
+            this.layoutMain.Name = "layoutMain";
+            this.layoutMain.RowCount = 6;
+            this.layoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.layoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.layoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.layoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.layoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.layoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.layoutMain.Size = new System.Drawing.Size(281, 296);
+            this.layoutMain.TabIndex = 0;
             // 
             // cboBuilders
             // 
             this.cboBuilders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboBuilders.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.bsAdapter, "SelectedBuilder", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.cboBuilders.DataSource = this.builderSourceBindingSource;
             this.cboBuilders.DisplayMember = "Label";
             this.cboBuilders.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -86,41 +89,51 @@
             this.cboBuilders.Location = new System.Drawing.Point(60, 30);
             this.cboBuilders.Name = "cboBuilders";
             this.cboBuilders.Size = new System.Drawing.Size(218, 21);
-            this.cboBuilders.TabIndex = 21;
+            this.cboBuilders.TabIndex = 4;
             // 
-            // label1
+            // bsAdapter
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Field:";
+            this.bsAdapter.DataSource = typeof(dbqf.WinForms.Advanced.WinFormsAdvancedAdapter);
             // 
-            // label3
+            // builderSourceBindingSource
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 34);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 13);
-            this.label3.TabIndex = 20;
-            this.label3.Text = "Operator:";
+            this.builderSourceBindingSource.DataMember = "BuilderSource";
+            this.builderSourceBindingSource.DataSource = this.bsAdapter;
             // 
-            // label4
+            // lblField
             // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 54);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(37, 13);
-            this.label4.TabIndex = 22;
-            this.label4.Text = "Value:";
+            this.lblField.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblField.AutoSize = true;
+            this.lblField.Location = new System.Drawing.Point(3, 7);
+            this.lblField.Name = "lblField";
+            this.lblField.Size = new System.Drawing.Size(32, 13);
+            this.lblField.TabIndex = 0;
+            this.lblField.Text = "Field:";
+            // 
+            // lblOperator
+            // 
+            this.lblOperator.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblOperator.AutoSize = true;
+            this.lblOperator.Location = new System.Drawing.Point(3, 34);
+            this.lblOperator.Name = "lblOperator";
+            this.lblOperator.Size = new System.Drawing.Size(51, 13);
+            this.lblOperator.TabIndex = 3;
+            this.lblOperator.Text = "Operator:";
+            // 
+            // lblValue
+            // 
+            this.lblValue.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblValue.AutoSize = true;
+            this.lblValue.Location = new System.Drawing.Point(3, 54);
+            this.lblValue.Name = "lblValue";
+            this.lblValue.Size = new System.Drawing.Size(37, 13);
+            this.lblValue.TabIndex = 5;
+            this.lblValue.Text = "Value:";
             // 
             // cboSubject
             // 
             this.cboSubject.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboSubject.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.bsAdapter, "SelectedSubject", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.cboSubject.DataSource = this.subjectSourceBindingSource;
             this.cboSubject.DisplayMember = "DisplayName";
             this.cboSubject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -130,22 +143,27 @@
             this.cboSubject.Size = new System.Drawing.Size(218, 21);
             this.cboSubject.TabIndex = 1;
             // 
-            // tableLayoutPanel1
+            // subjectSourceBindingSource
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.btnAnd, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnOr, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(189, 67);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(92, 29);
-            this.tableLayoutPanel1.TabIndex = 23;
+            this.subjectSourceBindingSource.DataMember = "SubjectSource";
+            this.subjectSourceBindingSource.DataSource = this.bsAdapter;
+            // 
+            // layoutAndOr
+            // 
+            this.layoutAndOr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.layoutAndOr.AutoSize = true;
+            this.layoutAndOr.ColumnCount = 2;
+            this.layoutAndOr.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.layoutAndOr.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.layoutAndOr.Controls.Add(this.btnAnd, 0, 0);
+            this.layoutAndOr.Controls.Add(this.btnOr, 1, 0);
+            this.layoutAndOr.Location = new System.Drawing.Point(189, 67);
+            this.layoutAndOr.Margin = new System.Windows.Forms.Padding(0);
+            this.layoutAndOr.Name = "layoutAndOr";
+            this.layoutAndOr.RowCount = 1;
+            this.layoutAndOr.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.layoutAndOr.Size = new System.Drawing.Size(92, 29);
+            this.layoutAndOr.TabIndex = 7;
             // 
             // btnAnd
             // 
@@ -162,36 +180,34 @@
             this.btnOr.Location = new System.Drawing.Point(49, 3);
             this.btnOr.Name = "btnOr";
             this.btnOr.Size = new System.Drawing.Size(40, 23);
-            this.btnOr.TabIndex = 0;
+            this.btnOr.TabIndex = 1;
             this.btnOr.Text = "OR";
             this.btnOr.UseVisualStyleBackColor = true;
             this.btnOr.Click += new System.EventHandler(this.btnOr_Click);
             // 
-            // panel1
+            // pnlParameters
             // 
-            this.panel1.AutoScroll = true;
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.layout.SetColumnSpan(this.panel1, 2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 99);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(275, 194);
-            this.panel1.TabIndex = 24;
+            this.pnlParameters.AutoScroll = true;
+            this.pnlParameters.BackColor = System.Drawing.Color.White;
+            this.pnlParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.layoutMain.SetColumnSpan(this.pnlParameters, 2);
+            this.pnlParameters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlParameters.Location = new System.Drawing.Point(3, 99);
+            this.pnlParameters.Name = "pnlParameters";
+            this.pnlParameters.Size = new System.Drawing.Size(275, 194);
+            this.pnlParameters.TabIndex = 8;
             // 
-            // bsAdapter
+            // fieldPathCombo
             // 
-            this.bsAdapter.DataSource = typeof(dbqf.WinForms.Advanced.WinFormsAdvancedAdapter);
-            // 
-            // subjectSourceBindingSource
-            // 
-            this.subjectSourceBindingSource.DataMember = "SubjectSource";
-            this.subjectSourceBindingSource.DataSource = this.bsAdapter;
-            // 
-            // builderSourceBindingSource
-            // 
-            this.builderSourceBindingSource.DataMember = "BuilderSource";
-            this.builderSourceBindingSource.DataSource = this.bsAdapter;
+            this.fieldPathCombo.Adapter = null;
+            this.fieldPathCombo.AutoSize = true;
+            this.fieldPathCombo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.fieldPathCombo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fieldPathCombo.Location = new System.Drawing.Point(57, 27);
+            this.fieldPathCombo.Margin = new System.Windows.Forms.Padding(0);
+            this.fieldPathCombo.Name = "fieldPathCombo";
+            this.fieldPathCombo.Size = new System.Drawing.Size(224, 1);
+            this.fieldPathCombo.TabIndex = 2;
             // 
             // AdvancedView
             // 
@@ -199,15 +215,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.layout);
+            this.Controls.Add(this.layoutMain);
             this.Name = "AdvancedView";
             this.Size = new System.Drawing.Size(281, 296);
-            this.layout.ResumeLayout(false);
-            this.layout.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.layoutMain.ResumeLayout(false);
+            this.layoutMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bsAdapter)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.subjectSourceBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.builderSourceBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.subjectSourceBindingSource)).EndInit();
+            this.layoutAndOr.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -215,18 +231,19 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel layout;
+        private System.Windows.Forms.TableLayoutPanel layoutMain;
         private dbqf.WinForms.Controls.BindableComboBox cboBuilders;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblField;
+        private System.Windows.Forms.Label lblOperator;
+        private System.Windows.Forms.Label lblValue;
         private dbqf.WinForms.Controls.BindableComboBox cboSubject;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel layoutAndOr;
         private System.Windows.Forms.Button btnAnd;
         private System.Windows.Forms.Button btnOr;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlParameters;
         private System.Windows.Forms.BindingSource bsAdapter;
         private System.Windows.Forms.BindingSource builderSourceBindingSource;
         private System.Windows.Forms.BindingSource subjectSourceBindingSource;
+        private FieldPathCombo fieldPathCombo;
     }
 }

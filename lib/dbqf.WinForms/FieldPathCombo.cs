@@ -12,14 +12,30 @@ namespace dbqf.WinForms
 {
     public partial class FieldPathCombo : UserControl
     {
-        public FieldPathComboAdapter Adapter { get; private set; }
-        public FieldPathCombo(FieldPathComboAdapter adapter)
+        private FieldPathComboAdapter _adapter;
+        public FieldPathComboAdapter Adapter 
+        {
+            get { return _adapter; }
+            set
+            {
+                if (_adapter != null)
+                    _adapter.Items.ListChanged -= Items_ListChanged;
+
+                _adapter = value;
+                if (_adapter != null)
+                {
+                    _adapter.Items.ListChanged += Items_ListChanged;
+                    Items_ListChanged(this, new ListChangedEventArgs(ListChangedType.ItemAdded, 0));
+                }
+            }
+        }
+
+        public FieldPathCombo()
         {
             InitializeComponent();
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-
-            Adapter = adapter;
-            Adapter.Items.ListChanged += Items_ListChanged;
+            if (this.DesignMode)
+                layoutFieldPaths.Controls.Add(new Label() { Text = "(FieldPathCombo)", Dock = DockStyle.Fill });
         }
 
         void Items_ListChanged(object sender, ListChangedEventArgs e)
@@ -31,7 +47,7 @@ namespace dbqf.WinForms
             for (int i = layoutFieldPaths.Controls.Count - 1; i >= from; i--)
             {
                 var cbo = (ComboBox)layoutFieldPaths.Controls[i];
-                //cbo.SelectedIndexChanged -= cboFields_SelectedIndexChanged;
+                cbo.SelectedIndexChanged -= cboFields_SelectedIndexChanged;
                 layoutFieldPaths.Controls.Remove(cbo);
                 layoutFieldPaths.RowStyles.RemoveAt(i);
                 cbo.Dispose();
@@ -40,19 +56,18 @@ namespace dbqf.WinForms
             {
                 var cbo = new ComboBox();
                 cbo.DropDownStyle = ComboBoxStyle.DropDownList;
-                cbo.DisplayMember = "DisplayName";
                 cbo.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 
                 layoutFieldPaths.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                 layoutFieldPaths.Controls.Add(cbo);
 
                 var item = Adapter.Items[i];
-                cbo.DataSource = item.Fields;
                 cbo.DisplayMember = "DisplayName";
-                cbo.DataBindings.Add("SelectedItem", item, "SelectedField", false, DataSourceUpdateMode.OnPropertyChanged);
-                //cbo.SelectedItem = item.SelectedField;
+                cbo.DataSource = item.Fields;
+                //cbo.DataBindings.Add("SelectedItem", item, "SelectedField", false, DataSourceUpdateMode.OnPropertyChanged);
+                cbo.SelectedItem = item.SelectedField;
                 cbo.Tag = item;
-                //cbo.SelectedIndexChanged += cboFields_SelectedIndexChanged;
+                cbo.SelectedIndexChanged += cboFields_SelectedIndexChanged;
             }
         }
 

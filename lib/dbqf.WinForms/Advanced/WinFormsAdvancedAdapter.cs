@@ -17,11 +17,38 @@ namespace dbqf.WinForms.Advanced
         {
         }
 
+        /// <summary>
+        /// Occurs when a UI rebuild is required due to changes to WinFormsAdvancedAdapter.Part.
+        /// </summary>
+        public event EventHandler RebuildRequired = delegate {};
+        protected virtual void OnRebuildRequired()
+        {
+            RebuildRequired(this, EventArgs.Empty);
+        }
+
+        public FieldPathComboAdapter FieldPathComboAdapter
+        {
+            get { return (FieldPathComboAdapter)base._pathCombo; }
+        }
+
+        // override required to fire ValueVisibility changed
+        public override UIElement<Control> UIElement
+        {
+            get { return base.UIElement; }
+            set
+            {
+                base.UIElement = value;
+                OnPropertyChanged("IsValueVisible");
+            }
+        }
+
+        public bool IsValueVisible
+        {
+            get { return UIElement == null || UIElement.Element == null ? false : true; }
+        }
+
         protected override AdvancedPartNode CreateNode()
         {
-            if (UIElement != null && UIElement.GetValues() == null)
-                return null;
-
             return new WinFormsAdvancedPartNode()
             {
                 SelectedPath = _pathCombo.SelectedPath,
@@ -33,6 +60,19 @@ namespace dbqf.WinForms.Advanced
         protected override AdvancedPartJunction CreateJunction(JunctionType type)
         {
             return new WinFormsAdvancedPartJunction(type);
+        }
+
+        public override AdvancedPart Part
+        {
+            get
+            {
+                return base.Part;
+            }
+            set
+            {
+                base.Part = value;
+                OnRebuildRequired();
+            }
         }
     }
 }

@@ -19,6 +19,11 @@ namespace dbqf.WinForms.Advanced
             _adapter = adapter;
             _adapter.Parts.ListChanged += Parts_ListChanged;
             bsJunction.DataSource = _adapter;
+            layoutParts.BorderStyle = BorderStyle.FixedSingle;
+
+            // initialise parts
+            for (int i = 0; i < _adapter.Parts.Count; i++)
+                AddPart(_adapter.Parts[i], i);
         }
 
         void Parts_ListChanged(object sender, ListChangedEventArgs e)
@@ -32,7 +37,7 @@ namespace dbqf.WinForms.Advanced
         private void AddPart(AdvancedPart part, int index)
         {
             // we're going to be internally consistent
-            layout.SuspendLayout();
+            layoutParts.SuspendLayout();
             Control control;
             if (part is WinFormsAdvancedPartJunction)
                 control = new AdvancedPartJunctionView((WinFormsAdvancedPartJunction)part);
@@ -40,19 +45,19 @@ namespace dbqf.WinForms.Advanced
                 control = new AdvancedPartNodeView((WinFormsAdvancedPartNode)part);
 
             control.Dock = DockStyle.Fill;
-            layout.RowStyles.Insert(index, new RowStyle(SizeType.AutoSize));
+            layoutParts.RowStyles.Insert(index, new RowStyle(SizeType.AutoSize));
 
             // shift all controls after this point down one row
             // (the last row will have nothing in it, the row of index will have an existing control
-            for (int i = layout.RowStyles.Count - 2; i >= index; i--)
+            for (int i = layoutParts.RowStyles.Count - 2; i >= index; i--)
             {
-                var move = layout.GetControlFromPosition(0, i);
+                var move = layoutParts.GetControlFromPosition(0, i);
                 if (move != null)
-                    layout.SetCellPosition(move, new TableLayoutPanelCellPosition(0, i + 1));
+                    layoutParts.SetCellPosition(move, new TableLayoutPanelCellPosition(0, i + 1));
             }
 
-            layout.Controls.Add(control, 0, index);
-            layout.ResumeLayout();
+            layoutParts.Controls.Add(control, 0, index);
+            layoutParts.ResumeLayout();
 
             // update height outside SuspendLayout or it won't recalculate correctly
             //ScrollHeight += ControlHeight(control);
@@ -60,22 +65,22 @@ namespace dbqf.WinForms.Advanced
 
         private void RemovePart(int index)
         {
-            layout.SuspendLayout();
-            var control = layout.GetControlFromPosition(0, index);
-            layout.Controls.Remove(control);
+            layoutParts.SuspendLayout();
+            var control = layoutParts.GetControlFromPosition(0, index);
+            layoutParts.Controls.Remove(control);
 
             // shift all controls after this point up one row
-            for (int i = index + 1; i < layout.RowStyles.Count; i++)
+            for (int i = index + 1; i < layoutParts.RowStyles.Count; i++)
             {
-                var move = layout.GetControlFromPosition(0, i);
+                var move = layoutParts.GetControlFromPosition(0, i);
                 if (move != null)
-                    layout.SetCellPosition(move, new TableLayoutPanelCellPosition(0, i - 1));
+                    layoutParts.SetCellPosition(move, new TableLayoutPanelCellPosition(0, i - 1));
             }
 
             // the rowstyles are all identical, just remove the last
-            layout.RowStyles.RemoveAt(layout.RowStyles.Count - 1);
+            layoutParts.RowStyles.RemoveAt(layoutParts.RowStyles.Count - 1);
             control.Dispose();
-            layout.ResumeLayout();
+            layoutParts.ResumeLayout();
 
             // update height (and autoscroll size) outside SuspendLayout or it won't recalculate correctly
             //ScrollHeight -= ControlHeight(control);

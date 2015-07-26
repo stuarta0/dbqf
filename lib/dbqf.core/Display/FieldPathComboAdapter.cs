@@ -109,10 +109,15 @@ namespace dbqf.Display
     /// Fields would be the data source of the ComboBox, SelectedField is the selected item of the ComboBox.
     /// FieldPathComboAdapter utilizes this class by having a collection of these, with the overall SelectedPath representing the result of this structure.
     /// </summary>
-    public class FieldPathComboItem
+    public class FieldPathComboItem : INotifyPropertyChanged
     {
-        public BindingList<IField> Fields { get; private set; }
+        public FieldPathComboItem(IList<IField> fields, IField selected = null)
+        {
+            Fields = new BindingList<IField>(fields);
+            SelectedField = selected == null ? Fields[0] : selected;
+        }
 
+        public BindingList<IField> Fields { get; private set; }
         public IField SelectedField
         {
             get { return _selected; }
@@ -120,6 +125,7 @@ namespace dbqf.Display
             { 
                 _selected = value;
                 OnSelectedFieldChanged();
+                OnPropertyChanged("SelectedField");
             }
         }
         private IField _selected;
@@ -130,10 +136,10 @@ namespace dbqf.Display
             SelectedFieldChanged(this, EventArgs.Empty);
         }
 
-        public FieldPathComboItem(IList<IField> fields, IField selected = null)
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            Fields = new BindingList<IField>(fields);
-            SelectedField = selected == null ? Fields[0] : selected;
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
