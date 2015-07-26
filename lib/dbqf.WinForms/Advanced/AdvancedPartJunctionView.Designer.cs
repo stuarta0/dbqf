@@ -29,33 +29,33 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.layoutMain = new System.Windows.Forms.TableLayoutPanel();
             this.layout = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblPrefix = new System.Windows.Forms.Label();
             this.bsJunction = new System.Windows.Forms.BindingSource(this.components);
             this.btnDelete = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.layoutMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bsJunction)).BeginInit();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // layoutMain
             // 
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.layout, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnDelete, 2, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(71, 26);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.layoutMain.AutoSize = true;
+            this.layoutMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.layoutMain.ColumnCount = 3;
+            this.layoutMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.layoutMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.layoutMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.layoutMain.Controls.Add(this.layout, 1, 0);
+            this.layoutMain.Controls.Add(this.lblPrefix, 0, 0);
+            this.layoutMain.Controls.Add(this.btnDelete, 2, 0);
+            this.layoutMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layoutMain.Location = new System.Drawing.Point(0, 0);
+            this.layoutMain.Name = "layoutMain";
+            this.layoutMain.RowCount = 1;
+            this.layoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.layoutMain.Size = new System.Drawing.Size(71, 26);
+            this.layoutMain.TabIndex = 0;
             // 
             // layout
             // 
@@ -71,16 +71,16 @@
             this.layout.Size = new System.Drawing.Size(1, 20);
             this.layout.TabIndex = 0;
             // 
-            // label1
+            // lblPrefix
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label1.AutoSize = true;
-            this.label1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsJunction, "Prefix", true));
-            this.label1.Location = new System.Drawing.Point(3, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Prefix";
+            this.lblPrefix.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblPrefix.AutoSize = true;
+            this.lblPrefix.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsJunction, "Prefix", true));
+            this.lblPrefix.Location = new System.Drawing.Point(3, 6);
+            this.lblPrefix.Name = "lblPrefix";
+            this.lblPrefix.Size = new System.Drawing.Size(33, 13);
+            this.lblPrefix.TabIndex = 1;
+            this.lblPrefix.Text = "Prefix";
             // 
             // bsJunction
             // 
@@ -105,11 +105,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.layoutMain);
             this.Name = "AdvancedPartJunctionView";
             this.Size = new System.Drawing.Size(71, 26);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.layoutMain.ResumeLayout(false);
+            this.layoutMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bsJunction)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -118,9 +118,9 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel layoutMain;
         private System.Windows.Forms.TableLayoutPanel layout;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblPrefix;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.BindingSource bsJunction;
     }

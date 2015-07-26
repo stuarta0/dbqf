@@ -258,7 +258,13 @@ namespace dbqf.Display.Advanced
 
         private void Part_DeleteRequested(object sender, EventArgs e)
         {
-            var part = sender as AdvancedPart;
+            Remove(sender as AdvancedPart);
+        }
+
+        protected virtual void Remove(AdvancedPart part)
+        {
+            if (part == null)
+                return;
             RemoveHandlers(part);
 
             if (Part == part)

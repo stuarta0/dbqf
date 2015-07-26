@@ -14,62 +14,80 @@ namespace dbqf.WinForms
 {
     public partial class AdvancedView : UserControl
     {
-        public WinFormsAdvancedAdapter Adapter { get; private set; }
-        public AdvancedView(WinFormsAdvancedAdapter adapter)
+        private WinFormsAdvancedAdapter _adapter;
+        public WinFormsAdvancedAdapter Adapter 
         {
-            InitializeComponent();
-            Adapter = adapter;
-            bsAdapter.DataSource = adapter;
-            
-            //_part = part;
-            //_part.PropertyChanged += Part_PropertyChanged;
-            //bsAdvancedPart.DataSource = part;
-            
-            //_pathSelector = pathSelector;
-            //_pathSelector.Dock = DockStyle.Fill;
-            //layout.Controls.Add(_pathSelector, 1, 1);
+            get { return _adapter; }
+            set
+            {
+                if (_adapter != null)
+                {
+                    _adapter.RebuildRequired -= Adapter_RebuildRequired;
+                    _adapter.PropertyChanged -= Adapter_PropertyChanged;
+                }
 
-            // TODO: set this correctly
-            //_part.SelectedPath = FieldPath.FromDefault(_part.SelectedSubject.DefaultField);
-            //CreateElement();
+                _adapter = value;
+                if (_adapter != null)
+                {
+                    _adapter.RebuildRequired += Adapter_RebuildRequired;
+                    _adapter.PropertyChanged += Adapter_PropertyChanged;
+                    bsAdapter.DataSource = _adapter;
+                    fieldPathCombo.Adapter = _adapter.FieldPathComboAdapter;
+                }
+                else
+                    bsAdapter.DataSource = typeof(WinFormsAdvancedAdapter);
+            }
         }
 
-        //void Part_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    // rebuild comboboxes for the field path
-        //    if (e.PropertyName.Equals("SelectedPath"))
-        //        _pathSelector.Adapter.SelectedPath = _part.SelectedPath;
-        //    else if (e.PropertyName.Equals("UIElement"))
-        //        ; // CreateElement();
-        //}
+        public AdvancedView()
+        {
+            InitializeComponent();
+        }
+
+        void Adapter_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("UIElement"))
+                CreateElement();
+            else if (e.PropertyName.Equals("IsValueVisible"))
+                lblValue.Visible = Adapter.IsValueVisible;
+        }
 
         private void CreateElement()
         {
-            layout.SuspendLayout();
+            layoutMain.SuspendLayout();
             var hadFocus = false;
-            var existing = layout.GetControlFromPosition(1, 3);
+            var existing = layoutMain.GetControlFromPosition(1, 3);
             if (existing != null)
             {
                 hadFocus = existing.ContainsFocus;
-                layout.Controls.Remove(existing);
+                layoutMain.Controls.Remove(existing);
             }
 
-            //if (_part.UIElement != null)
-            //{
-            //    var control = _part.UIElement.Element;
-            //    control.Size = new Size(1, 1);
-            //    control.Dock = DockStyle.Fill;
-            //    //control.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            //    layout.Controls.Add(control, 1, 3);
-            //    //control.TabIndex = 3;
+            if (Adapter.UIElement != null)
+            {
+                var control = Adapter.UIElement.Element;
+                control.Size = new Size(1, 1);
+                control.Dock = DockStyle.Fill;
+                //control.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+                layoutMain.Controls.Add(control, 1, 3);
+                //control.TabIndex = 3;
 
-            //    // try to move focus to the new control by defering the focus call
-            //    // (still doesn't work when tabbing into the control - only works via click)
-            //    if (hadFocus)
-            //        this.BeginInvoke(new MethodInvoker(() => { control.Focus(); }));
-            //}
+                // try to move focus to the new control by defering the focus call
+                // (still doesn't work when tabbing into the control - only works via click)
+                if (hadFocus)
+                    this.BeginInvoke(new MethodInvoker(() => { control.Focus(); }));
+            }
 
-            layout.ResumeLayout();
+            layoutMain.ResumeLayout();
+        }
+
+        void Adapter_RebuildRequired(object sender, EventArgs e)
+        {
+            foreach (Control c in pnlParameters.Controls)
+                c.Dispose();
+            pnlParameters.Controls.Clear();
+
+
         }
 
         private void btnAnd_Click(object sender, EventArgs e)

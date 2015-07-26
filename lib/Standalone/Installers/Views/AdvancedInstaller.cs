@@ -20,7 +20,7 @@ namespace Standalone.Installers.Views
             // Lifestyle Singleton because we know the control will only be used once in our application.
             container.Register(
                 Component.For<AdvancedView>().LifestyleSingleton(),
-                Component.For<AdvancedAdapter<Control>>().ImplementedBy<WinFormsAdvancedAdapter>().LifestyleSingleton()
+                Component.For<AdvancedAdapter<Control>, WinFormsAdvancedAdapter>().ImplementedBy<WinFormsAdvancedAdapter>().LifestyleSingleton()
             );
         }
     }
