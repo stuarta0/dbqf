@@ -17,8 +17,8 @@ namespace dbqf.WinForms.Advanced
         {
             InitializeComponent();
             _adapter = adapter;
+            lblPrefix.Text = _adapter.Prefix;
             _adapter.Parts.ListChanged += Parts_ListChanged;
-            bsJunction.DataSource = _adapter;
             layoutParts.BorderStyle = BorderStyle.FixedSingle;
 
             // initialise parts

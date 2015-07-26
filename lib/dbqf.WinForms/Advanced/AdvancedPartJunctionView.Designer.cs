@@ -28,14 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.layoutMain = new System.Windows.Forms.TableLayoutPanel();
             this.layoutParts = new System.Windows.Forms.TableLayoutPanel();
             this.lblPrefix = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.bsJunction = new System.Windows.Forms.BindingSource(this.components);
             this.layoutMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bsJunction)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutMain
@@ -54,7 +51,7 @@
             this.layoutMain.Name = "layoutMain";
             this.layoutMain.RowCount = 1;
             this.layoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.layoutMain.Size = new System.Drawing.Size(71, 26);
+            this.layoutMain.Size = new System.Drawing.Size(65, 26);
             this.layoutMain.TabIndex = 0;
             // 
             // layoutParts
@@ -64,18 +61,18 @@
             this.layoutParts.ColumnCount = 1;
             this.layoutParts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.layoutParts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.layoutParts.Location = new System.Drawing.Point(42, 3);
+            this.layoutParts.Location = new System.Drawing.Point(39, 0);
+            this.layoutParts.Margin = new System.Windows.Forms.Padding(0);
             this.layoutParts.Name = "layoutParts";
             this.layoutParts.RowCount = 1;
             this.layoutParts.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.layoutParts.Size = new System.Drawing.Size(1, 20);
+            this.layoutParts.Size = new System.Drawing.Size(1, 26);
             this.layoutParts.TabIndex = 0;
             // 
             // lblPrefix
             // 
             this.lblPrefix.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblPrefix.AutoSize = true;
-            this.lblPrefix.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsJunction, "Prefix", true));
             this.lblPrefix.Location = new System.Drawing.Point(3, 6);
             this.lblPrefix.Name = "lblPrefix";
             this.lblPrefix.Size = new System.Drawing.Size(33, 13);
@@ -88,16 +85,12 @@
             this.btnDelete.FlatAppearance.BorderSize = 0;
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Image = global::dbqf.WinForms.Properties.Resources.firefox_close_inactive;
-            this.btnDelete.Location = new System.Drawing.Point(48, 3);
+            this.btnDelete.Location = new System.Drawing.Point(42, 3);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(20, 20);
             this.btnDelete.TabIndex = 6;
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // bsJunction
-            // 
-            this.bsJunction.DataSource = typeof(dbqf.WinForms.Advanced.WinFormsAdvancedPartJunction);
             // 
             // AdvancedPartJunctionView
             // 
@@ -107,10 +100,9 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.layoutMain);
             this.Name = "AdvancedPartJunctionView";
-            this.Size = new System.Drawing.Size(71, 26);
+            this.Size = new System.Drawing.Size(65, 26);
             this.layoutMain.ResumeLayout(false);
             this.layoutMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bsJunction)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -122,6 +114,5 @@
         private System.Windows.Forms.TableLayoutPanel layoutParts;
         private System.Windows.Forms.Label lblPrefix;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.BindingSource bsJunction;
     }
 }

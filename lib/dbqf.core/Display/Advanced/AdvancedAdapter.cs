@@ -315,7 +315,10 @@ namespace dbqf.Display.Advanced
                     RemoveHandlers(container);
                     var parentContainer = container.Container;
                     if (parentContainer == null)
+                    {
+                        container.Parts[0].Container = null;
                         Part = container.Parts[0];
+                    }
                     else
                     {
                         var index = parentContainer.Parts.IndexOf(container);
