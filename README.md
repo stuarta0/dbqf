@@ -48,6 +48,8 @@ Fully customisable list of field / operator / value combinations.
 ### Advanced
 Complete control over parameters with AND/OR from any field or path from within the database as well as selection of operator / value.
 
+![Example-Advanced](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-advanced.png)
+
 ### Custom output fields
 Choice of fields to retrieve using drag-drop from hierarchical representation of data structure.
 
