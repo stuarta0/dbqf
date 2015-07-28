@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("dbqf.core")]
-[assembly: AssemblyDescription("Core library for defining and executing user created queries against a database.")]
+[assembly: AssemblyDescription("Core library for dbqf that contains the base definitions of types required for complete frontend and backend database search capability.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Database Query Framework")]
