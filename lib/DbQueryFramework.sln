@@ -41,7 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{F27BB0CD-16AC-446E-A3AA-8CEBE3F37EAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.Sql", "dbqf.Sql\dbqf.Sql.csproj", "{8677A10F-415F-4F5F-ABC5-726EDE1CB372}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.Sql", "Backends\dbqf.Sql\dbqf.Sql.csproj", "{8677A10F-415F-4F5F-ABC5-726EDE1CB372}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

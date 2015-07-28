@@ -144,7 +144,7 @@
       <Project>{f46b0af8-b45b-4897-995f-bba8a290999a}</Project>
       <Name>dbqf.Serialization</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\dbqf.Sql\dbqf.Sql.csproj">
+    <ProjectReference Include="..\..\Backends\dbqf.Sql\dbqf.Sql.csproj">
       <Project>{8677a10f-415f-4f5f-abc5-726ede1cb372}</Project>
       <Name>dbqf.Sql</Name>
     </ProjectReference>
