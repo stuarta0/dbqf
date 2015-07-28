@@ -4,7 +4,16 @@ namespace dbqf.Criterion.Builders
 {
     public class NotBuilder : ParameterBuilder
     {
-        public virtual ParameterBuilder Other { get; set; }
+        private ParameterBuilder _other;
+        public virtual ParameterBuilder Other
+        {
+            get { return _other; }
+            set
+            {
+                _other = value;
+                ComputeHash();
+            }
+        }
 
         public override string Label
         {
@@ -43,6 +52,20 @@ namespace dbqf.Criterion.Builders
                     && base.Eq(this.Other, other.Other);
             }
             return base.Equals(obj);
+        }
+
+        protected override void ComputeHash()
+        {
+            base.ComputeHash();
+            unchecked
+            {
+                if (Other != null)
+                    _hash = (_hash * 7) + Other.GetHashCode();
+            }
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

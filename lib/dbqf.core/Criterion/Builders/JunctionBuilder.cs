@@ -3,8 +3,28 @@ namespace dbqf.Criterion.Builders
 {
     public class JunctionBuilder : ParameterBuilder
     {
-        public virtual JunctionType Type { get; set; }
-        public virtual ParameterBuilder Other { get; set; }
+        private JunctionType _type;
+        public virtual JunctionType Type
+        {
+            get { return _type; }
+            set 
+            { 
+                _type = value; 
+                ComputeHash(); 
+            }
+        }
+
+        private ParameterBuilder _other;
+        public virtual ParameterBuilder Other
+        {
+            get { return _other; }
+            set 
+            { 
+                _other = value;
+                ComputeHash();
+            }
+        }
+
         
         public override string Label
         {
@@ -60,6 +80,21 @@ namespace dbqf.Criterion.Builders
                     && base.Eq(this.Label, other.Label);
             }
             return base.Equals(obj);
+        }
+
+        protected override void ComputeHash()
+        {
+            base.ComputeHash();
+            unchecked
+            {
+                if (Other != null)
+                    _hash = (_hash * 7) + Other.GetHashCode();
+                _hash = (_hash * 7) + Type.GetHashCode();
+            }
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

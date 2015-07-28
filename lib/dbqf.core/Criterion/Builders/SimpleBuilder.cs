@@ -3,7 +3,17 @@ namespace dbqf.Criterion.Builders
 {
     public class SimpleBuilder : ParameterBuilder
     {
-        public virtual string Operator { get; set; }
+        private string _operator;
+        public string Operator
+        {
+            get { return _operator; }
+            set 
+            { 
+                _operator = value;
+                ComputeHash();
+            }
+        }
+
 
         public override string Label
         {
@@ -45,6 +55,19 @@ namespace dbqf.Criterion.Builders
                     && base.Eq(this.Operator, other.Operator);
             }
             return base.Equals(obj);
+        }
+
+        protected override void ComputeHash()
+        {
+            base.ComputeHash();
+            unchecked
+            {
+                _hash = (_hash * 7) + (Operator ?? string.Empty).GetHashCode();
+            }
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

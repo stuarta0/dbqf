@@ -4,7 +4,16 @@ namespace dbqf.Criterion.Builders
 {
     public class BooleanBuilder : ParameterBuilder
     {
-        public virtual bool Value { get; set; }
+        public virtual bool Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                ComputeHash();
+            }
+        }
+        private bool _value;
 
         public override string Label
         {
@@ -42,6 +51,15 @@ namespace dbqf.Criterion.Builders
                     && base.Eq(this.Value, other.Value);
             }
             return base.Equals(obj);
+        }
+
+        protected override void ComputeHash()
+        {
+            base.ComputeHash();
+            unchecked
+            {
+                _hash = (_hash * 7) + Value.GetHashCode();
+            }
         }
     }
 }

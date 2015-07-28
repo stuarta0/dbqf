@@ -3,7 +3,16 @@ namespace dbqf.Criterion.Builders
 {
     public class LikeBuilder : ParameterBuilder
     {
-        public virtual MatchMode Mode { get; set; }
+        public virtual MatchMode Mode 
+        {
+            get { return _mode; }
+            set
+            {
+                _mode = value;
+                ComputeHash();
+            }
+        }
+        private MatchMode _mode;
         
         public override string Label
         {
@@ -23,7 +32,10 @@ namespace dbqf.Criterion.Builders
                 }
                 return base.Label;
             }
-            set { base.Label = value; }
+            set 
+            { 
+                base.Label = value;
+            }
         }
 
         public LikeBuilder()
@@ -59,6 +71,19 @@ namespace dbqf.Criterion.Builders
                     && base.Eq(this.Mode, other.Mode);
             }
             return base.Equals(obj);
+        }
+
+        protected virtual void ComputeHash()
+        {
+            base.ComputeHash();
+            unchecked
+            {
+                _hash = (_hash * 7) + Mode.GetHashCode();
+            }
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
