@@ -66,5 +66,14 @@ namespace dbqf.Parsers
 
             return base.Equals(obj);
         }
+        public override int GetHashCode()
+        {
+            ComputeHash();
+            unchecked
+            {
+                if (Parsers != null) _hash = (_hash * 7) + Parsers.Count.GetHashCode();
+                return _hash;
+            }
+        }
     }
 }

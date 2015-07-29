@@ -19,5 +19,19 @@ namespace dbqf.Parsers
         /// <param name="values"></param>
         /// <returns></returns>
         public abstract object[] Revert(params object[] values);
+
+        protected int _hash;
+        protected virtual void ComputeHash()
+        {
+            unchecked
+            {
+                _hash = 13;
+                _hash = (_hash * 7) + GetType().GetHashCode();
+            }
+        }
+        public override int GetHashCode()
+        {
+            return _hash;
+        }
     }
 }

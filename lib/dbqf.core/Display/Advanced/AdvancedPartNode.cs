@@ -55,6 +55,7 @@ namespace dbqf.Display.Advanced
                 if (value == _field)
                     return;
                 _field = value;
+                ComputeHash();
                 OnPropertyChanged("SelectedPath");
                 OnPropertyChanged("Description");
             }
@@ -72,6 +73,7 @@ namespace dbqf.Display.Advanced
                 if (value == _builder)
                     return;
                 _builder = value;
+                ComputeHash();
                 OnPropertyChanged("SelectedBuilder");
                 OnPropertyChanged("Description");
             }
@@ -101,6 +103,7 @@ namespace dbqf.Display.Advanced
                 if (_parser == value)
                     return;
                 _parser = value;
+                ComputeHash();
                 OnPropertyChanged("Parser");
             }
         }
@@ -135,7 +138,7 @@ namespace dbqf.Display.Advanced
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(IPartView other)
+        bool IEquatable<IPartView>.Equals(IPartView other)
         {
             if (other == null || !(other is IPartViewNode))
                 return false;
@@ -152,6 +155,22 @@ namespace dbqf.Display.Advanced
             if (obj is IPartView)
                 return Equals((IPartView)obj);
             return base.Equals(obj);
+        }
+
+        private int _hash;
+        private void ComputeHash()
+        {
+            unchecked
+            {
+                _hash = 13;
+                if (SelectedPath != null) _hash = (_hash * 7) + SelectedPath.GetHashCode();
+                if (SelectedBuilder != null) _hash = (_hash * 7) + SelectedBuilder.GetHashCode();
+                if (Parser != null) _hash = (_hash * 7) + Parser.GetHashCode();
+            }
+        }
+        public override int GetHashCode()
+        {
+            return _hash;
         }
     }
 }

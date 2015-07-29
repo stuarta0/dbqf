@@ -30,7 +30,7 @@ namespace dbqf.Criterion.Builders
         {
             get
             {
-                if (base.Label == null)
+                if (Other != null && base.Label == null)
                     return Other.Label;
                 return base.Label;
             }

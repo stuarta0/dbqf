@@ -73,7 +73,7 @@ namespace dbqf.Criterion.Builders
             return base.Equals(obj);
         }
 
-        protected virtual void ComputeHash()
+        protected override void ComputeHash()
         {
             base.ComputeHash();
             unchecked

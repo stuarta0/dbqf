@@ -12,7 +12,16 @@ namespace dbqf.Parsers
     /// </example>
     public class DelimitedParser : Parser
     {
-        public string[] Delimiters { get; set; }
+        public string[] Delimiters
+        {
+            get { return _delimiters; }
+            set 
+            { 
+                _delimiters = value;
+                ComputeHash();
+            }
+        }
+        private string[] _delimiters;
 
         public DelimitedParser()
         {
@@ -89,6 +98,18 @@ namespace dbqf.Parsers
             }
 
             return base.Equals(obj);
+        }
+        protected override void ComputeHash()
+        {
+            base.ComputeHash();
+            unchecked
+            {
+                if (Delimiters != null) _hash = (_hash * 7) + Delimiters.Length.GetHashCode();
+            }
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

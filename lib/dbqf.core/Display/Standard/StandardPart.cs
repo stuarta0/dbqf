@@ -257,6 +257,11 @@ namespace dbqf.Display.Standard
             return base.Equals(obj);
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public override string ToString()
         {
             return String.Format("{0} {1} {2}",

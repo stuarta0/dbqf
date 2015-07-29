@@ -61,5 +61,9 @@ namespace dbqf.Criterion.Builders
                 _hash = (_hash * 7) + Value.GetHashCode();
             }
         }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

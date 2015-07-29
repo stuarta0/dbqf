@@ -30,6 +30,7 @@ namespace dbqf.Parsers
 
         public ConvertParser()
         {
+            ComputeHash();
         }
 
         /// <summary>
@@ -88,6 +89,19 @@ namespace dbqf.Parsers
                     && To.Equals(((IConvertParser)obj).To);
             }
             return base.Equals(obj);
+        }
+        protected override void ComputeHash()
+        {
+            base.ComputeHash();
+            unchecked
+            {
+                _hash = (_hash * 7) + From.GetHashCode();
+                _hash = (_hash * 7) + To.GetHashCode();
+            }
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

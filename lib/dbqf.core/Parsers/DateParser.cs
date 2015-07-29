@@ -12,7 +12,16 @@ namespace dbqf.Parsers
         /// <summary>
         /// Gets or sets a value indicating whether parsing an invalid date will return null.
         /// </summary>
-        public bool AllowNulls { get; set; }
+        public bool AllowNulls
+        {
+            get { return _allowNulls; }
+            set 
+            { 
+                _allowNulls = value;
+                ComputeHash();
+            }
+        }
+        private bool _allowNulls;
 
         /// <summary>
         /// Given each value in the parameters, determine the date boundaries.
@@ -147,6 +156,15 @@ namespace dbqf.Parsers
             if (obj is DateParser)
                 return AllowNulls.Equals(((DateParser)obj).AllowNulls);
             return base.Equals(obj);
+        }
+        protected override void ComputeHash()
+        {
+            base.ComputeHash();
+            _hash = (_hash * 7) + AllowNulls.GetHashCode();
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

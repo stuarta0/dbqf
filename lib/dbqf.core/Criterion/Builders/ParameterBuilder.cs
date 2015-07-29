@@ -38,7 +38,8 @@ namespace dbqf.Criterion.Builders
             {
                 _hash = 13;
                 _hash = (_hash * 7) + GetType().GetHashCode();
-                _hash = (_hash * 7) + Label.GetHashCode();
+                if (Label != null)
+                    _hash = (_hash * 7) + Label.GetHashCode();
             }
         }
         public override int GetHashCode()

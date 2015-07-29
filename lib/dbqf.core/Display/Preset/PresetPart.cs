@@ -169,6 +169,18 @@ namespace dbqf.Display.Preset
             return base.Equals(obj);
         }
 
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 13;
+                if (SelectedPath != null) hash = (hash * 7) + SelectedPath.GetHashCode();
+                if (SelectedBuilder != null) hash = (hash * 7) + SelectedBuilder.GetHashCode();
+                if (Parser != null) hash = (hash * 7) + Parser.GetHashCode();
+                return hash;
+            }
+        }
+
         public override string ToString()
         {
             return String.Format("{0} {1} {2}", 
