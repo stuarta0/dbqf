@@ -11,6 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/stuarta0/dbqf/master/resources/nuget-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
+    <summary>dbqf is a library designed to be a full-stack implementation for providing rich search options for users.  It provides the native controls for your specific UI toolkit (dbqf.WinForms, dbqf.WPF), a standard SQL generator that can be used verbatim or with an ORM such as Entity Framework (dbqf.Sql) as well as serialization for users to save their queries to disk (dbqf.Serialization).  The code is loosely coupled and modular to allow any additional, specific requirements to be achieved for your application.</summary>
     <releaseNotes>Initial release.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>database search sql library</tags>

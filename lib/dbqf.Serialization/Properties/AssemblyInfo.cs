@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("dbqf.Serialization")]
-[assembly: AssemblyDescription("Serialization DTO's and assemblers for dbqf core and Sql libraries.")]
+[assembly: AssemblyDescription("dbqf.Serialization contains DTO's and assemblers for dbqf.core and dbqf.Sql libraries.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Stuart Attenborrow")]
 [assembly: AssemblyProduct("dbqf.Serialization")]

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("dbqf.WinForms")]
-[assembly: AssemblyDescription("Contains WinForms controls for frontend applications using dbqf.")]
+[assembly: AssemblyDescription("dbqf.WinForms contains the WinForms components for use with dbqf.core.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Stuart Attenborrow")]
 [assembly: AssemblyProduct("dbqf.WinForms")]

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("dbqf.WPF")]
-[assembly: AssemblyDescription("Contions WPF UIElements for frontend applications using dbqf.")]
+[assembly: AssemblyDescription("dbqf.WPF contains the WPF components for use with dbqf.core")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Stuart Attenborrow")]
 [assembly: AssemblyProduct("dbqf.WPF")]

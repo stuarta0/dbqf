@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("dbqf.Sql")]
-[assembly: AssemblyDescription("Contains backend SQL building and execution for use with dbqf.")]
+[assembly: AssemblyDescription("dbqf.Sql contains backend SQL building and execution for use with dbqf.core.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Stuart Attenborrow")]
 [assembly: AssemblyProduct("dbqf.Sql")]
