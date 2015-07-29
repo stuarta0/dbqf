@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("dbqf.WinForms")]
 [assembly: AssemblyDescription("Contains WinForms controls for frontend applications using dbqf.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Stuart Attenborrow")]
 [assembly: AssemblyProduct("dbqf.WinForms")]
 [assembly: AssemblyCopyright("Copyright © Stuart Attenborrow 2015")]
 [assembly: AssemblyTrademark("")]

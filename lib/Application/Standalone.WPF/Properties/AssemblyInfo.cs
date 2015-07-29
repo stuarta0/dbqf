@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Standalone.WPF")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("WPF implementation of standalone application.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Stuart Attenborrow")]
 [assembly: AssemblyProduct("Standalone.WPF")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © Stuart Attenborrow 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

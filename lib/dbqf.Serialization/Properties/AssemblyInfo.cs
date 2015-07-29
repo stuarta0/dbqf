@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("dbqf.Serialization")]
 [assembly: AssemblyDescription("Serialization DTO's and assemblers for dbqf core and Sql libraries.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Stuart Attenborrow")]
 [assembly: AssemblyProduct("dbqf.Serialization")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © Stuart Attenborrow 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("dbqf.WPF")]
 [assembly: AssemblyDescription("Contions WPF UIElements for frontend applications using dbqf.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Stuart Attenborrow")]
 [assembly: AssemblyProduct("dbqf.WPF")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © Stuart Attenborrow 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("dbqf.core")]
 [assembly: AssemblyDescription("Core library for dbqf that contains the base definitions of types required for complete frontend and backend database search capability.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Stuart Attenborrow")]
 [assembly: AssemblyProduct("Database Query Framework")]
 [assembly: AssemblyCopyright("Copyright © Stuart Attenborrow 2015")]
 [assembly: AssemblyTrademark("")]

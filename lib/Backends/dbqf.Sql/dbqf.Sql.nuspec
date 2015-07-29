@@ -8,11 +8,11 @@
     <owners>$author$</owners>
     <licenseUrl>https://github.com/stuarta0/dbqf/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/stuarta0/dbqf</projectUrl>
-    <iconUrl></iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/stuarta0/dbqf/master/resources/nuget-icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <releaseNotes>Initial release.</releaseNotes>
     <copyright>Copyright 2015</copyright>
-    <tags>Tag1 Tag2</tags>
+    <tags>database search sql library backend</tags>
   </metadata>
 </package>
