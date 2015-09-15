@@ -28,7 +28,7 @@
                     </Style>
                 </MenuItem.ItemContainerStyle>
             </MenuItem>
-            <MenuItem Header="Help" />
+            <!--<MenuItem Header="Help" />-->
         </Menu>
         <Grid>
             <Grid.ColumnDefinitions>

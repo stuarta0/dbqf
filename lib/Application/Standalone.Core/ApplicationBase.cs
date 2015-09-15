@@ -126,7 +126,7 @@ namespace Standalone.Core
         }
         protected virtual SearchDocument Load(string filename, bool reset)
         {
-            if (ViewPersistence == null)
+            if (ViewPersistence == null || String.IsNullOrWhiteSpace(filename))
                 return null;
 
             // may throw a load exception
@@ -154,7 +154,7 @@ namespace Standalone.Core
 
         public virtual void Save(string filename)
         {
-            if (ViewPersistence == null)
+            if (ViewPersistence == null || String.IsNullOrWhiteSpace(filename))
                 return;
 
             var doc = CreateSearchDocument();

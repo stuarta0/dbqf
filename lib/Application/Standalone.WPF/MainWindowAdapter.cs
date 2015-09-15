@@ -364,11 +364,16 @@ namespace Standalone.WPF
 
         public override bool Export(string filename)
         {
+            if (String.IsNullOrWhiteSpace(filename))
+                return false;
             return ExportFactory.Create(filename).Export(filename, Result);
         }
 
         protected override SearchDocument Load(string filename, bool reset)
         {
+            if (String.IsNullOrWhiteSpace(filename))
+                return null;
+
             SearchDocument doc = null;
             try { doc = base.Load(filename, true); }
             catch (Exception ex)
