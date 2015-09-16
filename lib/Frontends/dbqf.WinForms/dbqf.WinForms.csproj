@@ -80,6 +80,13 @@
     <Compile Include="FieldPathCombo.Designer.cs">
       <DependentUpon>FieldPathCombo.cs</DependentUpon>
     </Compile>
+    <Compile Include="MultiPartTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MultiPartTextBox.Designer.cs">
+      <DependentUpon>MultiPartTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MultiPartTextBoxAdapter.cs" />
     <Compile Include="PresetView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -139,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FieldPathCombo.resx">
       <DependentUpon>FieldPathCombo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MultiPartTextBox.resx">
+      <DependentUpon>MultiPartTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PresetView.resx">
       <DependentUpon>PresetView.cs</DependentUpon>
