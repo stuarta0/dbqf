@@ -65,7 +65,7 @@
             <TabControl Grid.Column="1" x:Name="ResultTab">
                 <TabItem Header="{Binding ResultHeader}">
                     <Grid>
-                        <DataGrid x:Name="ResultGrid" ItemsSource="{Binding Result}" HorizontalGridLinesBrush="#FFDADADA" VerticalGridLinesBrush="#FFDADADA" CanUserReorderColumns="False" CanUserResizeRows="False" ClipboardCopyMode="IncludeHeader" IsReadOnly="True" />
+                        <DataGrid x:Name="ResultGrid" ItemsSource="{Binding Result}" AutoGeneratingColumn="ResultGrid_AutoGeneratingColumn" HorizontalGridLinesBrush="#FFDADADA" VerticalGridLinesBrush="#FFDADADA" CanUserReorderColumns="False" CanUserResizeRows="False" ClipboardCopyMode="IncludeHeader" IsReadOnly="True" />
                         <Grid Background="#4CFFFFFF" Visibility="{Binding IsSearchingVisibility}">
                             <Border CornerRadius="10" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10,10,12,10">
                                 <!--<Grid>
