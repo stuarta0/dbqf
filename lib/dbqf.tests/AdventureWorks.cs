@@ -87,7 +87,7 @@ namespace dbqf.core.tests
             {
                 if (_products == null)
                 {
-                    var s = (ISqlSubject)new SqlSubject("Products")
+                    var s = new SqlSubject("Products")
                         .SqlQuery(@"
 SELECT ProductID AS ID, Product.Name, ProductNumber, Color, StandardCost, ListPrice, 
 Product.ProductSubcategoryID, ProductSubcategory.Name AS SubcategoryName, 
@@ -120,7 +120,7 @@ LEFT OUTER JOIN Production.ProductCategory ON ProductSubcategory.ProductCategory
             {
                 if (_materials == null)
                 {
-                    var s = (ISqlSubject)new SqlSubject("Bill Of Materials")
+                    var s = new SqlSubject("Bill Of Materials")
                         .SqlQuery(@"
 SELECT BillOfMaterialsID AS ID, ProductAssemblyID, 
 ComponentID, StartDate, EndDate, UnitMeasureCode, BOMLevel, PerAssemblyQty
@@ -144,7 +144,7 @@ FROM Production.BillOfMaterials")
             {
                 if (_category == null)
                 {
-                    var s = (ISqlSubject)new SqlSubject("Product Category")
+                    var s = new SqlSubject("Product Category")
                         .SqlQuery("SELECT ProductCategoryID AS ID, Name FROM Production.ProductCategory")
                         .FieldId(new Field("id", typeof(int)))
                         .FieldDefault(new Field("Name", typeof(string)) 
@@ -168,7 +168,7 @@ FROM Production.BillOfMaterials")
             {
                 if (_subCategory == null)
                 {
-                    var s = (ISqlSubject)new SqlSubject("Product Subcategory")
+                    var s = new SqlSubject("Product Subcategory")
                         .SqlQuery("SELECT ProductSubcategoryID AS ID, Name FROM Production.ProductSubcategory")
                         .FieldId(new Field("id", typeof(int)))
                         .FieldDefault(new Field("Name", typeof(string)));
@@ -185,7 +185,7 @@ FROM Production.BillOfMaterials")
             {
                 if (_contacts == null)
                 {
-                    var s = (ISqlSubject)new SqlSubject("Contact")
+                    var s = new SqlSubject("Contact")
                         .SqlQuery("SELECT ContactID AS ID, CAST(EmailPromotion AS bit) AS Promo, * FROM Person.Contact")
                         .FieldId(new Field("id", typeof(int)))
                         .Field(new Field("Title", typeof(string)))
@@ -207,7 +207,7 @@ FROM Production.BillOfMaterials")
             {
                 if (_sales == null)
                 {
-                    var s = (ISqlSubject)new SqlSubject("Sales Orders")
+                    var s = new SqlSubject("Sales Orders")
                         .SqlQuery("SELECT SalesOrderID AS ID, SalesOrderHeader.* FROM Sales.SalesOrderHeader")
                         .FieldId(new Field("id", typeof(int)))
                         .FieldDefault(new Field("SalesOrderNumber", "Number", typeof(string)))
@@ -235,7 +235,7 @@ FROM Production.BillOfMaterials")
             {
                 if (_salesDetails == null)
                 {
-                    var s = (ISqlSubject)new SqlSubject("Sales Orders Details")
+                    var s = new SqlSubject("Sales Orders Details")
                         .SqlQuery(@"
 SELECT SalesOrderDetailID AS ID, SalesOrderHeader.SalesOrderNumber, SalesOrderDetail.* 
 FROM Sales.SalesOrderDetail 

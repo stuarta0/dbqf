@@ -39,7 +39,7 @@ namespace dbqf.core.tests
             get
             {
                 if (_artist == null)
-                    _artist = (ISqlSubject)new SqlSubject("Artist")
+                    _artist = new SqlSubject("Artist")
                         .SqlQuery("Artist")
                         .FieldId(new Field("ArtistId", typeof(int)))
                         .FieldDefault(new Field("Name", typeof(string)));
@@ -53,7 +53,7 @@ namespace dbqf.core.tests
             get
             {
                 if (_album == null)
-                    _album = (ISqlSubject)new SqlSubject("Album")
+                    _album = new SqlSubject("Album")
                         .SqlQuery("Album")
                         .FieldId(new Field("AlbumId", typeof(int)))
                         .FieldDefault(new Field("Title", typeof(string)))
@@ -68,7 +68,7 @@ namespace dbqf.core.tests
             get
             {
                 if (_track == null)
-                    _track = (ISqlSubject)new SqlSubject("Track")
+                    _track = new SqlSubject("Track")
                         .SqlQuery(@"SELECT Track.*, MediaType.Name MTN, Genre.Name GN FROM Track 
 LEFT OUTER JOIN MediaType ON MediaType.MediaTypeId = Track.MediaTypeId
 LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId")
@@ -91,7 +91,7 @@ LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId")
             get
             {
                 if (_playlist == null)
-                    _playlist = (ISqlSubject)new SqlSubject("Playlist")
+                    _playlist = new SqlSubject("Playlist")
                         .SqlQuery("Playlist")
                         .FieldId(new Field("PlaylistId", typeof(int)))
                         .FieldDefault(new Field("Name", typeof(string)));

@@ -39,5 +39,24 @@ namespace dbqf.Sql.Configuration
             Sql = sql;
             return this;
         }
+
+        #region Redefine Fluent interface
+
+        public new SqlSubject Field(IField field)
+        {
+            return (SqlSubject)base.Field(field);
+        }
+
+        public new SqlSubject FieldId(IField field)
+        {
+            return (SqlSubject)base.FieldId(field);
+        }
+
+        public new SqlSubject FieldDefault(IField field)
+        {
+            return (SqlSubject)base.FieldDefault(field);
+        }
+
+        #endregion
     }
 }

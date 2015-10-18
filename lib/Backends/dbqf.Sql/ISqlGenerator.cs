@@ -1,12 +1,8 @@
-﻿using dbqf.Configuration;
-using dbqf.Criterion;
-using dbqf.Processing;
+﻿using dbqf.Criterion;
 using dbqf.Sql.Configuration;
 using dbqf.Sql.Criterion;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace dbqf.Sql
 {
@@ -18,19 +14,28 @@ namespace dbqf.Sql
 
     public interface ISqlGenerator
     {
-        bool AliasColumns { get; set; }
-
-        SqlGenerator Alias(bool alias);
-        SqlGenerator Column(IFieldPath path);
+        /// <summary>
+        /// Adds a number of columns to retrieve.
+        /// </summary>
         SqlGenerator Column(IEnumerable<IFieldPath> path);
-        SqlGenerator Target(ISqlSubject subject);
-        SqlGenerator Where(ISqlParameter where);
-        SqlGenerator OrderBy(IFieldPath path, SortDirection direction);
-        SqlGenerator GroupBy(IFieldPath path);
-        SqlGenerator ColumnGroupBy(IFieldPath path);
-        SqlGenerator ColumnOrderBy(IFieldPath path, SortDirection direction);
-        SqlGenerator ColumnOrderByGroupBy(IFieldPath path, SortDirection direction);
 
+        /// <summary>
+        /// Sets the core target that will be queried.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <returns></returns>
+        SqlGenerator Target(ISqlSubject subject);
+
+        /// <summary>
+        /// Sets the parameters to limit results.
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        SqlGenerator Where(ISqlParameter where);
+
+        /// <summary>
+        /// Ensure the structure of this generator is valid.
+        /// </summary>
         void Validate();
 
         /// <summary>
