@@ -24,14 +24,14 @@ namespace Sandbox
     ///       .Matrix(Subject2, Subject1, "...");
     ///   }
     /// 
-    ///   private ISubject _subject1;
-    ///   public ISubject Subject1
+    ///   private ISqlSubject _subject1;
+    ///   public ISqlSubject Subject1
     ///   {
     ///       get
     ///       {
     ///           if (_subject1 == null)
-    ///               _subject1 = new Subject("Subject1")
-    ///                   .Sql("...")
+    ///               _subject1 = new SqlSubject("Subject1")
+    ///                   .SqlQuery("...")
     ///                   .FieldId(new Field("Field1", typeof(int)))
     ///                   .FieldDefault(new Field("Field2", typeof(string)))
     ///                   .Field(new RelationField("Field3", Subject2));
@@ -112,15 +112,15 @@ namespace {0}
             foreach (ISqlSubject subject in configuration)
             {
                 sb.AppendLine(String.Format(@"
-        private Subject {0};
-        public ISubject {1}
+        private ISqlSubject {0};
+        public ISqlSubject {1}
         {{
             get
             {{
                 if ({0} == null)
                 {{
-                    {0} = new Subject({2})
-                        .Sql(@{3})
+                    {0} = new SqlSubject({2})
+                        .SqlQuery(@{3})
                         .{4};",
                     names[subject].MemberName,
                     names[subject].Name,
