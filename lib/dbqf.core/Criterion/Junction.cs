@@ -22,53 +22,28 @@ namespace dbqf.Criterion
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public Junction Parameter(IParameter parameter)
+        public virtual Junction Parameter(IParameter parameter)
         {
            Add(parameter);
             return this;
         }
 
-        public SqlString ToSqlString()
-        {
-            var sql = new SqlString();
-            for (int i = 0; i < _parameters.Count; i++)
-            {
-                // add the parameters if there's something to add
-                var p = _parameters[i].ToSqlString().Flatten();
-                if (p.Parts.Count > 0)
-                    sql.Add(p);
-            }
-
-            // insert the operator between all the parts
-            for (int i = 0; i < sql.Parts.Count - 1; i += 2)
-                sql.Parts.Insert(i + 1, String.Concat(" ", Op, " "));
-
-            // if we managed to produce something, wrap it in parens
-            if (sql.Parts.Count > 0)
-            {
-                sql.Parts.Insert(0, "(");
-                sql.Parts.Add(")");
-            }
-
-            return sql;
-        }
-
-        public int IndexOf(IParameter item)
+        public virtual int IndexOf(IParameter item)
         {
             return _parameters.IndexOf(item);
         }
 
-        public void Insert(int index, IParameter item)
+        public virtual void Insert(int index, IParameter item)
         {
             _parameters.Insert(index, item);
         }
 
-        public void RemoveAt(int index)
+        public virtual void RemoveAt(int index)
         {
             _parameters.RemoveAt(index);
         }
 
-        public IParameter this[int index]
+        public virtual IParameter this[int index]
         {
             get
             {
@@ -80,42 +55,42 @@ namespace dbqf.Criterion
             }
         }
 
-        public void Add(IParameter item)
+        public virtual void Add(IParameter item)
         {
             _parameters.Add(item);
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             _parameters.Clear();
         }
 
-        public bool Contains(IParameter item)
+        public virtual bool Contains(IParameter item)
         {
             return _parameters.Contains(item);
         }
 
-        public void CopyTo(IParameter[] array, int arrayIndex)
+        public virtual void CopyTo(IParameter[] array, int arrayIndex)
         {
             _parameters.CopyTo(array, arrayIndex);
         }
 
-        public int Count
+        public virtual int Count
         {
             get { return _parameters.Count; }
         }
 
-        public bool IsReadOnly
+        public virtual bool IsReadOnly
         {
             get { return false; }
         }
 
-        public bool Remove(IParameter item)
+        public virtual bool Remove(IParameter item)
         {
             return _parameters.Remove(item);
         }
 
-        public IEnumerator<IParameter> GetEnumerator()
+        public virtual IEnumerator<IParameter> GetEnumerator()
         {
             return _parameters.GetEnumerator();
         }

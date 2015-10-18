@@ -25,7 +25,7 @@ namespace dbqf.Configuration
             _fields = new List<IField>();
         }
 
-        public IConfiguration Configuration
+        public virtual IConfiguration Configuration
         {
             get { return _configuration; }
             set
@@ -40,28 +40,9 @@ namespace dbqf.Configuration
         private IConfiguration _configuration;
         
         /// <summary>
-        /// Gets or sets the source from where this subject data is retrieved.  
-        /// In the case of an Sql configuration, Source would contain the SQL statement to retrieve results for this subject.
-        /// </summary>
-        public string Source
-        {
-            get { return _source; }
-            set
-            {
-                if (_source == value)
-                    return;
-
-                _source = value;
-                OnPropertyChanged("Source");
-            }
-        }
-        private string _source;
-        
-
-        /// <summary>
         /// Gets or sets the display name of this subject.
         /// </summary>
-        public string DisplayName
+        public virtual string DisplayName
         {
             get { return _display; }
             set
@@ -78,7 +59,7 @@ namespace dbqf.Configuration
         /// <summary>
         /// Gets or sets the default field that should be the default field to use when querying this subject.  This field must exist in the Fields list.
         /// </summary>
-        public IField DefaultField
+        public virtual IField DefaultField
         {
             get { return _defaultField; }
             set
@@ -95,7 +76,7 @@ namespace dbqf.Configuration
         /// <summary>
         /// Gets or sets the field that represents the key of this subject.  This field must exist in the Fields list.
         /// </summary>
-        public IField IdField
+        public virtual IField IdField
         {
             get { return _idField; }
             set
@@ -112,7 +93,7 @@ namespace dbqf.Configuration
         /// <summary>
         /// Used for serialisation.
         /// </summary>
-        public string DefaultFieldName
+        public virtual string DefaultFieldName
         {
             get { return _defaultFieldName; }
             set
@@ -135,7 +116,7 @@ namespace dbqf.Configuration
         protected IList<IField> _fields;
 
 
-        public IField this[string sourceName]
+        public virtual IField this[string sourceName]
         {
             get
             {
@@ -152,26 +133,20 @@ namespace dbqf.Configuration
         }
 
         #region Fluent
-
-        public Subject Sql(string sql)
-        {
-            Source = sql;
-            return this;
-        }
-
-        public Subject Field(IField field)
+        
+        public virtual Subject Field(IField field)
         {
             Add(field);
             return this;
         }
 
-        public Subject FieldId(IField field)
+        public virtual Subject FieldId(IField field)
         {
             IdField = field;
             return Field(field);
         }
 
-        public Subject FieldDefault(IField field)
+        public virtual Subject FieldDefault(IField field)
         {
             DefaultField = field;
             DefaultFieldName = field.SourceName;
@@ -193,22 +168,23 @@ namespace dbqf.Configuration
 
         #region IList Members
 
-        public int IndexOf(IField item)
+        public virtual int IndexOf(IField item)
         {
             return _fields.IndexOf(item);
         }
 
-        public void Insert(int index, IField item)
+        public virtual void Insert(int index, IField item)
         {
             _fields.Insert(index, item);
+            item.Subject = this;
         }
 
-        public void RemoveAt(int index)
+        public virtual void RemoveAt(int index)
         {
             _fields.RemoveAt(index);
         }
 
-        public IField this[int index]
+        public virtual IField this[int index]
         {
             get
             {
@@ -217,46 +193,53 @@ namespace dbqf.Configuration
             set
             {
                 _fields[index] = value;
+                value.Subject = this;
             }
         }
 
-        public void Add(IField item)
+        public virtual void Add(IField item)
         {
-            _fields.Add(item);
-            item.Subject = this;
+            if (!_fields.Contains(item))
+            {
+                _fields.Add(item);
+                item.Subject = this;
+            }
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
+            foreach (var f in _fields)
+                f.Subject = null;
             _fields.Clear();
         }
 
-        public bool Contains(IField item)
+        public virtual bool Contains(IField item)
         {
             return _fields.Contains(item);
         }
 
-        public void CopyTo(IField[] array, int arrayIndex)
+        public virtual void CopyTo(IField[] array, int arrayIndex)
         {
             _fields.CopyTo(array, arrayIndex);
         }
 
-        public int Count
+        public virtual int Count
         {
             get { return _fields.Count; }
         }
 
-        public bool IsReadOnly
+        public virtual bool IsReadOnly
         {
             get { return false; }
         }
 
-        public bool Remove(IField item)
+        public virtual bool Remove(IField item)
         {
+            item.Subject = null;
             return _fields.Remove(item);
         }
 
-        public IEnumerator<IField> GetEnumerator()
+        public virtual IEnumerator<IField> GetEnumerator()
         {
             return _fields.GetEnumerator();
         }

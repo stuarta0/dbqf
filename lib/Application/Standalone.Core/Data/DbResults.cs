@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Common;
-using dbqf.Sql.Processing;
+using dbqf.Sql;
 
 namespace Standalone.Core.Data
 {

@@ -1,5 +1,7 @@
 ﻿using dbqf.Configuration;
 using dbqf.Serialization.DTO;
+using dbqf.Sql.Configuration;
+using System;
 
 namespace dbqf.Serialization.Assemblers
 {
@@ -13,8 +15,14 @@ namespace dbqf.Serialization.Assemblers
 
         public ISubject Restore(SubjectDTO dto)
         {
-            var subject = new Subject();
-            subject.Source = dto.Source;
+            Subject subject;
+            if (String.IsNullOrEmpty(dto.Sql))
+                subject = new Subject();
+            else
+            {
+                subject = new SqlSubject();
+                ((SqlSubject)subject).Sql = dto.Sql;
+            }
             subject.DisplayName = dto.DisplayName;
             foreach (var f in dto.Fields)
                 subject.Field(_fieldAssembler.Restore(f));
@@ -26,7 +34,8 @@ namespace dbqf.Serialization.Assemblers
         public SubjectDTO Create(ISubject source)
         {
             var dto = new SubjectDTO();
-            dto.Source = source.Source;
+            if (source is ISqlSubject)
+                dto.Sql = ((ISqlSubject)source).Sql;
             dto.DisplayName = source.DisplayName;
             dto.IdFieldIndex = source.IndexOf(source.IdField);
             dto.DefaultFieldIndex = source.IndexOf(source.DefaultField);

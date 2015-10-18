@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace dbqf.Processing
+namespace dbqf.Sql
 {
     public class SqlStringParameter
     {

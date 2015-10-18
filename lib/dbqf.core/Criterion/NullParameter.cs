@@ -19,12 +19,5 @@ namespace dbqf.Criterion
         {
             Path = path;
         }
-
-        public SqlString ToSqlString()
-        {
-            return new SqlString()
-                .AddField(Path)
-                .Add(" IS NULL");
-        }
     }
 }

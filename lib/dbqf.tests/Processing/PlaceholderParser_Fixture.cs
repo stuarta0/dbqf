@@ -1,6 +1,6 @@
 ﻿using dbqf.Criterion;
 using dbqf.Processing;
-using dbqf.Sql.Processing;
+using dbqf.Sql;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

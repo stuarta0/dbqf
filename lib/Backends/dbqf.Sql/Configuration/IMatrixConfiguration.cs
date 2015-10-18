@@ -6,8 +6,6 @@ namespace dbqf.Sql.Configuration
 {
     public interface IMatrixConfiguration : IConfiguration
     {
-        MatrixNode this[ISubject from, ISubject to] { get; }
-        IMatrixConfiguration MatrixSubject(ISubject subject);
-        IMatrixConfiguration Matrix(ISubject from, ISubject to, string sql, string tooltip);
+        MatrixNode this[ISqlSubject from, ISqlSubject to] { get; }
     }
 }

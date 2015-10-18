@@ -1,15 +1,14 @@
-﻿using dbqf.Processing;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using dbqf.Criterion;
+using dbqf.Sql;
 
-namespace dbqf.Criterion
+namespace dbqf.Sql.Criterion
 {
     /// <summary>
     /// Essentially the equivalent of NHibernate ICriterion.
     /// Concrete classes represent replacement for SearchValue.
     /// </summary>
-    public interface IParameter
+    public interface ISqlParameter : IParameter
     {
+        SqlString ToSqlString();
     }
 }

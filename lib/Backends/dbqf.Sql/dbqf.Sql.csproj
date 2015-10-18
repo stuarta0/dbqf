@@ -35,13 +35,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\SqlField.cs" />
     <Compile Include="Configuration\IMatrixConfiguration.cs" />
+    <Compile Include="Configuration\ISqlSubject.cs" />
     <Compile Include="Configuration\MatrixConfiguration.cs" />
     <Compile Include="Configuration\MatrixNode.cs" />
+    <Compile Include="Configuration\SqlRelationField.cs" />
+    <Compile Include="Configuration\SqlSubject.cs" />
+    <Compile Include="Criterion\BetweenParameter.cs" />
+    <Compile Include="Criterion\Conjunction.cs" />
+    <Compile Include="Criterion\Disjunction.cs" />
+    <Compile Include="Criterion\ISqlParameter.cs" />
+    <Compile Include="Criterion\SqlJunction.cs" />
+    <Compile Include="Criterion\LikeParameter.cs" />
+    <Compile Include="Criterion\NotParameter.cs" />
+    <Compile Include="Criterion\NullParameter.cs" />
+    <Compile Include="Criterion\SimpleParameter.cs" />
+    <Compile Include="ISqlGenerator.cs" />
+    <Compile Include="SqlString.cs" />
+    <Compile Include="SqlStringParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Processing\SqlGenerator.cs" />
-    <Compile Include="Processing\SqlListGenerator.cs" />
-    <Compile Include="Processing\UniqueFieldPath.cs" />
+    <Compile Include="SqlGenerator.cs" />
+    <Compile Include="SqlListGenerator.cs" />
+    <Compile Include="UniqueFieldPath.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">

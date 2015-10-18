@@ -7,7 +7,7 @@ using System.Data;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace dbqf.Sql.Processing
+namespace dbqf.Sql
 {
     /// <summary>
     /// 
@@ -55,6 +55,10 @@ namespace dbqf.Sql.Processing
                 throw new Exception("No path given to resolve list data.");
             if (_path.Last.List == null || String.IsNullOrEmpty(_path.Last.List.Source))
                 throw new ArgumentException(String.Concat("No list source provided for ", _path.Description, "."));
+
+            foreach (var f in _path)
+                if (!(f is ISqlField))
+                    throw new ArgumentException("All fields in path must be of type ISqlField.");
         }
 
         /// <summary>
@@ -80,7 +84,7 @@ namespace dbqf.Sql.Processing
                 {
                     sb.AppendFormat("INNER JOIN ({2}) AS q{0} ON q{0}.[{3}] = q{1}.[{4}] ",
                         i, i + 1,
-                        _path[i].Subject.Source,
+                        ((ISqlSubject)_path[i].Subject).Sql,
                         _path[i].SourceName,
                         (i + 1 == _path.Count - 1 ? _idColumn : _path[i + 1].Subject.IdField.SourceName));
                 }

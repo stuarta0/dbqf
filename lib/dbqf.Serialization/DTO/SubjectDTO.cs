@@ -10,7 +10,7 @@ namespace dbqf.Serialization.DTO
         public string DisplayName { get; set; }
         
         [XmlElement]
-        public string Source { get; set; }
+        public string Sql { get; set; }
         
         [XmlAttribute("IdField")]
         public int IdFieldIndex { get; set; }

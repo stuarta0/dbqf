@@ -117,8 +117,6 @@
     <Compile Include="Hierarchy\DataNode.cs" />
     <Compile Include="Hierarchy\TemplateNode.cs" />
     <Compile Include="Processing\PlaceholderParser.cs" />
-    <Compile Include="Processing\SqlStringParameter.cs" />
-    <Compile Include="Processing\SqlString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Configuration\Subject.cs" />
     <Compile Include="Hierarchy\SortField.cs" />

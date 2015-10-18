@@ -2,32 +2,24 @@
 using dbqf.Criterion;
 using dbqf.Processing;
 using dbqf.Sql.Configuration;
+using dbqf.Sql.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace dbqf.Sql.Processing
+namespace dbqf.Sql
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class SqlGenerator
+    public class SqlGenerator : ISqlGenerator
     {
         protected IMatrixConfiguration _configuration;
         protected List<IFieldPath> _columns;
-        protected ISubject _target;
-        protected IParameter _where;
+        protected ISqlSubject _target;
+        protected ISqlParameter _where;
         protected List<IFieldPath> _groupBy;
         protected List<OrderedField> _orderBy;
 
         public bool AliasColumns { get; set; }
-
-        public enum SortDirection
-        {
-            Ascending,
-            Descending
-        }
 
         protected class OrderedField
         {
@@ -77,7 +69,7 @@ namespace dbqf.Sql.Processing
         /// The target subject to search for results.  This is the first query defined after the FROM clause.
         /// Setting this multiple times will simply use the last call.
         /// </summary>
-        public virtual SqlGenerator Target(ISubject subject)
+        public virtual SqlGenerator Target(ISqlSubject subject)
         {
             if (!_configuration.Contains(subject))
                 throw new ArgumentException("Target subject must be part of given configuration.");
@@ -89,7 +81,7 @@ namespace dbqf.Sql.Processing
         /// The parameter to restrict the results.  
         /// Setting this multiple times will simply use the last call.
         /// </summary>
-        public virtual SqlGenerator Where(IParameter where)
+        public virtual SqlGenerator Where(ISqlParameter where)
         {
             // should we check that all fields are part of subjects in the current configuration?
             _where = where;
@@ -272,7 +264,7 @@ namespace dbqf.Sql.Processing
             // Target subject will be q0
             // All other subjects aliased from q1 up
             var sb = new StringBuilder();
-            sb.AppendFormat("({0}) AS {1} ", _target.Source, paths[new FieldPath(_target.IdField)].Alias);
+            sb.AppendFormat("({0}) AS {1} ", _target.Sql, paths[new FieldPath(_target.IdField)].Alias);
             foreach (var ufp in paths)
             {
                 // if this isn't part of our original target, join through the matrix
@@ -283,7 +275,7 @@ namespace dbqf.Sql.Processing
                         paths[new FieldPath(_target.IdField)].Alias,
                         _configuration[_target, ufp.Subject].Query,
                         ufp.Alias,
-                        ufp.Subject.Source,
+                        ufp.Subject.Sql,
                         _target.IdField.SourceName,
                         ufp.Subject.IdField.SourceName);
                 }
@@ -297,7 +289,7 @@ namespace dbqf.Sql.Processing
                 {
                     var field = queue.Dequeue();
                     sb.AppendFormat("LEFT OUTER JOIN ({0}) AS {1} ON {1}.[{4}] = {2}.[{3}] ",
-                        field.Subject.Source,
+                        ((ISqlSubject)field.Subject).Sql,
                         field.Alias,
                         field.Predecessor.Alias,
                         field.Field.SourceName,

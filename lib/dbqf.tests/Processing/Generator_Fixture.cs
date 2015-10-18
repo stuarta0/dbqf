@@ -1,5 +1,5 @@
-﻿using dbqf.Criterion;
-using dbqf.Sql.Processing;
+﻿using dbqf.Sql.Criterion;
+using dbqf.Sql;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using dbqf.Criterion;
 
 namespace dbqf.core.tests.Processing
 {
@@ -107,7 +108,7 @@ ORDER BY Product.Name, BillOfMaterials.PerAssemblyQty");
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new SimpleParameter(aw.Products.DefaultField, "=", "Chain"));
+                .Where(new SqlSimpleParameter(aw.Products.DefaultField, "=", "Chain"));
                 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -122,7 +123,7 @@ WHERE     (Production.Product.Name = N'Chain')");
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new LikeParameter(aw.Products.DefaultField, "Chain"));
+                .Where(new SqlLikeParameter(aw.Products.DefaultField, "Chain"));
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -137,7 +138,7 @@ WHERE     (Production.Product.Name LIKE N'%Chain%')");
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new LikeParameter(aw.Products.DefaultField, "Lock", MatchMode.Start));
+                .Where(new SqlLikeParameter(aw.Products.DefaultField, "Lock", MatchMode.Start));
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -152,7 +153,7 @@ WHERE     (Production.Product.Name LIKE N'Lock%')");
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new LikeParameter(aw.Products.DefaultField, "Plate", MatchMode.End));
+                .Where(new SqlLikeParameter(aw.Products.DefaultField, "Plate", MatchMode.End));
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -167,7 +168,7 @@ WHERE     (Production.Product.Name LIKE N'%Plate')");
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new NotParameter(new SimpleParameter(aw.Products.DefaultField, "=", "Chain")));
+                .Where(new SqlNotParameter(new SqlSimpleParameter(aw.Products.DefaultField, "=", "Chain")));
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -187,9 +188,9 @@ WHERE     Production.Product.Name <> N'Chain'");
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new Conjunction()
-                    .Parameter(new SimpleParameter(aw.Products["Color"], "=", "Red"))
-                    .Parameter(new SimpleParameter(aw.Products["StandardCost"], ">", 2000)));
+                .Where(new SqlConjunction()
+                    .Parameter(new SqlSimpleParameter(aw.Products["Color"], "=", "Red"))
+                    .Parameter(new SqlSimpleParameter(aw.Products["StandardCost"], ">", 2000)));
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -204,7 +205,7 @@ WHERE     Production.Product.Color = N'Red' AND Production.Product.StandardCost 
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new Conjunction());
+                .Where(new SqlConjunction());
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -218,9 +219,9 @@ FROM         Production.Product");
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new Disjunction()
-                    .Parameter(new LikeParameter(aw.Products.DefaultField, "Crank"))
-                    .Parameter(new LikeParameter(aw.Products.DefaultField, "Washer")));
+                .Where(new SqlDisjunction()
+                    .Parameter(new SqlLikeParameter(aw.Products.DefaultField, "Crank"))
+                    .Parameter(new SqlLikeParameter(aw.Products.DefaultField, "Washer")));
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -235,13 +236,13 @@ WHERE     Production.Product.Name LIKE N'%Crank%' OR Production.Product.Name LIK
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new Conjunction()
-                    .Parameter(new Disjunction()
-                        .Parameter(new LikeParameter(aw.Products.DefaultField, "Crank"))
-                        .Parameter(new LikeParameter(aw.Products.DefaultField, "Frame")))
-                    .Parameter(new Disjunction()
-                        .Parameter(new LikeParameter(aw.Products["Color"], "Black"))
-                        .Parameter(new LikeParameter(aw.Products["Color"], "Red"))));
+                .Where(new SqlConjunction()
+                    .Parameter(new SqlDisjunction()
+                        .Parameter(new SqlLikeParameter(aw.Products.DefaultField, "Crank"))
+                        .Parameter(new SqlLikeParameter(aw.Products.DefaultField, "Frame")))
+                    .Parameter(new SqlDisjunction()
+                        .Parameter(new SqlLikeParameter(aw.Products["Color"], "Black"))
+                        .Parameter(new SqlLikeParameter(aw.Products["Color"], "Red"))));
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -257,7 +258,7 @@ WHERE     (Production.Product.Name LIKE N'%Crank%' OR Production.Product.Name LI
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new Disjunction().Parameter(new Conjunction()));
+                .Where(new SqlDisjunction().Parameter(new SqlConjunction()));
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -271,7 +272,7 @@ FROM         Production.Product");
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new NullParameter(aw.Products["Color"]));
+                .Where(new SqlNullParameter(aw.Products["Color"]));
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -286,7 +287,7 @@ WHERE     Production.Product.Color IS NULL");
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new BetweenParameter(aw.Products["StandardCost"], 50, 100));
+                .Where(new SqlBetweenParameter(aw.Products["StandardCost"], 50, 100));
 
             Test(gen, @"
 SELECT     Production.Product.ProductID
@@ -301,7 +302,7 @@ WHERE     Production.Product.StandardCost BETWEEN 50 AND 100");
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
                 .Column(new FieldPath(aw.Products.IdField))
-                .Where(new BetweenParameter(aw.Products["SellStartDate"],
+                .Where(new SqlBetweenParameter(aw.Products["SellStartDate"],
                     new DateTime(2006, 1, 1),
                     new DateTime(2006, 12, 31)));
 

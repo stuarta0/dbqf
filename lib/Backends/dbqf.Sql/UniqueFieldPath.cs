@@ -1,11 +1,12 @@
 ﻿using dbqf.Configuration;
 using dbqf.Criterion;
+using dbqf.Sql.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace dbqf.Sql.Processing
+namespace dbqf.Sql
 {
     /// <summary>
     /// A recursive dictionary to store unique join paths for a database query.
@@ -15,14 +16,14 @@ namespace dbqf.Sql.Processing
     {
         public UniqueFieldPath Predecessor { get; private set; }
         public string Alias { get; set; }
-        protected Dictionary<IRelationField, UniqueFieldPath> _paths;
+        protected Dictionary<ISqlRelationField, UniqueFieldPath> _paths;
 
-        public IRelationField Field 
+        public ISqlRelationField Field 
         { 
             get 
             {
-                if (_field is IRelationField)
-                    return (IRelationField)_field;
+                if (_field is ISqlRelationField)
+                    return (ISqlRelationField)_field;
                 return null;
             } 
         }
@@ -31,26 +32,26 @@ namespace dbqf.Sql.Processing
         /// <summary>
         /// If the field is an IRelationField, it's business as usual.  If it's not, we're at the root and field is the ID field.
         /// </summary>
-        public ISubject Subject
+        public ISqlSubject Subject
         {
             get
             {
-                if (_field is IRelationField)
-                    return ((IRelationField)_field).RelatedSubject;
-                return _field.Subject;
+                if (_field is ISqlRelationField)
+                    return (ISqlSubject)((IRelationField)_field).RelatedSubject;
+                return (ISqlSubject)_field.Subject;
             }
         }
 
-        public UniqueFieldPath(ISubject root)
+        public UniqueFieldPath(ISqlSubject root)
         {
             _field = root.IdField;
-            _paths = new Dictionary<IRelationField, UniqueFieldPath>();
+            _paths = new Dictionary<ISqlRelationField, UniqueFieldPath>();
         }
 
         public UniqueFieldPath(IRelationField field)
         {
             _field = field;
-            _paths = new Dictionary<IRelationField, UniqueFieldPath>();
+            _paths = new Dictionary<ISqlRelationField, UniqueFieldPath>();
         }
 
         public virtual void Add(IFieldPath path)
@@ -59,7 +60,7 @@ namespace dbqf.Sql.Processing
             if (path.Count <= 1)
                 return;
 
-            var field = (IRelationField)path[0];
+            var field = (ISqlRelationField)path[0];
             if (field.Subject.Equals(Subject))
             {
                 if (!_paths.ContainsKey(field))
@@ -77,7 +78,7 @@ namespace dbqf.Sql.Processing
                 // unwrap FieldPath recursively to find the last step, assuming FieldPath.Last is IField (i.e. we don't traverse it)
                 if (key.Count == 1)
                     return this;
-                return _paths[(IRelationField)key[0]][key[1,null]];
+                return _paths[(ISqlRelationField)key[0]][key[1,null]];
             }
         }
 
@@ -101,6 +102,8 @@ namespace dbqf.Sql.Processing
     }
 
     /// <summary>
+    /// Works with ISqlSubject, ISqlField, and ISqlRelationField.
+    /// 
     /// Simply a container to provide a way of keeping disconnected subjects together, i.e.
     /// if we had 3 different paths to add: Products.Category.Name = X, Products.Name = Y, Invoice.Date = Z
     /// in this example the UniqueFieldPaths object would contain a list of 2 UniqueFieldPath objects, 1 for Products root, and 1 for Invoice root.
@@ -124,7 +127,7 @@ namespace dbqf.Sql.Processing
             var root = new UniqueFieldPaths();
             foreach (var path in paths)
             {
-                var subject = path[0].Subject;
+                var subject = (ISqlSubject)path[0].Subject;
                 var uniquePath = root._paths.Find(m => m.Subject.Equals(subject));
                 if (uniquePath == null)
                     root._paths.Add(uniquePath = new UniqueFieldPath(subject));

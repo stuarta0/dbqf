@@ -23,13 +23,5 @@ namespace dbqf.Criterion
             Operator = op;
             Value = value;
         }
-
-        public SqlString ToSqlString()
-        {
-            return new SqlString()
-                .AddField(Path)
-                .Add(Operator)
-                .AddParameter(Value);
-        }
     }
 }

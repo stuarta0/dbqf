@@ -18,15 +18,15 @@ namespace dbqf.core.tests.Configuration
             var sql = "SELECT * FROM Table";
             var config = new MatrixConfiguration();
             config
-                .Subject(new Subject()
-                    .Sql(sql)
-                    .Field(new Field("column1", "display1", typeof(string)))
-                    .Field(new Field("column2", "display2", typeof(int))));
+                .Subject(new SqlSubject()
+                    .SqlQuery(sql)
+                    .Field(new SqlField("column1", "display1", typeof(string)))
+                    .Field(new SqlField("column2", "display2", typeof(int))));
 
             Assert.AreEqual(config.Count, 1);
 
             var s = config[0];
-            Assert.AreEqual(s.Source, sql);
+            Assert.AreEqual(s.Sql, sql);
             Assert.AreEqual(s.Count, 2);
 
             var f1 = s[0];
