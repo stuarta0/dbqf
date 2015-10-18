@@ -8,6 +8,7 @@ using dbqf.Serialization.Assemblers.Builders;
 using dbqf.Serialization.Assemblers.Criterion;
 using dbqf.Serialization.DTO.Builders;
 using dbqf.Serialization.DTO.Criterion;
+using dbqf.Sql.Criterion.Builders;
 using Standalone.Core.Serialization.Assemblers;
 
 namespace Standalone.Core.Installers

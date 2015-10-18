@@ -1,7 +1,9 @@
-﻿
-namespace dbqf.Criterion.Builders
+﻿using dbqf.Criterion;
+using dbqf.Criterion.Builders;
+
+namespace dbqf.Sql.Criterion.Builders
 {
-    public class NullBuilder : ParameterBuilder
+    public class NullBuilder : ParameterBuilder, INullBuilder
     {
         public NullBuilder()
         {

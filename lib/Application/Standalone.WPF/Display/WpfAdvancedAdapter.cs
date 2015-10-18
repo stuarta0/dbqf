@@ -1,4 +1,5 @@
 ﻿using dbqf.Configuration;
+using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.Display.Advanced;
 using dbqf.WPF.UIElements;

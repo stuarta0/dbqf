@@ -40,7 +40,7 @@ namespace dbqf.Display.Preset
         /// <summary>
         /// Gets or sets the parameter builder to use with this control.
         /// </summary>
-        public virtual ParameterBuilder SelectedBuilder 
+        public virtual IParameterBuilder SelectedBuilder 
         {
             get { return _builder; } 
             set
@@ -51,7 +51,7 @@ namespace dbqf.Display.Preset
                 OnPropertyChanged("SelectedBuilder");
             }
         }
-        protected ParameterBuilder _builder;
+        protected IParameterBuilder _builder;
 
         /// <summary>
         /// Gets the control to display on the preset control.  Type should be base control/widget type depending on the UI system in use.

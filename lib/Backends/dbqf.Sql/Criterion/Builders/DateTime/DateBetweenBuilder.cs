@@ -1,8 +1,10 @@
-﻿using dbqf.Criterion.Values;
+﻿using dbqf.Criterion;
+using dbqf.Criterion.Builders;
+using dbqf.Criterion.Values;
 
-namespace dbqf.Criterion.Builders
+namespace dbqf.Sql.Criterion.Builders
 {
-    public class DateBetweenBuilder : ParameterBuilder
+    public class DateBetweenBuilder : ParameterBuilder, IBetweenBuilder
     {
         public DateBetweenBuilder()
         {

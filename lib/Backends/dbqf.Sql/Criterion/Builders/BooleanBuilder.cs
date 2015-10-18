@@ -1,8 +1,10 @@
-﻿using System;
+﻿using dbqf.Criterion;
+using dbqf.Criterion.Builders;
+using System;
 
-namespace dbqf.Criterion.Builders
+namespace dbqf.Sql.Criterion.Builders
 {
-    public class BooleanBuilder : ParameterBuilder
+    public class BooleanBuilder : ParameterBuilder, IBooleanBuilder
     {
         public virtual bool Value
         {

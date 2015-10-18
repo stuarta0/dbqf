@@ -23,7 +23,7 @@ namespace _1_Getting_Started
             // Note: the ControlFactory and ParameterBuilderFactory can be reused across the application.
             var preset = new dbqf.WinForms.PresetView(new dbqf.Display.Preset.PresetAdapter<Control>(
                 new dbqf.WinForms.UIElements.WinFormsControlFactory(),
-                new dbqf.Display.ParameterBuilderFactory()));
+                new dbqf.Sql.Criterion.ParameterBuilderFactory()));
             preset.Adapter.SetParts(new dbqf.Display.FieldPathFactory().GetFields(config[0]));
             preset.Dock = DockStyle.Fill;
             this.Controls.Add(preset);

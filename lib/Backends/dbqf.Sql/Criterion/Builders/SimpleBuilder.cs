@@ -1,5 +1,6 @@
 ﻿
-namespace dbqf.Criterion.Builders
+using dbqf.Criterion;
+namespace dbqf.Sql.Criterion.Builders
 {
     public class SimpleBuilder : ParameterBuilder
     {

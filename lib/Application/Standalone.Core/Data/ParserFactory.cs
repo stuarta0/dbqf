@@ -13,7 +13,7 @@ namespace Standalone.Core.Data
         /// </summary>
         public Dictionary<dbqf.Configuration.IField, Parser> ParserLookup { get; set; }
 
-        public Parser Create(IFieldPath path, ParameterBuilder builder)
+        public Parser Create(IFieldPath path, IParameterBuilder builder)
         {
             Parser parser = null;
             if (ParserLookup != null && ParserLookup.ContainsKey(path.Last))

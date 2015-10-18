@@ -4,6 +4,7 @@ using System.Windows;
 using dbqf.Display;
 using dbqf.Display.Standard;
 using Standalone.Core.Data;
+using dbqf.Criterion;
 
 namespace Standalone.WPF.Display
 {

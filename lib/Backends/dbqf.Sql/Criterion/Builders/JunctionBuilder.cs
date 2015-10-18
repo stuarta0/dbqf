@@ -1,7 +1,9 @@
-﻿
-namespace dbqf.Criterion.Builders
+﻿using dbqf.Criterion;
+using dbqf.Criterion.Builders;
+
+namespace dbqf.Sql.Criterion.Builders
 {
-    public class JunctionBuilder : ParameterBuilder
+    public class JunctionBuilder : ParameterBuilder, IJunctionBuilder
     {
         private JunctionType _type;
         public virtual JunctionType Type
@@ -14,8 +16,8 @@ namespace dbqf.Criterion.Builders
             }
         }
 
-        private ParameterBuilder _other;
-        public virtual ParameterBuilder Other
+        private IParameterBuilder _other;
+        public virtual IParameterBuilder Other
         {
             get { return _other; }
             set 
@@ -41,7 +43,7 @@ namespace dbqf.Criterion.Builders
         {
             Type = type;
         }
-        public JunctionBuilder(JunctionType type, ParameterBuilder other)
+        public JunctionBuilder(JunctionType type, IParameterBuilder other)
             : this(type)
         {
             Other = other;

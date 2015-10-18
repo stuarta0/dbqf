@@ -11,7 +11,7 @@ namespace dbqf.Serialization.Assemblers.Builders
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="U"></typeparam>
     public class BuilderAssembler<T, U> : BuilderAssembler
-        where T : ParameterBuilder, new()
+        where T : IParameterBuilder, new()
         where U : ParameterBuilderDTO, new()
     {
         public BuilderAssembler(BuilderAssembler successor = null)
@@ -19,7 +19,7 @@ namespace dbqf.Serialization.Assemblers.Builders
         {
         }
 
-        public override ParameterBuilder Restore(ParameterBuilderDTO dto)
+        public override IParameterBuilder Restore(ParameterBuilderDTO dto)
         {
             var sb = dto as U;
             if (sb == null)
@@ -31,15 +31,14 @@ namespace dbqf.Serialization.Assemblers.Builders
             };
         }
 
-        public override ParameterBuilderDTO Create(ParameterBuilder b)
+        public override ParameterBuilderDTO Create(IParameterBuilder b)
         {
-            var sb = b as T;
-            if (sb == null)
+            if (!(b is T))
                 return base.Create(b);
 
             return new U()
             {
-                Label = sb.Label
+                Label = ((T)b).Label
             };
         }
     }

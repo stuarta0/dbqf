@@ -1,7 +1,9 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using dbqf.Criterion;
 using dbqf.Display;
+using dbqf.Sql.Criterion;
 
 namespace Standalone.Core.Installers
 {
@@ -14,6 +16,9 @@ namespace Standalone.Core.Installers
                 .If(type => type.Name.EndsWith("Factory"))
                 .LifestyleSingleton()
                 .WithService.DefaultInterfaces());
+
+            container.Register(Component.For<IParameterBuilderFactory>()
+                .ImplementedBy<ParameterBuilderFactory>().LifestyleSingleton());
         }
     }
 }

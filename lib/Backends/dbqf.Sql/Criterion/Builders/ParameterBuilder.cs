@@ -1,7 +1,9 @@
-﻿
-namespace dbqf.Criterion.Builders
+﻿using dbqf.Criterion;
+using dbqf.Criterion.Builders;
+
+namespace dbqf.Sql.Criterion.Builders
 {
-    public abstract class ParameterBuilder
+    public abstract class ParameterBuilder : IParameterBuilder
     {
         /// <summary>
         /// Gets or sets the label to display to the user.

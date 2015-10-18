@@ -34,7 +34,7 @@ namespace dbqf.Display.Advanced
             IParameterBuilderFactory builderFactory, 
             IControlFactory<T> controlFactory)
         {
-            // hook up utilities first so we can trickle down the initial ParameterBuilder/UIElement creation
+            // hook up utilities first so we can trickle down the initial IParameterBuilder/UIElement creation
             _builderFactory = builderFactory;
             _controlFactory = controlFactory;
             _pathCombo = pathCombo;
@@ -50,7 +50,7 @@ namespace dbqf.Display.Advanced
             // creating the UIElement in the case where the SelectedBuilder stays the same
             // (otherwise in some cases the field path would change, but the SelectedBuilder 
             // would stay the same and not recreate a new UIElement)
-            BuilderSource = new BindingList<ParameterBuilder>(_builderFactory.Build(_pathCombo.SelectedPath));
+            BuilderSource = new BindingList<IParameterBuilder>(_builderFactory.Build(_pathCombo.SelectedPath));
         }
 
         #region Field/Value Selection
@@ -85,7 +85,7 @@ namespace dbqf.Display.Advanced
         }
         private ISubject _selectedSubject;
 
-        public virtual BindingList<ParameterBuilder> BuilderSource
+        public virtual BindingList<IParameterBuilder> BuilderSource
         {
             get { return _builders; }
             set
@@ -109,9 +109,9 @@ namespace dbqf.Display.Advanced
                     SelectedBuilder = _builders[0];
             }
         }
-        private BindingList<ParameterBuilder> _builders;
+        private BindingList<IParameterBuilder> _builders;
 
-        public virtual ParameterBuilder SelectedBuilder
+        public virtual IParameterBuilder SelectedBuilder
         {
             get { return _selectedBuilder; }
             set
@@ -124,7 +124,7 @@ namespace dbqf.Display.Advanced
                 UIElement = _controlFactory.Build(_pathCombo.SelectedPath, _selectedBuilder);
             }
         }
-        private ParameterBuilder _selectedBuilder;
+        private IParameterBuilder _selectedBuilder;
 
         public virtual UIElement<T> UIElement
         {

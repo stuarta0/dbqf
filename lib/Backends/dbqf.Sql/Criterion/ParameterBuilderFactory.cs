@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using dbqf.Criterion;
 using dbqf.Criterion.Builders;
+using dbqf.Sql.Criterion.Builders;
 
-namespace dbqf.Display
+namespace dbqf.Sql.Criterion
 {
     /// <summary>
     /// A factory to create multiple parameter builders to use for a given field path.
@@ -15,9 +16,9 @@ namespace dbqf.Display
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public virtual IList<ParameterBuilder> Build(IFieldPath path)
+        public virtual IList<IParameterBuilder> Build(IFieldPath path)
         {
-            var builders = new List<ParameterBuilder>();
+            var builders = new List<IParameterBuilder>();
 
             if (path.Last.DataType == typeof(bool))
             {
@@ -86,9 +87,9 @@ namespace dbqf.Display
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public virtual ParameterBuilder GetDefault(IFieldPath path)
+        public virtual IParameterBuilder GetDefault(IFieldPath path)
         {
-            ParameterBuilder b;
+            IParameterBuilder b;
             if (path.Last.DataType == typeof(string))
                 b = new LikeBuilder(MatchMode.Anywhere);
             else if (path.Last.DataType == typeof(DateTime))

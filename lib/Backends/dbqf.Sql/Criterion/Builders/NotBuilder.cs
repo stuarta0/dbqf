@@ -1,11 +1,13 @@
-﻿using System;
+﻿using dbqf.Criterion;
+using dbqf.Criterion.Builders;
+using System;
 
-namespace dbqf.Criterion.Builders
+namespace dbqf.Sql.Criterion.Builders
 {
-    public class NotBuilder : ParameterBuilder
+    public class NotBuilder : ParameterBuilder, INotBuilder
     {
-        private ParameterBuilder _other;
-        public virtual ParameterBuilder Other
+        private IParameterBuilder _other;
+        public virtual IParameterBuilder Other
         {
             get { return _other; }
             set

@@ -1,6 +1,7 @@
-﻿using dbqf.Criterion.Values;
+﻿using dbqf.Criterion;
+using dbqf.Criterion.Values;
 
-namespace dbqf.Criterion.Builders
+namespace dbqf.Sql.Criterion.Builders
 {
     public class DateLtBuilder : ParameterBuilder
     {
