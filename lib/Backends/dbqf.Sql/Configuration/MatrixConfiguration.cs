@@ -37,7 +37,7 @@ namespace dbqf.Sql.Configuration
         private void TypeCheck(ISubject item)
         {
             if (!(item is ISqlSubject))
-                throw new ArgumentException("Subjects must be of type ISqlField.");
+                throw new ArgumentException("Subjects must be of type ISqlSubject.");
         }
 
         /// <summary>
@@ -45,18 +45,18 @@ namespace dbqf.Sql.Configuration
         /// </summary>
         /// <param name="subject"></param>
         /// <returns></returns>
-        public IMatrixConfiguration Subject(ISqlSubject subject)
+        public MatrixConfiguration Subject(ISqlSubject subject)
         {
             Add(subject);
             return this;
         }
 
-        public IMatrixConfiguration Matrix(ISqlSubject from, ISqlSubject to, string sql)
+        public MatrixConfiguration Matrix(ISqlSubject from, ISqlSubject to, string sql)
         {
             return Matrix(from, to, sql, null);
         }
 
-        public IMatrixConfiguration Matrix(ISqlSubject from, ISqlSubject to, string sql, string tooltip)
+        public MatrixConfiguration Matrix(ISqlSubject from, ISqlSubject to, string sql, string tooltip)
         {
             var node = _matrix[from][to];
             node.Query = sql;

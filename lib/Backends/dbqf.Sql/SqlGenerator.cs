@@ -154,6 +154,17 @@ namespace dbqf.Sql
                 throw new InvalidOperationException("No target specified.");
             if (_target.IdField == null)
                 throw new InvalidOperationException("Target IdField is null.");
+
+            // all fields in all parameters and columns must be linked to an ISqlSubject for this generator to operate correctly
+            var invalid = new List<IField>();
+            var paths = new List<IFieldPath>(_columns);
+            paths.AddRange(_where.ToSqlString().Flatten().Parts.FindAll(o => o is IFieldPath).ConvertAll<IFieldPath>(o => (IFieldPath)o));
+            foreach (var path in _columns)
+                foreach (var f in path)
+                    if (!(f.Subject is ISqlSubject))
+                        invalid.Add(f);
+            if (invalid.Count > 0)
+                throw new InvalidOperationException("All fields must relate to ISqlSubjects.");
         }
 
         /// <summary>

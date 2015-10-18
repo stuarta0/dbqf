@@ -10,18 +10,18 @@ namespace dbqf.core.tests
 {
     public sealed class AdventureWorks : MatrixConfiguration
     {
-        private ISubject _products, _materials, _category, _subCategory, _contacts, _sales, _salesDetails;
+        private ISqlSubject _products, _materials, _category, _subCategory, _contacts, _sales, _salesDetails;
 
         public AdventureWorks()
         {
             this
-                .MatrixSubject(Products)
-                .MatrixSubject(BillOfMaterials)
-                .MatrixSubject(ProductCategory)
-                .MatrixSubject(ProductSubCategory)
-                .MatrixSubject(Contacts)
-                .MatrixSubject(SalesOrders)
-                .MatrixSubject(SalesOrderDetails)
+                .Subject(Products)
+                .Subject(BillOfMaterials)
+                .Subject(ProductCategory)
+                .Subject(ProductSubCategory)
+                .Subject(Contacts)
+                .Subject(SalesOrders)
+                .Subject(SalesOrderDetails)
 
                 .Matrix(Products, Products, "SELECT ProductID AS FromID, ProductID AS ToID FROM Production.Products", "Search for products")
                 .Matrix(Products, BillOfMaterials, "SELECT [ProductAssemblyID] AS FromID, [BillOfMaterialsID] AS ToID FROM Production.BillOfMaterials", "Search for components that make up a product")
@@ -81,14 +81,14 @@ namespace dbqf.core.tests
                 ;
         }
 
-        public ISubject Products
+        public ISqlSubject Products
         {
             get
             {
                 if (_products == null)
                 {
-                    var s = new Subject("Products")
-                        .Sql(@"
+                    var s = (ISqlSubject)new SqlSubject("Products")
+                        .SqlQuery(@"
 SELECT ProductID AS ID, Product.Name, ProductNumber, Color, StandardCost, ListPrice, 
 Product.ProductSubcategoryID, ProductSubcategory.Name AS SubcategoryName, 
 ProductCategory.ProductCategoryID, ProductCategory.Name AS CategoryName,
@@ -114,14 +114,14 @@ LEFT OUTER JOIN Production.ProductCategory ON ProductSubcategory.ProductCategory
             }
         }
 
-        public ISubject BillOfMaterials
+        public ISqlSubject BillOfMaterials
         {
             get
             {
                 if (_materials == null)
                 {
-                    var s = new Subject("Bill Of Materials")
-                        .Sql(@"
+                    var s = (ISqlSubject)new SqlSubject("Bill Of Materials")
+                        .SqlQuery(@"
 SELECT BillOfMaterialsID AS ID, ProductAssemblyID, 
 ComponentID, StartDate, EndDate, UnitMeasureCode, BOMLevel, PerAssemblyQty
 FROM Production.BillOfMaterials")
@@ -138,14 +138,14 @@ FROM Production.BillOfMaterials")
             }
         }
 
-        public ISubject ProductCategory
+        public ISqlSubject ProductCategory
         {
             get
             {
                 if (_category == null)
                 {
-                    var s = new Subject("Product Category")
-                        .Sql("SELECT ProductCategoryID AS ID, Name FROM Production.ProductCategory")
+                    var s = (ISqlSubject)new SqlSubject("Product Category")
+                        .SqlQuery("SELECT ProductCategoryID AS ID, Name FROM Production.ProductCategory")
                         .FieldId(new Field("id", typeof(int)))
                         .FieldDefault(new Field("Name", typeof(string)) 
                         { 
@@ -162,14 +162,14 @@ FROM Production.BillOfMaterials")
             }
         }
 
-        public ISubject ProductSubCategory
+        public ISqlSubject ProductSubCategory
         {
             get
             {
                 if (_subCategory == null)
                 {
-                    var s = new Subject("Product Subcategory")
-                        .Sql("SELECT ProductSubcategoryID AS ID, Name FROM Production.ProductSubcategory")
+                    var s = (ISqlSubject)new SqlSubject("Product Subcategory")
+                        .SqlQuery("SELECT ProductSubcategoryID AS ID, Name FROM Production.ProductSubcategory")
                         .FieldId(new Field("id", typeof(int)))
                         .FieldDefault(new Field("Name", typeof(string)));
                     _subCategory = s;
@@ -179,14 +179,14 @@ FROM Production.BillOfMaterials")
             }
         }
 
-        public ISubject Contacts
+        public ISqlSubject Contacts
         {
             get
             {
                 if (_contacts == null)
                 {
-                    var s = new Subject("Contact")
-                        .Sql("SELECT ContactID AS ID, CAST(EmailPromotion AS bit) AS Promo, * FROM Person.Contact")
+                    var s = (ISqlSubject)new SqlSubject("Contact")
+                        .SqlQuery("SELECT ContactID AS ID, CAST(EmailPromotion AS bit) AS Promo, * FROM Person.Contact")
                         .FieldId(new Field("id", typeof(int)))
                         .Field(new Field("Title", typeof(string)))
                         .FieldDefault(new Field("FirstName", "First Name", typeof(string)))
@@ -201,14 +201,14 @@ FROM Production.BillOfMaterials")
             }
         }
 
-        public ISubject SalesOrders
+        public ISqlSubject SalesOrders
         {
             get
             {
                 if (_sales == null)
                 {
-                    var s = new Subject("Sales Orders")
-                        .Sql("SELECT SalesOrderID AS ID, SalesOrderHeader.* FROM Sales.SalesOrderHeader")
+                    var s = (ISqlSubject)new SqlSubject("Sales Orders")
+                        .SqlQuery("SELECT SalesOrderID AS ID, SalesOrderHeader.* FROM Sales.SalesOrderHeader")
                         .FieldId(new Field("id", typeof(int)))
                         .FieldDefault(new Field("SalesOrderNumber", "Number", typeof(string)))
                         .Field(new Field("Status", typeof(string)))
@@ -229,14 +229,14 @@ FROM Production.BillOfMaterials")
             }
         }
 
-        public ISubject SalesOrderDetails
+        public ISqlSubject SalesOrderDetails
         {
             get
             {
                 if (_salesDetails == null)
                 {
-                    var s = new Subject("Sales Orders Details")
-                        .Sql(@"
+                    var s = (ISqlSubject)new SqlSubject("Sales Orders Details")
+                        .SqlQuery(@"
 SELECT SalesOrderDetailID AS ID, SalesOrderHeader.SalesOrderNumber, SalesOrderDetail.* 
 FROM Sales.SalesOrderDetail 
 INNER JOIN Sales.SalesOrderHeader ON SalesOrderDetail.SalesOrderID = SalesOrderHeader.SalesOrderID")

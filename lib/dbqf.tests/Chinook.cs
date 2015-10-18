@@ -9,10 +9,10 @@ namespace dbqf.core.tests
             : base()
         {
             this
-                .MatrixSubject(Artist)
-                .MatrixSubject(Album)
-                .MatrixSubject(Track)
-                .MatrixSubject(Playlist)
+                .Subject(Artist)
+                .Subject(Album)
+                .Subject(Track)
+                .Subject(Playlist)
 
                 .Matrix(Artist, Album, "SELECT ArtistId FromID, AlbumID ToID FROM Album", "")
                 .Matrix(Artist, Track, "SELECT ArtistId FromID, TrackID ToID FROM Album INNER JOIN Track ON Album.AlbumId = Track.AlbumId", "")
@@ -33,28 +33,28 @@ namespace dbqf.core.tests
                 ;
         }
 
-        private ISubject _artist;
-        public ISubject Artist
+        private ISqlSubject _artist;
+        public ISqlSubject Artist
         {
             get
             {
                 if (_artist == null)
-                    _artist = new Subject("Artist")
-                        .Sql("Artist")
+                    _artist = (ISqlSubject)new SqlSubject("Artist")
+                        .SqlQuery("Artist")
                         .FieldId(new Field("ArtistId", typeof(int)))
                         .FieldDefault(new Field("Name", typeof(string)));
                 return _artist;
             }
         }
 
-        private ISubject _album;
-        public ISubject Album
+        private ISqlSubject _album;
+        public ISqlSubject Album
         {
             get
             {
                 if (_album == null)
-                    _album = new Subject("Album")
-                        .Sql("Album")
+                    _album = (ISqlSubject)new SqlSubject("Album")
+                        .SqlQuery("Album")
                         .FieldId(new Field("AlbumId", typeof(int)))
                         .FieldDefault(new Field("Title", typeof(string)))
                         .Field(new RelationField("ArtistId", "Artist", Artist));
@@ -62,14 +62,14 @@ namespace dbqf.core.tests
             }
         }
 
-        private ISubject _track;
-        public ISubject Track
+        private ISqlSubject _track;
+        public ISqlSubject Track
         {
             get
             {
                 if (_track == null)
-                    _track = new Subject("Track")
-                        .Sql(@"SELECT Track.*, MediaType.Name MTN, Genre.Name GN FROM Track 
+                    _track = (ISqlSubject)new SqlSubject("Track")
+                        .SqlQuery(@"SELECT Track.*, MediaType.Name MTN, Genre.Name GN FROM Track 
 LEFT OUTER JOIN MediaType ON MediaType.MediaTypeId = Track.MediaTypeId
 LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId")
                         .FieldId(new Field("TrackId", typeof(int)))
@@ -85,14 +85,14 @@ LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId")
             }
         }
 
-        private ISubject _playlist;
-        public ISubject Playlist
+        private ISqlSubject _playlist;
+        public ISqlSubject Playlist
         {
             get
             {
                 if (_playlist == null)
-                    _playlist = new Subject("Playlist")
-                        .Sql("Playlist")
+                    _playlist = (ISqlSubject)new SqlSubject("Playlist")
+                        .SqlQuery("Playlist")
                         .FieldId(new Field("PlaylistId", typeof(int)))
                         .FieldDefault(new Field("Name", typeof(string)));
                 return _playlist;
@@ -100,14 +100,14 @@ LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId")
         }
 
         // Join can be handle via matrix
-        //private ISubject _playlistTrack;
-        //public ISubject PlaylistTrack
+        //private ISqlSubject _playlistTrack;
+        //public ISqlSubject PlaylistTrack
         //{
         //    get
         //    {
         //        if (_playlistTrack == null)
-        //            _playlistTrack = new Subject("PlaylistTrack")
-        //                .Sql("Album")
+        //            _playlistTrack = new SqlSubject("PlaylistTrack")
+        //                .SqlQuery("Album")
         //                .FieldId(new Field("PlaylistId", typeof(int)))
         //                .FieldDefault(new Field("Name", typeof(string)))
         //                .Field(new RelationField("ArtistId", "Artist", typeof(int), Artist, null, null));
@@ -115,32 +115,32 @@ LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId")
         //    }
         //}
 
-        //private ISubject _employee;
-        //public ISubject Employee
+        //private ISqlSubject _employee;
+        //public ISqlSubject Employee
         //{
         //    get
         //    {
         //    }
         //}
 
-        //private ISubject _customer;
-        //public ISubject Customer
+        //private ISqlSubject _customer;
+        //public ISqlSubject Customer
         //{
         //    get
         //    {
         //    }
         //}
 
-        //private ISubject _invoice;
-        //public ISubject Invoice
+        //private ISqlSubject _invoice;
+        //public ISqlSubject Invoice
         //{
         //    get
         //    {
         //    }
         //}
 
-        //private ISubject _invoiceLine;
-        //public ISubject InvoiceLine
+        //private ISqlSubject _invoiceLine;
+        //public ISqlSubject InvoiceLine
         //{
         //    get
         //    {

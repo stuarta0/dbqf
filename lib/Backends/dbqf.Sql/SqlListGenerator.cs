@@ -57,8 +57,8 @@ namespace dbqf.Sql
                 throw new ArgumentException(String.Concat("No list source provided for ", _path.Description, "."));
 
             foreach (var f in _path)
-                if (!(f is ISqlField))
-                    throw new ArgumentException("All fields in path must be of type ISqlField.");
+                if (!(f.Subject is ISqlSubject))
+                    throw new ArgumentException("All fields must relate to ISqlSubjects.");
         }
 
         /// <summary>

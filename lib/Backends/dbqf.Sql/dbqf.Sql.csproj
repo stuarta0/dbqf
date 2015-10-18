@@ -35,12 +35,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\SqlField.cs" />
     <Compile Include="Configuration\IMatrixConfiguration.cs" />
     <Compile Include="Configuration\ISqlSubject.cs" />
     <Compile Include="Configuration\MatrixConfiguration.cs" />
     <Compile Include="Configuration\MatrixNode.cs" />
-    <Compile Include="Configuration\SqlRelationField.cs" />
     <Compile Include="Configuration\SqlSubject.cs" />
     <Compile Include="Criterion\BetweenParameter.cs" />
     <Compile Include="Criterion\Conjunction.cs" />

@@ -16,14 +16,14 @@ namespace dbqf.Sql
     {
         public UniqueFieldPath Predecessor { get; private set; }
         public string Alias { get; set; }
-        protected Dictionary<ISqlRelationField, UniqueFieldPath> _paths;
+        protected Dictionary<IRelationField, UniqueFieldPath> _paths;
 
-        public ISqlRelationField Field 
+        public IRelationField Field 
         { 
             get 
             {
-                if (_field is ISqlRelationField)
-                    return (ISqlRelationField)_field;
+                if (_field is IRelationField)
+                    return (IRelationField)_field;
                 return null;
             } 
         }
@@ -36,7 +36,7 @@ namespace dbqf.Sql
         {
             get
             {
-                if (_field is ISqlRelationField)
+                if (_field is IRelationField)
                     return (ISqlSubject)((IRelationField)_field).RelatedSubject;
                 return (ISqlSubject)_field.Subject;
             }
@@ -45,13 +45,13 @@ namespace dbqf.Sql
         public UniqueFieldPath(ISqlSubject root)
         {
             _field = root.IdField;
-            _paths = new Dictionary<ISqlRelationField, UniqueFieldPath>();
+            _paths = new Dictionary<IRelationField, UniqueFieldPath>();
         }
 
         public UniqueFieldPath(IRelationField field)
         {
             _field = field;
-            _paths = new Dictionary<ISqlRelationField, UniqueFieldPath>();
+            _paths = new Dictionary<IRelationField, UniqueFieldPath>();
         }
 
         public virtual void Add(IFieldPath path)
@@ -60,7 +60,7 @@ namespace dbqf.Sql
             if (path.Count <= 1)
                 return;
 
-            var field = (ISqlRelationField)path[0];
+            var field = (IRelationField)path[0];
             if (field.Subject.Equals(Subject))
             {
                 if (!_paths.ContainsKey(field))
@@ -78,7 +78,7 @@ namespace dbqf.Sql
                 // unwrap FieldPath recursively to find the last step, assuming FieldPath.Last is IField (i.e. we don't traverse it)
                 if (key.Count == 1)
                     return this;
-                return _paths[(ISqlRelationField)key[0]][key[1,null]];
+                return _paths[(IRelationField)key[0]][key[1,null]];
             }
         }
 
