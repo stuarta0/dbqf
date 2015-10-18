@@ -57,7 +57,7 @@ namespace dbqf.Sql.Criterion.Builders
             if (values == null)
                 return Other.Build(path, null);
 
-            Junction j = (Type == JunctionType.Conjunction ? (Junction)new Conjunction() : new Disjunction());
+            Junction j = (Type == JunctionType.Conjunction ? (Junction)new SqlConjunction() : new SqlDisjunction());
             foreach (var v in values)
             {
                 var p = Other.Build(path, v);

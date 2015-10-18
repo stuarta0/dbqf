@@ -59,7 +59,7 @@ namespace dbqf.Sql.Criterion.Builders
 
             var v = values[0];
             if (v is string)
-                return new LikeParameter(path, (string)v, Mode);
+                return new SqlLikeParameter(path, (string)v, Mode);
             return null;
         }
 

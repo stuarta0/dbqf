@@ -39,10 +39,10 @@ namespace dbqf.Sql.Criterion.Builders
         public override IParameter Build(IFieldPath path, params object[] values)
         {
             var other = Other.Build(path, values);
-            if (other == null)
+            if (other == null || !(other is ISqlParameter))
                 return null;
 
-            return new NotParameter(other);
+            return new SqlNotParameter((ISqlParameter)other);
         }
 
         public override bool Equals(object obj)

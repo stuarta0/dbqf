@@ -15,7 +15,7 @@ namespace dbqf.Sql.Criterion.Builders
         /// </summary>
         public override IParameter Build(IFieldPath path, params object[] values)
         {
-            return new NullParameter(path);
+            return new SqlNullParameter(path);
         }
 
         public override bool Equals(object obj)

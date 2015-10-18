@@ -120,9 +120,9 @@ namespace Standalone.Forms
 
             var fields = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject);
             var gen = ResultFactory.CreateSqlGenerator(Project.Configuration)
-                .Target(SelectedSubject)
+                .Target((dbqf.Sql.Configuration.ISqlSubject)SelectedSubject)
                 .Column(fields)
-                .Where(parameter);
+                .Where((dbqf.Sql.Criterion.ISqlParameter)parameter);
 
             Result.DataSource = null;
             ResultSQL = ((ExposedSqlGenerator)gen).GenerateSql();

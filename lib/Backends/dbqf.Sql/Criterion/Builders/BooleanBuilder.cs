@@ -41,7 +41,7 @@ namespace dbqf.Sql.Criterion.Builders
         /// </summary>
         public override IParameter Build(IFieldPath path, params object[] values)
         {
-            return new SimpleParameter(path, (Value ? "<>" : "="), 0);
+            return new SqlSimpleParameter(path, (Value ? "<>" : "="), 0);
         }
 
         public override bool Equals(object obj)

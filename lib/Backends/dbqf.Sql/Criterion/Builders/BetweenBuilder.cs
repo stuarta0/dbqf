@@ -24,11 +24,11 @@ namespace dbqf.Sql.Criterion.Builders
             if (v != null)
             {
                 if (v.From != null && v.To != null)
-                    return new BetweenParameter(path, v.From, v.To);
+                    return new SqlBetweenParameter(path, v.From, v.To);
                 else if (v.To == null)
-                    return new SimpleParameter(path, ">=", v.From);
+                    return new SqlSimpleParameter(path, ">=", v.From);
                 else if (v.From == null)
-                    return new SimpleParameter(path, "<=", v.To);
+                    return new SqlSimpleParameter(path, "<=", v.To);
             }
 
             return null;

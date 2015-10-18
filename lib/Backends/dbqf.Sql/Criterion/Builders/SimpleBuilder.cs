@@ -44,7 +44,7 @@ namespace dbqf.Sql.Criterion.Builders
             if (values == null || values.Length == 0)
                 return null;
 
-            return new SimpleParameter(path, Operator, values[0]);
+            return new SqlSimpleParameter(path, Operator, values[0]);
         }
 
         public override bool Equals(object obj)
