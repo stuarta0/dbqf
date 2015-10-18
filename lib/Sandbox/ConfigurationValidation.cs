@@ -9,14 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Standalone.Core.Data.Processing;
 using System.Text.RegularExpressions;
+using dbqf.Sql;
+using dbqf.Sql.Configuration;
 
 namespace Sandbox
 {
     class ConfigurationValidation
     {
-        private IConfiguration _configuration;
+        private IMatrixConfiguration _configuration;
         private DbConnection _conn;
-        public ConfigurationValidation(IConfiguration config, DbConnection conn)
+        public ConfigurationValidation(IMatrixConfiguration config, DbConnection conn)
         {
             _configuration = config;
             _conn = conn;
@@ -32,7 +34,7 @@ namespace Sandbox
             var broken = new List<ISubject>();
 
             // ensure all the source data from the subjects can be executed as SQL
-            foreach (var subject in _configuration)
+            foreach (ISqlSubject subject in _configuration)
             {
                 // check subject and all non-related fields first
                 var fields = subject.FindAll<IField>(f => !(f is IRelationField))
@@ -121,9 +123,9 @@ namespace Sandbox
 
 
             // ensure all path SQL statements execute successfully
-            foreach (var from in _configuration)
+            foreach (ISqlSubject from in _configuration)
             {
-                foreach (var to in _configuration)
+                foreach (ISqlSubject to in _configuration)
                 {
                     if (broken.Contains(from))
                     {

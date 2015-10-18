@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using dbqf.Configuration;
+using dbqf.Sql.Configuration;
 
 namespace Sandbox
 {
@@ -62,7 +63,7 @@ namespace Sandbox
             }
         }
 
-        public string Generate(IConfiguration configuration, string namespaceName, string className)
+        public string Generate(IMatrixConfiguration configuration, string namespaceName, string className)
         {
             // I could use T4, but that requires time spent learning it which I'm short on at the moment
             var sb = new StringBuilder(String.Format(@"
@@ -94,7 +95,7 @@ namespace {0}
             {
                 for (int j = 0; j < configuration.Count; j++)
                 {
-                    var node = configuration[configuration[i], configuration[j]];
+                    var node = configuration[(ISqlSubject)configuration[i], (ISqlSubject)configuration[j]];
                     if (!String.IsNullOrWhiteSpace(node.Query))
                         sb.AppendLine(String.Format("            .Matrix({0}, {1}, @{2}, @{3})", 
                             names[configuration[i]].Name, names[configuration[j]].Name, 
@@ -108,7 +109,7 @@ namespace {0}
 ");
 
             // add subject properties
-            foreach (var subject in configuration)
+            foreach (ISqlSubject subject in configuration)
             {
                 sb.AppendLine(String.Format(@"
         private Subject {0};
@@ -124,7 +125,7 @@ namespace {0}
                     names[subject].MemberName,
                     names[subject].Name,
                     Quote(subject.DisplayName),
-                    Quote(subject.Source),
+                    Quote(subject.Sql),
                     FieldText(subject.IdField, names) // we need to set this up before continuing with the remaining fields as RelationFields reference the related subject IdField for DataType
                     ));
 
