@@ -6,7 +6,7 @@ namespace dbqf.Sql.Configuration
     /// <summary>
     /// Represents a subject in the database; usually maps directly to a database table.
     /// </summary>
-    public class SqlSubject : Subject
+    public class SqlSubject : Subject, ISqlSubject
     {
         /// <summary>
         /// Serializable constructor

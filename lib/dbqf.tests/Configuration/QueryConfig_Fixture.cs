@@ -18,14 +18,14 @@ namespace dbqf.core.tests.Configuration
             var sql = "SELECT * FROM Table";
             var config = new MatrixConfiguration();
             config
-                .Subject(new SqlSubject()
+                .Subject((ISqlSubject)new SqlSubject()
                     .SqlQuery(sql)
-                    .Field(new SqlField("column1", "display1", typeof(string)))
-                    .Field(new SqlField("column2", "display2", typeof(int))));
+                    .Field(new Field("column1", "display1", typeof(string)))
+                    .Field(new Field("column2", "display2", typeof(int))));
 
             Assert.AreEqual(config.Count, 1);
 
-            var s = config[0];
+            var s = (ISqlSubject)config[0];
             Assert.AreEqual(s.Sql, sql);
             Assert.AreEqual(s.Count, 2);
 
@@ -63,12 +63,12 @@ namespace dbqf.core.tests.Configuration
         [Test]
         public void Fluent_config_complex_field()
         {
-            ISubject s1, s2;
+            ISqlSubject s1, s2;
             var config = new MatrixConfiguration();
             config
-                .Subject(s1 = new Subject()
+                .Subject(s1 = (ISqlSubject)new SqlSubject()
                     .Field(new Field("column1", "display1", typeof(string))))
-                .Subject(s2 = new Subject()
+                .Subject(s2 = (ISqlSubject)new SqlSubject()
                     .Field(new RelationField("column1", "display1", typeof(Guid), s1)));
 
             Assert.AreEqual(config.Count, 2);
@@ -84,12 +84,12 @@ namespace dbqf.core.tests.Configuration
         [Test]
         public void Fluent_config_matrix()
         {
-            ISubject s1, s2;
+            ISqlSubject s1, s2;
             var config = new MatrixConfiguration();
             config
-                .Subject(s1 = new Subject()
+                .Subject(s1 = (ISqlSubject)new SqlSubject()
                     .Field(new Field("column1", "display1", typeof(string))))
-                .Subject(s2 = new Subject()
+                .Subject(s2 = (ISqlSubject)new SqlSubject()
                     .Field(new RelationField("column1", "display1", typeof(Guid), s1)));
 
             MatrixNode n;

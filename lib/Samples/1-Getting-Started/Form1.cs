@@ -11,7 +11,7 @@ namespace _1_Getting_Started
 
             // Created once for the lifetime of the application.
             var config = new dbqf.Sql.Configuration.MatrixConfiguration()
-              .Subject((dbqf.Configuration.ISqlSubject)new dbqf.Sql.Configuration.SqlSubject("Test")
+              .Subject((dbqf.Sql.Configuration.ISqlSubject)new dbqf.Sql.Configuration.SqlSubject("Test")
                   .SqlQuery("SELECT * FROM [Test]")
                   .FieldId(new dbqf.Configuration.Field("Id", typeof(int)))
                   .FieldDefault(new dbqf.Configuration.Field("Name", typeof(string)))

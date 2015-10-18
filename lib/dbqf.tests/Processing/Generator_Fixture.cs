@@ -74,8 +74,8 @@ LEFT OUTER JOIN Production.ProductCategory ON ProductSubcategory.ProductCategory
             var aw = new AdventureWorks();
             var gen = new SqlGenerator(aw)
                 .Target(aw.Products)
-                .ColumnOrderBy(new FieldPath(aw.Products["Name"]), SqlGenerator.SortDirection.Ascending)
-                .ColumnOrderBy(new FieldPath(aw.BillOfMaterials["PerAssemblyQty"]), SqlGenerator.SortDirection.Ascending);
+                .ColumnOrderBy(new FieldPath(aw.Products["Name"]), SortDirection.Ascending)
+                .ColumnOrderBy(new FieldPath(aw.BillOfMaterials["PerAssemblyQty"]), SortDirection.Ascending);
 
             Test(gen, @"
 SELECT     Production.Product.Name, Production.BillOfMaterials.PerAssemblyQty

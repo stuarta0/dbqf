@@ -33,7 +33,7 @@ namespace dbqf.Serialization.Assemblers
                 for (int j = 0; j < count; j++)
                 {
                     var m = dto[i, j];
-                    configuration.Matrix(configuration[i], configuration[j], m.Query, m.ToolTip);
+                    configuration.Matrix((ISqlSubject)configuration[i], (ISqlSubject)configuration[j], m.Query, m.ToolTip);
                 }
             }
 
@@ -45,9 +45,9 @@ namespace dbqf.Serialization.Assemblers
             var dto = new MatrixConfigurationDTO(source.Count);
             for (int i = 0; i < source.Count; i++)
             {
-                dto[i] = _subjectAssembler.Create(source[i]);
+                dto[i] = _subjectAssembler.Create((ISqlSubject)source[i]);
                 for (int j = 0; j < source.Count; j++)
-                    dto[i, j] = Create(source[source[i], source[j]]);
+                    dto[i, j] = Create(source[(ISqlSubject)source[i], (ISqlSubject)source[j]]);
             }
             return dto;
         }

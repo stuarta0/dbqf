@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-namespace dbqf.Configuration
+﻿using dbqf.Configuration;
+
+namespace dbqf.Sql.Configuration
 {
     public interface ISqlSubject : ISubject
     {
