@@ -60,10 +60,15 @@
   <ItemGroup>
     <Compile Include="Data\DbResults.cs" />
     <Compile Include="Data\ExtendedDateParser.cs" />
+    <Compile Include="Data\IDbService.cs" />
+    <Compile Include="Data\SearchDetails.cs" />
+    <Compile Include="Data\ISearchDetails.cs" />
     <Compile Include="Data\ISqlResults.cs" />
     <Compile Include="Data\ParserFactory.cs" />
     <Compile Include="Data\Processing\ExposedSqlGenerator.cs" />
     <Compile Include="ApplicationBase.cs" />
+    <Compile Include="Data\SQLiteService.cs" />
+    <Compile Include="Data\SqlService.cs" />
     <Compile Include="Display\ConnectionAdapter.cs" />
     <Compile Include="Display\ProjectAdapter.cs" />
     <Compile Include="Export\Filter.cs" />

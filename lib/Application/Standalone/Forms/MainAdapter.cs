@@ -115,49 +115,20 @@ namespace Standalone.Forms
                 CancelSearch();
             }
 
-            var worker = (SearchWorker = new BackgroundWorker());
-            worker.WorkerSupportsCancellation = true;
-
-            var fields = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject);
-            var gen = ResultFactory.CreateSqlGenerator(Project.Configuration)
-                .Target((dbqf.Sql.Configuration.ISqlSubject)SelectedSubject)
-                .Column(fields)
-                .Where((dbqf.Sql.Criterion.ISqlParameter)parameter);
-
-            Result.DataSource = null;
-            ResultSQL = ((ExposedSqlGenerator)gen).GenerateSql();
-            var repo = ResultFactory.CreateSqlResults(Project.CurrentConnection);
-            worker.DoWork += (s1, e1) =>
+            // Get results asynchronously
+            new SQLiteService(this.Project.Configuration, this.Project.CurrentConnection.ConnectionString).GetResults(
+                new SearchDetails()
                 {
-                    e1.Result = repo.GetResults(gen);
-                    e1.Cancel = worker.CancellationPending;
-                };
-            worker.RunWorkerCompleted += (s2, e2) =>
-                {
-                    worker.Dispose();
+                    Target = SelectedSubject,
+                    Columns = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject),
+                    Where = parameter
+                }, SearchComplete);
+        }
 
-                    // cancellation assumes the SearchWorker property has been set null
-                    if (e2.Cancelled)
-                        return;
-                    
-                    // should it ever occur that a worker that isn't cancelled is replaced?
-                    if (SearchWorker == worker)
-                        SearchWorker = null;
-
-                    if (e2.Error != null)
-                    {
-                        MessageBox.Show("There was an error when trying to perform the search.\n\n" + e2.Error.Message, "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                    else
-                    {
-                        // assign field references to columns returned
-                        var data = (DataTable)e2.Result;
-                        for (int i = 0; i < data.Columns.Count; i++)
-                            data.Columns[i].ExtendedProperties.Add("FieldPath", fields[i]);
-                        Result.DataSource = data;
-                    }
-                };
-            worker.RunWorkerAsync();
+        private void SearchComplete(ISearchDetails details, DataTable result)
+        {
+            ResultSQL = ((SearchDetails)details).Sql;
+            Result.DataSource = result;
         }
 
         public override bool Export(string filename)
