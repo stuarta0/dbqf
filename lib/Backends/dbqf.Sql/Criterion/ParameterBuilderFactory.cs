@@ -11,6 +11,22 @@ namespace dbqf.Sql.Criterion
     /// </summary>
     public class ParameterBuilderFactory : IParameterBuilderFactory
     {
+        public IJunction Conjunction(params IParameter[] parameters)
+        {
+            var j = new SqlConjunction();
+            foreach (var p in parameters)
+                j.Add(p);
+            return j;
+        }
+
+        public IJunction Disjunction(params IParameter[] parameters)
+        {
+            var j = new SqlDisjunction();
+            foreach (var p in parameters)
+                j.Add(p);
+            return j;
+        }
+
         /// <summary>
         /// Creates a list of builders relevant to the given field path.
         /// </summary>

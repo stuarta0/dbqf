@@ -11,6 +11,8 @@ namespace dbqf.Hierarchy
     /// </summary>
     public class DataNode
     {
+        public IParameterBuilderFactory Builder { get; set; }
+
         /// <summary>
         /// Indicates which node in the template this data node came from.  Used when determining how to load children.
         /// NOTE: This property must be assigned - all code relies on this.
@@ -154,7 +156,7 @@ namespace dbqf.Hierarchy
 
                     // start with the given additionalParameters which will just be combined with any other parameters from parent template nodes
                     // this allows for further filtering at any level of the tree if necessary
-                    var p = new Conjunction();
+                    var p = Builder.Conjunction();
 
                     // gather parameters to narrow results for this child
                     // loop condition has additional check to ensure we don't traverse off the top of the tree
@@ -281,10 +283,7 @@ namespace dbqf.Hierarchy
                 // we also want to combine any custom parameters that this node might have
                 if (p != null)
                 {
-                    var c = new Conjunction()
-                        .Parameter(p)
-                        .Parameter(p2);
-                    p = c;
+                    p = Builder.Conjunction(p, p2);
                 }
                 else
                     p = p2;

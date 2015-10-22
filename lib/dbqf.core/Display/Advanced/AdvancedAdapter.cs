@@ -210,7 +210,7 @@ namespace dbqf.Display.Advanced
 
         protected virtual AdvancedPartJunction CreateJunction(JunctionType type)
         {
-            return new AdvancedPartJunction(type);
+            return new AdvancedPartJunction(type) { Builder = _builderFactory };
         }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace dbqf.Display.Advanced
         {
             if (Part is IPartViewNode)
             {
-                var junction = new AdvancedPartJunction();
+                var junction = new AdvancedPartJunction() { Builder = _builderFactory };
                 junction.Add(Part);
                 return junction;
             }

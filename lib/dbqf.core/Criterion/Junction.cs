@@ -6,7 +6,7 @@ using System.Text;
 
 namespace dbqf.Criterion
 {
-    public abstract class Junction : IParameter, IList<IParameter>
+    public abstract class Junction : IJunction, IList<IParameter>
     {
         private IList<IParameter> _parameters;
 

@@ -62,6 +62,7 @@
     <Compile Include="Criterion\FieldPath.cs" />
     <Compile Include="Criterion\IFieldPath.cs" />
     <Compile Include="Criterion\IGetParameter.cs" />
+    <Compile Include="Criterion\IJunction.cs" />
     <Compile Include="Criterion\Junction.cs" />
     <Compile Include="Criterion\NotParameter.cs" />
     <Compile Include="Criterion\NullParameter.cs" />

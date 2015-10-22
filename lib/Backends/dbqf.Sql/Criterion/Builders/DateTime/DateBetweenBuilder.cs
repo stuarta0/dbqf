@@ -32,7 +32,7 @@ namespace dbqf.Sql.Criterion.Builders
                 if (from == null && to == null)
                     return null;
                 else if (from != null && to != null)
-                    return new Conjunction()
+                    return new SqlConjunction()
                         .Parameter(new SimpleParameter(path, ">=", from.Lower))
                         .Parameter(new SimpleParameter(path, "<", to.Upper));
                 else if (to == null)

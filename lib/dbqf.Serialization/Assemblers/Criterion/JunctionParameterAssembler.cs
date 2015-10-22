@@ -6,9 +6,11 @@ namespace dbqf.Serialization.Assemblers.Criterion
 {
     public class JunctionParameterAssembler : ParameterAssembler
     {
-        public JunctionParameterAssembler(AssemblyLine<IParameter, ParameterDTO> successor = null)
+        private IParameterBuilderFactory _builder;
+        public JunctionParameterAssembler(IParameterBuilderFactory builder, AssemblyLine<IParameter, ParameterDTO> successor = null)
             : base(successor)
         {
+            _builder = builder;
         }
 
         public override dbqf.Criterion.IParameter Restore(DTO.Criterion.ParameterDTO dto)
@@ -17,7 +19,7 @@ namespace dbqf.Serialization.Assemblers.Criterion
             if (j == null)
                 return base.Restore(dto);
 
-            Junction result = j is ConjunctionDTO ? (Junction)new Conjunction() : (Junction)new Disjunction();
+            IJunction result = j is ConjunctionDTO ? _builder.Conjunction() : _builder.Disjunction();
             foreach (var p in j.Parameters)
                 result.Add(Chain.Restore(p));
 

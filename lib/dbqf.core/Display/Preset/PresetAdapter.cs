@@ -28,7 +28,7 @@ namespace dbqf.Display.Preset
         protected BindingList<PresetPart<T>> _parts;
         public IPartViewJunction GetParts()
         {
-            var conjunction = new PartViewJunction() { Type = JunctionType.Conjunction };
+            var conjunction = new PartViewJunction() { Type = JunctionType.Conjunction, Builder = _builderFactory };
             foreach (var part in Parts)
             {
                 if (part.GetParameter() != null)
@@ -139,7 +139,7 @@ namespace dbqf.Display.Preset
         /// <returns></returns>
         public virtual IParameter GetParameter()
         {
-            var con = new Conjunction();
+            var con = _builderFactory.Conjunction();
             foreach (var c in Parts)
             {
                 var p = c.GetParameter();

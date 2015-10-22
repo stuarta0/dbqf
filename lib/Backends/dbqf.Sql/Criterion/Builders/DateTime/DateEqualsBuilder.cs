@@ -22,7 +22,7 @@ namespace dbqf.Sql.Criterion.Builders
             if (values[0] is DateValue)
             {
                 var date = (DateValue)values[0];
-                return new Conjunction()
+                return new SqlConjunction()
                     .Parameter(new SimpleParameter(path, ">=", date.Lower))
                     .Parameter(new SimpleParameter(path, "<", date.Upper));
             }
