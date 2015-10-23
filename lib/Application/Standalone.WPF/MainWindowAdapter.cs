@@ -317,49 +317,20 @@ namespace Standalone.WPF
                 CancelSearch();
             }
 
-            var worker = (SearchWorker = new BackgroundWorker());
-            worker.WorkerSupportsCancellation = true;
-
-            var fields = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject);
-            var gen = ResultFactory.CreateSqlGenerator(ProjectAdapter.Project.Configuration)
-                .ForTarget((dbqf.Sql.Configuration.ISqlSubject)SelectedSubject)
-                .Column(fields)
-                .WithWhere((dbqf.Sql.Criterion.ISqlParameter)parameter);
-
-            Result = null;
-            ResultSQL = ((ExposedSqlGenerator)gen).GenerateSql();
-            var repo = ResultFactory.CreateSqlResults(ProjectAdapter.Project.CurrentConnection);
-            worker.DoWork += (s1, e1) =>
-            {
-                e1.Result = repo.GetResults(gen);
-                e1.Cancel = worker.CancellationPending;
-            };
-            worker.RunWorkerCompleted += (s2, e2) =>
-            {
-                worker.Dispose();
-
-                // cancellation assumes the SearchWorker property has been set null
-                if (e2.Cancelled)
-                    return;
-
-                // should it ever occur that a worker that isn't cancelled is replaced?
-                if (SearchWorker == worker)
-                    SearchWorker = null;
-
-                if (e2.Error != null)
+            // Get results asynchronously
+            new SQLiteService(this.Project.Configuration, this.Project.CurrentConnection.ConnectionString).GetResults(
+                new SearchDetails()
                 {
-                    MessageBox.Show("There was an error when trying to perform the search.\n\n" + e2.Error.Message, "Search", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                }
-                else
-                {
-                    // assign field references to columns returned
-                    var data = (DataTable)e2.Result;
-                    for (int i = 0; i < data.Columns.Count; i++)
-                        data.Columns[i].ExtendedProperties.Add("FieldPath", fields[i]);
-                    Result = data;
-                }
-            };
-            worker.RunWorkerAsync();
+                    Target = SelectedSubject,
+                    Columns = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject),
+                    Where = parameter
+                }, SearchComplete);
+        }
+
+        private void SearchComplete(ISearchDetails details, DataTable result)
+        {
+            ResultSQL = ((SearchDetails)details).Sql;
+            Result = result;
         }
 
         public override bool Export(string filename)

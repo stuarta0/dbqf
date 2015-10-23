@@ -138,7 +138,7 @@ namespace dbqf.Display.Advanced
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        bool IEquatable<IPartView>.Equals(IPartView other)
+        public override bool Equals(IPartView other)
         {
             if (other == null || !(other is IPartViewNode))
                 return false;
@@ -153,7 +153,7 @@ namespace dbqf.Display.Advanced
         public override bool Equals(object obj)
         {
             if (obj is IPartView)
-                return Equals((IPartView)obj);
+                return this.Equals((IPartView)obj);
             return base.Equals(obj);
         }
 

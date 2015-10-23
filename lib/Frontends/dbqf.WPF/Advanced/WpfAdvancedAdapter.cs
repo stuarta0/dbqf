@@ -73,7 +73,7 @@ namespace dbqf.WPF.Advanced
 
         protected override AdvancedPartJunction CreateJunction(JunctionType type)
         {
-            return new WpfAdvancedPartJunction(type);
+            return new WpfAdvancedPartJunction(type) { Builder = _builderFactory };
         }
     }
 }
