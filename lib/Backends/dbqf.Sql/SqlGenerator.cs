@@ -13,13 +13,20 @@ namespace dbqf.Sql
     public class SqlGenerator : ISqlGenerator
     {
         protected IMatrixConfiguration _configuration;
-        protected List<IFieldPath> _columns;
+        protected IList<IFieldPath> _columns;
         protected ISqlSubject _target;
         protected ISqlParameter _where;
         protected List<IFieldPath> _groupBy;
         protected List<OrderedField> _orderBy;
 
-        public bool AliasColumns { get; set; }
+        public SqlGenerator(IMatrixConfiguration configuration)
+        {
+            _configuration = configuration;
+            _columns = new List<IFieldPath>();
+            _groupBy = new List<IFieldPath>();
+            _orderBy = new List<OrderedField>();
+            AliasColumns = true;
+        }
 
         protected class OrderedField
         {
@@ -33,13 +40,37 @@ namespace dbqf.Sql
             }
         }
 
-        public SqlGenerator(IMatrixConfiguration configuration)
+        public bool AliasColumns { get; set; }
+
+        /// <summary>
+        /// Adds a number of columns to retrieve.
+        /// </summary>
+        public IList<IFieldPath> Columns
         {
-            _configuration = configuration;
-            _columns = new List<IFieldPath>();
-            _groupBy = new List<IFieldPath>();
-            _orderBy = new List<OrderedField>();
-            AliasColumns = true;
+            get { return _columns; }
+            set { _columns = value; }
+        }
+
+        /// <summary>
+        /// Sets the core target that will be queried.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <returns></returns>
+        public ISqlSubject Target
+        {
+            get { return _target; }
+            set { _target = value; }
+        }
+
+        /// <summary>
+        /// Sets the parameters to limit results.
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public ISqlParameter Where
+        {
+            get { return _where; }
+            set { _where = value; }
         }
 
         public virtual SqlGenerator Alias(bool alias)
@@ -69,7 +100,7 @@ namespace dbqf.Sql
         /// The target subject to search for results.  This is the first query defined after the FROM clause.
         /// Setting this multiple times will simply use the last call.
         /// </summary>
-        public virtual SqlGenerator Target(ISqlSubject subject)
+        public virtual SqlGenerator ForTarget(ISqlSubject subject)
         {
             if (!_configuration.Contains(subject))
                 throw new ArgumentException("Target subject must be part of given configuration.");
@@ -81,7 +112,7 @@ namespace dbqf.Sql
         /// The parameter to restrict the results.  
         /// Setting this multiple times will simply use the last call.
         /// </summary>
-        public virtual SqlGenerator Where(ISqlParameter where)
+        public virtual SqlGenerator WithWhere(ISqlParameter where)
         {
             // should we check that all fields are part of subjects in the current configuration?
             _where = where;

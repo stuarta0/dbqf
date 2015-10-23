@@ -49,6 +49,11 @@ namespace Standalone.Core.Data
             return new SqlGenerator(_config);
         }
 
+        protected virtual ISqlListGenerator GetListGenerator()
+        {
+            return new SqlListGenerator(_config);
+        }
+
         public DataTable GetResults(ISearchDetails details)
         {
             if (!(details.Target is ISqlSubject))
@@ -56,17 +61,17 @@ namespace Standalone.Core.Data
             if (!(details.Where is ISqlParameter))
                 throw new ArgumentException("Where parameter must be of type ISqlParameter.");
 
-            var gen = GetGenerator()
-                .Target((ISqlSubject)details.Target)
-                .Column(details.Columns)
-                .Where((ISqlParameter)details.Where);
+            var generator = GetGenerator();
+            generator.Target = (ISqlSubject)details.Target;
+            generator.Columns = details.Columns;
+            generator.Where = (ISqlParameter)details.Where;
 
             using (var conn = CreateConnection())
             {
                 using (var cmd = conn.CreateCommand())
                 {
                     //cmd.CommandTimeout = CommandTimeout;
-                    gen.UpdateCommand(cmd);
+                    generator.UpdateCommand(cmd);
                     details.Sql = GetSql(cmd);
 
                     var adapter = CreateDataAdapter();
@@ -85,9 +90,36 @@ namespace Standalone.Core.Data
             }
         }
 
-        public List<string> GetList(IFieldPath path)
+        public List<object> GetList(IFieldPath path)
         {
-            throw new NotImplementedException();
+            var generator = GetListGenerator();
+            generator.Path = path;
+
+            HashSet<object> set = new HashSet<object>();
+            using (var conn = CreateConnection())
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    //cmd.CommandTimeout = CommandTimeout;
+                    generator.UpdateCommand(cmd);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        int idx = -1;
+                        try { idx = reader.GetOrdinal("ID"); }
+                        catch { }
+
+                        while (reader.Read())
+                        {
+                            // assumes either 1 or 2 columns. If 2, one will be ID column
+                            var item = reader.GetValue(idx != -1 ? 1 - idx : 0);
+                            if (!set.Contains(item))
+                                set.Add(item);
+                        }
+                    }
+                }
+            }
+            return new List<object>(set);
         }
 
         public void GetResults(ISearchDetails details, ResultCallback callback)

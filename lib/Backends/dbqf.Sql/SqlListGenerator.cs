@@ -12,51 +12,52 @@ namespace dbqf.Sql
     /// <summary>
     /// 
     /// </summary>
-    public class SqlListGenerator
+    public class SqlListGenerator : ISqlListGenerator
     {
         protected IMatrixConfiguration _configuration;
-        protected IFieldPath _path;
-        protected string _idColumn;
-        protected string _valueColumn;
-        protected string _sortByColumn;
 
         public SqlListGenerator(IMatrixConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public SqlListGenerator Path(IFieldPath path)
+        public IFieldPath Path { get; set; }
+        public string IdColumn { get; set; }
+        public string ValueColumn { get; set; }
+        public string SortBy { get; set; }
+
+        public SqlListGenerator WithPath(IFieldPath path)
         {
-            _path = path;
+            Path = path;
             return this;
         }
 
-        public SqlListGenerator IdColumn(string name)
+        public SqlListGenerator IdColumnName(string name)
         {
-            _idColumn = name;
+            IdColumn = name;
             return this;
         }
 
-        public SqlListGenerator ValueColumn(string name)
+        public SqlListGenerator ValueColumnName(string name)
         {
-            _valueColumn = name;
+            ValueColumn = name;
             return this;
         }
 
-        public SqlListGenerator SortBy(string name)
+        public SqlListGenerator SortByName(string name)
         {
-            _sortByColumn = name;
+            SortBy = name;
             return this;
         }
 
         public void Validate()
         {
-            if (_path == null || _path.Count == 0)
+            if (Path == null || Path.Count == 0)
                 throw new Exception("No path given to resolve list data.");
-            if (_path.Last.List == null || String.IsNullOrEmpty(_path.Last.List.Source))
-                throw new ArgumentException(String.Concat("No list source provided for ", _path.Description, "."));
+            if (Path.Last.List == null || String.IsNullOrEmpty(Path.Last.List.Source))
+                throw new ArgumentException(String.Concat("No list source provided for ", Path.Description, "."));
 
-            foreach (var f in _path)
+            foreach (var f in Path)
                 if (!(f.Subject is ISqlSubject))
                     throw new ArgumentException("All fields must relate to ISqlSubjects.");
         }
@@ -75,26 +76,26 @@ namespace dbqf.Sql
             // will simply return the query defined by the field.
 
             cmd.Parameters.Clear();
-            if (!String.IsNullOrEmpty(_idColumn) && !String.IsNullOrEmpty(_valueColumn))
+            if (!String.IsNullOrEmpty(IdColumn) && !String.IsNullOrEmpty(ValueColumn))
             {
                 // since the list source will be (by definition) the ID's of it's corresponding subject, we start with the next field back (count - 2)
                 var sb = new StringBuilder();
-                sb.AppendFormat("SELECT DISTINCT q{0}.[{1}] FROM ({2}) AS q{0} ", _path.Count - 1, _valueColumn, _path.Last.List.Source);
-                for (int i = _path.Count - 2; i >= 0; i--)
+                sb.AppendFormat("SELECT DISTINCT q{0}.[{1}] FROM ({2}) AS q{0} ", Path.Count - 1, ValueColumn, Path.Last.List.Source);
+                for (int i = Path.Count - 2; i >= 0; i--)
                 {
                     sb.AppendFormat("INNER JOIN ({2}) AS q{0} ON q{0}.[{3}] = q{1}.[{4}] ",
                         i, i + 1,
-                        ((ISqlSubject)_path[i].Subject).Sql,
-                        _path[i].SourceName,
-                        (i + 1 == _path.Count - 1 ? _idColumn : _path[i + 1].Subject.IdField.SourceName));
+                        ((ISqlSubject)Path[i].Subject).Sql,
+                        Path[i].SourceName,
+                        (i + 1 == Path.Count - 1 ? IdColumn : Path[i + 1].Subject.IdField.SourceName));
                 }
 
-                sb.AppendFormat("ORDER BY q{0}.[{1}] ", _path.Count - 1, _sortByColumn ?? _valueColumn);
+                sb.AppendFormat("ORDER BY q{0}.[{1}] ", Path.Count - 1, SortBy ?? ValueColumn);
                 cmd.CommandText = sb.ToString();
             }
             else
             {
-                cmd.CommandText = _path.Last.List.Source;
+                cmd.CommandText = Path.Last.List.Source;
             }
         }
 

@@ -17,21 +17,21 @@ namespace dbqf.Sql
         /// <summary>
         /// Adds a number of columns to retrieve.
         /// </summary>
-        SqlGenerator Column(IEnumerable<IFieldPath> path);
+        IList<IFieldPath> Columns { get; set; }
 
         /// <summary>
         /// Sets the core target that will be queried.
         /// </summary>
         /// <param name="subject"></param>
         /// <returns></returns>
-        SqlGenerator Target(ISqlSubject subject);
+        ISqlSubject Target { get; set; }
 
         /// <summary>
         /// Sets the parameters to limit results.
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
-        SqlGenerator Where(ISqlParameter where);
+        ISqlParameter Where { get; set; }
 
         /// <summary>
         /// Ensure the structure of this generator is valid.

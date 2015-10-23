@@ -43,7 +43,7 @@ namespace Sandbox
 
                 var generator = new ExposedSqlGenerator(_configuration);
                 generator
-                    .Target(subject)
+                    .ForTarget(subject)
                     .Column(fields);
                 
                 try
@@ -74,7 +74,7 @@ namespace Sandbox
 
                     var generator2 = new ExposedSqlGenerator(_configuration);
                     generator2
-                        .Target(subject)
+                        .ForTarget(subject)
                         .Column(path);
                 
                     try
@@ -102,10 +102,10 @@ namespace Sandbox
                             continue;
                         }
 
-                        var gen = new SqlListGenerator(_configuration).Path(path);
+                        var gen = new SqlListGenerator(_configuration).WithPath(path);
                         if (Regex.IsMatch(path.Last.List.Source, @"^select.*[`'\[\s]id", RegexOptions.IgnoreCase))
-                            gen.IdColumn("ID")
-                                .ValueColumn("Value");
+                            gen.IdColumnName("ID")
+                                .ValueColumnName("Value");
 
                         try
                         {
@@ -166,7 +166,7 @@ namespace Sandbox
                     // TODO: is this correct?  are we asking for Target=from?  somethings not right here...
                     var generator = new ExposedSqlGenerator(_configuration);
                     generator
-                        .Target(from)
+                        .ForTarget(from)
                         .Column(FieldPath.FromDefault(to.IdField));
 
                     try

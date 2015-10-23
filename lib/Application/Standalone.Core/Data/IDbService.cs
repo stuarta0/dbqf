@@ -6,12 +6,12 @@ using System.Data;
 namespace Standalone.Core.Data
 {
     public delegate void ResultCallback(ISearchDetails details, DataTable results);
-    public delegate void ListCallback(IFieldPath path, List<string> results);
+    public delegate void ListCallback(IFieldPath path, List<object> results);
 
     public interface IDbService
     {
         DataTable GetResults(ISearchDetails details);
-        List<string> GetList(IFieldPath path);
+        List<object> GetList(IFieldPath path);
     }
 
     public interface IDbServiceAsync

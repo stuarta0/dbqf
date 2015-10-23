@@ -131,10 +131,10 @@ namespace Standalone.Core
                 }
             }
 
-            var gen = ResultFactory.CreateSqlListGenerator(Configuration).Path(path);
+            var gen = ResultFactory.CreateSqlListGenerator(Configuration).WithPath(path);
             if (Regex.IsMatch(path.Last.List.Source, @"^select.*[`'\[\s]id", RegexOptions.IgnoreCase))
-                gen.IdColumn("ID")
-                    .ValueColumn("Value");
+                gen.IdColumnName("ID")
+                    .ValueColumnName("Value");
 
             // ensure we'll be able to generate a command
             try { gen.Validate(); }

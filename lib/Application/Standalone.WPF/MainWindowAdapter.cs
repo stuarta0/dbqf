@@ -322,9 +322,9 @@ namespace Standalone.WPF
 
             var fields = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject);
             var gen = ResultFactory.CreateSqlGenerator(ProjectAdapter.Project.Configuration)
-                .Target((dbqf.Sql.Configuration.ISqlSubject)SelectedSubject)
+                .ForTarget((dbqf.Sql.Configuration.ISqlSubject)SelectedSubject)
                 .Column(fields)
-                .Where((dbqf.Sql.Criterion.ISqlParameter)parameter);
+                .WithWhere((dbqf.Sql.Criterion.ISqlParameter)parameter);
 
             Result = null;
             ResultSQL = ((ExposedSqlGenerator)gen).GenerateSql();
