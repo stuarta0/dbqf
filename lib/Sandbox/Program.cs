@@ -72,7 +72,7 @@ namespace Sandbox
 
             File.WriteAllText(@"E:\assetasyst.cs", new FluentGenerator().Generate(p.Configuration, "dbqf.AssetAsyst", "Configuration"));
 
-            var validator = new ConfigurationValidation(p.Configuration, new SqlConnection(p.Connections[0].ConnectionString));
+            var validator = new ConfigurationValidation(p.Configuration, new SqlConnection(((SqlProjectConnection)p.Connections[0]).ConnectionString));
             validator.Validate(true);
 
             Console.WriteLine("\nDone.");

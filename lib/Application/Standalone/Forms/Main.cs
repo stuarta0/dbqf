@@ -21,8 +21,8 @@ namespace Standalone.Forms
     {
         private class ConnectionMenuItem : ToolStripMenuItem
         {
-            public Connection Connection { get; private set; }
-            public ConnectionMenuItem(Connection c)
+            public ProjectConnection Connection { get; private set; }
+            public ConnectionMenuItem(ProjectConnection c)
                 : base(c.DisplayName)
             {
                 Connection = c;

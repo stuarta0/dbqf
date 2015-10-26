@@ -12,7 +12,6 @@ using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.WinForms;
 using Standalone.Core.Data;
-using Standalone.Core.Data.Processing;
 using Standalone.Core.Export;
 using System.IO;
 using Standalone.Core.Serialization.Assemblers;
@@ -24,22 +23,24 @@ namespace Standalone.Forms
     [ImplementPropertyChanged]
     public class MainAdapter : Core.ApplicationBase
     {
-        public ResultFactory ResultFactory { get; set; }
-        public IFieldPathFactory PathFactory { get; private set; }
-    
+        public DbServiceFactory ServiceFactory { get; set; }
+        private IDbServiceAsync _dbService;
+
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
         public AdvancedView Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
 
+        public IFieldPathFactory PathFactory { get; private set; }
         public BindingSource Result { get; private set; }
 
         public MainAdapter(
-            Project project, IFieldPathFactory pathFactory, 
+            Project project, DbServiceFactory serviceFactory, IFieldPathFactory pathFactory, 
             PresetView preset, StandardView standard, AdvancedView advanced, 
             RetrieveFieldsView fields)
             : base(project)
         {
+            ServiceFactory = serviceFactory;
             PathFactory = pathFactory;
 
             Preset = preset;
@@ -56,7 +57,11 @@ namespace Standalone.Forms
             Advanced.Adapter.Search += Adapter_Search;
 
             SelectedSubjectChanged += delegate { RefreshPaths(); };
-            Project.CurrentConnectionChanged += delegate { RefreshPaths(); };
+            Project.CurrentConnectionChanged += delegate 
+            { 
+                RefreshPaths();
+                _dbService = ServiceFactory.CreateAsync(Project.CurrentConnection);
+            };
             Result = new BindingSource();
             RefreshPaths();
         }
@@ -116,19 +121,22 @@ namespace Standalone.Forms
             }
 
             // Get results asynchronously
-            new SQLiteService(this.Project.Configuration, this.Project.CurrentConnection.ConnectionString).GetResults(
-                new SearchDetails()
-                {
-                    Target = SelectedSubject,
-                    Columns = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject),
-                    Where = parameter
-                }, SearchComplete);
+            ResultSQL = null;
+            var details = new SearchDetails()
+            {
+                Target = SelectedSubject,
+                Columns = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject),
+                Where = parameter
+            };
+
+            _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
         }
 
-        private void SearchComplete(ISearchDetails details, DataTable result)
+        private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
         {
-            ResultSQL = ((SearchDetails)details).Sql;
-            Result.DataSource = result;
+            var data = (ResultCallback)callback;
+            ResultSQL = ((SearchDetails)data.Details).Sql;
+            Result.DataSource = data.Results;
         }
 
         public override bool Export(string filename)

@@ -93,19 +93,17 @@ namespace Sandbox
                 serializer.Serialize(writer, new Standalone.Core.Serialization.DTO.ProjectDTO()
                 {
                     Id = Guid.NewGuid(),
-                    Connections = new List<Standalone.Core.Connection>() { 
-                        new Standalone.Core.Connection() 
+                    Connections = new List<Standalone.Core.ProjectConnection>() { 
+                        new Standalone.Core.SQLiteProjectConnection() 
                         { 
                             DisplayName = "Local Machine",
                             Identifier = "local",
-                            ConnectionType = "SQLite", 
                             ConnectionString = @"Data Source=C:\myData.db;Version=3;" 
                         },
-                        new Standalone.Core.Connection() 
+                        new Standalone.Core.SqlProjectConnection() 
                         { 
                             DisplayName = "Remote Server",
                             Identifier = "remote",
-                            ConnectionType = "SqlClient", 
                             ConnectionString = @"Server=(local);Database=AdventureWorks2008R2;Trusted_Connection=True;" 
                         }
                     },

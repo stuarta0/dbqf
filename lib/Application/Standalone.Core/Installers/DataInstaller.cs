@@ -1,19 +1,9 @@
-﻿using Castle.Core;
-using Castle.MicroKernel;
-using Castle.MicroKernel.Context;
-using Castle.MicroKernel.Registration;
+﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using dbqf.Configuration;
+using dbqf.Sql.Configuration;
+using Standalone.Core;
 using Standalone.Core.Data;
-using Standalone.Core.Serialization.Assemblers;
-using Standalone.Core.Serialization.DTO;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Standalone.Core.Installers
 {
@@ -22,7 +12,10 @@ namespace Standalone.Core.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<ResultFactory>(),
+                Component.For<DbServiceFactory>().UsingFactoryMethod<DbServiceFactory>(kernel =>
+                    {
+                        return new DbServiceFactory(kernel.Resolve<IMatrixConfiguration>());
+                    }),
                 Component.For<ListCacher>()
             );
         }

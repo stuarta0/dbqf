@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Standalone.Core.Data
 {
@@ -95,6 +96,12 @@ namespace Standalone.Core.Data
             var generator = GetListGenerator();
             generator.Path = path;
 
+            if (Regex.IsMatch(path.Last.List.Source, @"^select.*[`'\[\s]id", RegexOptions.IgnoreCase))
+            {
+                generator.IdColumn = "ID";
+                generator.ValueColumn = "Value";
+            }
+
             HashSet<object> set = new HashSet<object>();
             using (var conn = CreateConnection())
             {
@@ -122,7 +129,7 @@ namespace Standalone.Core.Data
             return new List<object>(set);
         }
 
-        public void GetResults(ISearchDetails details, ResultCallback callback)
+        public void GetResults(ISearchDetails details, IDbServiceAsyncCallback<DataTable> callback) //ResultCallback callback)
         {
             if (!(details.Target is ISqlSubject))
                 throw new ArgumentException("Target subject must be of type ISqlSubject.");
@@ -148,16 +155,49 @@ namespace Standalone.Core.Data
                 if (e2.Error != null)
                 {
                     //MessageBox.Show("There was an error when trying to perform the search.\n\n" + e2.Error.Message, "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    callback.Exception = e2.Error;
                 }
                 else
-                    callback(details, (DataTable)e2.Result);
+                {
+                    callback.Results = (DataTable)e2.Result;
+                    //callback(details, (DataTable)e2.Result);
+                }
+                callback.Callback(callback);
             };
             worker.RunWorkerAsync();
         }
 
-        public void GetList(IFieldPath path, ListCallback callback)
+        public void GetList(IFieldPath path, IDbServiceAsyncCallback<List<object>> callback) //ListCallback callback)
         {
-            throw new NotImplementedException();
+            var worker = new BackgroundWorker();
+            worker.WorkerSupportsCancellation = true;
+
+            worker.DoWork += (s1, e1) =>
+            {
+                e1.Result = GetList(path);
+                e1.Cancel = worker.CancellationPending;
+            };
+            worker.RunWorkerCompleted += (s2, e2) =>
+            {
+                worker.Dispose();
+
+                // cancellation assumes the SearchWorker property has been set null
+                if (e2.Cancelled)
+                    return;
+
+                if (e2.Error != null)
+                {
+                    //MessageBox.Show("There was an error when trying to perform the search.\n\n" + e2.Error.Message, "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    callback.Exception = e2.Error;
+                }
+                else
+                {
+                    callback.Results = e2.Result as List<object>;
+                    //callback(path, e2.Result as List<object>);
+                }
+                callback.Callback(callback);
+            };
+            worker.RunWorkerAsync();
         }
     }
 }

@@ -7,7 +7,6 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Standalone.Core.Data.Processing;
 using System.Text.RegularExpressions;
 using dbqf.Sql;
 using dbqf.Sql.Configuration;
@@ -41,7 +40,7 @@ namespace Sandbox
                     .ToList<IField>()
                     .ConvertAll<IFieldPath>(f => FieldPath.FromDefault(f));
 
-                var generator = new ExposedSqlGenerator(_configuration);
+                var generator = new SqlGenerator(_configuration);
                 generator
                     .ForTarget(subject)
                     .Column(fields);
@@ -54,7 +53,7 @@ namespace Sandbox
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Subject '" + subject.DisplayName + "' failed when executing with all non-RelationFields: " + ex.Message + "\n\t" + generator.GenerateSql());
+                    Console.WriteLine("Subject '" + subject.DisplayName + "' failed when executing with all non-RelationFields: " + ex.Message + "\n\t"); // + generator.GenerateSql());
                     broken.Add(subject);
                     continue;
                 }
@@ -72,7 +71,7 @@ namespace Sandbox
                         continue;
                     }
 
-                    var generator2 = new ExposedSqlGenerator(_configuration);
+                    var generator2 = new SqlGenerator(_configuration);
                     generator2
                         .ForTarget(subject)
                         .Column(path);
@@ -85,7 +84,7 @@ namespace Sandbox
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("RelationField '" + rf.DisplayName + "' failed. " + ex.Message + "\n\t" + generator2.GenerateSql());
+                        Console.WriteLine("RelationField '" + rf.DisplayName + "' failed. " + ex.Message + "\n\t"); // + generator2.GenerateSql());
                     }
                 }
 
@@ -164,7 +163,7 @@ namespace Sandbox
 
                     // now try a full query traversing the two subjects
                     // TODO: is this correct?  are we asking for Target=from?  somethings not right here...
-                    var generator = new ExposedSqlGenerator(_configuration);
+                    var generator = new SqlGenerator(_configuration);
                     generator
                         .ForTarget(from)
                         .Column(FieldPath.FromDefault(to.IdField));
@@ -177,7 +176,7 @@ namespace Sandbox
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Generated SQL for " + from.DisplayName + " to " + to.DisplayName + " failed. " + ex.Message + "\n\t" + generator.GenerateSql());
+                        Console.WriteLine("Generated SQL for " + from.DisplayName + " to " + to.DisplayName + " failed. " + ex.Message + "\n\t"); // + generator.GenerateSql());
                     }
                 }
             }

@@ -16,7 +16,7 @@ namespace Standalone.WPF.ViewModel
     public class ConnectionAdapter
     {
         private ProjectAdapter _project;
-        public Connection Connection { get; private set; }
+        public ProjectConnection Connection { get; private set; }
         public string DisplayName { get { return Connection.DisplayName; } }
 
         public bool IsChecked
@@ -33,7 +33,7 @@ namespace Standalone.WPF.ViewModel
         }
         private bool _isChecked;
 
-        public ConnectionAdapter(ProjectAdapter p, Connection c)
+        public ConnectionAdapter(ProjectAdapter p, ProjectConnection c)
         {
             _project = p;
             Connection = c;

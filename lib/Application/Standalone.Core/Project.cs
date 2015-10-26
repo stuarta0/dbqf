@@ -30,15 +30,15 @@ namespace Standalone.Core
         /// <summary>
         /// Gets or sets a number of connections that can be used with this configuration.
         /// </summary>
-        public List<Connection> Connections { get; set; }
+        public List<ProjectConnection> Connections { get; set; }
 
         /// <summary>
         /// Gets or sets the configuration that will be searched.
         /// </summary>
         public IMatrixConfiguration Configuration { get; set; }
 
-        private Connection _current;
-        public Connection CurrentConnection 
+        private ProjectConnection _current;
+        public ProjectConnection CurrentConnection 
         {
             get 
             {
@@ -57,12 +57,12 @@ namespace Standalone.Core
 
         public Project()
         {
-            Connections = new List<Connection>();
+            Connections = new List<ProjectConnection>();
         }
     }
 
-    [DebuggerDisplay("{DisplayName} ({Identifier} | {ConnectionType})")]
-    public class Connection
+    [DebuggerDisplay("{Identifier}: {DisplayName}")]
+    public abstract class ProjectConnection
     {
         /// <summary>
         /// Gets or sets a name to display to the user to identify this connection.
@@ -71,17 +71,25 @@ namespace Standalone.Core
         public string DisplayName { get; set; }
 
         /// <summary>
-        /// Gets or sets a textual identifier for the connection.
+        /// Gets or sets a unique identifier for the connection within a project.
         /// </summary>
         [XmlAttribute]
         public string Identifier { get; set; }
+    }
 
+    [XmlRoot("SqlConnection")]
+    public class SqlProjectConnection : ProjectConnection
+    {
         /// <summary>
-        /// Gets or sets a named identifier registered in the IoC container for the type of connection to use.
+        /// Gets or sets the connection string to use with the corresponding type of connection.
         /// </summary>
-        [XmlAttribute("Type")]
-        public string ConnectionType { get; set; }
+        [XmlText]
+        public string ConnectionString { get; set; }
+    }
 
+    [XmlRoot("SQLiteConnection")]
+    public class SQLiteProjectConnection : ProjectConnection
+    {
         /// <summary>
         /// Gets or sets the connection string to use with the corresponding type of connection.
         /// </summary>

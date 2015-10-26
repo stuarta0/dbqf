@@ -18,7 +18,7 @@ namespace Standalone.Core.Serialization.DTO
         public string Title { get; set; }
         public bool ShouldSerializeTitle() { return !String.IsNullOrWhiteSpace(Title); }
 
-        public List<Connection> Connections { get; set; }
+        public List<ProjectConnection> Connections { get; set; }
 
         public MatrixConfigurationDTO Configuration { get; set; }
     }

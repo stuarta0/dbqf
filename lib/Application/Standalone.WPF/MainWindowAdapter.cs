@@ -4,7 +4,6 @@ using dbqf.Display;
 using dbqf.WPF;
 using PropertyChanged;
 using Standalone.Core.Data;
-using Standalone.Core.Data.Processing;
 using Standalone.Core.Export;
 using System;
 using System.Collections.Generic;
@@ -26,14 +25,53 @@ namespace Standalone.WPF
     public class MainWindowAdapter : Core.ApplicationBase
     {
         public ProjectAdapter ProjectAdapter { get; private set; }
-        public ResultFactory ResultFactory { get; set; }
         public IFieldPathFactory PathFactory { get; private set; }
         public IDialogService DialogService { get; set; }
+
+        public DbServiceFactory ServiceFactory { get; set; }
+        private IDbServiceAsync _dbService;
 
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
         public AdvancedView Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
+
+        public MainWindowAdapter(
+            Project project, IFieldPathFactory pathFactory,
+            PresetView preset, StandardView standard, AdvancedView advanced,
+            RetrieveFieldsView fields)
+            : base(project)
+        {
+            _appWidth = Properties.Settings.Default.AppWidth;
+            _appHeight = Properties.Settings.Default.AppHeight;
+            _appWindowState = Properties.Settings.Default.AppWindowState;
+            _viewColumnSize = new GridLength(Properties.Settings.Default.ViewColumnSize);
+
+            Preset = preset;
+            Standard = standard;
+            Advanced = advanced;
+            RetrieveFields = fields;
+            _views.Add("Preset", preset.Adapter);
+            _views.Add("Standard", standard.Adapter);
+            _views.Add("Advanced", advanced.Adapter);
+
+            Preset.Adapter.Search += Adapter_Search;
+            Standard.Adapter.Search += Adapter_Search;
+            Advanced.Adapter.Search += Adapter_Search;
+
+            ProjectAdapter = new ProjectAdapter(project);
+            ProjectAdapter.Project.CurrentConnectionChanged += delegate
+            {
+                RefreshPaths();
+                OnPropertyChanged("ApplicationTitle");
+                _dbService = ServiceFactory.CreateAsync(ProjectAdapter.CurrentConnection.Connection);
+            };
+            PathFactory = pathFactory;
+
+            CurrentView = Preset.Adapter;
+            SelectedSubjectChanged += delegate { RefreshPaths(); };
+            RefreshPaths();
+        }
 
         #region Application Appearance
 
@@ -238,42 +276,6 @@ namespace Standalone.WPF
             get { return String.Concat("Results", Result == null ? string.Empty : String.Concat(" (", Result.Rows.Count, ")")); }
         }
 
-        public MainWindowAdapter(
-            Project project, IFieldPathFactory pathFactory, 
-            PresetView preset, StandardView standard, AdvancedView advanced, 
-            RetrieveFieldsView fields)
-            : base(project)
-        {
-            _appWidth = Properties.Settings.Default.AppWidth;
-            _appHeight = Properties.Settings.Default.AppHeight;
-            _appWindowState = Properties.Settings.Default.AppWindowState;
-            _viewColumnSize = new GridLength(Properties.Settings.Default.ViewColumnSize);
-
-            Preset = preset;
-            Standard = standard;
-            Advanced = advanced;
-            RetrieveFields = fields;
-            _views.Add("Preset", preset.Adapter);
-            _views.Add("Standard", standard.Adapter);
-            _views.Add("Advanced", advanced.Adapter);
-
-            Preset.Adapter.Search += Adapter_Search;
-            Standard.Adapter.Search += Adapter_Search;
-            Advanced.Adapter.Search += Adapter_Search;
-
-            ProjectAdapter = new ProjectAdapter(project);
-            ProjectAdapter.Project.CurrentConnectionChanged += delegate 
-            {
-                RefreshPaths();
-                OnPropertyChanged("ApplicationTitle"); 
-            };
-            PathFactory = pathFactory;
-
-            CurrentView = Preset.Adapter;
-            SelectedSubjectChanged += delegate { RefreshPaths(); };
-            RefreshPaths();
-        }
-
         public override void Refine()
         {
             try { base.Refine(); }
@@ -318,19 +320,22 @@ namespace Standalone.WPF
             }
 
             // Get results asynchronously
-            new SQLiteService(this.Project.Configuration, this.Project.CurrentConnection.ConnectionString).GetResults(
-                new SearchDetails()
-                {
-                    Target = SelectedSubject,
-                    Columns = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject),
-                    Where = parameter
-                }, SearchComplete);
+            ResultSQL = null;
+            var details = new SearchDetails()
+            {
+                Target = SelectedSubject,
+                Columns = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject),
+                Where = parameter
+            };
+
+            _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
         }
 
-        private void SearchComplete(ISearchDetails details, DataTable result)
+        private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
         {
-            ResultSQL = ((SearchDetails)details).Sql;
-            Result = result;
+            var data = (ResultCallback)callback;
+            ResultSQL = ((SearchDetails)data.Details).Sql;
+            Result = data.Results;
         }
 
         public override bool Export(string filename)
