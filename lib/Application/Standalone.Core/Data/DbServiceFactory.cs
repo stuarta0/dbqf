@@ -27,9 +27,11 @@ namespace Standalone.Core.Data
         {
             // TODO: implement command timeout
             if (connection is SqlProjectConnection)
-                return new SqlService(_configuration, ((SqlProjectConnection)connection).ConnectionString);
+                return new SqlService(_configuration, connection.ConnectionString);
             else if (connection is SQLiteProjectConnection)
-                return new SQLiteService(_configuration, ((SQLiteProjectConnection)connection).ConnectionString);
+                return new SQLiteService(_configuration, connection.ConnectionString);
+            else if (connection is MsAccessProjectConnection)
+                return new MsAccessService(_configuration, connection.ConnectionString);
                
             throw new NotImplementedException(String.Format("Could not create IDbServiceAsync for connection {0} ({1})", connection.DisplayName, connection.Identifier));
         }
