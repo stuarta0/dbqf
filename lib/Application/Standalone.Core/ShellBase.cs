@@ -34,9 +34,10 @@ namespace Standalone.Core
         }
         private Project _project;
 
-        public ShellBase(Project project, ListCacher cacher, IList<IInitialiser> initialisers)
+        public ShellBase(Project project, DbServiceFactory serviceFactory, ListCacher cacher, IList<IInitialiser> initialisers)
         {
             Project = project;
+            ServiceFactory = serviceFactory;
             Cacher = cacher;
             OnConnectionChanged();
 

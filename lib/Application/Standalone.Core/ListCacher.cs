@@ -22,6 +22,11 @@ namespace Standalone.Core
             public BindingList<object> Data;
         }
 
+        public ListCacher()
+        {
+            _listCache = new Dictionary<IFieldPath, CacheData>();
+        }
+
         public IDbServiceAsync DbService 
         {
             get { return _dbService; }

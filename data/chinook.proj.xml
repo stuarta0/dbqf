@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Id="00000000-0000-0000-0000-000000000000">
   <Connections>
-    <SQLiteConnection DisplayName="Chinook SQLite" Identifier="System.Data.SQLite.SQLiteConnection">Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;</SQLiteConnection>
+    <ProjectConnection xsi:type="SQLiteProjectConnection" DisplayName="Chinook SQLite" Identifier="1">Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;</ProjectConnection>
   </Connections>
   <Configuration>
     <Subjects>

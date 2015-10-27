@@ -59,7 +59,7 @@ namespace Standalone.Core.Data
         {
             if (!(details.Target is ISqlSubject))
                 throw new ArgumentException("Target subject must be of type ISqlSubject.");
-            if (!(details.Where is ISqlParameter))
+            if (details.Where != null && !(details.Where is ISqlParameter))
                 throw new ArgumentException("Where parameter must be of type ISqlParameter.");
 
             var generator = GetGenerator();
@@ -131,11 +131,6 @@ namespace Standalone.Core.Data
 
         public void GetResults(ISearchDetails details, IDbServiceAsyncCallback<DataTable> callback) //ResultCallback callback)
         {
-            if (!(details.Target is ISqlSubject))
-                throw new ArgumentException("Target subject must be of type ISqlSubject.");
-            if (!(details.Where is ISqlParameter))
-                throw new ArgumentException("Where parameter must be of type ISqlParameter.");
-
             var worker = new BackgroundWorker();
             worker.WorkerSupportsCancellation = true;
 

@@ -37,7 +37,7 @@ namespace Standalone.WPF
         public RetrieveFieldsView RetrieveFields { get; private set; }
 
         public MainWindowAdapter(
-            Project project, IFieldPathFactory pathFactory,
+            Project project, DbServiceFactory serviceFactory, IFieldPathFactory pathFactory,
             PresetView preset, StandardView standard, AdvancedView advanced,
             RetrieveFieldsView fields)
             : base(project)
@@ -60,17 +60,19 @@ namespace Standalone.WPF
             Advanced.Adapter.Search += Adapter_Search;
 
             ProjectAdapter = new ProjectAdapter(project);
-            ProjectAdapter.Project.CurrentConnectionChanged += delegate
-            {
-                RefreshPaths();
-                OnPropertyChanged("ApplicationTitle");
-                _dbService = ServiceFactory.CreateAsync(ProjectAdapter.CurrentConnection.Connection);
-            };
             PathFactory = pathFactory;
+            ServiceFactory = serviceFactory;
 
             CurrentView = Preset.Adapter;
             SelectedSubjectChanged += delegate { RefreshPaths(); };
-            RefreshPaths();
+            var refresh = new EventHandler((s, e) =>
+            {
+                RefreshPaths();
+                OnPropertyChanged("ApplicationTitle");
+                _dbService = ServiceFactory.CreateAsync(Project.CurrentConnection);
+            });
+            ProjectAdapter.Project.CurrentConnectionChanged += refresh;
+            refresh(this, EventArgs.Empty);
         }
 
         #region Application Appearance

@@ -26,8 +26,8 @@ namespace Standalone.WPF
         /// </summary>
         public IControlFactory<UIElement> ControlFactory { get; private set; }
 
-        public Shell(Project project, IControlFactory<UIElement> controlFactory, ListCacher cacher, IList<IInitialiser> initialisers)
-            : base(project, cacher, initialisers)
+        public Shell(Project project, IControlFactory<UIElement> controlFactory, DbServiceFactory serviceFactory, ListCacher cacher, IList<IInitialiser> initialisers)
+            : base(project, serviceFactory, cacher, initialisers)
         {
             // initialise last saved connection with this project
             var connectionLookup = Settings.Default.SavedConnections;

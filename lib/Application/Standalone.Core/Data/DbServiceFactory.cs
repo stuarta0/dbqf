@@ -29,7 +29,7 @@ namespace Standalone.Core.Data
             if (connection is SqlProjectConnection)
                 return new SqlService(_configuration, ((SqlProjectConnection)connection).ConnectionString);
             else if (connection is SQLiteProjectConnection)
-                return new SQLiteService(_configuration, ((SqlProjectConnection)connection).ConnectionString);
+                return new SQLiteService(_configuration, ((SQLiteProjectConnection)connection).ConnectionString);
                
             throw new NotImplementedException(String.Format("Could not create IDbServiceAsync for connection {0} ({1})", connection.DisplayName, connection.Identifier));
         }

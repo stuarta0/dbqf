@@ -57,13 +57,15 @@ namespace Standalone.Forms
             Advanced.Adapter.Search += Adapter_Search;
 
             SelectedSubjectChanged += delegate { RefreshPaths(); };
-            Project.CurrentConnectionChanged += delegate 
-            { 
+
+            var refresh = new EventHandler((s, e) =>
+            {
                 RefreshPaths();
                 _dbService = ServiceFactory.CreateAsync(Project.CurrentConnection);
-            };
+            });
+            Project.CurrentConnectionChanged += refresh;
             Result = new BindingSource();
-            RefreshPaths();
+            refresh(this, EventArgs.Empty);
         }
 
         public override void Refine()
