@@ -15,6 +15,7 @@ namespace Standalone.Core
     public abstract class ShellBase : Standalone.Core.IShell
     {
         public ListCacher Cacher { get; set; }
+        public DbServiceFactory ServiceFactory { get; set; }
 
         /// <summary>
         /// Gets or sets the project in use.
@@ -33,9 +34,10 @@ namespace Standalone.Core
         }
         private Project _project;
 
-        public ShellBase(Project project, ListCacher cacher, IList<IInitialiser> initialisers)
+        public ShellBase(Project project, DbServiceFactory serviceFactory, ListCacher cacher, IList<IInitialiser> initialisers)
         {
             Project = project;
+            ServiceFactory = serviceFactory;
             Cacher = cacher;
             OnConnectionChanged();
 
@@ -52,7 +54,7 @@ namespace Standalone.Core
         
         protected virtual void OnConnectionChanged()
         {
-            Cacher.Connection = Project.CurrentConnection;
+            Cacher.DbService = ServiceFactory.CreateAsync(Project.CurrentConnection);
         }
     }
 }

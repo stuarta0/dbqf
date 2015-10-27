@@ -8,6 +8,7 @@ using dbqf.Serialization.Assemblers.Builders;
 using dbqf.Serialization.Assemblers.Criterion;
 using dbqf.Serialization.DTO.Builders;
 using dbqf.Serialization.DTO.Criterion;
+using dbqf.Sql.Criterion.Builders;
 using Standalone.Core.Serialization.Assemblers;
 
 namespace Standalone.Core.Installers
@@ -34,7 +35,7 @@ namespace Standalone.Core.Installers
             container.Register(
                 Component.For<AssemblyLine<IParameter, ParameterDTO>>().UsingFactoryMethod(kernel => {
                     var pathAssembler = kernel.Resolve<FieldPathAssembler>();
-                    var root = new JunctionParameterAssembler();
+                    var root = new JunctionParameterAssembler(kernel.Resolve<IParameterBuilderFactory>());
                     root.Add(new NullParameterAssembler(pathAssembler))
                         .Add(new NotParameterAssembler())
                         .Add(new SimpleParameterAssembler(pathAssembler));

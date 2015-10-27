@@ -16,13 +16,5 @@ namespace dbqf.Criterion
         {
             Parameter = p;
         }
-
-        public SqlString ToSqlString()
-        {
-            return new SqlString()
-                .Add("NOT (")
-                .Add(Parameter.ToSqlString())
-                .Add(")");
-        }
     }
 }

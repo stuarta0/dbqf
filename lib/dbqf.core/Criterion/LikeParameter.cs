@@ -33,13 +33,5 @@ namespace dbqf.Criterion
             Value = value;
             Mode = mode;
         }
-
-        public SqlString ToSqlString()
-        {
-            return new SqlString()
-                .AddField(Path)
-                .Add(" LIKE ")
-                .AddParameter(Mode.ToMatchString(Value));
-        }
     }
 }

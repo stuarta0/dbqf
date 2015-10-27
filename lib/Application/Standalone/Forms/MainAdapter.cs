@@ -12,7 +12,6 @@ using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.WinForms;
 using Standalone.Core.Data;
-using Standalone.Core.Data.Processing;
 using Standalone.Core.Export;
 using System.IO;
 using Standalone.Core.Serialization.Assemblers;
@@ -24,22 +23,24 @@ namespace Standalone.Forms
     [ImplementPropertyChanged]
     public class MainAdapter : Core.ApplicationBase
     {
-        public ResultFactory ResultFactory { get; set; }
-        public IFieldPathFactory PathFactory { get; private set; }
-    
+        public DbServiceFactory ServiceFactory { get; set; }
+        private IDbServiceAsync _dbService;
+
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
         public AdvancedView Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
 
+        public IFieldPathFactory PathFactory { get; private set; }
         public BindingSource Result { get; private set; }
 
         public MainAdapter(
-            Project project, IFieldPathFactory pathFactory, 
+            Project project, DbServiceFactory serviceFactory, IFieldPathFactory pathFactory, 
             PresetView preset, StandardView standard, AdvancedView advanced, 
             RetrieveFieldsView fields)
             : base(project)
         {
+            ServiceFactory = serviceFactory;
             PathFactory = pathFactory;
 
             Preset = preset;
@@ -56,9 +57,15 @@ namespace Standalone.Forms
             Advanced.Adapter.Search += Adapter_Search;
 
             SelectedSubjectChanged += delegate { RefreshPaths(); };
-            Project.CurrentConnectionChanged += delegate { RefreshPaths(); };
+
+            var refresh = new EventHandler((s, e) =>
+            {
+                RefreshPaths();
+                _dbService = ServiceFactory.CreateAsync(Project.CurrentConnection);
+            });
+            Project.CurrentConnectionChanged += refresh;
             Result = new BindingSource();
-            RefreshPaths();
+            refresh(this, EventArgs.Empty);
         }
 
         public override void Refine()
@@ -115,49 +122,23 @@ namespace Standalone.Forms
                 CancelSearch();
             }
 
-            var worker = (SearchWorker = new BackgroundWorker());
-            worker.WorkerSupportsCancellation = true;
+            // Get results asynchronously
+            ResultSQL = null;
+            var details = new SearchDetails()
+            {
+                Target = SelectedSubject,
+                Columns = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject),
+                Where = parameter
+            };
 
-            var fields = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject);
-            var gen = ResultFactory.CreateSqlGenerator(Project.Configuration)
-                .Target(SelectedSubject)
-                .Column(fields)
-                .Where(parameter);
+            _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
+        }
 
-            Result.DataSource = null;
-            ResultSQL = ((ExposedSqlGenerator)gen).GenerateSql();
-            var repo = ResultFactory.CreateSqlResults(Project.CurrentConnection);
-            worker.DoWork += (s1, e1) =>
-                {
-                    e1.Result = repo.GetResults(gen);
-                    e1.Cancel = worker.CancellationPending;
-                };
-            worker.RunWorkerCompleted += (s2, e2) =>
-                {
-                    worker.Dispose();
-
-                    // cancellation assumes the SearchWorker property has been set null
-                    if (e2.Cancelled)
-                        return;
-                    
-                    // should it ever occur that a worker that isn't cancelled is replaced?
-                    if (SearchWorker == worker)
-                        SearchWorker = null;
-
-                    if (e2.Error != null)
-                    {
-                        MessageBox.Show("There was an error when trying to perform the search.\n\n" + e2.Error.Message, "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                    else
-                    {
-                        // assign field references to columns returned
-                        var data = (DataTable)e2.Result;
-                        for (int i = 0; i < data.Columns.Count; i++)
-                            data.Columns[i].ExtendedProperties.Add("FieldPath", fields[i]);
-                        Result.DataSource = data;
-                    }
-                };
-            worker.RunWorkerAsync();
+        private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
+        {
+            var data = (ResultCallback)callback;
+            ResultSQL = ((SearchDetails)data.Details).Sql;
+            Result.DataSource = data.Results;
         }
 
         public override bool Export(string filename)

@@ -36,12 +36,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\IMatrixConfiguration.cs" />
+    <Compile Include="Configuration\ISqlSubject.cs" />
     <Compile Include="Configuration\MatrixConfiguration.cs" />
     <Compile Include="Configuration\MatrixNode.cs" />
+    <Compile Include="Configuration\SqlSubject.cs" />
+    <Compile Include="Criterion\BetweenParameter.cs" />
+    <Compile Include="Criterion\Builders\BetweenBuilder.cs" />
+    <Compile Include="Criterion\Builders\BooleanBuilder.cs" />
+    <Compile Include="Criterion\Builders\DateTime\DateBetweenBuilder.cs" />
+    <Compile Include="Criterion\Builders\DateTime\DateEqualsBuilder.cs" />
+    <Compile Include="Criterion\Builders\DateTime\DateGtBuilder.cs" />
+    <Compile Include="Criterion\Builders\DateTime\DateGtEqualBuilder.cs" />
+    <Compile Include="Criterion\Builders\DateTime\DateLtBuilder.cs" />
+    <Compile Include="Criterion\Builders\DateTime\DateLtEqualBuilder.cs" />
+    <Compile Include="Criterion\Builders\JunctionBuilder.cs" />
+    <Compile Include="Criterion\Builders\LikeBuilder.cs" />
+    <Compile Include="Criterion\Builders\NotBuilder.cs" />
+    <Compile Include="Criterion\Builders\NullBuilder.cs" />
+    <Compile Include="Criterion\Builders\ParameterBuilder.cs" />
+    <Compile Include="Criterion\Builders\SimpleBuilder.cs" />
+    <Compile Include="Criterion\Conjunction.cs" />
+    <Compile Include="Criterion\Disjunction.cs" />
+    <Compile Include="Criterion\ISqlParameter.cs" />
+    <Compile Include="Criterion\ParameterBuilderFactory.cs" />
+    <Compile Include="Criterion\SqlJunction.cs" />
+    <Compile Include="Criterion\LikeParameter.cs" />
+    <Compile Include="Criterion\NotParameter.cs" />
+    <Compile Include="Criterion\NullParameter.cs" />
+    <Compile Include="Criterion\SimpleParameter.cs" />
+    <Compile Include="ISqlGenerator.cs" />
+    <Compile Include="ISqlListGenerator.cs" />
+    <Compile Include="SqlString.cs" />
+    <Compile Include="SqlStringParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Processing\SqlGenerator.cs" />
-    <Compile Include="Processing\SqlListGenerator.cs" />
-    <Compile Include="Processing\UniqueFieldPath.cs" />
+    <Compile Include="SqlGenerator.cs" />
+    <Compile Include="SqlListGenerator.cs" />
+    <Compile Include="UniqueFieldPath.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">

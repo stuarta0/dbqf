@@ -22,24 +22,24 @@ namespace Standalone.Core
             public BindingList<object> Data;
         }
 
-        public ResultFactory ResultFactory { get; set; }
-        public IMatrixConfiguration Configuration { get; set; }
-        public Connection Connection 
+        public ListCacher()
         {
-            get { return _connection; }
+            _listCache = new Dictionary<IFieldPath, CacheData>();
+        }
+
+        public IDbServiceAsync DbService 
+        {
+            get { return _dbService; }
             set
             {
-                _connection = value;
+                if (_dbService == value)
+                    return;
+
+                _dbService = value;
                 Refresh();
             }
         }
-        private Connection _connection;
-
-        public ListCacher(ResultFactory factory, IConfiguration configuration)
-        {
-            _listCache = new Dictionary<IFieldPath, CacheData>();
-            ResultFactory = factory;
-        }
+        private IDbServiceAsync _dbService;
 
         public bool ContainsKey(IFieldPath path)
         {
@@ -88,7 +88,7 @@ namespace Standalone.Core
         {
             // deals with the case where the list was set manually or some other event handler dealt with it,
             // or if we don't have the required instances to fulfill the request
-            if (e.List != null || e.Path.Last.List == null || Configuration == null || Connection == null || ResultFactory == null)
+            if (e.List != null || e.Path.Last.List == null || DbService == null) // || Configuration == null || Connection == null || ResultFactory == null)
                 return;
 
             // initialise the type of list, pending data below
@@ -131,58 +131,31 @@ namespace Standalone.Core
                 }
             }
 
-            var gen = ResultFactory.CreateSqlListGenerator(Configuration).Path(path);
-            if (Regex.IsMatch(path.Last.List.Source, @"^select.*[`'\[\s]id", RegexOptions.IgnoreCase))
-                gen.IdColumn("ID")
-                    .ValueColumn("Value");
+            if (DbService != null)
+                DbService.GetList(path, new CachedListCallback(ListCallback, path, result));
+        }
 
-            // ensure we'll be able to generate a command
-            try { gen.Validate(); }
-            catch { return; }
-
-            // kill any existing worker
-            if (result.CurrentWorker != null)
-                result.CurrentWorker.CancelAsync();
-
-            var bgw = new BackgroundWorker();
-            bgw.WorkerSupportsCancellation = true;
-            bgw.DoWork += (s2, e2) =>
+        private class CachedListCallback : ListCallback
+        {
+            public CacheData Cache { get; set; }
+            public CachedListCallback(AsyncCallback<List<object>> callback, IFieldPath path, CacheData cache)
+                : base(callback, path)
             {
-                result.CurrentWorker = bgw;
-                try
-                {
-                    e2.Result = ResultFactory.CreateSqlResults(Connection).GetList(gen);
-                }
-                catch (Exception te)
-                {
-                    e2.Result = te;
-                }
-            };
-            bgw.RunWorkerCompleted += (s2, e2) =>
-            {
-                if (e2.Cancelled)
-                    return;
+                Cache = cache;
+            }
+        }
 
-                if (e2.Result is Exception)
-                {
-                    // what do we do?
-                }
-                else
-                {
-                    var list = result.Data;
-                    list.RaiseListChangedEvents = false;
-                    list.Clear();
-                    list.Add(string.Empty);
-                    foreach (var i in (IList<object>)e2.Result)
-                        list.Add(i);
-                    list.RaiseListChangedEvents = true;
-                    list.ResetBindings();
-                }
-
-                if (bgw == result.CurrentWorker)
-                    result.CurrentWorker = null;
-            };
-            bgw.RunWorkerAsync();
+        private void ListCallback(IDbServiceAsyncCallback<List<object>> callback)
+        {
+            var data = (CachedListCallback)callback;
+            var list = data.Cache.Data;
+            list.RaiseListChangedEvents = false;
+            list.Clear();
+            list.Add(string.Empty);
+            foreach (var i in data.Results)
+                list.Add(i);
+            list.RaiseListChangedEvents = true;
+            list.ResetBindings();
         }
     }
 }

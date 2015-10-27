@@ -10,6 +10,7 @@ namespace dbqf.Display
     /// </summary>
     public class PartViewJunction : IPartViewJunction
     {
+        public IParameterBuilderFactory Builder { get; set; }
         public JunctionType Type { get; set; }
         private List<IPartView> _parts;
 
@@ -38,9 +39,12 @@ namespace dbqf.Display
 
         public IParameter GetParameter()
         {
-            Junction junc = new Conjunction();
+            if (Builder == null)
+                return null;
+
+            IJunction junc = Builder.Conjunction();
             if (Type == JunctionType.Disjunction)
-                junc = new Disjunction();
+                junc = Builder.Disjunction();
             foreach (var v in this)
                 junc.Add(v.GetParameter());
             return junc;

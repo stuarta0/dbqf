@@ -58,23 +58,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\DbResults.cs" />
     <Compile Include="Data\ExtendedDateParser.cs" />
+    <Compile Include="Data\IDbService.cs" />
+    <Compile Include="Data\DbServiceAsyncCallback.cs" />
+    <Compile Include="Data\ListCallback.cs" />
+    <Compile Include="Data\ResultCallback.cs" />
+    <Compile Include="Data\SearchDetails.cs" />
+    <Compile Include="Data\ISearchDetails.cs" />
     <Compile Include="Data\ISqlResults.cs" />
     <Compile Include="Data\ParserFactory.cs" />
-    <Compile Include="Data\Processing\ExposedSqlGenerator.cs" />
     <Compile Include="ApplicationBase.cs" />
+    <Compile Include="Data\MsAccessService.cs" />
+    <Compile Include="Data\SQLiteService.cs" />
+    <Compile Include="Data\SqlService.cs" />
     <Compile Include="Display\ConnectionAdapter.cs" />
     <Compile Include="Display\ProjectAdapter.cs" />
     <Compile Include="Export\Filter.cs" />
     <Compile Include="Export\IExportServiceFactory.cs" />
+    <Compile Include="Installers\DataInstaller.cs" />
     <Compile Include="Installers\FactoryInstaller.cs" />
     <Compile Include="Installers\ParserInstaller.cs" />
     <Compile Include="Installers\IOInstaller.cs" />
     <Compile Include="Project.cs" />
-    <Compile Include="Data\ResultFactory.cs" />
-    <Compile Include="Data\SQLiteResults.cs" />
-    <Compile Include="Data\SqlResults.cs" />
+    <Compile Include="Data\DbServiceFactory.cs" />
     <Compile Include="Display\StandardAdapter.cs" />
     <Compile Include="Display\PresetAdapter.cs" />
     <Compile Include="Export\BaseExportService.cs" />
@@ -88,10 +94,10 @@
     <Compile Include="Initialisers\IInitialiser.cs" />
     <Compile Include="Installers\AssemblerInstaller.cs" />
     <Compile Include="Installers\ConfigurationInstaller.cs" />
-    <Compile Include="Installers\DataInstaller.cs" />
     <Compile Include="Installers\InitialiserInstaller.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="ListCacher.cs" />
+    <Compile Include="ProjectConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchDocument.cs" />
     <Compile Include="Serialization\Assemblers\SearchDocumentAssembler.cs" />
@@ -102,6 +108,10 @@
     <Compile Include="ShellBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Backends\dbqf.MsAccess\dbqf.MsAccess.csproj">
+      <Project>{5336bddd-c373-494b-94e7-aeaabc8cd88d}</Project>
+      <Name>dbqf.MsAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
       <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
       <Name>dbqf.core</Name>

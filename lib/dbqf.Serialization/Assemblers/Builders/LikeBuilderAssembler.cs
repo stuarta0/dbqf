@@ -4,6 +4,7 @@ using System.Text;
 using dbqf.Criterion;
 using dbqf.Criterion.Builders;
 using dbqf.Serialization.DTO.Builders;
+using dbqf.Sql.Criterion.Builders;
 
 namespace dbqf.Serialization.Assemblers.Builders
 {
@@ -14,7 +15,7 @@ namespace dbqf.Serialization.Assemblers.Builders
         {
         }
 
-        public override ParameterBuilder Restore(ParameterBuilderDTO dto)
+        public override IParameterBuilder Restore(ParameterBuilderDTO dto)
         {
             var sb = dto as LikeBuilderDTO;
             if (sb == null)
@@ -44,7 +45,7 @@ namespace dbqf.Serialization.Assemblers.Builders
             };
         }
 
-        public override ParameterBuilderDTO Create(ParameterBuilder b)
+        public override ParameterBuilderDTO Create(IParameterBuilder b)
         {
             var sb = b as LikeBuilder;
             if (sb == null)

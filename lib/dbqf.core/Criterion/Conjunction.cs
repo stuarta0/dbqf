@@ -6,9 +6,9 @@ using System.Text;
 namespace dbqf.Criterion
 {
     /// <summary>
-    /// Replacement for SearchCombination AND.
+    /// Represents a combination of parameters that are intersected (AND).
     /// </summary>
-    public class Conjunction : Junction
+    public abstract class Conjunction : Junction
     {
         protected override string Op
         {

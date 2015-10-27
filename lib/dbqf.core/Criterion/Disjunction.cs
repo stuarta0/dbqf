@@ -6,9 +6,9 @@ using System.Text;
 namespace dbqf.Criterion
 {
     /// <summary>
-    /// Replacement for SearchCombination OR.
+    /// Represents a combination of parameters that are unioned (OR).
     /// </summary>
-    public class Disjunction : Junction
+    public abstract class Disjunction : Junction
     {
         protected override string Op
         {

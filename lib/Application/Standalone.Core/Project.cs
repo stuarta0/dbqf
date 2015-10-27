@@ -1,12 +1,6 @@
-﻿using dbqf.Configuration;
+﻿using dbqf.Sql.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using System.Diagnostics;
-using dbqf.Sql.Configuration;
 
 namespace Standalone.Core
 {
@@ -30,15 +24,15 @@ namespace Standalone.Core
         /// <summary>
         /// Gets or sets a number of connections that can be used with this configuration.
         /// </summary>
-        public List<Connection> Connections { get; set; }
+        public List<ProjectConnection> Connections { get; set; }
 
         /// <summary>
         /// Gets or sets the configuration that will be searched.
         /// </summary>
         public IMatrixConfiguration Configuration { get; set; }
 
-        private Connection _current;
-        public Connection CurrentConnection 
+        private ProjectConnection _current;
+        public ProjectConnection CurrentConnection 
         {
             get 
             {
@@ -57,35 +51,7 @@ namespace Standalone.Core
 
         public Project()
         {
-            Connections = new List<Connection>();
+            Connections = new List<ProjectConnection>();
         }
-    }
-
-    [DebuggerDisplay("{DisplayName} ({Identifier} | {ConnectionType})")]
-    public class Connection
-    {
-        /// <summary>
-        /// Gets or sets a name to display to the user to identify this connection.
-        /// </summary>
-        [XmlAttribute]
-        public string DisplayName { get; set; }
-
-        /// <summary>
-        /// Gets or sets a textual identifier for the connection.
-        /// </summary>
-        [XmlAttribute]
-        public string Identifier { get; set; }
-
-        /// <summary>
-        /// Gets or sets a named identifier registered in the IoC container for the type of connection to use.
-        /// </summary>
-        [XmlAttribute("Type")]
-        public string ConnectionType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the connection string to use with the corresponding type of connection.
-        /// </summary>
-        [XmlText]
-        public string ConnectionString { get; set; }
     }
 }

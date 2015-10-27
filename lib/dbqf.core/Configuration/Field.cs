@@ -22,7 +22,18 @@ namespace dbqf.Configuration
                 if (_parent == value)
                     return;
 
+                if (_parent != null)
+                {
+                    var parent = _parent;
+                    _parent = null;
+                    parent.Remove(this);
+                }
+
                 _parent = value;
+
+                if (_parent != null)
+                    _parent.Add(this);
+
                 OnPropertyChanged("Subject");
             }
         }

@@ -6,7 +6,6 @@ namespace dbqf.Configuration
     {
         IConfiguration Configuration { get; set; }
         string DisplayName { get; set; }
-        string Source { get; set; }
         IField IdField { get; set; }
         IField DefaultField { get; set; }
         IField this[string sourceName] { get; }

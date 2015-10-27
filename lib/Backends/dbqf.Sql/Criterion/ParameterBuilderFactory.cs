@@ -1,0 +1,130 @@
+﻿using System;
+using System.Collections.Generic;
+using dbqf.Criterion;
+using dbqf.Criterion.Builders;
+using dbqf.Sql.Criterion.Builders;
+
+namespace dbqf.Sql.Criterion
+{
+    /// <summary>
+    /// A factory to create multiple parameter builders to use for a given field path.
+    /// </summary>
+    public class ParameterBuilderFactory : IParameterBuilderFactory
+    {
+        public IJunction Conjunction(params IParameter[] parameters)
+        {
+            var j = new SqlConjunction();
+            foreach (var p in parameters)
+                j.Add(p);
+            return j;
+        }
+
+        public IJunction Disjunction(params IParameter[] parameters)
+        {
+            var j = new SqlDisjunction();
+            foreach (var p in parameters)
+                j.Add(p);
+            return j;
+        }
+
+        /// <summary>
+        /// Creates a list of builders relevant to the given field path.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public virtual IList<IParameterBuilder> Build(IFieldPath path)
+        {
+            var builders = new List<IParameterBuilder>();
+
+            if (path.Last.DataType == typeof(bool))
+            {
+                builders.Add(new BooleanBuilder(true));
+                builders.Add(new BooleanBuilder(false));
+                builders.Add(new NullBuilder());
+                builders.Add(new NotBuilder(new NullBuilder()) { Label = "is not null" });
+            }
+            else if (path.Last.DataType == typeof(string))
+            {
+                builders.Add(new SimpleBuilder("="));
+                builders.Add(new LikeBuilder(MatchMode.Anywhere));
+                builders.Add(new LikeBuilder(MatchMode.Start));
+                builders.Add(new LikeBuilder(MatchMode.End));
+                builders.Add(new NotBuilder(new SimpleBuilder("=")));
+                builders.Add(new NotBuilder(new LikeBuilder(MatchMode.Anywhere)) { Label = "does not contain" });
+                builders.Add(new NotBuilder(new LikeBuilder(MatchMode.Start)) { Label = "does not start with" });
+                builders.Add(new NotBuilder(new LikeBuilder(MatchMode.End)) { Label = "does not end with" });
+                builders.Add(new NullBuilder());
+                builders.Add(new NotBuilder(new NullBuilder()) { Label = "is not null" });
+            }
+            else if (path.Last.DataType == typeof(DateTime))
+            {
+                builders.Add(new DateEqualsBuilder());
+                builders.Add(new NotBuilder(new DateEqualsBuilder()));
+                builders.Add(new DateGtBuilder());
+                builders.Add(new DateGtEqualBuilder());
+                builders.Add(new DateLtBuilder());
+                builders.Add(new DateLtEqualBuilder());
+                builders.Add(new DateBetweenBuilder());
+                builders.Add(new NotBuilder(new DateBetweenBuilder()));
+                builders.Add(new NullBuilder());
+                builders.Add(new NotBuilder(new NullBuilder()) { Label = "is not null" });
+            }
+            else if (IsNumeric(path.Last.DataType))
+            {
+                builders.Add(new SimpleBuilder("="));
+                builders.Add(new NotBuilder(new SimpleBuilder("=")));
+                builders.Add(new SimpleBuilder(">"));
+                builders.Add(new SimpleBuilder(">="));
+                builders.Add(new SimpleBuilder("<"));
+                builders.Add(new SimpleBuilder("<="));
+                builders.Add(new BetweenBuilder());
+                builders.Add(new NotBuilder(new BetweenBuilder()));
+                builders.Add(new NullBuilder());
+                builders.Add(new NotBuilder(new NullBuilder()) { Label = "is not null" });
+            }
+            else
+            {
+                // catch all - but if someone is using custom types they can extend the factory and deal with it
+                builders.Add(new SimpleBuilder("="));
+                builders.Add(new NotBuilder(new SimpleBuilder("=")));
+                builders.Add(new NullBuilder());
+                builders.Add(new NotBuilder(new NullBuilder()) { Label = "is not null" });
+            }
+
+            // pretty much always a disjunction when combining multiple values
+            for (int i = 0; i < builders.Count; i++)
+                builders[i] = new JunctionBuilder(JunctionType.Disjunction, builders[i]);
+
+            return builders;
+        }
+
+        /// <summary>
+        /// Creates a builder that can be used as a default for a field path.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public virtual IParameterBuilder GetDefault(IFieldPath path)
+        {
+            IParameterBuilder b;
+            if (path.Last.DataType == typeof(string))
+                b = new LikeBuilder(MatchMode.Anywhere);
+            else if (path.Last.DataType == typeof(DateTime))
+                b = new DateBetweenBuilder();
+            else if (IsNumeric(path.Last.DataType))
+                b = new BetweenBuilder();
+            else
+                b = new SimpleBuilder("=");
+
+            return new JunctionBuilder(JunctionType.Disjunction, b);
+        }
+
+        private bool IsNumeric(Type t)
+        {
+            foreach (var numericType in new Type[] { typeof(sbyte), typeof(short), typeof(int), typeof(long), typeof(byte), typeof(ushort), typeof(uint), typeof(ulong), typeof(Single), typeof(double), typeof(decimal) })
+                if (t == numericType)
+                    return true;
+
+            return false;
+        }
+    }
+}

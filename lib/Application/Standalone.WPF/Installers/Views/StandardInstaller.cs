@@ -1,6 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.Display.Preset;
 using dbqf.Display.Standard;

@@ -17,14 +17,14 @@ namespace dbqf.WPF.UIElements
             return args;
         }
 
-        public UIElement<UIElement> Build(IFieldPath path, ParameterBuilder builder)
+        public UIElement<UIElement> Build(IFieldPath path, IParameterBuilder builder)
         {
             UIElement<System.Windows.UIElement> c;
             var f = path.Last;
             var listArgs = OnListRequired(path);
-            if (builder is JunctionBuilder)
-                return Build(path, ((JunctionBuilder)builder).Other);
-            else if (builder is BetweenBuilder || builder is DateBetweenBuilder)
+            if (builder is IJunctionBuilder)
+                return Build(path, ((IJunctionBuilder)builder).Other);
+            else if (builder is IBetweenBuilder)
             {
                 var between = new BetweenElement(Build(path, null), Build(path, null));
                 if (!String.IsNullOrEmpty(path.Last.DisplayFormat))
@@ -39,10 +39,10 @@ namespace dbqf.WPF.UIElements
                 }
                 return between;
             }
-            else if (builder is BooleanBuilder || builder is NullBuilder)
+            else if (builder is IBooleanBuilder || builder is INullBuilder)
                 return null;
-            else if (builder is NotBuilder)
-                return Build(path, ((NotBuilder)builder).Other);
+            else if (builder is INotBuilder)
+                return Build(path, ((INotBuilder)builder).Other);
             else if (f.DataType == typeof(bool))
                 c = new CheckBoxElement();
             else if (listArgs.List != null)

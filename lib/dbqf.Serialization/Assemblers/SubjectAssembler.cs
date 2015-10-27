@@ -1,9 +1,11 @@
 ﻿using dbqf.Configuration;
 using dbqf.Serialization.DTO;
+using dbqf.Sql.Configuration;
+using System;
 
 namespace dbqf.Serialization.Assemblers
 {
-    public class SubjectAssembler : IAssembler<ISubject, SubjectDTO>
+    public class SubjectAssembler : IAssembler<ISqlSubject, SubjectDTO>
     {
         private FieldAssembler _fieldAssembler;
         public SubjectAssembler(FieldAssembler fieldAssember)
@@ -11,10 +13,10 @@ namespace dbqf.Serialization.Assemblers
             _fieldAssembler = fieldAssember;
         }
 
-        public ISubject Restore(SubjectDTO dto)
+        public ISqlSubject Restore(SubjectDTO dto)
         {
-            var subject = new Subject();
-            subject.Source = dto.Source;
+            SqlSubject subject = new SqlSubject();
+            subject.Sql = dto.Sql;
             subject.DisplayName = dto.DisplayName;
             foreach (var f in dto.Fields)
                 subject.Field(_fieldAssembler.Restore(f));
@@ -23,10 +25,10 @@ namespace dbqf.Serialization.Assemblers
             return subject;
         }
 
-        public SubjectDTO Create(ISubject source)
+        public SubjectDTO Create(ISqlSubject source)
         {
             var dto = new SubjectDTO();
-            dto.Source = source.Source;
+            dto.Sql = source.Sql;
             dto.DisplayName = source.DisplayName;
             dto.IdFieldIndex = source.IndexOf(source.IdField);
             dto.DefaultFieldIndex = source.IndexOf(source.DefaultField);

@@ -1,4 +1,5 @@
-﻿using dbqf.Display;
+﻿using dbqf.Criterion;
+using dbqf.Display;
 using dbqf.Display.Preset;
 using System;
 using System.Collections.Generic;

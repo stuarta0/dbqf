@@ -9,35 +9,60 @@ using dbqf.Serialization.Assemblers.Parsers;
 using Standalone.Core;
 using Standalone.Core.Serialization.Assemblers;
 using Standalone.Core.Serialization.DTO;
+using dbqf.Sql.Configuration;
 
 namespace Sandbox
 {
     class Program
     {
+
+        private static Type[] GetSerializationTypes()
+        {
+            return new Type[] { 
+                typeof(SqlProjectConnection),
+                typeof(SQLiteProjectConnection)
+            };
+        }
+
         static void Main(string[] args)
         {
             //ConfigurationConvertor.Convert(
             //    @"E:\assetasyst.xml",
             //    @"E:\assetasyst.proj.xml");
 
-            var assembler = new ProjectAssembler(new ConfigurationAssembler(new SubjectAssembler(new FieldAssembler(new ParserAssembler()))));
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(ProjectDTO));
-            Project p;
+            var assembler = new ProjectAssembler(new MatrixConfigurationAssembler(new SubjectAssembler(new FieldAssembler(new ParserAssembler()))));
+            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(ProjectDTO), GetSerializationTypes());
+            Project p = new Project()
+            {
+                Configuration = new dbqf.core.tests.Chinook(),
+                Connections = new List<ProjectConnection>()
+                {
+                    new SQLiteProjectConnection() { DisplayName = "sqlite", Identifier = "1", ConnectionString = "abc" },
+                    new SqlProjectConnection() { DisplayName = "mssql", Identifier = "2", ConnectionString = "abc" }
+                }
+            };
 
 
-            //var dto = assembler.Create(new Project() { Configuration = new dbqf.core.tests.Chinook() });
+            var dto = assembler.Create(p);
             //var list = new List<dbqf.Serialization.DTO.Parsers.ParserDTO>();
             //list.Add(new dbqf.Serialization.DTO.Parsers.DelimitedParserDTO(new string[] { ",", ";", "<", Environment.NewLine, "\"", "\t" }));
             //list.Add(new dbqf.Serialization.DTO.Parsers.ConvertParserDTO() { FromType = typeof(object).FullName, ToType = typeof(string).FullName });
             //dto.Configuration.Subjects[0].Fields[0].Parsers = list;
             //File.Delete(@"E:\chinook.proj.xml");
 
-            //var ws = new System.Xml.XmlWriterSettings();
-            //ws.Indent = true;
-            //ws.IndentChars = "  ";
-            //ws.CheckCharacters = true;
-            //using (XmlWriter writer = XmlWriter.Create(@"E:\chinook.proj.xml", ws))
-            //    serializer.Serialize(writer, dto);
+            var ws = new System.Xml.XmlWriterSettings();
+            ws.Indent = true;
+            ws.IndentChars = "  ";
+            ws.CheckCharacters = true;
+            using (XmlWriter writer = XmlWriter.Create(@"E:\chinook.proj.xml", ws))
+            //using (var file = File.CreateText(@"E:\chinook.proj.xml"))
+            //using (var writer = new dbqf.Serialization.NonXsiTextWriter(file))
+            {
+                //writer.Settings.CheckCharacters = true;
+                //writer.Settings.Indent = true;
+                //writer.Settings.IndentChars = "  ";
+                serializer.Serialize(writer, dto);
+            }
 
             //File.WriteAllText(@"E:\AssetAsystConfiguration.cs", new FluentGenerator().Generate(new dbqf.core.tests.Chinook(), "dbqf.core.tests", "Chinook"));
 
@@ -66,12 +91,12 @@ namespace Sandbox
 
             var rs = new XmlReaderSettings();
             rs.CheckCharacters = true; // required to read special characters like new line and tab
-            using (XmlReader reader = XmlReader.Create(@"E:\assetasyst.proj.xml", rs))
+            using (XmlReader reader = XmlReader.Create(@"E:\chinook.proj.xml", rs))
                 p = assembler.Restore((ProjectDTO)serializer.Deserialize(reader));
 
             File.WriteAllText(@"E:\assetasyst.cs", new FluentGenerator().Generate(p.Configuration, "dbqf.AssetAsyst", "Configuration"));
 
-            var validator = new ConfigurationValidation(p.Configuration, new SqlConnection(p.Connections[0].ConnectionString));
+            var validator = new ConfigurationValidation(p.Configuration, new SqlConnection(((SqlProjectConnection)p.Connections[0]).ConnectionString));
             validator.Validate(true);
 
             Console.WriteLine("\nDone.");
@@ -80,24 +105,24 @@ namespace Sandbox
 
         private static IConfiguration Build()
         {
-            ISubject user, module, file;
+            ISqlSubject user, module, file;
 
-            return new ConfigurationImpl()
+            return new MatrixConfiguration()
                 .Subject(
-                    user = new Subject("User")
-                        .Sql("SELECT * FROM Users")
+                    user = new SqlSubject("User")
+                        .SqlQuery("SELECT * FROM Users")
                         .FieldId(new Field("Id", typeof(Guid)))
                         .FieldDefault(new Field("Name", typeof(string)) { List = new FieldList() { Source = "SELECT Id, Name AS Value FROM Users", Type = FieldListType.Suggested } })
                         .Field(new Field("RegistrationCode", "Registration Code", typeof(string))))
                 .Subject(
-                    module = new Subject("Module")
-                        .Sql("SELECT * FROM tblModule")
+                    module = new SqlSubject("Module")
+                        .SqlQuery("SELECT * FROM tblModule")
                         .FieldId(new Field("module_id", typeof(int)))
                         .FieldDefault(new Field("module_name", "Name", typeof(string)) { List = new FieldList() { Source = "SELECT module_id Id, module_name AS Value FROM tblModule", Type = FieldListType.Suggested } })
                         .Field(new Field("module_software", "Software", typeof(string)) { List = new FieldList() { Source = "SELECT DISTINCT module_software FROM tblModule", Type = FieldListType.Limited } }))
                 .Subject(
-                    file = new Subject("File")
-                        .Sql("SELECT * FROM tblFile")
+                    file = new SqlSubject("File")
+                        .SqlQuery("SELECT * FROM tblFile")
                         .FieldId(new Field("File_id", typeof(int)))
                         .Field(new RelationField("File_Module", "Module", module))
                         .FieldDefault(new Field("File_Description", "Description", typeof(string)))

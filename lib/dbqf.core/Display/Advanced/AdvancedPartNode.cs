@@ -31,7 +31,7 @@ namespace dbqf.Display.Advanced
                 if (Values != null && Values.Length > 0)
                 {
                     var junctionName = "or";
-                    if (SelectedBuilder is JunctionBuilder && ((JunctionBuilder)SelectedBuilder).Type == JunctionType.Conjunction)
+                    if (SelectedBuilder is IJunctionBuilder && ((IJunctionBuilder)SelectedBuilder).Type == JunctionType.Conjunction)
                         junctionName = "and";
 
                     sb.Append(Values[0]);
@@ -65,7 +65,7 @@ namespace dbqf.Display.Advanced
         /// <summary>
         /// Gets or sets the parameter builder to use with this control.
         /// </summary>
-        public virtual ParameterBuilder SelectedBuilder
+        public virtual IParameterBuilder SelectedBuilder
         {
             get { return _builder; }
             set
@@ -78,7 +78,7 @@ namespace dbqf.Display.Advanced
                 OnPropertyChanged("Description");
             }
         }
-        protected ParameterBuilder _builder;
+        protected IParameterBuilder _builder;
 
         public virtual object[] Values
         {
@@ -138,7 +138,7 @@ namespace dbqf.Display.Advanced
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        bool IEquatable<IPartView>.Equals(IPartView other)
+        public override bool Equals(IPartView other)
         {
             if (other == null || !(other is IPartViewNode))
                 return false;
@@ -153,7 +153,7 @@ namespace dbqf.Display.Advanced
         public override bool Equals(object obj)
         {
             if (obj is IPartView)
-                return Equals((IPartView)obj);
+                return this.Equals((IPartView)obj);
             return base.Equals(obj);
         }
 

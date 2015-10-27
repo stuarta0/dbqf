@@ -1,4 +1,5 @@
 ﻿using dbqf.Configuration;
+using dbqf.Criterion;
 using dbqf.Display;
 using dbqf.Display.Advanced;
 using System;
@@ -72,7 +73,7 @@ namespace dbqf.WPF.Advanced
 
         protected override AdvancedPartJunction CreateJunction(JunctionType type)
         {
-            return new WpfAdvancedPartJunction(type);
+            return new WpfAdvancedPartJunction(type) { Builder = _builderFactory };
         }
     }
 }

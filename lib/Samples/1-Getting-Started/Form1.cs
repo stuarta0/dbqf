@@ -11,8 +11,8 @@ namespace _1_Getting_Started
 
             // Created once for the lifetime of the application.
             var config = new dbqf.Sql.Configuration.MatrixConfiguration()
-              .Subject(new dbqf.Configuration.Subject("Test")
-                  .Sql("SELECT * FROM [Test]")
+              .Subject((dbqf.Sql.Configuration.ISqlSubject)new dbqf.Sql.Configuration.SqlSubject("Test")
+                  .SqlQuery("SELECT * FROM [Test]")
                   .FieldId(new dbqf.Configuration.Field("Id", typeof(int)))
                   .FieldDefault(new dbqf.Configuration.Field("Name", typeof(string)))
                   .Field(new dbqf.Configuration.Field("Total", typeof(int)))
@@ -23,7 +23,7 @@ namespace _1_Getting_Started
             // Note: the ControlFactory and ParameterBuilderFactory can be reused across the application.
             var preset = new dbqf.WinForms.PresetView(new dbqf.Display.Preset.PresetAdapter<Control>(
                 new dbqf.WinForms.UIElements.WinFormsControlFactory(),
-                new dbqf.Display.ParameterBuilderFactory()));
+                new dbqf.Sql.Criterion.ParameterBuilderFactory()));
             preset.Adapter.SetParts(new dbqf.Display.FieldPathFactory().GetFields(config[0]));
             preset.Dock = DockStyle.Fill;
             this.Controls.Add(preset);

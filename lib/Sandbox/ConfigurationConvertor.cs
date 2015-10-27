@@ -12,14 +12,14 @@ namespace Sandbox
         public static void Convert(string source, string dest)
         {
             var cv1 = DbQueryFramework_v1.Utils.Serialization.Deserialize<DbQueryFramework_v1.Configuration.QueryConfig>(source);
-            var cdto = new dbqf.Serialization.DTO.ConfigurationDTO(cv1.Subjects.Count);
+            var cdto = new dbqf.Serialization.DTO.MatrixConfigurationDTO(cv1.Subjects.Count);
 
             // convert old format into new
             for (int i = 0; i < cv1.Subjects.Count; i++)
             {
                 var sv1 = cv1.Subjects[i];
                 var sdto = new dbqf.Serialization.DTO.SubjectDTO();
-                sdto.Source = sv1.Source;
+                sdto.Sql = sv1.Source;
                 sdto.DisplayName = sv1.DisplayName;
                 sdto.IdFieldIndex = sv1.Fields.IndexOf(sv1.GetField("ID"));
                 if (sdto.IdFieldIndex < 0)
@@ -75,7 +75,7 @@ namespace Sandbox
             }
 
 
-            var assembler = new ConfigurationAssembler(new SubjectAssembler(new FieldAssembler(new ParserAssembler())));
+            var assembler = new MatrixConfigurationAssembler(new SubjectAssembler(new FieldAssembler(new ParserAssembler())));
             var c = assembler.Restore(cdto);
 
             cdto = assembler.Create(c);
@@ -93,19 +93,17 @@ namespace Sandbox
                 serializer.Serialize(writer, new Standalone.Core.Serialization.DTO.ProjectDTO()
                 {
                     Id = Guid.NewGuid(),
-                    Connections = new List<Standalone.Core.Connection>() { 
-                        new Standalone.Core.Connection() 
+                    Connections = new List<Standalone.Core.ProjectConnection>() { 
+                        new Standalone.Core.SQLiteProjectConnection() 
                         { 
                             DisplayName = "Local Machine",
                             Identifier = "local",
-                            ConnectionType = "SQLite", 
                             ConnectionString = @"Data Source=C:\myData.db;Version=3;" 
                         },
-                        new Standalone.Core.Connection() 
+                        new Standalone.Core.SqlProjectConnection() 
                         { 
                             DisplayName = "Remote Server",
                             Identifier = "remote",
-                            ConnectionType = "SqlClient", 
                             ConnectionString = @"Server=(local);Database=AdventureWorks2008R2;Trusted_Connection=True;" 
                         }
                     },

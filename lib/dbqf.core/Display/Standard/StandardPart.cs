@@ -52,7 +52,7 @@ namespace dbqf.Display.Standard
         /// <summary>
         /// Gets the list of builders that are relevant to the current SelectedPath.
         /// </summary>
-        public virtual BindingList<ParameterBuilder> Builders
+        public virtual BindingList<IParameterBuilder> Builders
         {
             get { return _builders; }
             protected set
@@ -61,7 +61,7 @@ namespace dbqf.Display.Standard
                 OnPropertyChanged("Builders");
             }
         }
-        private BindingList<ParameterBuilder> _builders;
+        private BindingList<IParameterBuilder> _builders;
 
         /// <summary>
         /// Gets or sets the field used for this control.
@@ -75,7 +75,7 @@ namespace dbqf.Display.Standard
                     return;
                 _path = value;
                 OnPropertyChanged("SelectedPath");
-                Builders = new BindingList<ParameterBuilder>(_builderFactory.Build(_path));
+                Builders = new BindingList<IParameterBuilder>(_builderFactory.Build(_path));
                 SelectedBuilder = Builders[0];
             }
         }
@@ -84,7 +84,7 @@ namespace dbqf.Display.Standard
         /// <summary>
         /// Gets or sets the parameter builder to use with this control.
         /// </summary>
-        public virtual ParameterBuilder SelectedBuilder 
+        public virtual IParameterBuilder SelectedBuilder 
         {
             get { return _builder; } 
             set
@@ -96,7 +96,7 @@ namespace dbqf.Display.Standard
                 UIElement = _controlFactory.Build(SelectedPath, SelectedBuilder);
             }
         }
-        protected ParameterBuilder _builder;
+        protected IParameterBuilder _builder;
 
 
         /// <summary>

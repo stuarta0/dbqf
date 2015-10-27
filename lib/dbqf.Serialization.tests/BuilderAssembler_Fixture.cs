@@ -2,6 +2,7 @@
 using dbqf.Criterion.Builders;
 using dbqf.Serialization.Assemblers.Builders;
 using dbqf.Serialization.DTO.Builders;
+using dbqf.Sql.Criterion.Builders;
 using NUnit.Framework;
 
 namespace dbqf.Serialization.tests
@@ -22,7 +23,7 @@ namespace dbqf.Serialization.tests
             {
             }
 
-            public static ParameterBuilder Source { get; private set; }
+            public static IParameterBuilder Source { get; private set; }
             public static ParameterBuilderDTO DTO { get; private set; }
             static BuilderAssemblerStub()
             {
@@ -35,12 +36,12 @@ namespace dbqf.Serialization.tests
             {
             }
 
-            public override ParameterBuilder Restore(ParameterBuilderDTO dto)
+            public override IParameterBuilder Restore(ParameterBuilderDTO dto)
             {
                 return Source;
             }
 
-            public override ParameterBuilderDTO Create(ParameterBuilder source)
+            public override ParameterBuilderDTO Create(IParameterBuilder source)
             {
                 return DTO;
             }

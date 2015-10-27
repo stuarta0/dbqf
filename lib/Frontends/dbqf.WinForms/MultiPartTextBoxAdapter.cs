@@ -17,6 +17,11 @@ namespace dbqf.WinForms
         /// </summary>
         public Parser Parser { get; set; }
 
+        /// <summary>
+        /// Gets or sets the ParameterBuilderFactory used to combine parameters from the part parameters.
+        /// </summary>
+        public IParameterBuilderFactory Builder { get; set; }
+
         public MultiPartTextBoxAdapter()
         {
             Prefix = null;
@@ -71,13 +76,13 @@ namespace dbqf.WinForms
 
         public IParameter GetParameter()
         {
-            if (String.IsNullOrEmpty(QueryText))
+            if (String.IsNullOrEmpty(QueryText) || Builder == null)
                 return null;
 
-            Junction junction;
+            IJunction junction;
             if (Parser == null)
             {
-                junction = new Disjunction();
+                junction = Builder.Disjunction();
                 foreach (var part in Parts)
                 {
                     // as we process each part, pass through the value to pull apart
@@ -95,11 +100,11 @@ namespace dbqf.WinForms
             }
             else
             {
-                junction = new Conjunction();
+                junction = Builder.Conjunction();
                 // pre-process the query text using our own parser
                 foreach (var value in Parser.Parse(QueryText))
                 {
-                    var disjunction = new Disjunction();
+                    var disjunction = Builder.Disjunction();
                     foreach (var part in Parts)
                     {
                         part.Values = new object[] { value };

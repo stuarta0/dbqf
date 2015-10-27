@@ -6,6 +6,7 @@ using Standalone.Core;
 using Standalone.Core.Initialisers;
 using Standalone.Forms;
 using Standalone.Properties;
+using Standalone.Core.Data;
 
 namespace Standalone
 {
@@ -24,8 +25,8 @@ namespace Standalone
         /// </summary>
         public IControlFactory<Control> ControlFactory { get; private set; }
 
-        public Shell(Project project, IControlFactory<Control> controlFactory, ListCacher cacher, IList<IInitialiser> initialisers)
-            : base(project, cacher, initialisers)
+        public Shell(Project project, IControlFactory<Control> controlFactory, DbServiceFactory serviceFactory, ListCacher cacher, IList<IInitialiser> initialisers)
+            : base(project, serviceFactory, cacher, initialisers)
         {
             // initialise last saved connection with this project
             var connectionLookup = Settings.Default.SavedConnections;

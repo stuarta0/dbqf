@@ -11,6 +11,5 @@ namespace dbqf.Criterion
     /// </summary>
     public interface IParameter
     {
-        SqlString ToSqlString();
     }
 }

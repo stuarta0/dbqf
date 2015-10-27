@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using dbqf.Configuration;
+using dbqf.Sql.Configuration;
 
 namespace Sandbox
 {
@@ -23,14 +24,14 @@ namespace Sandbox
     ///       .Matrix(Subject2, Subject1, "...");
     ///   }
     /// 
-    ///   private ISubject _subject1;
-    ///   public ISubject Subject1
+    ///   private ISqlSubject _subject1;
+    ///   public ISqlSubject Subject1
     ///   {
     ///       get
     ///       {
     ///           if (_subject1 == null)
-    ///               _subject1 = new Subject("Subject1")
-    ///                   .Sql("...")
+    ///               _subject1 = new SqlSubject("Subject1")
+    ///                   .SqlQuery("...")
     ///                   .FieldId(new Field("Field1", typeof(int)))
     ///                   .FieldDefault(new Field("Field2", typeof(string)))
     ///                   .Field(new RelationField("Field3", Subject2));
@@ -62,7 +63,7 @@ namespace Sandbox
             }
         }
 
-        public string Generate(IConfiguration configuration, string namespaceName, string className)
+        public string Generate(IMatrixConfiguration configuration, string namespaceName, string className)
         {
             // I could use T4, but that requires time spent learning it which I'm short on at the moment
             var sb = new StringBuilder(String.Format(@"
@@ -94,7 +95,7 @@ namespace {0}
             {
                 for (int j = 0; j < configuration.Count; j++)
                 {
-                    var node = configuration[configuration[i], configuration[j]];
+                    var node = configuration[(ISqlSubject)configuration[i], (ISqlSubject)configuration[j]];
                     if (!String.IsNullOrWhiteSpace(node.Query))
                         sb.AppendLine(String.Format("            .Matrix({0}, {1}, @{2}, @{3})", 
                             names[configuration[i]].Name, names[configuration[j]].Name, 
@@ -108,23 +109,23 @@ namespace {0}
 ");
 
             // add subject properties
-            foreach (var subject in configuration)
+            foreach (ISqlSubject subject in configuration)
             {
                 sb.AppendLine(String.Format(@"
-        private Subject {0};
-        public ISubject {1}
+        private ISqlSubject {0};
+        public ISqlSubject {1}
         {{
             get
             {{
                 if ({0} == null)
                 {{
-                    {0} = new Subject({2})
-                        .Sql(@{3})
+                    {0} = new SqlSubject({2})
+                        .SqlQuery(@{3})
                         .{4};",
                     names[subject].MemberName,
                     names[subject].Name,
                     Quote(subject.DisplayName),
-                    Quote(subject.Source),
+                    Quote(subject.Sql),
                     FieldText(subject.IdField, names) // we need to set this up before continuing with the remaining fields as RelationFields reference the related subject IdField for DataType
                     ));
 

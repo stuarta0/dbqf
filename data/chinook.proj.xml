@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Id="00000000-0000-0000-0000-000000000000">
   <Connections>
-    <Connection DisplayName="Chinook SQLite" Type="SQLite" Identifier="System.Data.SQLite.SQLiteConnection">Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;</Connection>
+    <ProjectConnection xsi:type="SQLiteProjectConnection" DisplayName="Chinook SQLite" Identifier="1">Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;</ProjectConnection>
   </Connections>
   <Configuration>
     <Subjects>
       <Subject IdField="0" DefaultField="1">
         <DisplayName>Artist</DisplayName>
-        <Source>Artist</Source>
+        <Sql>Artist</Sql>
         <Fields>
           <Field Source="ArtistId">
             <Type>System.Int32</Type>
@@ -24,7 +24,7 @@
       </Subject>
       <Subject IdField="0" DefaultField="1">
         <DisplayName>Album</DisplayName>
-        <Source>Album</Source>
+        <Sql>Album</Sql>
         <Fields>
           <Field Source="AlbumId">
             <Type>System.Int32</Type>
@@ -46,9 +46,9 @@
       </Subject>
       <Subject IdField="0" DefaultField="1">
         <DisplayName>Track</DisplayName>
-        <Source>SELECT Track.*, MediaType.Name MTN, Genre.Name GN FROM Track 
+        <Sql>SELECT Track.*, MediaType.Name MTN, Genre.Name GN FROM Track 
 LEFT OUTER JOIN MediaType ON MediaType.MediaTypeId = Track.MediaTypeId
-LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId</Source>
+LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId</Sql>
         <Fields>
           <Field Source="TrackId">
             <Type>System.Int32</Type>
@@ -100,7 +100,7 @@ LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId</Source>
       </Subject>
       <Subject IdField="0" DefaultField="1">
         <DisplayName>Playlist</DisplayName>
-        <Source>SELECT *, 0 AS HasPlayed, NULL AS LastPlayed FROM Playlist</Source>
+        <Sql>SELECT *, 0 AS HasPlayed, NULL AS LastPlayed FROM Playlist</Sql>
         <Fields>
           <Field Source="PlaylistId">
             <Type>System.Int32</Type>

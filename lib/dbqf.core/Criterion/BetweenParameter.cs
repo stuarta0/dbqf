@@ -8,9 +8,9 @@ namespace dbqf.Criterion
 {
     public class BetweenParameter : IParameter
     {
-        private IFieldPath _path;
-        private object _lo;
-        private object _hi;
+        protected IFieldPath _path;
+        protected object _lo;
+        protected object _hi;
 
         public BetweenParameter(IField field, object lo, object hi)
             : this(FieldPath.FromDefault(field), lo, hi)
@@ -22,16 +22,6 @@ namespace dbqf.Criterion
             _path = path;
             _lo = lo;
             _hi = hi;
-        }
-
-        public SqlString ToSqlString()
-        {
-            return new SqlString()
-                .AddField(_path)
-                .Add(" BETWEEN ")
-                .AddParameter(_lo)
-                .Add(" AND ")
-                .AddParameter(_hi);
         }
     }
 }

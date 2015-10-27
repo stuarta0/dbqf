@@ -7,17 +7,17 @@ using System.Xml.Serialization;
 namespace dbqf.Sql.Configuration
 {
     /// <summary>
-    /// Represents a view of the database to be used for user querying.
+    /// Represents a view of the database to be used for user querying.  Must be used with ISqlSubject types.
     /// </summary>
     public class MatrixConfiguration : IMatrixConfiguration
     {
-        protected List<ISubject> _subjects;
-        protected Dictionary<ISubject, Dictionary<ISubject, MatrixNode>> _matrix;
+        protected List<ISqlSubject> _subjects;
+        protected Dictionary<ISqlSubject, Dictionary<ISqlSubject, MatrixNode>> _matrix;
 
         public MatrixConfiguration()
         {
-            _subjects = new List<ISubject>();
-            _matrix = new Dictionary<ISubject, Dictionary<ISubject, MatrixNode>>();
+            _subjects = new List<ISqlSubject>();
+            _matrix = new Dictionary<ISqlSubject, Dictionary<ISqlSubject, MatrixNode>>();
         }
 
         public ISubject this[string displayName]
@@ -28,34 +28,35 @@ namespace dbqf.Sql.Configuration
             }
         }
 
-        public MatrixNode this[ISubject from, ISubject to]
+        public MatrixNode this[ISqlSubject from, ISqlSubject to]
         {
             get { return _matrix[from][to]; }
         }
 
 
+        private void TypeCheck(ISubject item)
+        {
+            if (!(item is ISqlSubject))
+                throw new ArgumentException("Subjects must be of type ISqlSubject.");
+        }
+
         /// <summary>
-        /// Fluently adds a new subject to the configuration.  If subject.ID is not set (&lt;= 0) it will be auto-set to the next count of Subjects.
+        /// Fluently adds a new subject to the configuration.
         /// </summary>
         /// <param name="subject"></param>
         /// <returns></returns>
-        public IConfiguration Subject(ISubject subject)
-        {
-            return MatrixSubject(subject);
-        }
-
-        public IMatrixConfiguration MatrixSubject(ISubject subject)
+        public MatrixConfiguration Subject(ISqlSubject subject)
         {
             Add(subject);
             return this;
         }
 
-        public IMatrixConfiguration Matrix(ISubject from, ISubject to, string sql)
+        public MatrixConfiguration Matrix(ISqlSubject from, ISqlSubject to, string sql)
         {
             return Matrix(from, to, sql, null);
         }
 
-        public IMatrixConfiguration Matrix(ISubject from, ISubject to, string sql, string tooltip)
+        public MatrixConfiguration Matrix(ISqlSubject from, ISqlSubject to, string sql, string tooltip)
         {
             var node = _matrix[from][to];
             node.Query = sql;
@@ -64,9 +65,9 @@ namespace dbqf.Sql.Configuration
             return this;
         }
 
-        protected virtual void AddToMatrix(ISubject subject)
+        protected virtual void AddToMatrix(ISqlSubject subject)
         {
-            _matrix.Add(subject, new Dictionary<ISubject, MatrixNode>());
+            _matrix.Add(subject, new Dictionary<ISqlSubject, MatrixNode>());
             foreach (var s in _subjects)
             {
                 _matrix[subject].Add(s, new MatrixNode());
@@ -76,7 +77,7 @@ namespace dbqf.Sql.Configuration
             }
         }
 
-        protected virtual void RemoveFromMatrix(ISubject subject)
+        protected virtual void RemoveFromMatrix(ISqlSubject subject)
         {
             _matrix.Remove(subject);
             foreach (var s in _subjects)
@@ -91,13 +92,15 @@ namespace dbqf.Sql.Configuration
 
         public int IndexOf(ISubject item)
         {
-            return _subjects.IndexOf(item);
+            TypeCheck(item);
+            return _subjects.IndexOf((ISqlSubject)item);
         }
 
         public void Insert(int index, ISubject item)
         {
-            _subjects.Insert(index, item);
-            AddToMatrix(item);
+            TypeCheck(item);
+            _subjects.Insert(index, (ISqlSubject)item);
+            AddToMatrix((ISqlSubject)item);
         }
 
         public void RemoveAt(int index)
@@ -114,14 +117,16 @@ namespace dbqf.Sql.Configuration
             }
             set
             {
-                _subjects[index] = value;
+                TypeCheck(value);
+                _subjects[index] = (ISqlSubject)value;
             }
         }
 
         public void Add(ISubject item)
         {
-            _subjects.Add(item);
-            AddToMatrix(item);
+            TypeCheck(item);
+            _subjects.Add((ISqlSubject)item);
+            AddToMatrix((ISqlSubject)item);
             item.Configuration = this;
         }
 
@@ -133,12 +138,15 @@ namespace dbqf.Sql.Configuration
 
         public bool Contains(ISubject item)
         {
-            return _subjects.Contains(item);
+            if (item is ISqlSubject)
+                return _subjects.Contains((ISqlSubject)item);
+            return false;
         }
 
         public void CopyTo(ISubject[] array, int arrayIndex)
         {
-            _subjects.CopyTo(array, arrayIndex);
+            for (int i = 0; arrayIndex + i < array.Length && i < _subjects.Count; i++)
+                array[arrayIndex + i] = _subjects[i];
         }
 
         public int Count
@@ -153,9 +161,9 @@ namespace dbqf.Sql.Configuration
 
         public bool Remove(ISubject item)
         {
-            if (_subjects.Remove(item))
+            if (item is ISqlSubject && _subjects.Remove((ISqlSubject)item))
             {
-                RemoveFromMatrix(item);
+                RemoveFromMatrix((ISqlSubject)item);
                 return true;
             }
 
@@ -164,7 +172,8 @@ namespace dbqf.Sql.Configuration
 
         public IEnumerator<ISubject> GetEnumerator()
         {
-            return _subjects.GetEnumerator();
+            foreach (var s in _subjects)
+                yield return s;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

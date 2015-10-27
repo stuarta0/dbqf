@@ -75,8 +75,8 @@ namespace dbqf.Configuration
         public RelationField(IField basedOn)
             : base(basedOn)
         {
-            if (basedOn is RelationField)
-                RelatedSubject = ((RelationField)basedOn).RelatedSubject;
+            if (basedOn is IRelationField)
+                RelatedSubject = ((IRelationField)basedOn).RelatedSubject;
             else
                 RelatedSubject = null;
         }

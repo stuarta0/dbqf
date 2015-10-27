@@ -4,7 +4,6 @@ using dbqf.Display;
 using dbqf.WPF;
 using PropertyChanged;
 using Standalone.Core.Data;
-using Standalone.Core.Data.Processing;
 using Standalone.Core.Export;
 using System;
 using System.Collections.Generic;
@@ -26,14 +25,55 @@ namespace Standalone.WPF
     public class MainWindowAdapter : Core.ApplicationBase
     {
         public ProjectAdapter ProjectAdapter { get; private set; }
-        public ResultFactory ResultFactory { get; set; }
         public IFieldPathFactory PathFactory { get; private set; }
         public IDialogService DialogService { get; set; }
+
+        public DbServiceFactory ServiceFactory { get; set; }
+        private IDbServiceAsync _dbService;
 
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
         public AdvancedView Advanced { get; private set; }
         public RetrieveFieldsView RetrieveFields { get; private set; }
+
+        public MainWindowAdapter(
+            Project project, DbServiceFactory serviceFactory, IFieldPathFactory pathFactory,
+            PresetView preset, StandardView standard, AdvancedView advanced,
+            RetrieveFieldsView fields)
+            : base(project)
+        {
+            _appWidth = Properties.Settings.Default.AppWidth;
+            _appHeight = Properties.Settings.Default.AppHeight;
+            _appWindowState = Properties.Settings.Default.AppWindowState;
+            _viewColumnSize = new GridLength(Properties.Settings.Default.ViewColumnSize);
+
+            Preset = preset;
+            Standard = standard;
+            Advanced = advanced;
+            RetrieveFields = fields;
+            _views.Add("Preset", preset.Adapter);
+            _views.Add("Standard", standard.Adapter);
+            _views.Add("Advanced", advanced.Adapter);
+
+            Preset.Adapter.Search += Adapter_Search;
+            Standard.Adapter.Search += Adapter_Search;
+            Advanced.Adapter.Search += Adapter_Search;
+
+            ProjectAdapter = new ProjectAdapter(project);
+            PathFactory = pathFactory;
+            ServiceFactory = serviceFactory;
+
+            CurrentView = Preset.Adapter;
+            SelectedSubjectChanged += delegate { RefreshPaths(); };
+            var refresh = new EventHandler((s, e) =>
+            {
+                RefreshPaths();
+                OnPropertyChanged("ApplicationTitle");
+                _dbService = ServiceFactory.CreateAsync(Project.CurrentConnection);
+            });
+            ProjectAdapter.Project.CurrentConnectionChanged += refresh;
+            refresh(this, EventArgs.Empty);
+        }
 
         #region Application Appearance
 
@@ -238,42 +278,6 @@ namespace Standalone.WPF
             get { return String.Concat("Results", Result == null ? string.Empty : String.Concat(" (", Result.Rows.Count, ")")); }
         }
 
-        public MainWindowAdapter(
-            Project project, IFieldPathFactory pathFactory, 
-            PresetView preset, StandardView standard, AdvancedView advanced, 
-            RetrieveFieldsView fields)
-            : base(project)
-        {
-            _appWidth = Properties.Settings.Default.AppWidth;
-            _appHeight = Properties.Settings.Default.AppHeight;
-            _appWindowState = Properties.Settings.Default.AppWindowState;
-            _viewColumnSize = new GridLength(Properties.Settings.Default.ViewColumnSize);
-
-            Preset = preset;
-            Standard = standard;
-            Advanced = advanced;
-            RetrieveFields = fields;
-            _views.Add("Preset", preset.Adapter);
-            _views.Add("Standard", standard.Adapter);
-            _views.Add("Advanced", advanced.Adapter);
-
-            Preset.Adapter.Search += Adapter_Search;
-            Standard.Adapter.Search += Adapter_Search;
-            Advanced.Adapter.Search += Adapter_Search;
-
-            ProjectAdapter = new ProjectAdapter(project);
-            ProjectAdapter.Project.CurrentConnectionChanged += delegate 
-            {
-                RefreshPaths();
-                OnPropertyChanged("ApplicationTitle"); 
-            };
-            PathFactory = pathFactory;
-
-            CurrentView = Preset.Adapter;
-            SelectedSubjectChanged += delegate { RefreshPaths(); };
-            RefreshPaths();
-        }
-
         public override void Refine()
         {
             try { base.Refine(); }
@@ -317,49 +321,23 @@ namespace Standalone.WPF
                 CancelSearch();
             }
 
-            var worker = (SearchWorker = new BackgroundWorker());
-            worker.WorkerSupportsCancellation = true;
-
-            var fields = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject);
-            var gen = ResultFactory.CreateSqlGenerator(ProjectAdapter.Project.Configuration)
-                .Target(SelectedSubject)
-                .Column(fields)
-                .Where(parameter);
-
-            Result = null;
-            ResultSQL = ((ExposedSqlGenerator)gen).GenerateSql();
-            var repo = ResultFactory.CreateSqlResults(ProjectAdapter.Project.CurrentConnection);
-            worker.DoWork += (s1, e1) =>
+            // Get results asynchronously
+            ResultSQL = null;
+            var details = new SearchDetails()
             {
-                e1.Result = repo.GetResults(gen);
-                e1.Cancel = worker.CancellationPending;
+                Target = SelectedSubject,
+                Columns = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject),
+                Where = parameter
             };
-            worker.RunWorkerCompleted += (s2, e2) =>
-            {
-                worker.Dispose();
 
-                // cancellation assumes the SearchWorker property has been set null
-                if (e2.Cancelled)
-                    return;
+            _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
+        }
 
-                // should it ever occur that a worker that isn't cancelled is replaced?
-                if (SearchWorker == worker)
-                    SearchWorker = null;
-
-                if (e2.Error != null)
-                {
-                    MessageBox.Show("There was an error when trying to perform the search.\n\n" + e2.Error.Message, "Search", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                }
-                else
-                {
-                    // assign field references to columns returned
-                    var data = (DataTable)e2.Result;
-                    for (int i = 0; i < data.Columns.Count; i++)
-                        data.Columns[i].ExtendedProperties.Add("FieldPath", fields[i]);
-                    Result = data;
-                }
-            };
-            worker.RunWorkerAsync();
+        private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
+        {
+            var data = (ResultCallback)callback;
+            ResultSQL = ((SearchDetails)data.Details).Sql;
+            Result = data.Results;
         }
 
         public override bool Export(string filename)

@@ -15,6 +15,8 @@ namespace dbqf.Display.Advanced
     [DebuggerDisplay("{Type} Count={Parts.Count}")]
     public class AdvancedPartJunction : AdvancedPart, IPartViewJunction
     {
+        public IParameterBuilderFactory Builder { get; set; }
+
         /// <summary>
         /// Construct a new AdvancedPartJunction that represents an IPartViewJunction.
         /// </summary>
@@ -53,7 +55,10 @@ namespace dbqf.Display.Advanced
 
         public override Criterion.IParameter GetParameter()
         {
-            Junction junction = (Type == JunctionType.Conjunction ? (Junction)new Conjunction() : new Disjunction());
+            if (Builder == null)
+                return null;
+
+            IJunction junction = (Type == JunctionType.Conjunction ? Builder.Conjunction() : Builder.Disjunction());
             foreach (var p in this)
             {
                 var toAdd = p.GetParameter();

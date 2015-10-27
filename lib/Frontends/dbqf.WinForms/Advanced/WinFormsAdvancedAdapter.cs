@@ -59,7 +59,7 @@ namespace dbqf.WinForms.Advanced
 
         protected override AdvancedPartJunction CreateJunction(JunctionType type)
         {
-            return new WinFormsAdvancedPartJunction(type);
+            return new WinFormsAdvancedPartJunction(type) { Builder = _builderFactory };
         }
 
         public override AdvancedPart Part
