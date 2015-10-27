@@ -15,6 +15,15 @@ namespace Sandbox
 {
     class Program
     {
+
+        private static Type[] GetSerializationTypes()
+        {
+            return new Type[] { 
+                typeof(SqlProjectConnection),
+                typeof(SQLiteProjectConnection)
+            };
+        }
+
         static void Main(string[] args)
         {
             //ConfigurationConvertor.Convert(
@@ -22,23 +31,38 @@ namespace Sandbox
             //    @"E:\assetasyst.proj.xml");
 
             var assembler = new ProjectAssembler(new MatrixConfigurationAssembler(new SubjectAssembler(new FieldAssembler(new ParserAssembler()))));
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(ProjectDTO));
-            Project p;
+            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(ProjectDTO), GetSerializationTypes());
+            Project p = new Project()
+            {
+                Configuration = new dbqf.core.tests.Chinook(),
+                Connections = new List<ProjectConnection>()
+                {
+                    new SQLiteProjectConnection() { DisplayName = "sqlite", Identifier = "1", ConnectionString = "abc" },
+                    new SqlProjectConnection() { DisplayName = "mssql", Identifier = "2", ConnectionString = "abc" }
+                }
+            };
 
 
-            //var dto = assembler.Create(new Project() { Configuration = new dbqf.core.tests.Chinook() });
+            var dto = assembler.Create(p);
             //var list = new List<dbqf.Serialization.DTO.Parsers.ParserDTO>();
             //list.Add(new dbqf.Serialization.DTO.Parsers.DelimitedParserDTO(new string[] { ",", ";", "<", Environment.NewLine, "\"", "\t" }));
             //list.Add(new dbqf.Serialization.DTO.Parsers.ConvertParserDTO() { FromType = typeof(object).FullName, ToType = typeof(string).FullName });
             //dto.Configuration.Subjects[0].Fields[0].Parsers = list;
             //File.Delete(@"E:\chinook.proj.xml");
 
-            //var ws = new System.Xml.XmlWriterSettings();
-            //ws.Indent = true;
-            //ws.IndentChars = "  ";
-            //ws.CheckCharacters = true;
-            //using (XmlWriter writer = XmlWriter.Create(@"E:\chinook.proj.xml", ws))
-            //    serializer.Serialize(writer, dto);
+            var ws = new System.Xml.XmlWriterSettings();
+            ws.Indent = true;
+            ws.IndentChars = "  ";
+            ws.CheckCharacters = true;
+            using (XmlWriter writer = XmlWriter.Create(@"E:\chinook.proj.xml", ws))
+            //using (var file = File.CreateText(@"E:\chinook.proj.xml"))
+            //using (var writer = new dbqf.Serialization.NonXsiTextWriter(file))
+            {
+                //writer.Settings.CheckCharacters = true;
+                //writer.Settings.Indent = true;
+                //writer.Settings.IndentChars = "  ";
+                serializer.Serialize(writer, dto);
+            }
 
             //File.WriteAllText(@"E:\AssetAsystConfiguration.cs", new FluentGenerator().Generate(new dbqf.core.tests.Chinook(), "dbqf.core.tests", "Chinook"));
 
@@ -67,7 +91,7 @@ namespace Sandbox
 
             var rs = new XmlReaderSettings();
             rs.CheckCharacters = true; // required to read special characters like new line and tab
-            using (XmlReader reader = XmlReader.Create(@"E:\assetasyst.proj.xml", rs))
+            using (XmlReader reader = XmlReader.Create(@"E:\chinook.proj.xml", rs))
                 p = assembler.Restore((ProjectDTO)serializer.Deserialize(reader));
 
             File.WriteAllText(@"E:\assetasyst.cs", new FluentGenerator().Generate(p.Configuration, "dbqf.AssetAsyst", "Configuration"));
