@@ -79,9 +79,7 @@
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainAdapter.cs" />
-    <Compile Include="Forms\PasteOverrideTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Forms\PasteOverrideTextBox.cs" />
     <Compile Include="Forms\RetrieveFieldsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -181,4 +179,3 @@
   </Target>
   -->
 </Project>
-
