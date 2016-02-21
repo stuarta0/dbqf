@@ -9,14 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.WinForms", "Frontends\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.core.tests", "dbqf.tests\dbqf.core.tests.csproj", "{BC5AAA8E-D0F7-48DE-9F71-3A7C21BDD6D1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9649AF8E-CB1C-4542-9554-5379DFBFC79D}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standalone", "Application\Standalone\Standalone.csproj", "{5AAD85B2-212D-421C-9C9B-8B2675550E1E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{5EB67725-5496-492F-8C0C-09760F6198C6}"
@@ -132,3 +124,4 @@ Global
 		{30418998-E47B-4211-B2B9-DF304CD51C88} = {F27BB0CD-16AC-446E-A3AA-8CEBE3F37EAC}
 	EndGlobalSection
 EndGlobal
+
