@@ -9,15 +9,16 @@ namespace _1_Getting_Started
         {
             InitializeComponent();
 
-            // Created once for the lifetime of the application.
+            // Usually created once for the lifetime of the application.
+            // This code will reside in Samples.Common.TestConfiguration for the remaining samples.
             var config = new dbqf.Sql.Configuration.MatrixConfiguration()
-              .Subject((dbqf.Sql.Configuration.ISqlSubject)new dbqf.Sql.Configuration.SqlSubject("Test")
-                  .SqlQuery("SELECT * FROM [Test]")
+                .Subject(new dbqf.Sql.Configuration.SqlSubject("Foo")
+                  .SqlQuery("SELECT * FROM [Foo]")
                   .FieldId(new dbqf.Configuration.Field("Id", typeof(int)))
                   .FieldDefault(new dbqf.Configuration.Field("Name", typeof(string)))
                   .Field(new dbqf.Configuration.Field("Total", typeof(int)))
-                  .Field(new dbqf.Configuration.Field("Date Created", typeof(DateTime)))
-                  .Field(new dbqf.Configuration.Field("Is Archived", typeof(bool))));
+                  .Field(new dbqf.Configuration.Field("DateCreated", "Date Created", typeof(DateTime)))
+                  .Field(new dbqf.Configuration.Field("IsArchived", "Is Archived", typeof(bool))));
 
             // Created any time a PresetView UI is required.
             // Note: the ControlFactory and ParameterBuilderFactory can be reused across the application.
@@ -27,6 +28,9 @@ namespace _1_Getting_Started
             preset.Adapter.SetParts(new dbqf.Display.FieldPathFactory().GetFields(config[0]));
             preset.Dock = DockStyle.Fill;
             this.Controls.Add(preset);
+
+            // Event occurs when the user presses enter in one of the controls.
+            preset.Adapter.Search += delegate { MessageBox.Show("Search requested!"); };
         }
     }
 }

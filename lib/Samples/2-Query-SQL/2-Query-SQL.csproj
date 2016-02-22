@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -79,6 +80,10 @@
     <ProjectReference Include="..\..\Frontends\dbqf.WinForms\dbqf.WinForms.csproj">
       <Project>{b4727dd4-cef3-4740-8b90-ce6e2b1c8d26}</Project>
       <Name>dbqf.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Samples.Common\Samples.Common.csproj">
+      <Project>{344a56f4-3878-4af5-93e0-28b498f6e346}</Project>
+      <Name>Samples.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
