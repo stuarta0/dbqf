@@ -2,65 +2,75 @@
 
 Database Query Framework
 
+## TL;DR
+
+dbqf is a set of libraries to help you make searching, reporting and data mining easy for users in .NET applications.  Oh and it's easy for you too.
+
 ## Requirements
 
-- Visual Studio Express 2013 or greater
-- NuGet package manager
-- .NET 2.0 for core libraries, .NET 4.5 for the standalone application
+- Visual Studio Community 2015 or greater
+- .NET 2.0+ for core libraries, .NET 4.5 for the standalone application
 
-## What is it?
+## The long version
 
-An SQL builder with awesome UI.
+dbqf is a library primarily aimed at **simplifying presentation of complex data mining for the end user** in .NET applications.  It's a full stack solution that gives you the boring SQL building components right up to the UI controls to dump into your application.
 
-Long answer: a library primarily aimed at **simplifying presentation of complex data mining for the end user** in .NET applications.  The intent is to provide a way of mapping a complete relational data structure and allowing the UI to dynamically construct itself for various purposes.  Construction of the UI is modular with use of factories, adapters and (in the example Standalone project) dependency injection.  The code is database engine independent allowing you to create whatever SQL is required to suit your engine (currently tested: `MSSQL`, `SQLite`).  Note this is **not an ORM** but could conceivably have an adapter to an ORM's mapping.
+The project comes with the building blocks for you to construct whatever you need with tight integration into your application.  In addition it has a standalone application that you can use side-by-side with your application with a single XML project file of your making.
 
-The library employs many patterns from Gang of Four and the UI is abstracted using a variety of the **Presentation Model** (and subsequently **MVVM**).  By doing this, the core behaviour can be reused across many UI toolkits with two provided out-of-the-box: WinForms and WPF.  This project roughly follows **Test Driven Development** (TDD) and contains NUnit test cases for the core library.  It also employs **Fluent** patterns throughout the code to expidite object creation.
+Construction of the UI is modular with use of factories, adapters and (in the example Standalone project) dependency injection.  The code is database engine agnostic allowing you to create whatever SQL is required to suit your engine (currently tested: `MSSQL`, `SQLite`).  Note this is **not an ORM** but could conceivably have an adapter to an ORM's mapping.
 
-No external libraries are needed for the core and WinForms libraries.  The Standalone applications do require a number of external libraries but can be updated with NuGet package restore.
+The library employs many patterns from Gang of Four and the UI is abstracted using a variety of the **Presentation Model** (and subsequently **MVVM**).  By doing this, the core behaviour can be reused across many UI toolkits with two provided out-of-the-box: WinForms and WPF.  This project has **unit tests** for the core libraries, but less so for the UI.  It also employs **fluent** patterns throughout the code to make things easier to work with.
+
+No external libraries are needed for the core and WinForms libraries.  The Standalone applications do require a number of external libraries but can be updated with automatic package restore.
 
 ### Why would I want to use it?
-- Automated UI generation for boring, repetitive search fields, operators and execution.
+- Automated UI generation for boring, repetitive search fields, operators and wiring.
 - UI controls generated from factories with out-of-the-box behaviour based on field types (but completely customisable).
-- Hierarchical data fetching to display a tree of data while still allowing full search capabilities over the data *(undergoing rewrite)*.
-- Modular code allowing replacement of any functionality: what fields to display, what controls to create, what operators are available, how SQL statements are generated, etcetera.
+- Modular code allowing modification or replacement of any functionality: 
+  - what fields to display, 
+  - what controls to create, 
+  - what operators are available, and
+  - how SQL statements are generated.
 - For both WinForms and WPF:
-  - Preset Control lists fields with name and a control with a common operator (`between` for numbers and dates, `contains` for string; customisable).
-  - Simple Control allows selection of field and operator with a control created dependant on both.
-  - Advanced Control allowing full drill-down of related fields, operators, controls dependant on path and hierarchical combinations (AND, OR) of all parameters.
+  - Preset Search Control lists fields with name and a control with a common operator (`between` for numbers and dates, `contains` for string; customisable).
+  - Simple Search Control allows selection of field and operator with a control created dependant on both.
+  - Advanced Search Control allowing full drill-down of related fields, operators, controls dependant on path and hierarchical combinations (AND, OR) of all parameters.
+  - and a stack of individual components that makes the above possible.
 
-## Enough words, show me!
+
+## Examples!
 
 ### Standalone Application
 Provided standalone application in .NET 4.5 WinForms that uses inversion of control, loads XML projects, has custom parsing and threaded behaviour.
 
 ![Example-Standalone](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-loading.png)
 
-### Preset
+### Preset Search Control 
 Fully customisable list of field / value pairs.
 
 ![Example-Preset](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-preset.png)
 
-### Standard
+### Standard Search Control
 Fully customisable list of field / operator / value combinations.
 
 ![Example-Standard](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-standard.png)
 
-### Advanced
+### Advanced Search Control
 Complete control over parameters with AND/OR from any field or path from within the database as well as selection of operator / value.
 
 ![Example-Advanced](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-advanced.png)
 
-### Custom output fields
+### Custom Output Fields Control
 Choice of fields to retrieve using drag-drop from hierarchical representation of data structure.
 
 ![Example-Output](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-output.png)
 
 ### Generated SQL
-Example of generated parameterised SQL.
+Example of generated parameterised SQL (in psuedo form) created from core components in the library.
 
 ![Example-Output](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/example-sql.png)
 
-### In Detail (Preset)
+### Detailed Component Explanation (Preset Search Control)
 
 ![Preset](https://raw.githubusercontent.com/stuarta0/dbqf/master/docs/preset.png)
 
