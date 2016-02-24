@@ -102,11 +102,19 @@ Using the core, Sql and WinForms libraries, here's sample usage in a WinForms ap
 
 We create a configuration fluently, which contains one subject called Test with Sql that selects from a table named Test and has four fields; an id, name, total and date created.
 
-Once we have our configuration set up, we want to display it.  We'll use the PresetView in the WinForms library which requires a PresetAdapter<Control>.  The generic type tells us what types of controls the PresetView will be generating.  The adapter requires a control factory instance which will be used to generate controls for our view, and a parameter builder factory which will provide the defaults for how to search a field (equals, contains, between, etc).
+Once we have our configuration set up, we want to display it.  We'll use the `PresetView` in the WinForms library which requires a `PresetAdapter<Control>`.  The generic type of the PresetAdapter (in this case `Control`) tells us that we need to provide a ControlFactory that dynamically creates UI elements of type `Control`.  This should make sense since we're writing a WinForms application, so we want WinForms controls.  In the example we use the built in `WinFormsControlFactory` class to do this for us.
 
-Once we've got our view instantiated, we initialise it with some fields using a built-in factory that determines these for us.
+Next we need to provide a `ParameterBuilderFactory`.  The purpose of this class is to provide defaults for operators used for each field.  What we mean by this is if you have a field `Name` (like in the sample code above) that is a `typeof(string)` then the most common operator an end user would want is `Name CONTAINS "foo"`.  This is what the built in `ParameterBuilderFactory` does - it looks at a field's type and determines the most common operator to use.
 
-After that we add it to the form and we've got ourselves a UI to search our configuration.  How it searches comes next.
+Once we've got our `PresetView` instantiated, we initialise it by calling `SetParts`.  We pass it a list of fields that we want to show in the `PresetView`.  If we use the built in `FieldPathFactory` it'll get us all fields for a subject excluding the Id field.
+
+Then we add the `PresetView` to our `Form` and the user will see the fields.
+
+Note: in terms of execution the flow will actually be:
+- SetParts(list of fields):
+- For each field, ask the `ParameterBuilderFactory` what operator should be used (numbers/dates will be BETWEEN, strings will be CONTAINS)
+- For each field/operator, ask the `WinFormsControlFactory` for a `Control` to represent the combination (e.g. field Name + CONTAINS = TextBox, field Total + BETWEEN = a control with two TextBoxes for lower and upper limit)
+- Add a label and the given control to the view
 
 
 ## License
