@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2-Query-SQL", "Samples\2-Qu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.MsAccess", "Backends\dbqf.MsAccess\dbqf.MsAccess.csproj", "{5336BDDD-C373-494B-94E7-AEAABC8CD88D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Common", "Samples.Common\Samples.Common.csproj", "{344A56F4-3878-4AF5-93E0-28B498F6E346}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Common", "Samples\Samples.Common\Samples.Common.csproj", "{344A56F4-3878-4AF5-93E0-28B498F6E346}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
