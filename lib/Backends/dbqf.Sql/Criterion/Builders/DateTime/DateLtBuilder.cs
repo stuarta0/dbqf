@@ -25,7 +25,7 @@ namespace dbqf.Sql.Criterion.Builders
             if (values[0] is DateValue)
             {
                 var date = (DateValue)values[0];
-                return new SimpleParameter(path, "<", date.Lower);
+                return new SqlSimpleParameter(path, "<", date.Lower);
             }
 
             return null;

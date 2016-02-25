@@ -23,8 +23,8 @@ namespace dbqf.Sql.Criterion.Builders
             {
                 var date = (DateValue)values[0];
                 return new SqlConjunction()
-                    .Parameter(new SimpleParameter(path, ">=", date.Lower))
-                    .Parameter(new SimpleParameter(path, "<", date.Upper));
+                    .Parameter(new SqlSimpleParameter(path, ">=", date.Lower))
+                    .Parameter(new SqlSimpleParameter(path, "<", date.Upper));
             }
 
             return null;
