@@ -314,9 +314,13 @@ namespace dbqf.Sql
                 if (!ufp.Subject.Equals(_target))
                 {
                     // else top level subject not included - join with matrix
+                    var mquery = _configuration[_target, ufp.Subject].Query;
+                    if (String.IsNullOrEmpty(mquery))
+                        throw new IncompleteConfigurationException(String.Format("Unable to construct query. Missing relationship between {0} and {1}", _target.DisplayName, ufp.Subject.DisplayName));
+
                     sb.AppendFormat("LEFT OUTER JOIN ({1}) AS m{2} ON m{2}.FromID = {0}.[{4}] LEFT OUTER JOIN ({3}) AS {2} ON m{2}.ToID = {2}.[{5}] ",
                         paths[new FieldPath(_target.IdField)].Alias,
-                        _configuration[_target, ufp.Subject].Query,
+                        mquery,
                         ufp.Alias,
                         ufp.Subject.Sql,
                         _target.IdField.SourceName,

@@ -336,8 +336,13 @@ namespace Standalone.WPF
         private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
         {
             var data = (ResultCallback)callback;
-            ResultSQL = ((SearchDetails)data.Details).Sql;
-            Result = data.Results;
+            if (data.Exception != null)
+                MessageBox.Show(data.Exception.Message, "Search", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            else
+            {
+                ResultSQL = ((SearchDetails)data.Details).Sql;
+                Result = data.Results;
+            }
         }
 
         public override bool Export(string filename)

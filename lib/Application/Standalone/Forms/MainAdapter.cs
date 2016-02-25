@@ -137,8 +137,13 @@ namespace Standalone.Forms
         private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
         {
             var data = (ResultCallback)callback;
-            ResultSQL = ((SearchDetails)data.Details).Sql;
-            Result.DataSource = data.Results;
+            if (data.Exception != null)
+                MessageBox.Show(data.Exception.Message, "Search", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            else
+            {
+                ResultSQL = ((SearchDetails)data.Details).Sql;
+                Result.DataSource = data.Results;
+            }
         }
 
         public override bool Export(string filename)

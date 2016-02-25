@@ -64,6 +64,7 @@
     <Compile Include="Criterion\NotParameter.cs" />
     <Compile Include="Criterion\NullParameter.cs" />
     <Compile Include="Criterion\SimpleParameter.cs" />
+    <Compile Include="IncompleteConfigurationException.cs" />
     <Compile Include="ISqlGenerator.cs" />
     <Compile Include="ISqlListGenerator.cs" />
     <Compile Include="SqlString.cs" />

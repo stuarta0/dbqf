@@ -30,10 +30,13 @@ namespace dbqf.Serialization.Assemblers
                 }
 
                 // now complete the matrix nodes
-                for (int j = 0; j < count; j++)
+                if (dto.Matrix != null)
                 {
-                    var m = dto[i, j];
-                    configuration.Matrix((ISqlSubject)configuration[i], (ISqlSubject)configuration[j], m.Query, m.ToolTip);
+                    for (int j = 0; j < count; j++)
+                    {
+                        var m = dto[i, j];
+                        configuration.Matrix((ISqlSubject)configuration[i], (ISqlSubject)configuration[j], m.Query, m.ToolTip);
+                    }
                 }
             }
 
