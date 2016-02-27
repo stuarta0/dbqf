@@ -49,6 +49,7 @@
     <Compile Include="Criterion\Builders\DateTime\DateGtEqualBuilder.cs" />
     <Compile Include="Criterion\Builders\DateTime\DateLtBuilder.cs" />
     <Compile Include="Criterion\Builders\DateTime\DateLtEqualBuilder.cs" />
+    <Compile Include="Criterion\Builders\DateTime\IDateParameterBuilder.cs" />
     <Compile Include="Criterion\Builders\JunctionBuilder.cs" />
     <Compile Include="Criterion\Builders\LikeBuilder.cs" />
     <Compile Include="Criterion\Builders\NotBuilder.cs" />

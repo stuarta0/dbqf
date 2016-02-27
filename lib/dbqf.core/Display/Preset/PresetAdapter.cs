@@ -121,8 +121,15 @@ namespace dbqf.Display.Preset
             var part = new PresetPart<T>(path);
             part.SelectedBuilder = _builderFactory.GetDefault(part.SelectedPath);
             part.UIElement = _controlFactory.Build(part.SelectedPath, part.SelectedBuilder);
+            PartCreated(this, new PartCreatedEventArgs(part));
             return part;
         }
+
+        /// <summary>
+        /// Occurs when a PresetPart is created, but before it's added to the UI.
+        /// </summary>
+        public event EventHandler<PartCreatedEventArgs> PartCreated = delegate { };
+
 
         /// <summary>
         /// Resets all user entered values.

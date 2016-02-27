@@ -82,6 +82,7 @@
     <Compile Include="Criterion\IParameterBuilderFactory.cs" />
     <Compile Include="Display\IPartView.cs" />
     <Compile Include="Display\ListRequestedArgs.cs" />
+    <Compile Include="Display\PartCreatedEventArgs.cs" />
     <Compile Include="Display\PartViewJunction.cs" />
     <Compile Include="Display\Standard\StandardAdapter.cs" />
     <Compile Include="Display\Standard\StandardPart.cs" />
@@ -127,4 +128,3 @@
   </Target>
   -->
 </Project>
-

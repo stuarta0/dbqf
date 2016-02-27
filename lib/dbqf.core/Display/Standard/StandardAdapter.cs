@@ -162,8 +162,14 @@ namespace dbqf.Display.Standard
         {
             var part = new StandardPart<T>(_builderFactory, _controlFactory);
             part.Paths = new BindingList<IFieldPath>(_paths);
+            PartCreated(this, new PartCreatedEventArgs(part));
             return part;
         }
+
+        /// <summary>
+        /// Occurs when a StandardPart is created, but before it's added to the UI.
+        /// </summary>
+        public event EventHandler<PartCreatedEventArgs> PartCreated = delegate { };
 
         /// <summary>
         /// Removes all parts.

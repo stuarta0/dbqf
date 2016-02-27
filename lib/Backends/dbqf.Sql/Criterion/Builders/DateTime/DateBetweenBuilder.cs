@@ -4,7 +4,7 @@ using dbqf.Criterion.Values;
 
 namespace dbqf.Sql.Criterion.Builders
 {
-    public class DateBetweenBuilder : ParameterBuilder, IBetweenBuilder
+    public class DateBetweenBuilder : ParameterBuilder, IBetweenBuilder, IDateParameterBuilder
     {
         public DateBetweenBuilder()
         {

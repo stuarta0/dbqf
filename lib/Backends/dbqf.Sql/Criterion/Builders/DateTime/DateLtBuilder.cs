@@ -3,7 +3,7 @@ using dbqf.Criterion.Values;
 
 namespace dbqf.Sql.Criterion.Builders
 {
-    public class DateLtBuilder : ParameterBuilder
+    public class DateLtBuilder : ParameterBuilder, IDateParameterBuilder
     {
         public DateLtBuilder()
         {

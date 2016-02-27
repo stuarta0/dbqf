@@ -177,13 +177,20 @@ namespace dbqf.Display.Advanced
         /// <returns></returns>
         protected virtual AdvancedPartNode CreateNode()
         {
-            return new AdvancedPartNode()
+            var node = new AdvancedPartNode()
             {
                 SelectedPath = _pathCombo.SelectedPath,
                 SelectedBuilder = SelectedBuilder,
                 Values = (UIElement != null ? UIElement.GetValues() : null)
             };
+            PartCreated(this, new PartCreatedEventArgs(node));
+            return node;
         }
+
+        /// <summary>
+        /// Occurs when an AdvancedPartNode is created, but before it's added to the UI.
+        /// </summary>
+        public event EventHandler<PartCreatedEventArgs> PartCreated = delegate { };
 
         /// <summary>
         /// Creates a new node optionally from a template part.  If no template provided, logic ensures a 

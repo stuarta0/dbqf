@@ -1,8 +1,10 @@
 ﻿using dbqf.Display;
 using dbqf.Display.Preset;
+using dbqf.Parsers;
 using dbqf.Sql;
 using dbqf.Sql.Configuration;
 using dbqf.Sql.Criterion;
+using dbqf.Sql.Criterion.Builders;
 using dbqf.WinForms;
 using dbqf.WinForms.UIElements;
 using System;
@@ -33,6 +35,21 @@ namespace _3_Get_Results
                     new WinFormsControlFactory(), 
                     new ParameterBuilderFactory()
                 ));
+
+            // The following code is possibly a smell. The builtin ParameterBuilders that work with
+            // dates require DateValues to be parsed from the UI controls. The default control returns 
+            // strings so it won't be able to create an SQL parameter. To overcome this, we monitor
+            // when a new part is added to the PresetView (occurs when we call SetParts) and initialise
+            // a date parser to do this for us.
+            _adapter.PartCreated += (s, e) =>
+            {
+                var junction = e.Part.SelectedBuilder as JunctionBuilder;
+                if ((e.Part.SelectedBuilder is IDateParameterBuilder) 
+                    || (junction != null && junction.Other is IDateParameterBuilder))
+                    e.Part.Parser = new DateParser();
+            };
+
+            // Now create controls and add to form
             _adapter.SetParts(new FieldPathFactory().GetFields(_config[0]));
             view.Dock = DockStyle.Fill;
             splitContainer1.Panel1.Controls.Add(view);
