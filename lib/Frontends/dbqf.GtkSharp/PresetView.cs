@@ -6,16 +6,16 @@ using System.ComponentModel;
 
 namespace dbqf.GtkSharp
 {
-	[System.ComponentModel.ToolboxItem (true)]
+	[System.ComponentModel.ToolboxItem (false)]
 	public partial class PresetView : Gtk.Bin
 	{
-		public PresetAdapter<Gtk.Bin> Adapter
+		public PresetAdapter<Gtk.Widget> Adapter
 		{
 			get { return _adapter; }
 		}
 
-		private PresetAdapter<Gtk.Bin> _adapter;
-		public PresetView(PresetAdapter<Gtk.Bin> adapter)
+		private PresetAdapter<Gtk.Widget> _adapter;
+		public PresetView(PresetAdapter<Gtk.Widget> adapter)
 		{
 			this.Build ();
 			_adapter = adapter;
@@ -42,8 +42,9 @@ namespace dbqf.GtkSharp
 
 			Table table = new Table((uint)_adapter.Parts.Count + 1, 2, false);
 			this.Add (table);
-			table.RowSpacing = 3;
-			table.ColumnSpacing = 3;
+			table.RowSpacing = 0;
+			table.ColumnSpacing = 0;
+			table.BorderWidth = 3;
 
 			for (uint i = 0; i < _adapter.Parts.Count; i++)
 			{

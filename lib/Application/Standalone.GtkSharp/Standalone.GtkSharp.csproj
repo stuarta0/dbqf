@@ -56,6 +56,7 @@
     <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
       <HintPath>..\..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -72,6 +73,7 @@
     <Compile Include="Installers\ApplicationInstaller.cs" />
     <Compile Include="Shell.cs" />
     <Compile Include="Installers\GtkWidgetFactoryInstaller.cs" />
+    <Compile Include="Installers\Views\PresetInstaller.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -86,6 +88,10 @@
     <ProjectReference Include="..\..\Frontends\dbqf.GtkSharp\dbqf.GtkSharp.csproj">
       <Project>{B235A761-0943-4229-BE2D-72010B007CA0}</Project>
       <Name>dbqf.GtkSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Backends\dbqf.Sql\dbqf.Sql.csproj">
+      <Project>{8677A10F-415F-4F5F-ABC5-726EDE1CB372}</Project>
+      <Name>dbqf.Sql</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

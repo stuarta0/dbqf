@@ -10,6 +10,15 @@ public partial class MainWindow: Gtk.Window
 	{
 		Build ();
 		Adapter = adapter;
+
+		var presetPage = this.notebookParameters.GetNthPage (0) as Gtk.ScrolledWindow;
+		if (presetPage != null) {
+			presetPage.Add (Adapter.Preset);
+			Adapter.Preset.Show ();
+			this.notebookParameters.Page = 0;
+		}
+
+		this.notebookResults.Page = 0;
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)

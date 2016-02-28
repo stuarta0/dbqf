@@ -62,6 +62,8 @@
     <Compile Include="gtk-gui\dbqf.GtkSharp.PresetView.cs" />
     <Compile Include="UIElements\EntryElement.cs" />
     <Compile Include="UIElements\GtkWidgetControlFactory.cs" />
+    <Compile Include="UIElements\ComboBoxElement.cs" />
+    <Compile Include="IListStore.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

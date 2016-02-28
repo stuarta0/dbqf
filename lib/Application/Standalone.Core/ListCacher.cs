@@ -148,14 +148,19 @@ namespace Standalone.Core
         private void ListCallback(IDbServiceAsyncCallback<List<object>> callback)
         {
             var data = (CachedListCallback)callback;
-            var list = data.Cache.Data;
-            list.RaiseListChangedEvents = false;
-            list.Clear();
-            list.Add(string.Empty);
-            foreach (var i in data.Results)
-                list.Add(i);
-            list.RaiseListChangedEvents = true;
-            list.ResetBindings();
+			if (data.Exception != null)
+				Console.WriteLine ("ListCallback Exception: " + data.Exception.Message);
+			else 
+			{
+				var list = data.Cache.Data;
+				list.RaiseListChangedEvents = false;
+				list.Clear ();
+				list.Add (string.Empty);
+				foreach (var i in data.Results)
+					list.Add (i);
+				list.RaiseListChangedEvents = true;
+				list.ResetBindings();
+			}
         }
     }
 }

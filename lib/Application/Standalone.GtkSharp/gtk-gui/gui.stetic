@@ -66,7 +66,7 @@
           <widget class="Gtk.HPaned" id="hpaned1">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Position">309</property>
+            <property name="Position">273</property>
             <property name="BorderWidth">6</property>
             <child>
               <widget class="Gtk.Table" id="table3">
@@ -78,7 +78,20 @@
                     <property name="CanFocus">True</property>
                     <property name="CurrentPage">0</property>
                     <child>
-                      <placeholder />
+                      <widget class="Gtk.ScrolledWindow" id="scrolledPreset">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="HscrollbarPolicy">Never</property>
+                        <child>
+                          <widget class="Gtk.Viewport" id="GtkViewport">
+                            <property name="MemberName" />
+                            <property name="ShadowType">None</property>
+                            <child>
+                              <placeholder />
+                            </child>
+                          </widget>
+                        </child>
+                      </widget>
                     </child>
                     <child>
                       <widget class="Gtk.Label" id="lblNotebookSearch">

@@ -29,6 +29,8 @@ public partial class MainWindow
 	
 	private global::Gtk.Notebook notebookParameters;
 	
+	private global::Gtk.ScrolledWindow scrolledPreset;
+	
 	private global::Gtk.Label lblNotebookSearch;
 	
 	private global::Gtk.Label lblNotebookStandard;
@@ -102,7 +104,7 @@ public partial class MainWindow
 		this.hpaned1 = new global::Gtk.HPaned ();
 		this.hpaned1.CanFocus = true;
 		this.hpaned1.Name = "hpaned1";
-		this.hpaned1.Position = 309;
+		this.hpaned1.Position = 273;
 		this.hpaned1.BorderWidth = ((uint)(6));
 		// Container child hpaned1.Gtk.Paned+PanedChild
 		this.table3 = new global::Gtk.Table (((uint)(2)), ((uint)(1)), false);
@@ -112,14 +114,17 @@ public partial class MainWindow
 		this.notebookParameters.CanFocus = true;
 		this.notebookParameters.Name = "notebookParameters";
 		this.notebookParameters.CurrentPage = 0;
+		// Container child notebookParameters.Gtk.Notebook+NotebookChild
+		this.scrolledPreset = new global::Gtk.ScrolledWindow ();
+		this.scrolledPreset.CanFocus = true;
+		this.scrolledPreset.Name = "scrolledPreset";
+		this.scrolledPreset.HscrollbarPolicy = ((global::Gtk.PolicyType)(2));
+		this.notebookParameters.Add (this.scrolledPreset);
 		// Notebook tab
-		global::Gtk.Label w2 = new global::Gtk.Label ();
-		w2.Visible = true;
-		this.notebookParameters.Add (w2);
 		this.lblNotebookSearch = new global::Gtk.Label ();
 		this.lblNotebookSearch.Name = "lblNotebookSearch";
 		this.lblNotebookSearch.LabelProp = global::Mono.Unix.Catalog.GetString ("Preset");
-		this.notebookParameters.SetTabLabel (w2, this.lblNotebookSearch);
+		this.notebookParameters.SetTabLabel (this.scrolledPreset, this.lblNotebookSearch);
 		this.lblNotebookSearch.ShowAll ();
 		// Notebook tab
 		global::Gtk.Label w3 = new global::Gtk.Label ();
