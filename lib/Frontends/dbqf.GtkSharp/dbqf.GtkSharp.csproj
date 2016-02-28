@@ -60,6 +60,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PresetView.cs" />
     <Compile Include="gtk-gui\dbqf.GtkSharp.PresetView.cs" />
+    <Compile Include="UIElements\EntryElement.cs" />
+    <Compile Include="UIElements\GtkWidgetControlFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

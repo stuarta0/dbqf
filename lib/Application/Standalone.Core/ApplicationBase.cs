@@ -28,12 +28,27 @@ namespace Standalone.Core
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public ApplicationBase(Project project)
+        public ApplicationBase(Project project, DbServiceFactory dbFactory)
         {
             _views = new Dictionary<string, IView>();
             Project = project;
             SubjectSource = new BindingList<ISubject>(Project.Configuration);
             SelectedSubject = SubjectSource[0];
+
+			ServiceFactory = dbFactory;
+			var refresh = new EventHandler((s, e) => 
+				{
+					if (ServiceFactory != null)
+					{
+						try {
+							_dbService = ServiceFactory.CreateAsync(Project.CurrentConnection);
+						} catch {
+							// result?
+						}
+					}
+				});
+			Project.CurrentConnectionChanged += refresh;
+			refresh(this, EventArgs.Empty);
         }
 
         public Project Project { get; protected set; }
@@ -54,6 +69,9 @@ namespace Standalone.Core
         {
             CurrentViewChanged(this, EventArgs.Empty);
         }
+
+		public DbServiceFactory ServiceFactory { get; set; }
+		protected IDbServiceAsync _dbService;
 
         [AlsoNotifyFor("IsSearching")]
         protected virtual BackgroundWorker SearchWorker { get; set; }

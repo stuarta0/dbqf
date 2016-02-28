@@ -4,12 +4,6 @@ namespace dbqf.GtkSharp
 {
 	public partial class PresetView
 	{
-		private global::Gtk.Table table1;
-		
-		private global::Gtk.Entry entry1;
-		
-		private global::Gtk.Label label1;
-
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);

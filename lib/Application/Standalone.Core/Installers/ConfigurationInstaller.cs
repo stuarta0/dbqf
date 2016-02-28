@@ -43,7 +43,7 @@ namespace Standalone.Core.Installers
                 using (TextReader reader = new StreamReader(args[1]))
                     dto = (ProjectDTO)deserializer.Deserialize(reader);
             }
-            catch (Exception ex)
+            catch
             {
                 // halt application (not currently in a message loop)
                 // TODO: need to inform the user that we couldn't load the project: this is why

@@ -23,9 +23,6 @@ namespace Standalone.Forms
     [ImplementPropertyChanged]
     public class MainAdapter : Core.ApplicationBase
     {
-        public DbServiceFactory ServiceFactory { get; set; }
-        private IDbServiceAsync _dbService;
-
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
         public AdvancedView Advanced { get; private set; }
@@ -38,9 +35,8 @@ namespace Standalone.Forms
             Project project, DbServiceFactory serviceFactory, IFieldPathFactory pathFactory, 
             PresetView preset, StandardView standard, AdvancedView advanced, 
             RetrieveFieldsView fields)
-            : base(project)
+            : base(project, serviceFactory)
         {
-            ServiceFactory = serviceFactory;
             PathFactory = pathFactory;
 
             Preset = preset;
@@ -58,11 +54,7 @@ namespace Standalone.Forms
 
             SelectedSubjectChanged += delegate { RefreshPaths(); };
 
-            var refresh = new EventHandler((s, e) =>
-            {
-                RefreshPaths();
-                _dbService = ServiceFactory.CreateAsync(Project.CurrentConnection);
-            });
+            var refresh = new EventHandler((s, e) => { RefreshPaths(); });
             Project.CurrentConnectionChanged += refresh;
             Result = new BindingSource();
             refresh(this, EventArgs.Empty);

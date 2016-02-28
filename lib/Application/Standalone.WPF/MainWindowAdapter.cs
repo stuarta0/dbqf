@@ -28,9 +28,6 @@ namespace Standalone.WPF
         public IFieldPathFactory PathFactory { get; private set; }
         public IDialogService DialogService { get; set; }
 
-        public DbServiceFactory ServiceFactory { get; set; }
-        private IDbServiceAsync _dbService;
-
         public PresetView Preset { get; private set; }
         public StandardView Standard { get; private set; }
         public AdvancedView Advanced { get; private set; }
@@ -40,7 +37,7 @@ namespace Standalone.WPF
             Project project, DbServiceFactory serviceFactory, IFieldPathFactory pathFactory,
             PresetView preset, StandardView standard, AdvancedView advanced,
             RetrieveFieldsView fields)
-            : base(project)
+            : base(project, serviceFactory)
         {
             _appWidth = Properties.Settings.Default.AppWidth;
             _appHeight = Properties.Settings.Default.AppHeight;
@@ -61,7 +58,6 @@ namespace Standalone.WPF
 
             ProjectAdapter = new ProjectAdapter(project);
             PathFactory = pathFactory;
-            ServiceFactory = serviceFactory;
 
             CurrentView = Preset.Adapter;
             SelectedSubjectChanged += delegate { RefreshPaths(); };
@@ -69,7 +65,6 @@ namespace Standalone.WPF
             {
                 RefreshPaths();
                 OnPropertyChanged("ApplicationTitle");
-                _dbService = ServiceFactory.CreateAsync(Project.CurrentConnection);
             });
             ProjectAdapter.Project.CurrentConnectionChanged += refresh;
             refresh(this, EventArgs.Empty);
