@@ -94,6 +94,7 @@
       <DependentUpon>RetrieveFieldsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\RetrieveFieldsViewAdapter.cs" />
+    <Compile Include="Display\MessageBoxProvider.cs" />
     <Compile Include="Display\WpfAdvancedAdapter.cs" />
     <Compile Include="Display\WpfStandardAdapter.cs" />
     <Compile Include="Installers\ApplicationInstaller.cs" />
@@ -196,4 +197,3 @@
   </Target>
   -->
 </Project>
-

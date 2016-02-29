@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using dbqf.Configuration;
-using dbqf.Criterion;
 using dbqf.Display;
 using Standalone.Core.Data;
 using Standalone.Core.Export;
-using System.IO;
-using Standalone.Core.Serialization.Assemblers;
-using Standalone.Core;
 using PropertyChanged;
+using Standalone.Core.Display;
+using dbqf.Criterion;
+using System.Data;
 
 namespace Standalone.Core
 {
@@ -34,6 +28,7 @@ namespace Standalone.Core
             Project = project;
             SubjectSource = new BindingList<ISubject>(Project.Configuration);
             SelectedSubject = SubjectSource[0];
+            MessageProvider = new NullMessageProvider();
 
 			ServiceFactory = dbFactory;
 			var refresh = new EventHandler((s, e) => 
@@ -54,6 +49,7 @@ namespace Standalone.Core
         public Project Project { get; protected set; }
         public IExportServiceFactory ExportFactory { get; set; }
         public IViewPersistence ViewPersistence { get; set; }
+        public IMessageProvider MessageProvider { get; set; }
         public string ResultSQL { get; set; }
         public BindingList<ISubject> SubjectSource { get; private set; }
         public virtual ISubject SelectedSubject { get; set; }
@@ -80,6 +76,13 @@ namespace Standalone.Core
             get { return SearchWorker != null; }
         }
 
+        [AlsoNotifyFor("ResultHeader")]
+        public DataTable Result { get; private set; }
+        public string ResultHeader
+        {
+            get { return String.Concat("Results", Result == null ? string.Empty : String.Concat(" (", Result.Rows.Count, ")")); }
+        }
+
         /// <summary>
         /// Represents a string key mapping to an IView used for persistence and automatically changing view.
         /// </summary>
@@ -98,18 +101,25 @@ namespace Standalone.Core
         /// </summary>
         public virtual void Refine()
         {
-            IView prev = null;
-            foreach (var view in _views)
+            try
             {
-                if (prev != null)
+                IView prev = null;
+                foreach (var view in _views)
                 {
-                    view.Value.Reset();
-                    CurrentView = view.Value;
-                    view.Value.SetParts(prev.GetParts());
-                    break;
+                    if (prev != null)
+                    {
+                        view.Value.Reset();
+                        CurrentView = view.Value;
+                        view.Value.SetParts(prev.GetParts());
+                        break;
+                    }
+                    else if (view.Value == CurrentView)
+                        prev = view.Value;
                 }
-                else if (view.Value == CurrentView)
-                    prev = view.Value;
+            }
+            catch (Exception ex)
+            {
+                MessageProvider.Show(ex.Message, "Refine", MessageType.Warning, MessageOption.OK);
             }
         }
     
@@ -123,6 +133,43 @@ namespace Standalone.Core
             }
         }
 
+        public void Search(IParameter parameter, IList<IFieldPath> columns)
+        {
+            if (IsSearching)
+            {
+                // if they don't cancel, do nothing
+                if (MessageProvider.Show("There is a search in progress.  Do you want to cancel the existing search?", "Search", MessageType.Question, MessageOption.YesNo) == MessageResult.No)
+                    return;
+
+                // if they said yes, cancel existing search and continue with new one
+                CancelSearch();
+            }
+
+            // Get results asynchronously
+            ResultSQL = null;
+            var details = new SearchDetails()
+            {
+                Target = SelectedSubject,
+                Columns = columns,
+                Where = parameter
+            };
+
+            _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
+        }
+
+        private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
+        {
+            var data = (ResultCallback)callback;
+            if (data.Exception != null)
+                MessageProvider.Show(data.Exception.Message, "Search", MessageType.Error, MessageOption.OK);
+            else
+            {
+                ResultSQL = ((SearchDetails)data.Details).Sql;
+                Result = data.Results;
+                //Result.DataSource = data.Results;
+            }
+        }
+
         public virtual void CancelSearch()
         {
             if (SearchWorker != null)
@@ -132,7 +179,18 @@ namespace Standalone.Core
 
         public virtual bool Export(string filename)
         {
-            return false;
+            if (String.IsNullOrWhiteSpace(filename))
+                return false;
+
+            try
+            {
+                return ExportFactory.Create(filename).Export(filename, Result);
+            }
+            catch (Exception ex)
+            {
+                MessageProvider.Show(ex.Message, "Export", MessageType.Error, MessageOption.OK);
+                return false;
+            }
         }
 
         /// <exception cref="System.ArgumentException">Thrown if the view SearchType can't be found in the application.</exception>
@@ -146,8 +204,14 @@ namespace Standalone.Core
             if (ViewPersistence == null || String.IsNullOrWhiteSpace(filename))
                 return null;
 
-            // may throw a load exception
-            SearchDocument doc = ViewPersistence.Load(filename);
+            // may throw a load exceptionSearchDocument doc = null;
+            SearchDocument doc;
+            try { doc = ViewPersistence.Load(filename); }
+            catch (Exception ex)
+            {
+                MessageProvider.Show(ex.Message, "Load", MessageType.Error, MessageOption.OK);
+                return null;
+            }
 
             SelectedSubject = doc.Subject;
             if (!_views.ContainsKey(doc.SearchType))
@@ -174,11 +238,18 @@ namespace Standalone.Core
             if (ViewPersistence == null || String.IsNullOrWhiteSpace(filename))
                 return;
 
-            var doc = CreateSearchDocument();
-            if (doc.Parts.Count == 0 && doc.Outputs.Count == 0)
-                throw new ArgumentException("Saving a search requires at least one parameter or output field.");
-            else
-                ViewPersistence.Save(filename, doc);
+            try
+            {
+                var doc = CreateSearchDocument();
+                if (doc.Parts.Count == 0 && doc.Outputs.Count == 0)
+                    throw new ArgumentException("Saving a search requires at least one parameter or output field.");
+                else
+                    ViewPersistence.Save(filename, doc);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageProvider.Show(ex.Message, "Save", MessageType.Error, MessageOption.OK);
+            }
         }
     }
 }

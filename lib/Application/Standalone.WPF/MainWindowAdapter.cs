@@ -266,21 +266,6 @@ namespace Standalone.WPF
             get { return IsSearching ? Visibility.Visible : Visibility.Hidden; }
         }
 
-        [AlsoNotifyFor("ResultHeader")]
-        public DataTable Result { get; private set; }
-        public string ResultHeader
-        {
-            get { return String.Concat("Results", Result == null ? string.Empty : String.Concat(" (", Result.Rows.Count, ")")); }
-        }
-
-        public override void Refine()
-        {
-            try { base.Refine(); }
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message, "Refine", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
-        }
-
         private void RefreshPaths()
         {
             // HACK: ask the factory twice as the individual views alter the path instances differently
@@ -293,7 +278,7 @@ namespace Standalone.WPF
 
         void Adapter_Search(object sender, EventArgs e)
         {
-            dbqf.Criterion.IParameter where;
+            IParameter where;
             try { where = ((IGetParameter)sender).GetParameter(); }
             catch (Exception ex)
             {
@@ -304,70 +289,23 @@ namespace Standalone.WPF
             Search(where);
         }
 
-        public void Search(IParameter parameter)
+        public void Search(IParameter where)
         {
-            if (IsSearching)
-            {
-                // if they don't cancel, do nothing
-                if (MessageBox.Show("There is a search in progress.  Do you want to cancel the existing search?", "Search", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.No)
-                    return;
-
-                // if they said yes, cancel existing search and continue with new one
-                CancelSearch();
-            }
-
-            // Get results asynchronously
-            ResultSQL = null;
-            var details = new SearchDetails()
-            {
-                Target = SelectedSubject,
-                Columns = RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject),
-                Where = parameter
-            };
-
-            _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
-        }
-
-        private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
-        {
-            var data = (ResultCallback)callback;
-            if (data.Exception != null)
-                MessageBox.Show(data.Exception.Message, "Search", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            else
-            {
-                ResultSQL = ((SearchDetails)data.Details).Sql;
-                Result = data.Results;
-            }
-        }
-
-        public override bool Export(string filename)
-        {
-            if (String.IsNullOrWhiteSpace(filename))
-                return false;
-            return ExportFactory.Create(filename).Export(filename, Result);
+            Search(where, RetrieveFields.Adapter.UseFields ? RetrieveFields.Adapter.Fields : PathFactory.GetFields(SelectedSubject));
         }
 
         protected override SearchDocument Load(string filename, bool reset)
         {
-            if (String.IsNullOrWhiteSpace(filename))
-                return null;
-
-            SearchDocument doc = null;
-            try { doc = base.Load(filename, true); }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Load", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                return null;
-            }
-
+            var doc = base.Load(filename, reset);
             var list = RetrieveFields.Adapter.Fields;
-            list.Clear();
-            if (doc.Outputs != null && doc.Outputs.Count > 0)
+            if (doc != null && doc.Outputs != null && doc.Outputs.Count > 0)
             {
                 list.Clear();
                 foreach (var path in doc.Outputs)
                     list.Add(path);
             }
+            else
+                list.Clear();
 
             return doc;
         }
@@ -381,18 +319,6 @@ namespace Standalone.WPF
             else
                 doc.Outputs = new List<IFieldPath>();
             return doc;
-        }
-
-        public override void Save(string filename)
-        {
-            try
-            {
-                base.Save(filename);
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show(ex.Message, "Save", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
         }
     }
 }

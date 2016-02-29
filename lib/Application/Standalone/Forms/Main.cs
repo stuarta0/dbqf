@@ -29,11 +29,14 @@ namespace Standalone.Forms
             }
         }
 
+        private BindingSource _gridSource;
         public MainAdapter Adapter { get; private set; }
         public Main(MainAdapter adapter)
         {
             InitializeComponent();
             Adapter = adapter;
+            _gridSource = new BindingSource();
+            _gridSource.DataSource = Adapter.Result;
             bsAdapter.DataSource = Adapter;
             Adapter.PropertyChanged += Adapter_PropertyChanged;
 
@@ -72,10 +75,19 @@ namespace Standalone.Forms
                     }
                 }
             };
+        }
 
-            // update datagridview when new data arrives
-            Adapter.Result.DataSourceChanged += (s, e) => {
-                var data = ((DataTable)Adapter.Result.DataSource);
+        void Adapter_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if ("ResultSQL".Equals(e.PropertyName))
+            {
+                txtSql.Text = Adapter.ResultSQL;
+            }
+            else if ("Result".Equals(e.PropertyName))
+            {
+                // update datagridview when new data arrives
+                var data = Adapter.Result;
+                _gridSource.DataSource = data;
                 if (data != null)
                 {
                     foreach (DataGridViewColumn c in dataGridView1.Columns)
@@ -85,22 +97,15 @@ namespace Standalone.Forms
                     }
 
                     dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
-                    tabResults.Text = String.Concat("Results (", data.Rows.Count, ")");
-                }
-                else
-                {
-                    tabResults.Text = "Results";
                 }
 
                 // the hack to fix redraw on parameter views affects TabControl text update, so force refresh on change
                 this.Refresh();
-            };
-        }
-
-        void Adapter_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if ("ResultSQL".Equals(e.PropertyName))
-                txtSql.Text = Adapter.ResultSQL;
+            }
+            else if ("ResultHeader".Equals(e.PropertyName))
+            {
+                tabResults.Text = Adapter.ResultHeader;
+            }
         }
 
         /// <summary>
@@ -151,7 +156,7 @@ namespace Standalone.Forms
             SetupView(Adapter.RetrieveFields, tabOutput);
 
             // datagridview also has bad control designer, this has to be in the load event
-            dataGridView1.DataSource = Adapter.Result;
+            dataGridView1.DataSource = _gridSource;
 
             try { splitContainer1.SplitterDistance = Properties.Settings.Default.SplitterLocation; }
             catch { }
@@ -173,7 +178,7 @@ namespace Standalone.Forms
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Adapter.Result.DataSource == null)
+            if (Adapter.Result == null)
             {
                 MessageBox.Show("There are no results to export.  Please perform a search first, then export.", "Export");
                 return;

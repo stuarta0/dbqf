@@ -71,6 +71,7 @@
     <Compile Include="Data\SQLiteService.cs" />
     <Compile Include="Data\SqlService.cs" />
     <Compile Include="Display\ConnectionAdapter.cs" />
+    <Compile Include="Display\IMessageProvider.cs" />
     <Compile Include="Display\ProjectAdapter.cs" />
     <Compile Include="Export\Filter.cs" />
     <Compile Include="Export\IExportServiceFactory.cs" />
@@ -142,4 +143,3 @@
   </Target>
   -->
 </Project>
-

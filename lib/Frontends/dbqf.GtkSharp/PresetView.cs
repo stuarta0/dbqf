@@ -43,7 +43,7 @@ namespace dbqf.GtkSharp
 			Table table = new Table((uint)_adapter.Parts.Count + 1, 2, false);
 			this.Add (table);
 			table.RowSpacing = 0;
-			table.ColumnSpacing = 0;
+			table.ColumnSpacing = 6;
 			table.BorderWidth = 3;
 
 			for (uint i = 0; i < _adapter.Parts.Count; i++)

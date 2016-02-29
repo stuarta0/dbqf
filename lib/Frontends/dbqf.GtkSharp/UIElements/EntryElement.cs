@@ -7,6 +7,11 @@ namespace dbqf.GtkSharp
 	public class EntryElement : UIElement<Gtk.Widget>
 	{
 		private Entry _text;
+		public EntryElement()
+		{
+			Entry = new Entry();
+		}
+
 		public virtual Entry Entry
 		{
 			get { return _text; }
@@ -15,9 +20,7 @@ namespace dbqf.GtkSharp
 				if (_text != null)
 				{
 					_text.Changed -= OnTextChanged;
-					_text.KeyPressEvent -= OnKeyPress;
-					//_text.TextChanged -= OnTextChanged;
-					//_text.KeyDown -= OnKeyDown;
+                    _text.Activated -= OnActivated;
 				}
 
 				_text = value;
@@ -25,26 +28,20 @@ namespace dbqf.GtkSharp
 				if (_text != null)
 				{
 					_text.Changed += OnTextChanged;
-					_text.KeyPressEvent += OnKeyPress;
+                    _text.Activated += OnActivated;
 				}
 			}
 		}
 
-		void OnTextChanged(object sender, EventArgs e)
+        void OnTextChanged(object sender, EventArgs e)
 		{
 			OnChanged();
 		}
 
-		void OnKeyPress(object sender, KeyPressEventArgs e)
-		{
-			//if (e.Event == enter)
-			//	OnSearch();
-		}
-
-		public EntryElement()
-		{
-			Entry = new Entry();
-		}
+        private void OnActivated(object sender, EventArgs e)
+        {
+            OnSearch();
+        }
 
 		public override object[] GetValues()
 		{
