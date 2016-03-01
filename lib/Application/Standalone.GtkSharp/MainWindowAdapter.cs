@@ -5,13 +5,18 @@ using dbqf.GtkSharp;
 using dbqf.Display;
 using dbqf.Criterion;
 using System.Data;
+using Gtk;
+using System.Collections.Generic;
+using PropertyChanged;
 
 namespace Standalone.GtkSharp
 {
+	[ImplementPropertyChanged]
 	public class MainWindowAdapter : Standalone.Core.ApplicationBase
 	{
 		public PresetView Preset { get; private set; }
 		public IFieldPathFactory PathFactory { get; private set; }
+		public ListStore ResultStore { get; private set; }
 		
 		public MainWindowAdapter (Project project, DbServiceFactory serviceFactory, IFieldPathFactory pathFactory, 
 				PresetView preset)
@@ -25,9 +30,29 @@ namespace Standalone.GtkSharp
 			Preset.Adapter.Search += Adapter_Search;
 
 			// HACK
-			Preset.Adapter.SetParts(PathFactory.GetFields(project.Configuration[0]));
+			SelectedSubject = project.Configuration [2];
+			Preset.Adapter.SetParts(PathFactory.GetFields(SelectedSubject));
 			CurrentView = Preset.Adapter;
-			SelectedSubject = project.Configuration [0];
+
+			this.PropertyChanged += MainWindowAdapter_PropertyChanged;
+		}
+
+		void MainWindowAdapter_PropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if ("Result".Equals(e.PropertyName)) {
+				var types = new List<Type> ();
+				foreach (DataColumn column in Result.Columns) {
+					types.Add (column.DataType);
+				}
+
+				// http://stackoverflow.com/a/7624978
+				var store = new ListStore (types.ToArray());
+				foreach (DataRow row in Result.Rows) {
+					store.AppendValues (row.ItemArray);
+				}
+
+				ResultStore = store;
+			}
 		}
 
 		void Adapter_Search(object sender, EventArgs e)
@@ -48,7 +73,7 @@ namespace Standalone.GtkSharp
 
 		public void Search(IParameter parameter)
 		{
-            base.Search(parameter, PathFactory.GetFields(Project.Configuration[0]));
+            base.Search(parameter, PathFactory.GetFields(SelectedSubject));
 		}
 	}
 }

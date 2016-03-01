@@ -226,6 +226,7 @@ public partial class MainWindow
 		this.nodeviewResults = new global::Gtk.NodeView ();
 		this.nodeviewResults.CanFocus = true;
 		this.nodeviewResults.Name = "nodeviewResults";
+		this.nodeviewResults.EnableSearch = false;
 		this.GtkScrolledWindow.Add (this.nodeviewResults);
 		this.notebookResults.Add (this.GtkScrolledWindow);
 		// Notebook tab
