@@ -129,7 +129,7 @@ namespace Standalone.Core.Data
             return new List<object>(set);
         }
 
-        public void GetResults(ISearchDetails details, IDbServiceAsyncCallback<DataTable> callback) //ResultCallback callback)
+        public Action GetResults(ISearchDetails details, IDbServiceAsyncCallback<DataTable> callback) //ResultCallback callback)
         {
             var worker = new BackgroundWorker();
             worker.WorkerSupportsCancellation = true;
@@ -160,9 +160,10 @@ namespace Standalone.Core.Data
                 callback.Callback(callback);
             };
             worker.RunWorkerAsync();
+            return new Action(worker.CancelAsync);
         }
 
-        public void GetList(IFieldPath path, IDbServiceAsyncCallback<List<object>> callback) //ListCallback callback)
+        public Action GetList(IFieldPath path, IDbServiceAsyncCallback<List<object>> callback) //ListCallback callback)
         {
             var worker = new BackgroundWorker();
             worker.WorkerSupportsCancellation = true;
@@ -193,6 +194,7 @@ namespace Standalone.Core.Data
                 callback.Callback(callback);
             };
             worker.RunWorkerAsync();
+            return new Action(worker.CancelAsync);
         }
     }
 }

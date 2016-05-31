@@ -254,15 +254,15 @@ namespace Standalone.WPF
 
         #endregion
 
-        protected override BackgroundWorker SearchWorker
+        protected override Action SearchCanceller
         {
             get
             {
-                return base.SearchWorker;
+                return base.SearchCanceller;
             }
             set
             {
-                base.SearchWorker = value;
+                base.SearchCanceller = value;
                 OnPropertyChanged("IsSearchingVisibility");
             }
         }
@@ -330,7 +330,7 @@ namespace Standalone.WPF
                 Where = parameter
             };
 
-            _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
+            SearchCanceller = _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
         }
 
         private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
@@ -343,6 +343,8 @@ namespace Standalone.WPF
                 ResultSQL = ((SearchDetails)data.Details).Sql;
                 Result = data.Results;
             }
+
+            SearchCanceller = null;
         }
 
         public override bool Export(string filename)

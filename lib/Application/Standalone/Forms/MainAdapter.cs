@@ -131,7 +131,7 @@ namespace Standalone.Forms
                 Where = parameter
             };
 
-            _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
+            SearchCanceller = _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
         }
 
         private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
@@ -144,6 +144,8 @@ namespace Standalone.Forms
                 ResultSQL = ((SearchDetails)data.Details).Sql;
                 Result.DataSource = data.Results;
             }
+
+            SearchCanceller = null;
         }
 
         public override bool Export(string filename)

@@ -56,10 +56,10 @@ namespace Standalone.Core
         }
 
         [AlsoNotifyFor("IsSearching")]
-        protected virtual BackgroundWorker SearchWorker { get; set; }
+        protected virtual Action SearchCanceller { get; set; }
         public virtual bool IsSearching
         {
-            get { return SearchWorker != null; }
+            get { return SearchCanceller != null; }
         }
 
         /// <summary>
@@ -107,9 +107,9 @@ namespace Standalone.Core
 
         public virtual void CancelSearch()
         {
-            if (SearchWorker != null)
-                SearchWorker.CancelAsync();
-            SearchWorker = null;
+            if (SearchCanceller != null)
+                SearchCanceller();
+            SearchCanceller = null;
         }
 
         public virtual bool Export(string filename)
