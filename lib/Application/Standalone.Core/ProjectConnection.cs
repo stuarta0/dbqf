@@ -25,17 +25,17 @@ namespace Standalone.Core
         public string ConnectionString { get; set; }
     }
 
-    [XmlRoot("SqlConnection")]
+    //[XmlRoot("SqlConnection")]
     public class SqlProjectConnection : ProjectConnection
     {
     }
 
-    [XmlRoot("SQLiteConnection")]
+    //[XmlRoot("SQLiteConnection")]
     public class SQLiteProjectConnection : ProjectConnection
     {
     }
 
-    [XmlRoot("MsAccessConnection")]
+    //[XmlRoot("MsAccessConnection")]
     public class MsAccessProjectConnection : ProjectConnection
     {
     }

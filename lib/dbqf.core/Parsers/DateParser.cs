@@ -75,9 +75,10 @@ namespace dbqf.Parsers
             else if (value is BetweenValue)
             {
                 var between = value as BetweenValue;
-                between.From = between.From == null ? null : ParseDate(between.From);
-                between.To = between.To == null ? null : ParseDate(between.To);
-                return between;
+                var newTween = new BetweenValue();
+                newTween.From = between.From == null ? null : ParseDate(between.From);
+                newTween.To = between.To == null ? null : ParseDate(between.To);
+                return newTween;
             }
             else if (value is string)
             {
