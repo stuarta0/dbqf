@@ -54,6 +54,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Application\Standalone.Core\Standalone.Core.csproj">
+      <Project>{a9091adb-fc19-4982-bce4-6a0425f974d6}</Project>
+      <Name>Standalone.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Backends\dbqf.Sql\dbqf.Sql.csproj">
       <Project>{8677a10f-415f-4f5f-abc5-726ede1cb372}</Project>
       <Name>dbqf.Sql</Name>
