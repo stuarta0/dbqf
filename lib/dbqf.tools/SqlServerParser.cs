@@ -129,37 +129,49 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
 
             // hook up the easy matrix nodes based on the relation fields
             // (those that traverse many to many or are logically related via multiple relationships are omitted)
+            var compiled = new Dictionary<Relationship, List<Configuration.IRelationField>>();
             foreach (HelperSqlSubject subject in config)
             {
                 // we can't determine relationships without primary keys
                 if (subject.IdField == null)
                     continue;
-                
-                // self relationships, technically not required
-                config[subject, subject].Query = $"SELECT [{subject.IdField.SourceName}], [{subject.IdField.SourceName}] FROM {subject.FullName}";
-                config[subject, subject].ToolTip = $"Search for {subject.DisplayName}";
 
-                // Do any fields in from relate to another subject? If so we can fill in the relationship (both directions)
                 // Bundle multiple relationships to the same subject into each query with a UNION ALL
                 foreach (var field in subject)
                 {
                     var related = field as Configuration.IRelationField;
                     if (related != null && related.RelatedSubject != null)
                     {
-                        var node = config[subject, (ISqlSubject)related.RelatedSubject];
-                        node.Query = $"SELECT f.[{subject.IdField.SourceName}], t.[{field.SourceName}] FROM {subject.FullName}";
-                        node.ToolTip = $"Search for {subject.DisplayName} with {related.RelatedSubject.DisplayName}";
+                        var key = new Relationship((HelperSqlSubject)related.Subject, (HelperSqlSubject)related.RelatedSubject);
+                        if (!compiled.ContainsKey(key))
+                            compiled.Add(key, new List<Configuration.IRelationField>());
 
-                        node = config[(ISqlSubject)related.RelatedSubject, subject];
-                        node.Query = $"SELECT t.[{field.SourceName}], f.[{subject.IdField.SourceName}] FROM {subject.FullName}";
-                        node.ToolTip = $"Search for {related.RelatedSubject.DisplayName} with {subject.DisplayName}";
+                        compiled[key].Add(related);
                     }
                 }
+                
+                //foreach (var field in subject)
+                //{
+                //    var related = field as Configuration.IRelationField;
+                //    if (related != null && related.RelatedSubject != null)
+                //    {
+                //        var node = config[subject, (ISqlSubject)related.RelatedSubject];
+                //        node.Query = $"SELECT f.[{subject.IdField.SourceName}], t.[{field.SourceName}] FROM {subject.FullName}";
+                //        node.ToolTip = $"Search for {subject.DisplayName} with {related.RelatedSubject.DisplayName}";
 
-                foreach (HelperSqlSubject to in config)
-                {
-                    
-                }
+                //        node = config[(ISqlSubject)related.RelatedSubject, subject];
+                //        node.Query = $"SELECT t.[{field.SourceName}], f.[{subject.IdField.SourceName}] FROM {subject.FullName}";
+                //        node.ToolTip = $"Search for {related.RelatedSubject.DisplayName} with {subject.DisplayName}";
+                //    }
+                //}
+            }
+
+            // our compiled list will now contain a lookup of relationship between two subjects (order irrelevant) and all fields from both subjects that relate to the other subject
+            foreach (var pair in compiled)
+            {
+                // bi-directional, therefore process twice
+                config[pair.Key.Subject1, pair.Key.Subject2].Query = HelperField.CreateMatrixSql(pair.Key.Subject1, pair.Value);
+                config[pair.Key.Subject2, pair.Key.Subject1].Query = HelperField.CreateMatrixSql(pair.Key.Subject2, pair.Value);
             }
             
             return config;
@@ -315,7 +327,26 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
 
                 public override string ToString() => HelperField.ToFullName(Subject.Schema, Subject.TableName, Name);
             }
-            
+
+            public static string CreateMatrixSql(HelperSqlSubject from, IEnumerable<Configuration.IRelationField> fields)
+            {
+                return String.Join(" UNION ALL ", fields.Select(f => CreateMatrixSql(from, f)));
+            }
+
+            public static string CreateMatrixSql(HelperSqlSubject from, Configuration.IRelationField field)
+            {
+                // either field.Subject == from, or field.RelatedSubject == from, anything else is exceptional
+                if (field.Subject == from)
+                    return $"SELECT [{from.IdField.SourceName}], [{field.SourceName}] FROM {from.FullName}";
+                else if (field.RelatedSubject == from)
+                {
+                    var target = field.Subject as HelperSqlSubject;
+                    return $"SELECT [{field.SourceName}], [{from.IdField.SourceName}] FROM {target.FullName}";
+                }
+
+                throw new ArgumentException("Cannot create matrix SQL from field if neither field.Subject or field.RelatedSubject are the source.");
+            }
+
             public static string ToFullName(Configuration.IField field) => ToFullName(((HelperSqlSubject)field.Subject).Schema, ((HelperSqlSubject)field.Subject).TableName, field.SourceName);
 
             public static string ToFullName(string schema, string table, string column) => $"[{schema}].[{table}].[{column}]";
@@ -334,6 +365,34 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
                     },
                     Name = parts[2]
                 } : new FieldDef();
+            }
+        }
+
+        public struct Relationship
+        {
+            public HelperSqlSubject Subject1;
+            public HelperSqlSubject Subject2;
+
+            public Relationship(HelperSqlSubject s1, HelperSqlSubject s2)
+            {
+                Subject1 = s1;
+                Subject2 = s2;
+            }
+
+            public override int GetHashCode()
+            {
+                return (Subject1?.GetHashCode() ?? 0) + (Subject2?.GetHashCode() ?? 0);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj is Relationship)
+                {
+                    var other = (Relationship)obj;
+                    return (this.Subject1 == other.Subject1 || this.Subject1 == other.Subject2)
+                        && (this.Subject2 == other.Subject1 || this.Subject2 == other.Subject2);
+                }
+                return base.Equals(obj);
             }
         }
     }
