@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.core", "dbqf.core\dbqf.core.csproj", "{AB9BDEC4-8264-49A2-B2B6-EF6276341535}"
 EndProject
@@ -44,6 +44,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.Common", "Samples\Samples.Common\Samples.Common.csproj", "{344A56F4-3878-4AF5-93E0-28B498F6E346}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3-Get-Results", "Samples\3-Get-Results\3-Get-Results.csproj", "{D2A8FF18-1D6A-40A0-84D3-6DCEF94F8676}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbqf.tools", "dbqf.tools\dbqf.tools.csproj", "{4E67BA88-EEE1-41D0-A0F8-A9F61611960C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +121,10 @@ Global
 		{D2A8FF18-1D6A-40A0-84D3-6DCEF94F8676}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2A8FF18-1D6A-40A0-84D3-6DCEF94F8676}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2A8FF18-1D6A-40A0-84D3-6DCEF94F8676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E67BA88-EEE1-41D0-A0F8-A9F61611960C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E67BA88-EEE1-41D0-A0F8-A9F61611960C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E67BA88-EEE1-41D0-A0F8-A9F61611960C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E67BA88-EEE1-41D0-A0F8-A9F61611960C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

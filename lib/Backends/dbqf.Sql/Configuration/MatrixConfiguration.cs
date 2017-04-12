@@ -20,7 +20,7 @@ namespace dbqf.Sql.Configuration
             _matrix = new Dictionary<ISqlSubject, Dictionary<ISqlSubject, MatrixNode>>();
         }
 
-        public ISubject this[string displayName]
+        public virtual ISubject this[string displayName]
         {
             get
             {
@@ -28,7 +28,7 @@ namespace dbqf.Sql.Configuration
             }
         }
 
-        public MatrixNode this[ISqlSubject from, ISqlSubject to]
+        public virtual MatrixNode this[ISqlSubject from, ISqlSubject to]
         {
             get { return _matrix[from][to]; }
         }
