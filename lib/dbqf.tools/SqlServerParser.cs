@@ -126,6 +126,41 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
                     }
                 }
             }
+
+            // hook up the easy matrix nodes based on the relation fields
+            // (those that traverse many to many or are logically related via multiple relationships are omitted)
+            foreach (HelperSqlSubject subject in config)
+            {
+                // we can't determine relationships without primary keys
+                if (subject.IdField == null)
+                    continue;
+                
+                // self relationships, technically not required
+                config[subject, subject].Query = $"SELECT [{subject.IdField.SourceName}], [{subject.IdField.SourceName}] FROM {subject.FullName}";
+                config[subject, subject].ToolTip = $"Search for {subject.DisplayName}";
+
+                // Do any fields in from relate to another subject? If so we can fill in the relationship (both directions)
+                // Bundle multiple relationships to the same subject into each query with a UNION ALL
+                foreach (var field in subject)
+                {
+                    var related = field as Configuration.IRelationField;
+                    if (related != null && related.RelatedSubject != null)
+                    {
+                        var node = config[subject, (ISqlSubject)related.RelatedSubject];
+                        node.Query = $"SELECT f.[{subject.IdField.SourceName}], t.[{field.SourceName}] FROM {subject.FullName}";
+                        node.ToolTip = $"Search for {subject.DisplayName} with {related.RelatedSubject.DisplayName}";
+
+                        node = config[(ISqlSubject)related.RelatedSubject, subject];
+                        node.Query = $"SELECT t.[{field.SourceName}], f.[{subject.IdField.SourceName}] FROM {subject.FullName}";
+                        node.ToolTip = $"Search for {related.RelatedSubject.DisplayName} with {subject.DisplayName}";
+                    }
+                }
+
+                foreach (HelperSqlSubject to in config)
+                {
+                    
+                }
+            }
             
             return config;
         }
