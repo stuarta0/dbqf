@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace dbqf.tools
@@ -96,9 +97,10 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
                                 {
                                     Subject = subject,
                                     SourceName = reader.GetString(0),
+                                    DisplayName = SplitCamelCase(reader.GetString(0)),
                                     DataType = SqlToClr(reader.GetString(2))
                                 };
-
+                                
                                 // set this field as the primary key if it's name matches the PK in the schema
                                 if (pk.ContainsKey(subject.FullName) && pk[subject.FullName].Equals(field.SourceName))
                                     subject.IdField = field;
@@ -116,6 +118,10 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
                                     // now that we've recreated the field as a relation field, remove the original
                                     subject.Remove(field);
                                     field = relation;
+
+                                    // strip postfix " id" off display string for relation fields
+                                    if (field.DisplayName.ToLower().EndsWith(" id"))
+                                        field.DisplayName = field.DisplayName.Substring(0, field.DisplayName.Length - 3);
                                 }
 
                                 // set this field as the default if it contains something resembling a name
@@ -149,21 +155,6 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
                         compiled[key].Add(related);
                     }
                 }
-                
-                //foreach (var field in subject)
-                //{
-                //    var related = field as Configuration.IRelationField;
-                //    if (related != null && related.RelatedSubject != null)
-                //    {
-                //        var node = config[subject, (ISqlSubject)related.RelatedSubject];
-                //        node.Query = $"SELECT f.[{subject.IdField.SourceName}], t.[{field.SourceName}] FROM {subject.FullName}";
-                //        node.ToolTip = $"Search for {subject.DisplayName} with {related.RelatedSubject.DisplayName}";
-
-                //        node = config[(ISqlSubject)related.RelatedSubject, subject];
-                //        node.Query = $"SELECT t.[{field.SourceName}], f.[{subject.IdField.SourceName}] FROM {subject.FullName}";
-                //        node.ToolTip = $"Search for {related.RelatedSubject.DisplayName} with {subject.DisplayName}";
-                //    }
-                //}
             }
 
             // our compiled list will now contain a lookup of relationship between two subjects (order irrelevant) and all fields from both subjects that relate to the other subject
@@ -175,6 +166,11 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
             }
             
             return config;
+        }
+
+        public static string SplitCamelCase(string camelCase)
+        {
+            return Regex.Replace(camelCase, @"([a-z0-9])([A-Z])", "$1 $2");
         }
 
         private Type SqlToClr(string typename)
@@ -295,10 +291,11 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
             public string FullName => ToFullName(Schema, TableName);
 
             public HelperSqlSubject(string schema, string name)
-                : base(name)
+                : base()
             {
                 Schema = schema;
                 TableName = name;
+                DisplayName = SqlServerParser.SplitCamelCase(name);
             }
 
             public override string ToString() => FullName;
