@@ -36,7 +36,7 @@ namespace dbqf.tools
                 using (var cmd = conn.CreateCommand())
                 {
                     // Initialise subjects from tables
-                    cmd.CommandText = @"SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_CATALOG = @tableCatalog";
+                    cmd.CommandText = @"SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG = @tableCatalog";
                     cmd.Parameters.AddWithValue("@tableCatalog", catalog);
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -203,14 +203,21 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
                             if (field.DataType == typeof(string))
                                 extra = $"WHERE LTRIM(RTRIM(COALESCE([{field.SourceName}], ''))) <> ''";
                             cmd.CommandText = $"SELECT COUNT(*) FROM (SELECT DISTINCT [{field.SourceName}] FROM {subject.FullName} {extra}) x";
-                            var count = (int)cmd.ExecuteScalar();
-                            if (count <= listLength || (listDefault && subject.DefaultField == field))
+                            try
                             {
-                                field.List = new dbqf.Configuration.FieldList()
+                                var count = (int)cmd.ExecuteScalar();
+                                if (count <= listLength || (listDefault && subject.DefaultField == field))
                                 {
-                                    Type = Configuration.FieldListType.Suggested,
-                                    Source = $"SELECT DISTINCT [{field.SourceName}] AS Value FROM {subject.FullName} {extra}"
-                                };
+                                    field.List = new dbqf.Configuration.FieldList()
+                                    {
+                                        Type = Configuration.FieldListType.Suggested,
+                                        Source = $"SELECT DISTINCT [{field.SourceName}] AS Value FROM {subject.FullName} {extra}"
+                                    };
+                                }
+                            }
+                            catch (SqlException ex)
+                            {
+                                // can occur when trying to run rtrim/ltrim/distinct on TEXT columns
                             }
                         }
                     }
