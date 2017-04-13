@@ -24,7 +24,7 @@ namespace dbqf.tools
 
         private string _connection;
 
-        public dbqf.Sql.Configuration.IMatrixConfiguration CreateConfiguration()
+        public dbqf.Sql.Configuration.IMatrixConfiguration CreateConfiguration(IEnumerable<string> excludeSubjects = null)
         {
             var config = new HelperMatrixConfiguration();
             var builder = new SqlConnectionStringBuilder(_connection);
@@ -44,7 +44,9 @@ namespace dbqf.tools
                         {
                             var subject = new HelperSqlSubject(reader.GetString(0), reader.GetString(1));
                             subject.Sql = String.Format("SELECT * FROM {0}", subject.FullName);
-                            config.Subject(subject);
+                            
+                            if (!excludeSubjects.Contains(subject.DisplayName))
+                                config.Subject(subject);
                         }
                     }
 
@@ -98,7 +100,8 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
                                     Subject = subject,
                                     SourceName = reader.GetString(0),
                                     DisplayName = SplitCamelCase(reader.GetString(0)),
-                                    DataType = SqlToClr(reader.GetString(2))
+                                    DataType = SqlToClr(reader.GetString(2)),
+                                    DisplayFormat = ("money".Equals(reader.GetString(2)) ? "C0" : null)
                                 };
                                 
                                 // set this field as the primary key if it's name matches the PK in the schema
@@ -129,9 +132,22 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
                                     subject.DefaultField = field;
                             }
                         }
+
+                        if (subject.Count > 0)
+                        {
+                            // may not be correct, but the configuration isn't valid without it
+                            if (subject.IdField == null)
+                                subject.IdField = subject[0];
+                            if (subject.DefaultField == null)
+                                subject.DefaultField = subject[0];
+                        }
                     }
                 }
             }
+
+            // remove any subjects that resulted in zero fields
+            foreach (var subject in config.TakeWhile(s => s.Count == 0))
+                config.Remove(subject);
 
             // hook up the easy matrix nodes based on the relation fields
             // (those that traverse many to many or are logically related via multiple relationships are omitted)
@@ -166,6 +182,40 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
             }
             
             return config;
+        }
+
+        public void UpdateListFields(IMatrixConfiguration config, int listLength, bool listDefault)
+        {
+            using (var conn = new SqlConnection(_connection))
+            {
+                conn.Open();
+                foreach (HelperSqlSubject subject in config)
+                {
+                    foreach (var field in subject)
+                    {
+                        // don't setup lists on relation fields
+                        if (field is Configuration.IRelationField)
+                            continue;
+
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            string extra = "";
+                            if (field.DataType == typeof(string))
+                                extra = $"WHERE LTRIM(RTRIM(COALESCE([{field.SourceName}], ''))) <> ''";
+                            cmd.CommandText = $"SELECT COUNT(*) FROM (SELECT DISTINCT [{field.SourceName}] FROM {subject.FullName} {extra}) x";
+                            var count = (int)cmd.ExecuteScalar();
+                            if (count <= listLength || (listDefault && subject.DefaultField == field))
+                            {
+                                field.List = new dbqf.Configuration.FieldList()
+                                {
+                                    Type = Configuration.FieldListType.Suggested,
+                                    Source = $"SELECT DISTINCT [{field.SourceName}] AS Value FROM {subject.FullName} {extra}"
+                                };
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public static string SplitCamelCase(string camelCase)
@@ -334,11 +384,11 @@ WHERE c1.TABLE_CATALOG = @tableCatalog AND c2.TABLE_CATALOG = @tableCatalog";
             {
                 // either field.Subject == from, or field.RelatedSubject == from, anything else is exceptional
                 if (field.Subject == from)
-                    return $"SELECT [{from.IdField.SourceName}], [{field.SourceName}] FROM {from.FullName}";
+                    return $"SELECT [{from.IdField.SourceName}] FromID, [{field.SourceName}] ToID FROM {from.FullName}";
                 else if (field.RelatedSubject == from)
                 {
                     var target = field.Subject as HelperSqlSubject;
-                    return $"SELECT [{field.SourceName}], [{from.IdField.SourceName}] FROM {target.FullName}";
+                    return $"SELECT [{field.SourceName}] FromID, [{from.IdField.SourceName}] ToID FROM {target.FullName}";
                 }
 
                 throw new ArgumentException("Cannot create matrix SQL from field if neither field.Subject or field.RelatedSubject are the source.");
