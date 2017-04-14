@@ -26,6 +26,35 @@ namespace Sandbox
 
         static void Main(string[] args)
         {
+            var config = new dbqf.core.tests.Chinook();
+            var source = new dbqf.Hierarchy.Data.SQLiteDataSource(config, @"Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;");
+            dbqf.Hierarchy.ITemplateTreeNode node;
+            var root = node = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+            {
+                Subject = config.Artist,
+                Text = "{Name}"
+            };
+            node.Add(node = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+            {
+                Parent = node,
+                Subject = config.Album,
+                Text = "{Title}"
+            });
+            node.Add(node = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+            {
+                Parent = node,
+                Subject = config.Track,
+                Text = "{Name}"
+            });
+
+            var rootViewModel = new dbqf.Hierarchy.Display.TreeNodeViewModel(null, false);
+            foreach (var childNode in root.Load(null))
+                rootViewModel.Children.Add(childNode);
+
+
+
+            return;
+
             //ConfigurationConvertor.Convert(
             //    @"E:\assetasyst.xml",
             //    @"E:\assetasyst.proj.xml");

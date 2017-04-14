@@ -19,6 +19,8 @@ namespace dbqf.Hierarchy
     [DebuggerDisplay("{Subject}: {Text}")]
     public class SubjectTemplateTreeNode : TemplateTreeNode
     {
+        protected static readonly Regex PLACEHOLDER_RE = new Regex(@"\{[^\}]+\}");
+
         public SubjectTemplateTreeNode(IDataSource source)
             : base()
         {
@@ -65,31 +67,48 @@ namespace dbqf.Hierarchy
         /// Load nodes for this template node.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<TreeNodeViewModel> Load(TreeNodeViewModel parent)
+        public override IEnumerable<DataTreeNodeViewModel> Load(DataTreeNodeViewModel parent)
         {
-            var data = _source.GetData(Subject, new List<IFieldPath>(GetPlaceholders(Text).Values), null);
+            var fields = new List<IFieldPath>(GetPlaceholders(Text).Values);
+            fields.Insert(0, FieldPath.FromDefault(Subject.IdField));
+            var data = _source.GetData(Subject, fields, null);
+
             foreach (DataRow row in data.Rows)
             {
-                var node = new SubjectTreeNodeViewModel(parent, true);
-
-                // TODO: Replace placeholders in Text with actual values
-                node.Text = Text;
+                var node = new DataTreeNodeViewModel(this, parent, true);
                 foreach (DataColumn col in data.Columns)
                 {
-                    // TODO: add all fields to Data with correct naming
                     // result.Columns[i].ExtendedProperties["FieldPath"] = IFieldPath
-                    node.Data.Add(col.ColumnName, row[col]);
+                    node.Data.Add(GetFieldPathPlaceholder((IFieldPath)col.ExtendedProperties["FieldPath"]), row[col]);
                 }
+                node.Text = ReplacePlaceholders(Text, node.Data);
 
                 yield return node;
             }
         }
 
+        /// <summary>
+        /// Given an IFieldPath, create a placeholder string.
+        /// e.g. IFieldPath[ "RelationField1", "Field2" ] returns "RelationField1.Field2"
+        /// </summary>
+        protected virtual string GetFieldPathPlaceholder(IFieldPath path)
+        {
+            var sb = new StringBuilder();
+            foreach (var part in path)
+                sb.Append($"{part.SourceName}.");
+
+            return sb.Length > 0 ? sb.Remove(sb.Length - 1, 1).ToString() : null;
+        }
+
+        /// <summary>
+        /// Given a placeholder string, extract the field paths from this template's subject.
+        /// e.g. "A string with {RelationField1.Field2}" returns { "RelationField1.Field2": IFieldPath[ "RelationField1", "Field2" ] }
+        /// </summary>
         protected virtual Dictionary<string, IFieldPath> GetPlaceholders(string placeholderText)
         {
             var paths = new Dictionary<string, IFieldPath>();
 
-            var matches = Regex.Matches(placeholderText, @"\{[^\}]+\}");
+            var matches = PLACEHOLDER_RE.Matches(placeholderText);
             foreach (Match m in matches)
             {
                 // {field}
@@ -99,7 +118,6 @@ namespace dbqf.Hierarchy
                 if (!paths.ContainsKey(m.Value))
                 {
                     string key = m.Value.TrimStart('{').TrimEnd('}');
-
                     string[] parts = key.Split('.');
 
                     var subject = Subject;
@@ -108,15 +126,11 @@ namespace dbqf.Hierarchy
                     {
                         var field = subject[part];
                         if (field is IRelationField)
-                        {
                             subject = ((IRelationField)field).RelatedSubject;
-                        }
                         else if (field == null)
-                        {
                             break;
-                        }
 
-                        path.Add(subject[part]);
+                        path.Add(field);
                     }
 
                     if (path.Count > 0)
@@ -124,12 +138,43 @@ namespace dbqf.Hierarchy
                         if (path.Last is IRelationField)
                             path.Add(FieldPath.FromDefault(path.Last)[1, null]);
 
-                        paths.Add(m.Value, path);
+                        paths.Add(key, path);
                     }
                 }
             }
 
             return paths;
+        }
+
+
+        /// <summary>
+        /// Replaces the placeholders in the given string with data from this item. The replaced data will honour the relevant field's DisplayFormat too.
+        /// e.g. "A string with {RelationField1.Field2}" and data{ "RelationField1.Field2": "db data" } returns "A string with db data"
+        /// </summary>
+        public string ReplacePlaceholders(string placeholderText, Dictionary<string, object> data)
+        {
+            // query the placeholder dictionary so we have context for formatting values
+            var placeholders = GetPlaceholders(placeholderText);
+            return PLACEHOLDER_RE.Replace(placeholderText,
+                new MatchEvaluator((m) =>
+                {
+                    // m.Value contains the field name with brackets
+                    string fieldName = m.Value.TrimStart('{').TrimEnd('}');
+
+                    if (placeholders.ContainsKey(fieldName) && data.ContainsKey(fieldName))
+                    {
+                        var field = placeholders[fieldName];
+                        var value = data[fieldName];
+                        if (value == null)
+                            return String.Empty;
+                        else if (!String.IsNullOrEmpty(field.Last.DisplayFormat))
+                            return String.Format(String.Concat("{0:", field.Last.DisplayFormat, "}"), value);
+
+                        return value.ToString();
+                    }
+
+                    return String.Empty;
+                }));
         }
 
 

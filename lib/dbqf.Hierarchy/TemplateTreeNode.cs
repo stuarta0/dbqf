@@ -3,10 +3,12 @@ using dbqf.Hierarchy.Display;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace dbqf.Hierarchy
 {
+    [DebuggerDisplay("{Text}")]
     public class TemplateTreeNode : ITemplateTreeNode
     {
         public TemplateTreeNode()
@@ -58,9 +60,9 @@ namespace dbqf.Hierarchy
         /// Load nodes for this template node.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<TreeNodeViewModel> Load(TreeNodeViewModel parent)
+        public virtual IEnumerable<DataTreeNodeViewModel> Load(DataTreeNodeViewModel parent)
         {
-            yield return new TreeNodeViewModel(parent, true)
+            yield return new DataTreeNodeViewModel(this, parent, true)
             {
                 Text = Text
             };

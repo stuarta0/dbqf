@@ -19,8 +19,8 @@ namespace dbqf.Hierarchy.Data
             _config = config;
             _connectionString = connectionString;
         }
-        readonly IMatrixConfiguration _config;
-        readonly string _connectionString;
+        protected readonly IMatrixConfiguration _config;
+        protected readonly string _connectionString;
 
         public DataTable GetData(ISubject target, IList<IFieldPath> fields, IParameter where)
         {
@@ -34,14 +34,14 @@ namespace dbqf.Hierarchy.Data
             generator.Columns = fields;
             generator.Where = (ISqlParameter)where;
 
-            using (var conn = new SqlConnection(_connectionString))
+            using (var conn = CreateConnection())
             {
                 using (var cmd = conn.CreateCommand())
                 {
                     //cmd.CommandTimeout = CommandTimeout;
                     generator.UpdateCommand(cmd);
 
-                    var adapter = new SqlDataAdapter();
+                    var adapter = CreateDataAdapter();
                     adapter.SelectCommand = cmd;
                     var ds = new DataSet();
                     adapter.Fill(ds);
@@ -55,6 +55,16 @@ namespace dbqf.Hierarchy.Data
                     return result;
                 }
             }
+        }
+
+        protected virtual IDbConnection CreateConnection()
+        {
+            return new SqlConnection(_connectionString);
+        }
+
+        protected virtual IDbDataAdapter CreateDataAdapter()
+        {
+            return new SqlDataAdapter();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using dbqf.Criterion;
+using dbqf.Hierarchy.Display;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,6 +31,6 @@ namespace dbqf.Hierarchy
         /// Load view model nodes for this template node.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Display.TreeNodeViewModel> Load(Display.TreeNodeViewModel parent);
+        IEnumerable<DataTreeNodeViewModel> Load(DataTreeNodeViewModel parent);
     }
 }

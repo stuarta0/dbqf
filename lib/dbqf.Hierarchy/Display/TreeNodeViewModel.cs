@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 
 namespace dbqf.Hierarchy.Display
 {
+    /// <summary>
+    /// A generic TreeNode ViewModel that can be bound to a tree control and lazy load it's children.
+    /// </summary>
+    [DebuggerDisplay("{Text}")]
     public class TreeNodeViewModel : INotifyPropertyChanged
     {
         private TreeNodeViewModel() { }
