@@ -87,7 +87,7 @@ namespace dbqf.Hierarchy
                 if (curParent.TemplateNode.Parameters != null)
                     where.Add(curParent.TemplateNode.Parameters);
 
-                curParent = parent.Parent as DataTreeNodeViewModel;
+                curParent = curParent.Parent as DataTreeNodeViewModel;
             }
 
             var data = _source.GetData(Subject, fields, where);
