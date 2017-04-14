@@ -41,8 +41,15 @@ namespace Standalone.GtkSharp
 				throw new ApplicationException("MainWindow not initialised.");
 
 			Main.Show ();
-			Application.Run ();
-		}
+            try
+            {
+                Application.Run();
+            }
+            finally
+            {
+                Gdk.Threads.Leave();
+            }
+        }
 
 		private void ControlFactory_ListRequested(object sender, ListRequestedArgs e)
 		{

@@ -8,10 +8,15 @@ namespace Standalone.GtkSharp
 {
 	class MainClass
 	{
-		public static void Main (string[] args)
+        [STAThread]
+        public static void Main (string[] args)
 		{
-			Application.Init ();
-			var container = BootstrapContainer();
+            //Glib.Thread.Init();
+            Gdk.Threads.Init();
+            Application.Init ();
+            Gdk.Threads.Enter();
+
+            var container = BootstrapContainer();
 			var shell = container.Resolve<Standalone.Core.IShell>();
 			shell.Run();
 			container.Dispose();
