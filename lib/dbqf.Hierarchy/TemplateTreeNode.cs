@@ -1,4 +1,5 @@
 ﻿using dbqf.Criterion;
+using dbqf.Hierarchy.Display;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -53,6 +54,17 @@ namespace dbqf.Hierarchy
         }
         private IList<ITemplateTreeNode> _children;
 
+        /// <summary>
+        /// Load nodes for this template node.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<TreeNodeViewModel> Load(TreeNodeViewModel parent)
+        {
+            yield return new TreeNodeViewModel(parent, true)
+            {
+                Text = Text
+            };
+        }
 
         // TODO: implemented consistency so Parent properties get set correctly when adding or removing from children
         #region IList<ITemplateNode>

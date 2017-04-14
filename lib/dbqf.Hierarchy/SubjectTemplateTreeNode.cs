@@ -5,6 +5,11 @@ using dbqf.Configuration;
 using System.Diagnostics;
 using dbqf.Criterion;
 using System.Collections;
+using dbqf.Hierarchy.Display;
+using dbqf.Sql;
+using System.Text.RegularExpressions;
+using dbqf.Hierarchy.Data;
+using System.Data;
 
 namespace dbqf.Hierarchy
 {
@@ -14,10 +19,12 @@ namespace dbqf.Hierarchy
     [DebuggerDisplay("{Subject}: {Text}")]
     public class SubjectTemplateTreeNode : TemplateTreeNode
     {
-        public SubjectTemplateTreeNode()
+        public SubjectTemplateTreeNode(IDataSource source)
             : base()
         {
+            _source = source;
         }
+        readonly IDataSource _source;
 
         /// <summary>
         /// The subject of this node.  This defines what type of item to load at this level of the tree.
@@ -53,7 +60,78 @@ namespace dbqf.Hierarchy
             set { _searchParamLevels = value; }
         }
         private int _searchParamLevels;
-        
+
+        /// <summary>
+        /// Load nodes for this template node.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<TreeNodeViewModel> Load(TreeNodeViewModel parent)
+        {
+            var data = _source.GetData(Subject, new List<IFieldPath>(GetPlaceholders(Text).Values), null);
+            foreach (DataRow row in data.Rows)
+            {
+                var node = new SubjectTreeNodeViewModel(parent, true);
+
+                // TODO: Replace placeholders in Text with actual values
+                node.Text = Text;
+                foreach (DataColumn col in data.Columns)
+                {
+                    // TODO: add all fields to Data with correct naming
+                    // result.Columns[i].ExtendedProperties["FieldPath"] = IFieldPath
+                    node.Data.Add(col.ColumnName, row[col]);
+                }
+
+                yield return node;
+            }
+        }
+
+        protected virtual Dictionary<string, IFieldPath> GetPlaceholders(string placeholderText)
+        {
+            var paths = new Dictionary<string, IFieldPath>();
+
+            var matches = Regex.Matches(placeholderText, @"\{[^\}]+\}");
+            foreach (Match m in matches)
+            {
+                // {field}
+                // {relationfield} - determine default field and use that
+                // {relationfield.childrelationfield.childfield}
+
+                if (!paths.ContainsKey(m.Value))
+                {
+                    string key = m.Value.TrimStart('{').TrimEnd('}');
+
+                    string[] parts = key.Split('.');
+
+                    var subject = Subject;
+                    var path = new FieldPath();
+                    foreach (var part in parts)
+                    {
+                        var field = subject[part];
+                        if (field is IRelationField)
+                        {
+                            subject = ((IRelationField)field).RelatedSubject;
+                        }
+                        else if (field == null)
+                        {
+                            break;
+                        }
+
+                        path.Add(subject[part]);
+                    }
+
+                    if (path.Count > 0)
+                    {
+                        if (path.Last is IRelationField)
+                            path.Add(FieldPath.FromDefault(path.Last)[1, null]);
+
+                        paths.Add(m.Value, path);
+                    }
+                }
+            }
+
+            return paths;
+        }
+
 
         // TODO: re-implement some of the features below after initial development
 

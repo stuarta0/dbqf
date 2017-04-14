@@ -25,5 +25,11 @@ namespace dbqf.Hierarchy
         /// Ability to provide additional parameters at this level of the tree.
         /// </summary>
         IParameter Parameters { get; }
+
+        /// <summary>
+        /// Load view model nodes for this template node.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Display.TreeNodeViewModel> Load(Display.TreeNodeViewModel parent);
     }
 }

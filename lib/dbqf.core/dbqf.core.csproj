@@ -13,6 +13,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -89,9 +90,6 @@
     <Compile Include="Display\UIElement.cs" />
     <Compile Include="Criterion\Values\BetweenValue.cs" />
     <Compile Include="Criterion\Values\DateValue.cs" />
-    <Compile Include="Hierarchy\ITreeNode.cs" />
-    <Compile Include="Hierarchy\ITemplateTreeNode.cs" />
-    <Compile Include="Hierarchy\TemplateTreeNode.cs" />
     <Compile Include="JunctionType.cs" />
     <Compile Include="Parsers\ConvertParser.cs" />
     <Compile Include="Parsers\ChainedParser.cs" />
@@ -109,13 +107,9 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Configuration\IField.cs" />
     <Compile Include="Configuration\ISubject.cs" />
-    <Compile Include="Hierarchy\DataNode.cs" />
-    <Compile Include="Hierarchy\SubjectTemplateTreeNode.cs" />
     <Compile Include="Processing\PlaceholderParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Configuration\Subject.cs" />
-    <Compile Include="Hierarchy\SortField.cs" />
-    <Compile Include="Hierarchy\ItemData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\DbQueryFramework.Key.pfx">
