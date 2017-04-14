@@ -71,7 +71,26 @@ namespace dbqf.Hierarchy
         {
             var fields = new List<IFieldPath>(GetPlaceholders(Text).Values);
             fields.Insert(0, FieldPath.FromDefault(Subject.IdField));
-            var data = _source.GetData(Subject, fields, null);
+            
+            var where = new dbqf.Sql.Criterion.SqlConjunction();
+            var curParent = parent;
+            for (int i = 0; i < SearchParameterLevels && curParent != null; i++)
+            {
+                var template = curParent.TemplateNode as SubjectTemplateTreeNode;
+                if (template != null)
+                {
+                    where.Add(new dbqf.Sql.Criterion.SqlSimpleParameter(
+                        template.Subject.IdField, "=",
+                        curParent.Data[template.Subject.IdField.SourceName]));
+                }
+
+                if (curParent.TemplateNode.Parameters != null)
+                    where.Add(curParent.TemplateNode.Parameters);
+
+                curParent = parent.Parent as DataTreeNodeViewModel;
+            }
+
+            var data = _source.GetData(Subject, fields, where);
 
             foreach (DataRow row in data.Rows)
             {

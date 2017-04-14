@@ -32,19 +32,22 @@ namespace Sandbox
             var root = node = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
             {
                 Subject = config.Artist,
-                Text = "{Name}"
+                Text = "{Name}",
+                SearchParameterLevels = 1
             };
             node.Add(node = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
             {
                 Parent = node,
                 Subject = config.Album,
-                Text = "{Title}"
+                Text = "{Title}",
+                SearchParameterLevels = 1
             });
             node.Add(node = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
             {
                 Parent = node,
                 Subject = config.Track,
-                Text = "{Name}"
+                Text = "{Name}",
+                SearchParameterLevels = 1
             });
 
             var rootViewModel = new dbqf.Hierarchy.Display.TreeNodeViewModel(null, false);
