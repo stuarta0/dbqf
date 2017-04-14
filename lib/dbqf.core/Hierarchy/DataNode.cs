@@ -17,12 +17,12 @@ namespace dbqf.Hierarchy
         /// Indicates which node in the template this data node came from.  Used when determining how to load children.
         /// NOTE: This property must be assigned - all code relies on this.
         /// </summary>
-        public TemplateNode DerivedFrom
+        public SubjectTemplateTreeNode DerivedFrom
         {
             get { return _derivedFrom; }
             set { _derivedFrom = value; }
         }
-        private TemplateNode _derivedFrom;
+        private SubjectTemplateTreeNode _derivedFrom;
 
         /// <summary>
         /// The ID of this node in the DerivedFrom.Subject.  If DerivedFrom.IsStatic this is ignored.
@@ -133,7 +133,7 @@ namespace dbqf.Hierarchy
             List<DataNode> children = new List<DataNode>();
 
             // loop through the children template nodes and figure out what children we need to load
-            foreach (TemplateNode currentTemplate in DerivedFrom.Children)
+            foreach (SubjectTemplateTreeNode currentTemplate in DerivedFrom.Children)
             {
                 if (currentTemplate.IsStatic)
                 {
@@ -214,7 +214,7 @@ namespace dbqf.Hierarchy
             return children;
         }
 
-        private List<DataNode> AddNodes(TemplateNode template, List<ItemData> data)
+        private List<DataNode> AddNodes(SubjectTemplateTreeNode template, List<ItemData> data)
         {
             var dummy = new DataNode();
             foreach (var d in data)
@@ -233,7 +233,7 @@ namespace dbqf.Hierarchy
         /// <param name="groups"></param>
         /// <param name="currentGroup"></param>
         /// <param name="node"></param>
-        private void AddNode(DataNode parent, int currentGroup, TemplateNode template, ItemData item)
+        private void AddNode(DataNode parent, int currentGroup, SubjectTemplateTreeNode template, ItemData item)
         {
             if (currentGroup >= template.GroupBy.Count)
             {
