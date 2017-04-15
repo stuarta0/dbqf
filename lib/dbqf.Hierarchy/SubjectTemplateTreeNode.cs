@@ -116,7 +116,7 @@ namespace dbqf.Hierarchy
 
             foreach (DataRow row in data.Rows)
             {
-                var node = new DataTreeNodeViewModel(this, parent, true);
+                var node = new DataTreeNodeViewModel(this, parent, Children.Count > 0);
                 for (int i = 0; i < data.Columns.Count; i++)
                     node.Data.Add(keys[i], row[i]);
                 node.Text = ReplacePlaceholders(Text, node.Data);

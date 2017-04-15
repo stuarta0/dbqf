@@ -24,6 +24,7 @@ namespace Sandbox
             };
         }
 
+        [STAThread]
         static void Main(string[] args)
         {
             var config = new dbqf.core.tests.Chinook();
@@ -71,6 +72,9 @@ namespace Sandbox
             foreach (var childNode in root.Load(null))
                 rootViewModel.Children.Add(childNode);
 
+            var dialog = new Hierarchy.TreeView();
+            dialog.SetContext(rootViewModel);
+            dialog.ShowDialog();
 
             return;
 
