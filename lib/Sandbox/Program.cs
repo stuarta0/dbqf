@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Xml;
+using System.Linq;
 using dbqf.Configuration;
 using dbqf.Serialization.Assemblers;
 using dbqf.Serialization.Assemblers.Parsers;
@@ -33,19 +34,19 @@ namespace Sandbox
             var root = (dbqf.Hierarchy.SubjectTemplateTreeNode)new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
             {
                 Subject = config.Artist,
-                Text = "{Name}",
+                Text = "{ArtistId}: {Name}",
                 SearchParameterLevels = 1
             }.AddChildren(
                 new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
                 {
                     Subject = config.Album,
-                    Text = "{Title}",
+                    Text = "{AlbumId}: {Title}",
                     SearchParameterLevels = 1
                 }.AddChildren(
                     new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
                     {
                         Subject = config.Track,
-                        Text = "{Name}",
+                        Text = "{TrackId}: {Name}",
                         SearchParameterLevels = 1
                     }
                 )
@@ -77,6 +78,69 @@ namespace Sandbox
             var rootViewModel = new dbqf.Hierarchy.Display.TreeNodeViewModel(null, false);
             foreach (var childNode in root.Load(null))
                 rootViewModel.Children.Add(childNode);
+
+            var findId = (object)2234; // track id 2234, Us And Them - Dark Side of the Moon, Pink Floyd
+            var target = root[0][0] as dbqf.Hierarchy.SubjectTemplateTreeNode; // track
+
+            // [ artist, album, track ]
+            var path = new List<dbqf.Hierarchy.ITemplateTreeNode>();
+            var curT = (dbqf.Hierarchy.ITemplateTreeNode)target;
+            while (curT != null)
+            {
+                path.Insert(0, curT);
+                curT = curT.Parent;
+            }
+
+            // get the id's of all nodes along the path to the target
+            var data = source.GetData(target.Subject, 
+                path
+                    .TakeWhile(t => t is dbqf.Hierarchy.SubjectTemplateTreeNode)
+                    .Select<dbqf.Hierarchy.ITemplateTreeNode, dbqf.Criterion.IFieldPath>(t => dbqf.Criterion.FieldPath.FromDefault(((dbqf.Hierarchy.SubjectTemplateTreeNode)t).Subject.IdField))
+                    .ToList(), 
+                new dbqf.Sql.Criterion.SqlSimpleParameter(
+                    target.Subject.IdField, "=", findId));
+
+            // expand each node and find the relevant target it along the way
+            var children = rootViewModel.Children;
+            int curIdx = 0;
+            while (curIdx < path.Count)
+            {
+                // 3 things need to be synchronised:
+                // 1) tree templates
+                // 2) data ids
+                // 3) tree data
+
+                // 1) tree template
+                curT = path[curIdx];
+
+                // 2) data ids 
+                // TODO: data ids won't always be in sync with the path (assuming other levels in the tree aren't always SubjectTemplateTreeNodes
+                findId = data.Rows[0][curIdx];
+
+                // 3) tree data
+                var node = children.Find(vm =>
+                {
+                    var d = ((dbqf.Hierarchy.Display.DataTreeNodeViewModel)vm);
+                    return d.TemplateNode == curT && findId.Equals(d.Data[((dbqf.Hierarchy.SubjectTemplateTreeNode)d.TemplateNode).Subject.IdField.SourceName]);
+                });
+
+                // if the node wasn't found within the child collection (filtering may have excluded it) stop
+                if (node == null)
+                    break;
+
+                // if we're at the end of the search, select the node, otherwise continue expanding
+                if (curIdx == path.Count - 1)
+                {
+                    node.IsSelected = true;
+                    break;
+                }
+                else
+                    node.IsExpanded = true;
+
+                curIdx++;
+                children = node.Children;
+            }
+
 
             var dialog = new Hierarchy.TreeView();
             dialog.SetContext(rootViewModel);

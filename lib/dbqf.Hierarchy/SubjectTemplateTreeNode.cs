@@ -70,14 +70,14 @@ namespace dbqf.Hierarchy
         private int _searchParamLevels;
 
         /// <summary>
-        /// Load nodes for this template node.
+        /// Compiles target, fields and where criteria, firing the DataSourceLoad event and returns the final args for execution with IDataSource.GetData().
         /// </summary>
-        /// <returns></returns>
-        public override IEnumerable<DataTreeNodeViewModel> Load(DataTreeNodeViewModel parent)
+        public virtual Events.DataSourceLoadEventArgs PrepareQuery(DataTreeNodeViewModel parent)
         {
             var fields = new List<IFieldPath>(GetPlaceholders(Text).Values);
-            fields.Insert(0, FieldPath.FromDefault(Subject.IdField));
-            
+            if (fields.Find(p => p.Last.Equals(Subject.IdField)) == null)
+                fields.Insert(0, FieldPath.FromDefault(Subject.IdField));
+
             var where = new dbqf.Sql.Criterion.SqlConjunction();
             var curParent = parent;
             for (int i = 0; i < SearchParameterLevels && curParent != null; i++)
@@ -98,10 +98,20 @@ namespace dbqf.Hierarchy
 
             if (where.Count == 0)
                 where = null;
-            
+
             // allow interception of what we'll be requesting from the data source
             var args = new Events.DataSourceLoadEventArgs(Subject, fields, (where != null && where.Count == 1 ? where[0] : where));
             DataSourceLoad?.Invoke(this, args);
+            return args;
+        }
+
+        /// <summary>
+        /// Load nodes for this template node.
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<DataTreeNodeViewModel> Load(DataTreeNodeViewModel parent)
+        {
+            var args = PrepareQuery(parent);
             if (args.Cancel)
                 yield break;
             var data = _source.GetData(args.Target, args.Fields, args.Where);
