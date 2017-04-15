@@ -28,8 +28,8 @@ namespace Sandbox
         {
             var config = new dbqf.core.tests.Chinook();
             var source = new dbqf.Hierarchy.Data.SQLiteDataSource(config, @"Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;");
-            dbqf.Hierarchy.ITemplateTreeNode node;
-            var root = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+
+            var root = (dbqf.Hierarchy.SubjectTemplateTreeNode)new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
             {
                 Subject = config.Artist,
                 Text = "{Name}",
@@ -49,11 +49,27 @@ namespace Sandbox
                     }
                 )
             );
+            
+            root.DataSourceLoad += (sender, e) =>
+            {
+                Console.WriteLine("Root.DataSourceLoad fired for {0}", sender);
+
+                // inject additional where clause
+                var where = new dbqf.Sql.Criterion.SqlLikeParameter(
+                        config.Album["Title"],
+                        "moon",
+                        dbqf.Criterion.MatchMode.Anywhere
+                    );
+
+                if (e.Where != null)
+                    e.Where = new dbqf.Sql.Criterion.SqlConjunction() { e.Where, where };
+                else
+                    e.Where = where;
+            };
 
             var rootViewModel = new dbqf.Hierarchy.Display.TreeNodeViewModel(null, false);
             foreach (var childNode in root.Load(null))
                 rootViewModel.Children.Add(childNode);
-
 
 
             return;

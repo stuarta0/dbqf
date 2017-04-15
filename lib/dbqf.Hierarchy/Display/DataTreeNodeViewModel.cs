@@ -27,7 +27,7 @@ namespace dbqf.Hierarchy.Display
         /// Loads children by querying the related TemplateNode's children
         /// </summary>
         protected override void LoadChildren()
-        {            
+        {
             foreach (var childTemplate in TemplateNode)
             {
                 foreach (var node in childTemplate.Load(this))

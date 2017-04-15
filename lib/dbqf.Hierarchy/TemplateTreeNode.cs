@@ -97,7 +97,7 @@ namespace dbqf.Hierarchy
         
         #region IList<ITemplateNode>
 
-        public ITemplateTreeNode this[int index]
+        public virtual ITemplateTreeNode this[int index]
         {
             get
             {
@@ -105,18 +105,20 @@ namespace dbqf.Hierarchy
             }
             set
             {
-                Children[index] = value;
+                // TODO: test
+                Children[index].Parent = null; // this will remove it from the collection
+                Insert(index, value); // we need to insert the new node at the old node's index
             }
         }
 
-        public int Count => Children.Count;
-        public bool IsReadOnly => Children.IsReadOnly;
-        public int IndexOf(ITemplateTreeNode item) => Children.IndexOf(item);
-        public bool Contains(ITemplateTreeNode item) => Children.Contains(item);
-        public void CopyTo(ITemplateTreeNode[] array, int arrayIndex) => Children.CopyTo(array, arrayIndex);
-        public IEnumerator<ITemplateTreeNode> GetEnumerator() => Children.GetEnumerator();
+        public virtual int Count => Children.Count;
+        public virtual bool IsReadOnly => Children.IsReadOnly;
+        public virtual int IndexOf(ITemplateTreeNode item) => Children.IndexOf(item);
+        public virtual bool Contains(ITemplateTreeNode item) => Children.Contains(item);
+        public virtual void CopyTo(ITemplateTreeNode[] array, int arrayIndex) => Children.CopyTo(array, arrayIndex);
+        public virtual IEnumerator<ITemplateTreeNode> GetEnumerator() => Children.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => Children.GetEnumerator();
-        public void Insert(int index, ITemplateTreeNode item)
+        public virtual void Insert(int index, ITemplateTreeNode item)
         {
             if (!Contains(item))
             {
@@ -124,14 +126,12 @@ namespace dbqf.Hierarchy
                 item.Parent = this;
             }
         }
-        public void RemoveAt(int index)
+        public virtual void RemoveAt(int index)
         {
-            // Setting parent null of child at index will cause the item to be removed
+            // Setting parent null of child at index will cause the item to be removed via this.Remove(item)
             Children[index].Parent = null;
-
-            //Children.RemoveAt(index);
         }
-        public void Add(ITemplateTreeNode item)
+        public virtual void Add(ITemplateTreeNode item)
         {
             if (!Contains(item))
             {
@@ -139,13 +139,14 @@ namespace dbqf.Hierarchy
                 item.Parent = this;
             }
         }
-        public void Clear()
+        public virtual void Clear()
         {
-            foreach (var t in Children)
+            // TODO: ensure behaviour is correct since Children collection may change during call
+            foreach (var t in new System.Collections.ObjectModel.ReadOnlyCollection<ITemplateTreeNode>(Children))
                 t.Parent = null;
             Children.Clear();
         }
-        public bool Remove(ITemplateTreeNode item)
+        public virtual bool Remove(ITemplateTreeNode item)
         {
             item.Parent = null;
             return Children.Remove(item);

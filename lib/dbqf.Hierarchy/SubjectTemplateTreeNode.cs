@@ -29,6 +29,12 @@ namespace dbqf.Hierarchy
         readonly IDataSource _source;
 
         /// <summary>
+        /// Occurs prior to loading nodes for this template. Parameters can be modified or the request cancelled by the handler.
+        /// This event also bubbles from it's children so it can be handled by registering with the root node.
+        /// </summary>
+        public event EventHandler<Events.DataSourceLoadEventArgs> DataSourceLoad;
+
+        /// <summary>
         /// The subject of this node.  This defines what type of item to load at this level of the tree.
         /// </summary>
         public ISubject Subject
@@ -90,16 +96,29 @@ namespace dbqf.Hierarchy
                 curParent = curParent.Parent as DataTreeNodeViewModel;
             }
 
-            var data = _source.GetData(Subject, fields, where);
+            if (where.Count == 0)
+                where = null;
+            
+            // allow interception of what we'll be requesting from the data source
+            var args = new Events.DataSourceLoadEventArgs(Subject, fields, (where != null && where.Count == 1 ? where[0] : where));
+            DataSourceLoad?.Invoke(this, args);
+            if (args.Cancel)
+                yield break;
+            var data = _source.GetData(args.Target, args.Fields, args.Where);
+
+            // precompile keys from field paths in columns
+            var keys = new List<string>();
+            foreach (DataColumn col in data.Columns)
+            { 
+                // result.Columns[i].ExtendedProperties["FieldPath"] = IFieldPath
+                keys.Add(GetFieldPathPlaceholder((IFieldPath)col.ExtendedProperties["FieldPath"]));
+            }
 
             foreach (DataRow row in data.Rows)
             {
                 var node = new DataTreeNodeViewModel(this, parent, true);
-                foreach (DataColumn col in data.Columns)
-                {
-                    // result.Columns[i].ExtendedProperties["FieldPath"] = IFieldPath
-                    node.Data.Add(GetFieldPathPlaceholder((IFieldPath)col.ExtendedProperties["FieldPath"]), row[col]);
-                }
+                for (int i = 0; i < data.Columns.Count; i++)
+                    node.Data.Add(keys[i], row[i]);
                 node.Text = ReplacePlaceholders(Text, node.Data);
 
                 yield return node;
@@ -196,6 +215,47 @@ namespace dbqf.Hierarchy
                 }));
         }
 
+        private void RegisterNode(ITemplateTreeNode item)
+        {
+            if (!Contains(item))
+            {
+                var subjectNode = item as SubjectTemplateTreeNode;
+                if (subjectNode != null)
+                    subjectNode.DataSourceLoad += SubjectTemplateTreeNode_DataSourceLoad;
+            }
+        }
+
+        private void UnregisterNode(ITemplateTreeNode item)
+        {
+            var subjectNode = item as SubjectTemplateTreeNode;
+            if (subjectNode != null)
+                subjectNode.DataSourceLoad -= SubjectTemplateTreeNode_DataSourceLoad;
+        }
+
+        public override void Add(ITemplateTreeNode item)
+        {
+            RegisterNode(item);
+            base.Add(item);
+        }
+
+        public override void Insert(int index, ITemplateTreeNode item)
+        {
+            RegisterNode(item);
+            base.Insert(index, item);
+        }
+
+        public override bool Remove(ITemplateTreeNode item)
+        {
+            UnregisterNode(item);
+            return base.Remove(item);
+        }
+
+        private void SubjectTemplateTreeNode_DataSourceLoad(object sender, Events.DataSourceLoadEventArgs e)
+        {
+            // bubble the child events up
+            DataSourceLoad?.Invoke(sender, e);
+        }
+
 
         // TODO: re-implement some of the features below after initial development
 
@@ -231,44 +291,5 @@ namespace dbqf.Hierarchy
         //    set { _sortBy = value; }
         //}
         //private List<SortField> _sortBy;
-
-        ///// <summary>
-        ///// The queryer object to use when getting child nodes for this node and which contains the configuration with the associated subject.
-        ///// </summary>
-        //[XmlIgnore]
-        //public Queryer Queryer
-        //{
-        //    get { return _queryer; }
-        //    set { _queryer = value; }
-        //}
-        //private Queryer _queryer;
-
-        ///// <summary>
-        ///// Should be called after deserialisation on the root node to ensure all objects have the correct references.
-        ///// </summary>
-        //public void Initialise(Queryer queryer)
-        //{
-        //    Initialise(queryer, this);
-        //}
-
-        //protected void Initialise(Queryer queryer, TemplateNode cur)
-        //{
-        //    // resolve all subjects and sorted fields through the queryer's configuration
-        //    // bind all parent properties based on the Children collections
-
-        //    cur.Queryer = queryer;
-
-        //    if (cur.SubjectID > 0)
-        //        cur.Subject = queryer.Configuration.GetSubject(cur.SubjectID);
-
-        //    if (cur.CustomParameters != null)
-        //        cur.CustomParameters.InitialiseDeserialization(queryer);
-
-        //    foreach (var child in cur.Children)
-        //    {
-        //        child.Parent = this;
-        //        Initialise(queryer, child);
-        //    }
-        //}
     }
 }
