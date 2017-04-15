@@ -194,6 +194,7 @@ namespace dbqf.Configuration
             }
             set
             {
+                // TODO: add unit test to see whether leaving the field previously at [index] has the correct Subject reference
                 _fields[index] = value;
                 value.Subject = this;
             }
