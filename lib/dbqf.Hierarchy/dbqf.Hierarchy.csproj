@@ -51,7 +51,6 @@
     <Compile Include="Data\SQLiteDataSource.cs" />
     <Compile Include="Display\DataTreeNodeViewModel.cs" />
     <Compile Include="Display\TreeNodeViewModel.cs" />
-    <Compile Include="ItemData.cs" />
     <Compile Include="ITemplateTreeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SortField.cs" />

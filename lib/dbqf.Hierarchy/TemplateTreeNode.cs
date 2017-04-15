@@ -22,7 +22,23 @@ namespace dbqf.Hierarchy
         public virtual ITemplateTreeNode Parent
         {
             get { return _parent; }
-            set { _parent = value; }
+            set
+            {
+                if (_parent == value)
+                    return;
+                
+                if (_parent != null)
+                {
+                    var parent = _parent;
+                    _parent = null;
+                    parent.Remove(this);
+                }
+
+                _parent = value;
+
+                if (_parent != null)
+                    _parent.Add(this);
+            }
         }
         private ITemplateTreeNode _parent;
 
@@ -68,7 +84,17 @@ namespace dbqf.Hierarchy
             };
         }
 
-        // TODO: implemented consistency so Parent properties get set correctly when adding or removing from children
+        /// <summary>
+        /// Fluent method to add multiple children and return itself.
+        /// </summary>
+        public TemplateTreeNode AddChildren(params ITemplateTreeNode[] children)
+        {
+            foreach (var child in children)
+                Add(child);
+
+            return this;
+        }
+        
         #region IList<ITemplateNode>
 
         public ITemplateTreeNode this[int index]
@@ -86,15 +112,44 @@ namespace dbqf.Hierarchy
         public int Count => Children.Count;
         public bool IsReadOnly => Children.IsReadOnly;
         public int IndexOf(ITemplateTreeNode item) => Children.IndexOf(item);
-        public void Insert(int index, ITemplateTreeNode item) => Children.Insert(index, item);
-        public void RemoveAt(int index) => Children.RemoveAt(index);
-        public void Add(ITemplateTreeNode item) => Children.Add(item);
-        public void Clear() => Children.Clear();
         public bool Contains(ITemplateTreeNode item) => Children.Contains(item);
         public void CopyTo(ITemplateTreeNode[] array, int arrayIndex) => Children.CopyTo(array, arrayIndex);
-        public bool Remove(ITemplateTreeNode item) => Children.Remove(item);
         public IEnumerator<ITemplateTreeNode> GetEnumerator() => Children.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => Children.GetEnumerator();
+        public void Insert(int index, ITemplateTreeNode item)
+        {
+            if (!Contains(item))
+            {
+                Children.Insert(index, item);
+                item.Parent = this;
+            }
+        }
+        public void RemoveAt(int index)
+        {
+            // Setting parent null of child at index will cause the item to be removed
+            Children[index].Parent = null;
+
+            //Children.RemoveAt(index);
+        }
+        public void Add(ITemplateTreeNode item)
+        {
+            if (!Contains(item))
+            {
+                Children.Add(item);
+                item.Parent = this;
+            }
+        }
+        public void Clear()
+        {
+            foreach (var t in Children)
+                t.Parent = null;
+            Children.Clear();
+        }
+        public bool Remove(ITemplateTreeNode item)
+        {
+            item.Parent = null;
+            return Children.Remove(item);
+        }
 
         #endregion
 

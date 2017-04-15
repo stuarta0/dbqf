@@ -175,12 +175,14 @@ namespace dbqf.Configuration
 
         public virtual void Insert(int index, IField item)
         {
+            // TODO: add unit test to ensure field isn't added twice to the same subject
             _fields.Insert(index, item);
             item.Subject = this;
         }
 
         public virtual void RemoveAt(int index)
         {
+            // TODO: add unit test to see whether leaving "_fields[index].Subject = this" is correct
             _fields.RemoveAt(index);
         }
 

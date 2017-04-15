@@ -29,26 +29,26 @@ namespace Sandbox
             var config = new dbqf.core.tests.Chinook();
             var source = new dbqf.Hierarchy.Data.SQLiteDataSource(config, @"Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;");
             dbqf.Hierarchy.ITemplateTreeNode node;
-            var root = node = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+            var root = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
             {
                 Subject = config.Artist,
                 Text = "{Name}",
                 SearchParameterLevels = 1
-            };
-            node.Add(node = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
-            {
-                Parent = node,
-                Subject = config.Album,
-                Text = "{Title}",
-                SearchParameterLevels = 1
-            });
-            node.Add(node = new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
-            {
-                Parent = node,
-                Subject = config.Track,
-                Text = "{Name}",
-                SearchParameterLevels = 1
-            });
+            }.AddChildren(
+                new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+                {
+                    Subject = config.Album,
+                    Text = "{Title}",
+                    SearchParameterLevels = 1
+                }.AddChildren(
+                    new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+                    {
+                        Subject = config.Track,
+                        Text = "{Name}",
+                        SearchParameterLevels = 1
+                    }
+                )
+            );
 
             var rootViewModel = new dbqf.Hierarchy.Display.TreeNodeViewModel(null, false);
             foreach (var childNode in root.Load(null))

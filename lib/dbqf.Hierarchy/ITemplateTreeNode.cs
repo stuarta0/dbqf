@@ -15,17 +15,17 @@ namespace dbqf.Hierarchy
         /// <summary>
         /// Parent node of this node.
         /// </summary>
-        ITemplateTreeNode Parent { get; }
+        ITemplateTreeNode Parent { get; set; }
 
         /// <summary>
         /// Gets the text to display for this node.
         /// </summary>
-        string Text { get; }
+        string Text { get; set; }
 
         /// <summary>
         /// Ability to provide additional parameters at this level of the tree.
         /// </summary>
-        IParameter Parameters { get; }
+        IParameter Parameters { get; set; }
 
         /// <summary>
         /// Load view model nodes for this template node.
