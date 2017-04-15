@@ -117,10 +117,16 @@ namespace dbqf.Hierarchy
             foreach (DataRow row in data.Rows)
             {
                 var node = new DataTreeNodeViewModel(this, parent, Children.Count > 0);
+
+                // add data from the datasource to the collection
                 for (int i = 0; i < data.Columns.Count; i++)
                     node.Data.Add(keys[i], row[i]);
-                node.Text = ReplacePlaceholders(Text, node.Data);
 
+                // add any provided data from an observer to each node too
+                foreach (var pair in args.Data)
+                    node.Data.Add(pair.Key, pair.Value);
+
+                node.Text = ReplacePlaceholders(Text, node.Data);
                 yield return node;
             }
         }

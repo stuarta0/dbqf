@@ -55,17 +55,23 @@ namespace Sandbox
             {
                 Console.WriteLine("Root.DataSourceLoad fired for {0}", sender);
 
-                // inject additional where clause
+                // customise our own rendering of each node by binding to a data attribute
+                var template = ((dbqf.Hierarchy.SubjectTemplateTreeNode)sender);
+                if (template.Subject == config.Artist)
+                    e.Data.Add("fa-icon", "user");
+                else if (template.Subject == config.Album)
+                    e.Data.Add("fa-icon", "square");
+                else if (template.Subject == config.Track)
+                    e.Data.Add("fa-icon", "playcircle");
+
+                // inject additional where clause by simulating a user search for Album.Title LIKE "moon"
                 var where = new dbqf.Sql.Criterion.SqlLikeParameter(
                         config.Album["Title"],
                         "moon",
                         dbqf.Criterion.MatchMode.Anywhere
                     );
-
-                if (e.Where != null)
-                    e.Where = new dbqf.Sql.Criterion.SqlConjunction() { e.Where, where };
-                else
-                    e.Where = where;
+                
+                e.Where = e.Where == null ? (dbqf.Sql.Criterion.ISqlParameter)where : new dbqf.Sql.Criterion.SqlConjunction() { e.Where, where } ;
             };
 
             var rootViewModel = new dbqf.Hierarchy.Display.TreeNodeViewModel(null, false);

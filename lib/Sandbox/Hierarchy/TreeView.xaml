@@ -1,14 +1,15 @@
 ﻿<Window x:Class="Sandbox.Hierarchy.TreeView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Sandbox.Hierarchy"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-              Title="dbqf.Hierarchy Sandbox" 
-              Width="400" Height="400" 
-              WindowStartupLocation="CenterScreen">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:Sandbox.Hierarchy"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d" 
+        d:DesignHeight="300" d:DesignWidth="300"
+        Title="dbqf.Hierarchy Sandbox" 
+        Width="400" Height="400" 
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <TreeView ItemsSource="{Binding Children}" Name="tree">
             <TreeView.ItemContainerStyle>
@@ -29,7 +30,10 @@
 
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                    <TextBlock Text="{Binding Text}" />
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="{Binding Data[fa-icon]}" Margin="0,0,5,0" Foreground="#FF8B8B8B" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Text}" />
+                    </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
 

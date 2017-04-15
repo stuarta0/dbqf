@@ -17,6 +17,11 @@ namespace dbqf.Hierarchy.Events
         public IParameter Where { get; set; }
 
         /// <summary>
+        /// Allows additional data to be attributed to each node requested from IDataSource.GetData.
+        /// </summary>
+        public Dictionary<string, object> Data { get; }
+
+        /// <summary>
         /// Gets or sets whether to cancel the call to IDataSource.GetData.
         /// </summary>
         public bool Cancel { get; set; }
@@ -34,6 +39,7 @@ namespace dbqf.Hierarchy.Events
             Where = where;
 
             Cancel = false;
+            Data = new Dictionary<string, object>();
         }
     }
 }
