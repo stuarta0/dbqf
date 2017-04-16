@@ -124,6 +124,7 @@ namespace dbqf.Hierarchy
                 keys.Add(GetFieldPathPlaceholder((IFieldPath)col.ExtendedProperties["FieldPath"]));
             }
 
+            var visited = new List<object>();
             foreach (DataRow row in data.Rows)
             {
                 var node = new DataTreeNodeViewModel(this, parent, Children.Count > 0);
@@ -131,6 +132,11 @@ namespace dbqf.Hierarchy
                 // add data from the datasource to the collection
                 for (int i = 0; i < data.Columns.Count; i++)
                     node.Data.Add(keys[i], row[i]);
+
+                // ensure that we don't duplicate rows in the case of where criteria or requested fields returning multiple rows
+                if (visited.Contains(node.Data[Subject.IdField.SourceName]))
+                    continue;
+                visited.Add(node.Data[Subject.IdField.SourceName]);
 
                 // add any provided data from an observer to each node too
                 foreach (var pair in args.Data)

@@ -23,10 +23,10 @@ namespace dbqf.Hierarchy.Display
             _children = new ObservableCollection<TreeNodeViewModel>();
             _data = new Dictionary<string, object>();
 
-            if (lazyLoadChildren)
-                _children.Add(DummyChild);
+            _lazyLoadChildren = lazyLoadChildren;
+            Reset();
         }
-
+        private bool _lazyLoadChildren = false;
         static readonly TreeNodeViewModel DummyChild = new TreeNodeViewModel();
 
 
@@ -102,7 +102,7 @@ namespace dbqf.Hierarchy.Display
                     _parent.IsExpanded = true;
 
                 // Lazy load the child items, if necessary.
-                if (this.HasDummyChild)
+                if (_isExpanded && this.HasDummyChild)
                 {
                     this.Children.Remove(DummyChild);
                     this.LoadChildren();
@@ -126,6 +126,17 @@ namespace dbqf.Hierarchy.Display
         protected virtual void LoadChildren()
         {
 
+        }
+
+        /// <summary>
+        /// Removes subtree under this node and resets lazy loading.
+        /// </summary>
+        public virtual void Reset()
+        {
+            IsExpanded = false;
+            Children.Clear();
+            if (_lazyLoadChildren)
+                _children.Add(DummyChild);
         }
         
         public event PropertyChangedEventHandler PropertyChanged;

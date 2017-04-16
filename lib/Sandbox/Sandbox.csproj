@@ -112,6 +112,10 @@
       <Project>{5aad85b2-212d-421c-9c9b-8b2675550e1e}</Project>
       <Name>Standalone</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Frontends\dbqf.WPF\dbqf.WPF.csproj">
+      <Project>{a4415051-8be4-4d13-9a30-a9495a4701ee}</Project>
+      <Name>dbqf.WPF</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Hierarchy\TreeView.xaml">

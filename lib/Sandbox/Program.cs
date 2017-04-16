@@ -11,6 +11,7 @@ using Standalone.Core;
 using Standalone.Core.Serialization.Assemblers;
 using Standalone.Core.Serialization.DTO;
 using dbqf.Sql.Configuration;
+using dbqf.Criterion;
 
 namespace Sandbox
 {
@@ -28,9 +29,11 @@ namespace Sandbox
         [STAThread]
         static void Main(string[] args)
         {
+            // load configuration mapping and data source for chinook
             var config = new dbqf.core.tests.Chinook();
             var source = new dbqf.Hierarchy.Data.SQLiteDataSource(config, @"Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;");
 
+            // define the tree we want to see
             var root = new dbqf.Hierarchy.TemplateTreeNode()
                 .AddChildren(new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
                     {
@@ -54,6 +57,31 @@ namespace Sandbox
                     )
                 );
             
+            // initialise the root view model
+            var rootViewModel = new dbqf.Hierarchy.Display.DataTreeNodeViewModel(root, null, true);
+            
+            // define the view that we want to see
+            var dialog = new Hierarchy.TreeView();
+            dialog.SetContext(rootViewModel);
+            var view = new dbqf.WPF.StandardView(
+                new dbqf.WPF.Standard.WpfStandardAdapter(
+                    new dbqf.WPF.UIElements.WpfControlFactory(),
+                    new dbqf.Sql.Criterion.ParameterBuilderFactory()));
+            view.Adapter.SetPaths(new dbqf.Display.FieldPathFactory().GetFields(config.Track));
+            
+            // handle the search request to reload the tree
+            IParameter where = null;
+            view.Adapter.Search += (sender, e) =>
+            {
+                Console.WriteLine("Search");
+                where = view.Adapter.GetParameter();
+
+                // reset tree
+                rootViewModel.Reset();
+                rootViewModel.IsExpanded = true;
+            };
+            
+            // create styling and modifying the where clause when a search is requested
             ((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0]).DataSourceLoad += (sender, e) =>
             {
                 Console.WriteLine("Root.DataSourceLoad fired for {0}", sender);
@@ -65,29 +93,27 @@ namespace Sandbox
                 else if (template.Subject == config.Track)
                     e.Data.Add("fa-icon", "playcircle");
 
-                // inject additional where clause by simulating a user search for Album.Title LIKE "moon"
-                var where = new dbqf.Sql.Criterion.SqlLikeParameter(
-                        config.Album["Title"],
-                        "moon",
-                        dbqf.Criterion.MatchMode.Anywhere
-                    );
-                
-                e.Where = e.Where == null ? (dbqf.Sql.Criterion.ISqlParameter)where : new dbqf.Sql.Criterion.SqlConjunction() { e.Where, where };
+                // inject additional where clause supplied by user
+                // test to see that we can limit non-leaf nodes with criteria, but allow all tracks to load
+                // e.g. track name contains "xyz" therefore limit artists and albums, but show all tracks when album expanded
+                if (where != null && template.Subject != config.Track)
+                    e.Where = e.Where == null ? (dbqf.Sql.Criterion.ISqlParameter)where : new dbqf.Sql.Criterion.SqlConjunction() { e.Where, where };
             };
 
-            var rootViewModel = new dbqf.Hierarchy.Display.DataTreeNodeViewModel(root, null, true);
+            // initial load the root children
             rootViewModel.IsExpanded = true;
-            
+
+            // test: try expanding the tree to a specific node
             var walker = new dbqf.Hierarchy.Display.DataTreeNodeWalker(source, rootViewModel);
 
             //2234, Them And Us - Dark Side Of The Moon, Pink Floyd
             //2193, Once - Ten, Pearl Jam
-            var node = walker.ExpandTo((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0][0][0], 2234); 
+            var node = walker.ExpandTo((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0][0][0], 2234);
             if (node != null)
                 node.IsSelected = true;
-            
-            var dialog = new Hierarchy.TreeView();
-            dialog.SetContext(rootViewModel);
+
+            // set context and show the tree and search controls
+            dialog.SearchControls.DataContext = view;
             dialog.ShowDialog();
 
             return;

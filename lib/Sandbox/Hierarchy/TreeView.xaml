@@ -11,7 +11,12 @@
         Width="400" Height="400" 
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <TreeView ItemsSource="{Binding Children}" Name="tree">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="0" Content="{Binding}" Name="SearchControls" />
+        <TreeView Grid.Row="1" ItemsSource="{Binding Children}" Name="tree">
             <TreeView.ItemContainerStyle>
                 <!-- 
                 This Style binds a TreeViewItem to a TreeViewItemViewModel. 
@@ -37,35 +42,6 @@
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
-
-            <!--<TreeView.Resources>
-                <HierarchicalDataTemplate 
-          DataType="{x:Type local:RegionViewModel}" 
-          ItemsSource="{Binding Children}"
-          >
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="16" Height="16" Margin="3,0" Source="Images\Region.png" />
-                        <TextBlock Text="{Binding RegionName}" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate 
-          DataType="{x:Type local:StateViewModel}" 
-          ItemsSource="{Binding Children}"
-          >
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="16" Height="16" Margin="3,0" Source="Images\State.png" />
-                        <TextBlock Text="{Binding StateName}" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-
-                <DataTemplate DataType="{x:Type local:CityViewModel}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="16" Height="16" Margin="3,0" Source="Images\City.png" />
-                        <TextBlock Text="{Binding CityName}" />
-                    </StackPanel>
-                </DataTemplate>
-            </TreeView.Resources>-->
         </TreeView>
     </Grid>
 </Window>
