@@ -272,6 +272,10 @@ namespace dbqf.Hierarchy
             DataSourceLoad?.Invoke(sender, e);
         }
 
+        public override string ToString()
+        {
+            return $"{Subject?.DisplayName} \"{Text}\"";
+        }
 
         // TODO: re-implement some of the features below after initial development
 

@@ -31,37 +31,37 @@ namespace Sandbox
             var config = new dbqf.core.tests.Chinook();
             var source = new dbqf.Hierarchy.Data.SQLiteDataSource(config, @"Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;");
 
-            var root = (dbqf.Hierarchy.SubjectTemplateTreeNode)new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
-            {
-                Subject = config.Artist,
-                Text = "{ArtistId}: {Name}",
-                SearchParameterLevels = 1
-            }.AddChildren(
-                new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
-                {
-                    Subject = config.Album,
-                    Text = "{AlbumId}: {Title}",
-                    SearchParameterLevels = 1
-                }.AddChildren(
-                    new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+            var root = new dbqf.Hierarchy.TemplateTreeNode()
+                .AddChildren(new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
                     {
-                        Subject = config.Track,
-                        Text = "{TrackId}: {Name}",
+                        Subject = config.Artist,
+                        Text = "{ArtistId}: {Name}",
                         SearchParameterLevels = 1
-                    }
-                )
-            );
+                    }.AddChildren(
+                        new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+                        {
+                            Subject = config.Album,
+                            Text = "{AlbumId}: {Title}",
+                            SearchParameterLevels = 1
+                        }.AddChildren(
+                            new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+                            {
+                                Subject = config.Track,
+                                Text = "{TrackId}: {Name}",
+                                SearchParameterLevels = 1
+                            }
+                        )
+                    )
+                );
             
-            root.DataSourceLoad += (sender, e) =>
+            ((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0]).DataSourceLoad += (sender, e) =>
             {
                 Console.WriteLine("Root.DataSourceLoad fired for {0}", sender);
 
                 // customise our own rendering of each node by binding to a data attribute
                 var template = ((dbqf.Hierarchy.SubjectTemplateTreeNode)sender);
-                if (template.Subject == config.Artist)
-                    e.Data.Add("fa-icon", "user");
-                else if (template.Subject == config.Album)
-                    e.Data.Add("fa-icon", "square");
+                if (template.Subject == config.Artist || template.Subject == config.Album)
+                    e.Data.Add("fa-icon", "folder");
                 else if (template.Subject == config.Track)
                     e.Data.Add("fa-icon", "playcircle");
 
@@ -75,78 +75,21 @@ namespace Sandbox
                 e.Where = e.Where == null ? (dbqf.Sql.Criterion.ISqlParameter)where : new dbqf.Sql.Criterion.SqlConjunction() { e.Where, where } ;
             };
 
-            var rootViewModel = new dbqf.Hierarchy.Display.TreeNodeViewModel(null, false);
-            foreach (var childNode in root.Load(null))
-                rootViewModel.Children.Add(childNode);
-
-            var findId = (object)2234; // track id 2234, Us And Them - Dark Side of the Moon, Pink Floyd
-            var target = root[0][0] as dbqf.Hierarchy.SubjectTemplateTreeNode; // track
-
-            // [ artist, album, track ]
-            var path = new List<dbqf.Hierarchy.ITemplateTreeNode>();
-            var curT = (dbqf.Hierarchy.ITemplateTreeNode)target;
-            while (curT != null)
-            {
-                path.Insert(0, curT);
-                curT = curT.Parent;
-            }
-
-            // get the id's of all nodes along the path to the target
-            var data = source.GetData(target.Subject, 
-                path
-                    .TakeWhile(t => t is dbqf.Hierarchy.SubjectTemplateTreeNode)
-                    .Select<dbqf.Hierarchy.ITemplateTreeNode, dbqf.Criterion.IFieldPath>(t => dbqf.Criterion.FieldPath.FromDefault(((dbqf.Hierarchy.SubjectTemplateTreeNode)t).Subject.IdField))
-                    .ToList(), 
-                new dbqf.Sql.Criterion.SqlSimpleParameter(
-                    target.Subject.IdField, "=", findId));
-
-            // expand each node and find the relevant target it along the way
-            var children = rootViewModel.Children;
-            int curIdx = 0;
-            while (curIdx < path.Count)
-            {
-                // 3 things need to be synchronised:
-                // 1) tree templates
-                // 2) data ids
-                // 3) tree data
-
-                // 1) tree template
-                curT = path[curIdx];
-
-                // 2) data ids 
-                // TODO: data ids won't always be in sync with the path (assuming other levels in the tree aren't always SubjectTemplateTreeNodes
-                findId = data.Rows[0][curIdx];
-
-                // 3) tree data
-                var node = children.Find(vm =>
-                {
-                    var d = ((dbqf.Hierarchy.Display.DataTreeNodeViewModel)vm);
-                    return d.TemplateNode == curT && findId.Equals(d.Data[((dbqf.Hierarchy.SubjectTemplateTreeNode)d.TemplateNode).Subject.IdField.SourceName]);
-                });
-
-                // if the node wasn't found within the child collection (filtering may have excluded it) stop
-                if (node == null)
-                    break;
-
-                // if we're at the end of the search, select the node, otherwise continue expanding
-                if (curIdx == path.Count - 1)
-                {
-                    node.IsSelected = true;
-                    break;
-                }
-                else
-                    node.IsExpanded = true;
-
-                curIdx++;
-                children = node.Children;
-            }
-
-
+            var rootViewModel = new dbqf.Hierarchy.Display.DataTreeNodeViewModel(root, null, true);
+            rootViewModel.IsExpanded = true;
+            
+            var walker = new dbqf.Hierarchy.Display.DataTreeNodeWalker(source, rootViewModel);
+            var node = walker.ExpandTo((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0][0][0], 2234);
+            if (node != null)
+                node.IsSelected = true;
+            
             var dialog = new Hierarchy.TreeView();
             dialog.SetContext(rootViewModel);
             dialog.ShowDialog();
 
             return;
+
+
 
             //ConfigurationConvertor.Convert(
             //    @"E:\assetasyst.xml",

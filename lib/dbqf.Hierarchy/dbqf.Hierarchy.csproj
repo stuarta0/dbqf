@@ -49,6 +49,7 @@
     <Compile Include="Data\IDataSource.cs" />
     <Compile Include="Data\SqlDataSource.cs" />
     <Compile Include="Data\SQLiteDataSource.cs" />
+    <Compile Include="Display\DataTreeNodeWalker.cs" />
     <Compile Include="Display\DataTreeNodeViewModel.cs" />
     <Compile Include="Display\TreeNodeViewModel.cs" />
     <Compile Include="Events\DataSourceLoadEventArgs.cs" />
