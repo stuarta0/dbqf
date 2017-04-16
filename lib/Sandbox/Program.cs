@@ -72,14 +72,17 @@ namespace Sandbox
                         dbqf.Criterion.MatchMode.Anywhere
                     );
                 
-                e.Where = e.Where == null ? (dbqf.Sql.Criterion.ISqlParameter)where : new dbqf.Sql.Criterion.SqlConjunction() { e.Where, where } ;
+                e.Where = e.Where == null ? (dbqf.Sql.Criterion.ISqlParameter)where : new dbqf.Sql.Criterion.SqlConjunction() { e.Where, where };
             };
 
             var rootViewModel = new dbqf.Hierarchy.Display.DataTreeNodeViewModel(root, null, true);
             rootViewModel.IsExpanded = true;
             
             var walker = new dbqf.Hierarchy.Display.DataTreeNodeWalker(source, rootViewModel);
-            var node = walker.ExpandTo((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0][0][0], 2234);
+
+            //2234, Them And Us - Dark Side Of The Moon, Pink Floyd
+            //2193, Once - Ten, Pearl Jam
+            var node = walker.ExpandTo((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0][0][0], 2234); 
             if (node != null)
                 node.IsSelected = true;
             
