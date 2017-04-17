@@ -54,6 +54,7 @@
     <Compile Include="Display\DataTreeNodeViewModel.cs" />
     <Compile Include="Display\TreeNodeViewModel.cs" />
     <Compile Include="Events\DataSourceLoadEventArgs.cs" />
+    <Compile Include="GroupedField.cs" />
     <Compile Include="GroupedTemplateTreeNode.cs" />
     <Compile Include="ITemplateTreeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

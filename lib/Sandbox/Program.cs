@@ -12,6 +12,7 @@ using Standalone.Core.Serialization.Assemblers;
 using Standalone.Core.Serialization.DTO;
 using dbqf.Sql.Configuration;
 using dbqf.Criterion;
+using dbqf.Hierarchy;
 
 namespace Sandbox
 {
@@ -35,37 +36,37 @@ namespace Sandbox
             var source = new dbqf.Hierarchy.Data.SQLiteDataSource(config, connectionString);
 
             // define the tree we want to see
-            var root = new dbqf.Hierarchy.TemplateTreeNode()
-                .AddChildren(new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+            var root = new TemplateTreeNode()
+                .AddChildren(new SubjectTemplateTreeNode(source)
                     {
                         Subject = config.Artist,
                         Text = "{ArtistId}: {Name}",
                         SearchParameterLevels = 1
                     }
                     .AddOrderBy(
-                        new dbqf.OrderedField(new FieldPath(config.Artist["Name"])))
+                        new OrderedField(new FieldPath(config.Artist["Name"])))
                     .AddChildren(
-                        new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+                        new SubjectTemplateTreeNode(source)
                         {
                             Subject = config.Album,
                             Text = "{AlbumId}: {Title}",
                             SearchParameterLevels = 1
                         }
                         .AddOrderBy(
-                            new dbqf.OrderedField(new FieldPath(config.Album["Title"])))
+                            new OrderedField(new FieldPath(config.Album["Title"])))
                         .AddChildren(
-                            new dbqf.Hierarchy.GroupedTemplateTreeNode(source)
+                            new GroupedTemplateTreeNode(source)
                             {
                                 Subject = config.Track,
                                 Text = "{TrackId}: {GN} - {Name}",
                                 SearchParameterLevels = 1
                             }
                             .AddGroupBy(
-                                new dbqf.OrderedField(new FieldPath(config.Track["GN"])),
-                                new dbqf.OrderedField(new FieldPath(config.Track["Composer"])))
+                                new GroupedField(new FieldPath(config.Track["GN"])),
+                                new GroupedField(new FieldPath(config.Track["Composer"])))
                             .AddOrderBy(
-                                new dbqf.OrderedField(new FieldPath(config.Track["GN"])),
-                                new dbqf.OrderedField(new FieldPath(config.Track["Name"])))
+                                new OrderedField(new FieldPath(config.Track["GN"])),
+                                new OrderedField(new FieldPath(config.Track["Name"])))
                         )
                     )
                 );
@@ -131,7 +132,7 @@ namespace Sandbox
             };
             
             // create styling and modifying the where clause when a search is requested
-            ((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0]).DataSourceLoading += (sender, e) =>
+            ((SubjectTemplateTreeNode)root[0]).DataSourceLoading += (sender, e) =>
             {
                 Console.WriteLine("Root.DataSourceLoad fired for {0}", sender);
 
@@ -157,7 +158,7 @@ namespace Sandbox
 
             //2234, Them And Us - Dark Side Of The Moon, Pink Floyd
             //2193, Once - Ten, Pearl Jam
-            var node = walker.ExpandTo((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0][0][0], 2234);
+            var node = walker.ExpandTo((SubjectTemplateTreeNode)root[0][0][0], 2234);
             if (node != null)
                 node.IsSelected = true;
 

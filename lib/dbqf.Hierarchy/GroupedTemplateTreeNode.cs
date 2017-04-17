@@ -15,17 +15,17 @@ namespace dbqf.Hierarchy
         public GroupedTemplateTreeNode(IDataSource source)
             : base(source)
         {
-            _groups = new List<OrderedField>();
+            _groups = new List<GroupedField>();
         }
 
         /// <summary>
         /// Gets or sets the fields that will be used to create hierarchy based on grouping of data.  This is irrelevant for static nodes.
         /// </summary>
-        public IList<OrderedField> GroupBy
+        public IList<GroupedField> GroupBy
         {
             get { return _groups; }
         }
-        private IList<OrderedField> _groups;
+        private IList<GroupedField> _groups;
 
         /// <summary>
         /// Prepare query for execution including order by fields.
@@ -81,6 +81,8 @@ namespace dbqf.Hierarchy
                 {
                     var group = groups[i];
                     var name = row[columns[group.Field.FieldPath].DataColumn]?.ToString();
+                    name = String.IsNullOrWhiteSpace(name) ? group.Field.EmptyPlaceholder : name;
+
                     if (newGroup || group.CurNode == null || group.CurNode.Text?.Equals(name) == false)
                     {
                         newGroup = true;
@@ -117,7 +119,7 @@ namespace dbqf.Hierarchy
             }
         }
 
-        public GroupedTemplateTreeNode AddGroupBy(params OrderedField[] fields)
+        public GroupedTemplateTreeNode AddGroupBy(params GroupedField[] fields)
         {
             foreach (var f in fields)
                 GroupBy.Add(f);
@@ -127,7 +129,7 @@ namespace dbqf.Hierarchy
 
         private class Group
         {
-            public OrderedField Field;
+            public GroupedField Field;
             public GroupedTreeNodeViewModel CurNode;
         }
     }

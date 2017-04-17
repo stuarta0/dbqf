@@ -3,7 +3,7 @@ using dbqf.Sql;
 using System;
 using System.Diagnostics;
 
-namespace dbqf
+namespace dbqf.Hierarchy
 {
     [DebuggerDisplay("{FieldPath} {SortDirection}")]
     public class OrderedField
