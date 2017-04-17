@@ -6,7 +6,6 @@ using System.Diagnostics;
 using dbqf.Criterion;
 using System.Collections;
 using dbqf.Hierarchy.Display;
-using dbqf.Sql;
 using System.Text.RegularExpressions;
 using dbqf.Hierarchy.Data;
 using System.Data;
@@ -25,14 +24,19 @@ namespace dbqf.Hierarchy
             : base()
         {
             _source = source;
+            _additional = new List<IFieldPath>();
+            _orderBy = new List<OrderedField>();
         }
+
+        #region Properties
+
         readonly IDataSource _source;
 
         /// <summary>
         /// Occurs prior to loading nodes for this template. Parameters can be modified or the request cancelled by the handler.
         /// This event also bubbles from it's children so it can be handled by registering with the root node.
         /// </summary>
-        public event EventHandler<Events.DataSourceLoadEventArgs> DataSourceLoad;
+        public event EventHandler<Events.DataSourceLoadEventArgs> DataSourceLoading;
 
         /// <summary>
         /// The subject of this node.  This defines what type of item to load at this level of the tree.
@@ -70,14 +74,47 @@ namespace dbqf.Hierarchy
         private int _searchParamLevels;
 
         /// <summary>
+        /// Gets or sets the additional fields that will be retrieved when a data node is created from this template.  Note: fields already specified in the Text property will be available.
+        /// </summary>
+        public List<IFieldPath> AdditionalFields
+        {
+            get { return _additional; }
+        }
+        private List<IFieldPath> _additional;
+
+        /// <summary>
+        /// Gets or sets the list of fields to sort the data by.
+        /// </summary>
+        public List<OrderedField> OrderBy
+        {
+            get { return _orderBy; }
+        }
+        private List<OrderedField> _orderBy;
+
+        #endregion
+
+        #region Loading data
+
+        /// <summary>
         /// Compiles target, fields and where criteria, firing the DataSourceLoad event and returns the final args for execution with IDataSource.GetData().
         /// </summary>
-        public virtual Events.DataSourceLoadEventArgs PrepareQuery(DataTreeNodeViewModel parent)
+        protected virtual Events.DataSourceLoadEventArgs PrepareQuery(DataTreeNodeViewModel parent)
         {
+            // Add fields from placeholder text
             var fields = new List<IFieldPath>(GetPlaceholders(Text).Values);
+
+            // Ensure ID field is present
             if (fields.Find(p => p.Last.Equals(Subject.IdField)) == null)
                 fields.Insert(0, FieldPath.FromDefault(Subject.IdField));
 
+            // Add additional fields requested by consumer
+            foreach (var f in AdditionalFields)
+            {
+                if (!fields.Contains(f))
+                    fields.Add(f);
+            }
+            
+            // compile where clause from parent node
             var where = new dbqf.Sql.Criterion.SqlConjunction();
             var curParent = parent;
             for (int i = 0; i < SearchParameterLevels && curParent != null; i++)
@@ -99,10 +136,7 @@ namespace dbqf.Hierarchy
             if (where.Count == 0)
                 where = null;
 
-            // allow interception of what we'll be requesting from the data source
-            var args = new Events.DataSourceLoadEventArgs(Subject, fields, (where != null && where.Count == 1 ? where[0] : where));
-            DataSourceLoad?.Invoke(this, args);
-            return args;
+            return new Events.DataSourceLoadEventArgs(Subject, fields, (where != null && where.Count == 1 ? where[0] : where), OrderBy);
         }
 
         /// <summary>
@@ -111,10 +145,12 @@ namespace dbqf.Hierarchy
         /// <returns></returns>
         public override IEnumerable<DataTreeNodeViewModel> Load(DataTreeNodeViewModel parent)
         {
+            // allow interception of what we'll be requesting from the data source
             var args = PrepareQuery(parent);
+            DataSourceLoading?.Invoke(this, args);
             if (args.Cancel)
                 yield break;
-            var data = _source.GetData(args.Target, args.Fields, args.Where);
+            var data = _source.GetData(args.Target, args.Fields, args.Where, args.OrderBy);
 
             // precompile keys from field paths in columns
             var keys = new List<string>();
@@ -146,6 +182,10 @@ namespace dbqf.Hierarchy
                 yield return node;
             }
         }
+
+        #endregion
+
+        #region Placeholder string manipulation
 
         /// <summary>
         /// Given an IFieldPath, create a placeholder string.
@@ -237,13 +277,17 @@ namespace dbqf.Hierarchy
                 }));
         }
 
+        #endregion
+
+        #region Bubbling event overrides
+
         private void RegisterNode(ITemplateTreeNode item)
         {
             if (!Contains(item))
             {
                 var subjectNode = item as SubjectTemplateTreeNode;
                 if (subjectNode != null)
-                    subjectNode.DataSourceLoad += SubjectTemplateTreeNode_DataSourceLoad;
+                    subjectNode.DataSourceLoading += SubjectTemplateTreeNode_DataSourceLoad;
             }
         }
 
@@ -251,7 +295,7 @@ namespace dbqf.Hierarchy
         {
             var subjectNode = item as SubjectTemplateTreeNode;
             if (subjectNode != null)
-                subjectNode.DataSourceLoad -= SubjectTemplateTreeNode_DataSourceLoad;
+                subjectNode.DataSourceLoading -= SubjectTemplateTreeNode_DataSourceLoad;
         }
 
         public override void Add(ITemplateTreeNode item)
@@ -275,8 +319,30 @@ namespace dbqf.Hierarchy
         private void SubjectTemplateTreeNode_DataSourceLoad(object sender, Events.DataSourceLoadEventArgs e)
         {
             // bubble the child events up
-            DataSourceLoad?.Invoke(sender, e);
+            DataSourceLoading?.Invoke(sender, e);
         }
+
+        #endregion
+
+        #region Fluent helpers
+
+        public SubjectTemplateTreeNode AddAdditionalField(params IFieldPath[] fields)
+        {
+            foreach (var f in fields)
+                AdditionalFields.Add(f);
+
+            return this;
+        }
+
+        public SubjectTemplateTreeNode AddOrderBy(params OrderedField[] fields)
+        {
+            foreach (var f in fields)
+                OrderBy.Add(f);
+
+            return this;
+        }
+
+        #endregion
 
         public override string ToString()
         {
@@ -285,16 +351,6 @@ namespace dbqf.Hierarchy
 
         // TODO: re-implement some of the features below after initial development
 
-        ///// <summary>
-        ///// Gets or sets the additional fields that will be retrieved when a data node is created from this template.  Note: fields already specified in the Text property will be available.
-        ///// </summary>
-        //[XmlArray]
-        //public List<string> AdditionalFields
-        //{
-        //	get { return _additional; }
-        //	set { _additional = value; }
-        //}
-        //private List<string> _additional;
 
         ///// <summary>
         ///// Gets or sets the fields that will be used to create hierarchy based on grouping of data.  This is irrelevant for static nodes.
@@ -307,15 +363,5 @@ namespace dbqf.Hierarchy
         //}
         //private List<SortField> _groups;
 
-        ///// <summary>
-        ///// Gets or sets the list of fields to sort the data by.
-        ///// </summary>
-        //[XmlArray]
-        //public List<SortField> SortBy
-        //{
-        //    get { return _sortBy; }
-        //    set { _sortBy = value; }
-        //}
-        //private List<SortField> _sortBy;
     }
 }

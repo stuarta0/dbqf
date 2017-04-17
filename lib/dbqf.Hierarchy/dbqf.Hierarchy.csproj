@@ -55,7 +55,7 @@
     <Compile Include="Events\DataSourceLoadEventArgs.cs" />
     <Compile Include="ITemplateTreeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SortField.cs" />
+    <Compile Include="OrderedField.cs" />
     <Compile Include="SubjectTemplateTreeNode.cs" />
     <Compile Include="TemplateTreeNode.cs" />
   </ItemGroup>

@@ -40,19 +40,28 @@ namespace Sandbox
                         Subject = config.Artist,
                         Text = "{ArtistId}: {Name}",
                         SearchParameterLevels = 1
-                    }.AddChildren(
+                    }.AddOrderBy(
+                        new dbqf.OrderedField(new FieldPath(config.Artist["Name"]))
+                    ).AddChildren(
                         new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
                         {
                             Subject = config.Album,
                             Text = "{AlbumId}: {Title}",
                             SearchParameterLevels = 1
-                        }.AddChildren(
+                        }.AddOrderBy(
+                            new dbqf.OrderedField(new FieldPath(config.Album["Title"]))
+                        ).AddChildren(
                             new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
                             {
                                 Subject = config.Track,
-                                Text = "{TrackId}: {Name}",
+                                Text = "{TrackId}: {GN} - {Name}",
                                 SearchParameterLevels = 1
-                            }
+                            }.AddAdditionalField(
+                                new FieldPath(config.Track["MTN"])
+                            ).AddOrderBy(
+                                new dbqf.OrderedField(new FieldPath(config.Track["GN"])),
+                                new dbqf.OrderedField(new FieldPath(config.Track["Name"]))
+                            )
                         )
                     )
                 );
@@ -82,16 +91,16 @@ namespace Sandbox
             };
             
             // create styling and modifying the where clause when a search is requested
-            ((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0]).DataSourceLoad += (sender, e) =>
+            ((dbqf.Hierarchy.SubjectTemplateTreeNode)root[0]).DataSourceLoading += (sender, e) =>
             {
                 Console.WriteLine("Root.DataSourceLoad fired for {0}", sender);
 
                 // customise our own rendering of each node by binding to a data attribute
                 var template = ((dbqf.Hierarchy.SubjectTemplateTreeNode)sender);
-                if (template.Subject == config.Artist || template.Subject == config.Album)
-                    e.Data.Add("fa-icon", "folder");
-                else if (template.Subject == config.Track)
+                if (template.Subject == config.Track)
                     e.Data.Add("fa-icon", "playcircle");
+                else
+                    e.Data.Add("fa-icon", "folder");
 
                 // inject additional where clause supplied by user
                 // test to see that we can limit non-leaf nodes with criteria, but allow all tracks to load

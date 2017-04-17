@@ -15,6 +15,7 @@ namespace dbqf.Hierarchy.Events
         public ISubject Target { get; set; }
         public IList<IFieldPath> Fields { get; set; }
         public IParameter Where { get; set; }
+        public IList<OrderedField> OrderBy { get; set; }
 
         /// <summary>
         /// Allows additional data to be attributed to each node requested from IDataSource.GetData.
@@ -31,12 +32,13 @@ namespace dbqf.Hierarchy.Events
         ///// </summary>
         //public bool IsHandled { get; set; }
 
-        public DataSourceLoadEventArgs(ISubject target, IList<IFieldPath> fields, IParameter where)
+        public DataSourceLoadEventArgs(ISubject target, IList<IFieldPath> fields, IParameter where, IList<OrderedField> orderBy)
             : base()
         {
             Target = target;
             Fields = fields;
             Where = where;
+            OrderBy = orderBy;
 
             Cancel = false;
             Data = new Dictionary<string, object>();

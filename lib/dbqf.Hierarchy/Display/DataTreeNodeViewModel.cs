@@ -33,6 +33,8 @@ namespace dbqf.Hierarchy.Display
                 foreach (var node in childTemplate.Load(this))
                     Children.Add(node);
             }
+
+            base.LoadChildren();
         }
     }
 }

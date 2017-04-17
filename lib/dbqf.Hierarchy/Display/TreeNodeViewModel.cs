@@ -40,6 +40,11 @@ namespace dbqf.Hierarchy.Display
         readonly ObservableCollection<TreeNodeViewModel> _children;
 
         /// <summary>
+        /// Occurs once children have loaded for this node.
+        /// </summary>
+        public event EventHandler ChildrenLoaded;
+
+        /// <summary>
         /// Returns the parent of this node.
         /// </summary>
         public TreeNodeViewModel Parent
@@ -125,7 +130,7 @@ namespace dbqf.Hierarchy.Display
         /// </summary>
         protected virtual void LoadChildren()
         {
-
+            ChildrenLoaded?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

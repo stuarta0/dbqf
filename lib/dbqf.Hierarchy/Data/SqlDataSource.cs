@@ -24,6 +24,11 @@ namespace dbqf.Hierarchy.Data
 
         public DataTable GetData(ISubject target, IList<IFieldPath> fields, IParameter where)
         {
+            return GetData(target, fields, where, null);
+        }
+
+        public DataTable GetData(ISubject target, IList<IFieldPath> fields, IParameter where, IList<OrderedField> orderBy)
+        {
             if (!(target is ISqlSubject))
                 throw new ArgumentException("Target subject must be of type ISqlSubject.");
             if (where != null && !(where is ISqlParameter))
@@ -33,6 +38,9 @@ namespace dbqf.Hierarchy.Data
             generator.Target = (ISqlSubject)target;
             generator.Columns = fields;
             generator.Where = (ISqlParameter)where;
+            if (orderBy != null)
+                foreach (var f in orderBy)
+                    generator.OrderBy(f.FieldPath, f.SortDirection);
 
             using (var conn = CreateConnection())
             {
