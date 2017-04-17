@@ -38,7 +38,7 @@
                     <StackPanel Orientation="Horizontal">
                         <fa:FontAwesome Icon="{Binding Data[fa-icon]}" Margin="0,0,5,0" Foreground="#FF8B8B8B" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <TextBlock Text="{Binding Text}" />
-                        <TextBlock Text="{Binding Data[MTN]}" Margin="5,0,0,0" FontSize="8" FontStyle="Italic" VerticalAlignment="Bottom" />
+                        <TextBlock Text="{Binding Data[Composer]}" Margin="5,0,0,0" FontSize="8" FontStyle="Italic" VerticalAlignment="Bottom" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>

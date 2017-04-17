@@ -41,28 +41,30 @@ namespace Sandbox
                         Subject = config.Artist,
                         Text = "{ArtistId}: {Name}",
                         SearchParameterLevels = 1
-                    }.AddOrderBy(
-                        new dbqf.OrderedField(new FieldPath(config.Artist["Name"]))
-                    ).AddChildren(
+                    }
+                    .AddOrderBy(
+                        new dbqf.OrderedField(new FieldPath(config.Artist["Name"])))
+                    .AddChildren(
                         new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
                         {
                             Subject = config.Album,
                             Text = "{AlbumId}: {Title}",
                             SearchParameterLevels = 1
-                        }.AddOrderBy(
-                            new dbqf.OrderedField(new FieldPath(config.Album["Title"]))
-                        ).AddChildren(
-                            new dbqf.Hierarchy.SubjectTemplateTreeNode(source)
+                        }
+                        .AddOrderBy(
+                            new dbqf.OrderedField(new FieldPath(config.Album["Title"])))
+                        .AddChildren(
+                            new dbqf.Hierarchy.GroupedTemplateTreeNode(source)
                             {
                                 Subject = config.Track,
                                 Text = "{TrackId}: {GN} - {Name}",
                                 SearchParameterLevels = 1
-                            }.AddAdditionalField(
-                                new FieldPath(config.Track["MTN"])
-                            ).AddOrderBy(
+                            }
+                            .AddGroupBy(
+                                new dbqf.OrderedField(new FieldPath(config.Track["Composer"])))
+                            .AddOrderBy(
                                 new dbqf.OrderedField(new FieldPath(config.Track["GN"])),
-                                new dbqf.OrderedField(new FieldPath(config.Track["Name"]))
-                            )
+                                new dbqf.OrderedField(new FieldPath(config.Track["Name"])))
                         )
                     )
                 );

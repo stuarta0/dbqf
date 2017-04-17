@@ -30,13 +30,18 @@ namespace dbqf.Hierarchy
 
         #region Properties
 
-        readonly IDataSource _source;
+        protected readonly IDataSource _source;
 
         /// <summary>
         /// Occurs prior to loading nodes for this template. Parameters can be modified or the request cancelled by the handler.
         /// This event also bubbles from it's children so it can be handled by registering with the root node.
         /// </summary>
         public event EventHandler<Events.DataSourceLoadEventArgs> DataSourceLoading;
+        protected virtual Events.DataSourceLoadEventArgs OnDataSourceLoading(Events.DataSourceLoadEventArgs args)
+        {
+            DataSourceLoading?.Invoke(this, args);
+            return args;
+        }
 
         /// <summary>
         /// The subject of this node.  This defines what type of item to load at this level of the tree.
@@ -91,6 +96,15 @@ namespace dbqf.Hierarchy
         }
         private List<OrderedField> _orderBy;
 
+        /// <summary>
+        /// Shorthand for calculating the key for accessing the ID in the Data dictionary.
+        /// e.g. node.Data[node.Template.Subject.IdField.SourceName] becomes node.Data[node.Template.IdKey]
+        /// </summary>
+        protected string IdKey
+        {
+            get { return Subject.IdField.SourceName; }
+        }
+
         #endregion
 
         #region Loading data
@@ -124,7 +138,7 @@ namespace dbqf.Hierarchy
                 {
                     where.Add(new dbqf.Sql.Criterion.SqlSimpleParameter(
                         template.Subject.IdField, "=",
-                        curParent.Data[template.Subject.IdField.SourceName]));
+                        curParent.Data[template.IdKey]));
                 }
 
                 if (curParent.TemplateNode.Parameters != null)
@@ -146,41 +160,56 @@ namespace dbqf.Hierarchy
         public override IEnumerable<DataTreeNodeViewModel> Load(DataTreeNodeViewModel parent)
         {
             // allow interception of what we'll be requesting from the data source
-            var args = PrepareQuery(parent);
-            DataSourceLoading?.Invoke(this, args);
+            var args = OnDataSourceLoading(PrepareQuery(parent));
             if (args.Cancel)
                 yield break;
             var data = _source.GetData(args.Target, args.Fields, args.Where, args.OrderBy);
 
             // precompile keys from field paths in columns
-            var keys = new List<string>();
+            var columns = new List<Column>();
             foreach (DataColumn col in data.Columns)
             { 
                 // result.Columns[i].ExtendedProperties["FieldPath"] = IFieldPath
-                keys.Add(GetFieldPathPlaceholder((IFieldPath)col.ExtendedProperties["FieldPath"]));
+                columns.Add(new Column()
+                {
+                    Key = GetFieldPathPlaceholder((IFieldPath)col.ExtendedProperties["FieldPath"]),
+                    DataColumn = col
+                });
             }
 
             var visited = new List<object>();
             foreach (DataRow row in data.Rows)
             {
-                var node = new DataTreeNodeViewModel(this, parent, Children.Count > 0);
-
-                // add data from the datasource to the collection
-                for (int i = 0; i < data.Columns.Count; i++)
-                    node.Data.Add(keys[i], row[i]);
+                var node = CreateNode(row, columns, parent, args.Data);
 
                 // ensure that we don't duplicate rows in the case of where criteria or requested fields returning multiple rows
-                if (visited.Contains(node.Data[Subject.IdField.SourceName]))
+                if (visited.Contains(node.Data[IdKey]))
                     continue;
-                visited.Add(node.Data[Subject.IdField.SourceName]);
+                visited.Add(node.Data[IdKey]);
 
-                // add any provided data from an observer to each node too
-                foreach (var pair in args.Data)
-                    node.Data.Add(pair.Key, pair.Value);
-
-                node.Text = ReplacePlaceholders(Text, node.Data);
                 yield return node;
             }
+        }
+
+        protected virtual DataTreeNodeViewModel CreateNode(DataRow row, IEnumerable<Column> columns, TreeNodeViewModel parent, Dictionary<string, object> data)
+        {
+            // prepare leaf node of grouping
+            var node = new DataTreeNodeViewModel(this, parent, Children.Count > 0);
+            foreach (var col in columns)
+                node.Data.Add(col.Key, row[col.DataColumn]);
+
+            // add any provided data from an observer to each node too
+            foreach (var pair in data)
+                node.Data.Add(pair.Key, pair.Value);
+
+            node.Text = ReplacePlaceholders(Text, node.Data);
+            return node;
+        }
+
+        protected struct Column
+        {
+            public DataColumn DataColumn;
+            public string Key;
         }
 
         #endregion
@@ -348,20 +377,5 @@ namespace dbqf.Hierarchy
         {
             return $"{Subject?.DisplayName} \"{Text}\"";
         }
-
-        // TODO: re-implement some of the features below after initial development
-
-
-        ///// <summary>
-        ///// Gets or sets the fields that will be used to create hierarchy based on grouping of data.  This is irrelevant for static nodes.
-        ///// </summary>
-        //[XmlArray]
-        //public List<SortField> GroupBy
-        //{
-        //	get { return _groups; }
-        //	set { _groups = value; }
-        //}
-        //private List<SortField> _groups;
-
     }
 }
