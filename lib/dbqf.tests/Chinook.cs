@@ -42,7 +42,10 @@ namespace dbqf.core.tests
                     _artist = new SqlSubject("Artist")
                         .SqlQuery("Artist")
                         .FieldId(new Field("ArtistId", typeof(int)))
-                        .FieldDefault(new Field("Name", typeof(string)));
+                        .FieldDefault(new Field("Name", typeof(string))
+                        {
+                            List = new FieldList() { Source = "SELECT DISTINCT Name AS Value FROM Artist ORDER BY Name" }
+                        });
                 return _artist;
             }
         }
@@ -56,7 +59,10 @@ namespace dbqf.core.tests
                     _album = new SqlSubject("Album")
                         .SqlQuery("Album")
                         .FieldId(new Field("AlbumId", typeof(int)))
-                        .FieldDefault(new Field("Title", typeof(string)))
+                        .FieldDefault(new Field("Title", typeof(string))
+                        {
+                            List = new FieldList() { Source = "SELECT DISTINCT Title AS Value FROM Album ORDER BY Title" }
+                        })
                         .Field(new RelationField("ArtistId", "Artist", Artist));
                 return _album;
             }
@@ -73,14 +79,17 @@ namespace dbqf.core.tests
 LEFT OUTER JOIN MediaType ON MediaType.MediaTypeId = Track.MediaTypeId
 LEFT OUTER JOIN Genre ON Genre.GenreId = Track.GenreId")
                         .FieldId(new Field("TrackId", typeof(int)))
-                        .FieldDefault(new Field("Name", typeof(string)))
+                        .FieldDefault(new Field("Name", typeof(string))
+                        {
+                            List = new FieldList() { Source = "SELECT DISTINCT Name AS Value FROM Track ORDER BY Name" }
+                        })
                         .Field(new RelationField("AlbumId", "Album", Album))
                         .Field(new Field("Composer", typeof(string)))
                         .Field(new Field("GN", "Genre", typeof(string)))
                         .Field(new Field("MTN", "Format", typeof(string)))
                         .Field(new Field("Milliseconds", typeof(long)))
                         .Field(new Field("Bytes", typeof(long)))
-                        .Field(new Field("UnitPrice", typeof(double)));
+                        .Field(new Field("UnitPrice", "Price", typeof(double)));
                 return _track;
             }
         }

@@ -31,7 +31,8 @@ namespace Sandbox
         {
             // load configuration mapping and data source for chinook
             var config = new dbqf.core.tests.Chinook();
-            var source = new dbqf.Hierarchy.Data.SQLiteDataSource(config, @"Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;");
+            var connectionString = @"Data Source=E:\Projects\Programming\dbqf\lib\dbqf.tests\Chinook.sqlite;Version=3;";
+            var source = new dbqf.Hierarchy.Data.SQLiteDataSource(config, connectionString);
 
             // define the tree we want to see
             var root = new dbqf.Hierarchy.TemplateTreeNode()
@@ -72,11 +73,47 @@ namespace Sandbox
             // define the view that we want to see
             var dialog = new Hierarchy.TreeView();
             dialog.SetContext(rootViewModel);
+
+            var factoryUi = new dbqf.WPF.UIElements.WpfControlFactory();
+            factoryUi.ListRequested += (sender, e) =>
+            {
+                var f = e.Path.Last;
+                if (f.List != null)
+                {
+                    if (f.List.Count == 0 && !String.IsNullOrWhiteSpace(f.List.Source))
+                    {
+                        using (var conn = new System.Data.SQLite.SQLiteConnection(connectionString))
+                        {
+                            using (var cmd = conn.CreateCommand())
+                            {
+                                cmd.CommandText = f.List.Source;
+                                conn.Open();
+                                using (var reader = cmd.ExecuteReader())
+                                {
+                                    var values = new List<object>();
+                                    while (reader.Read())
+                                        values.Add(reader.GetValue(0));
+                                    e.List = new System.ComponentModel.BindingList<object>(values);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
             var view = new dbqf.WPF.StandardView(
                 new dbqf.WPF.Standard.WpfStandardAdapter(
-                    new dbqf.WPF.UIElements.WpfControlFactory(),
+                    factoryUi,
                     new dbqf.Sql.Criterion.ParameterBuilderFactory()));
-            view.Adapter.SetPaths(new dbqf.Display.FieldPathFactory().GetFields(config.Track));
+            
+            view.Adapter.SetPaths(new List<IFieldPath>() {
+                new FieldPath(config.Artist["Name"]),
+                new FieldPath(config.Album["Title"]),
+                new FieldPath(config.Track["Name"]),
+                new FieldPath(config.Track["GN"]),
+                new FieldPath(config.Track["Composer"]),
+                new FieldPath(config.Track["UnitPrice"]),
+            });
             
             // handle the search request to reload the tree
             IParameter where = null;
