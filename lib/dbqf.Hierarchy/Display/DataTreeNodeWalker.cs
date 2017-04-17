@@ -96,35 +96,67 @@ namespace dbqf.Hierarchy.Display
                 // we reached a node that hasn't had it's children loaded yet so we're not going to find the target
                 if (!expand && cur.HasDummyChild)
                     return null;
-
-                cur = cur.Children.Find(vm =>
+                
+                var found = false;
+                for (int c = 0; !found && c < cur.Children.Count; c++)
                 {
-                    var dvm = vm as DataTreeNodeViewModel;
+                    var dvm = cur.Children[c] as DataTreeNodeViewModel;
                     if (dvm != null)
                     {
                         var subjectTemplate = dvm.TemplateNode as SubjectTemplateTreeNode;
                         if (subjectTemplate != null)
                         {
-                            // if this node is derived from a SubjectTemplateTreeNode then 
-                            // look for the node that contains the matching id value at this
-                            // level in the tree
-                            var key = subjectTemplate.Subject.IdField.SourceName;
-                            if (dvm.Data.ContainsKey(key))
-                                return dvm.Data[key].Equals(path[i].Id);
+                            // if this is a grouped subject, iterate the groups until the leaf target is found
+                            if (subjectTemplate is GroupedTemplateTreeNode)
+                            {
+                                // initialise variables to handle traversing grouped nodes
+                                var children = new List<TreeNodeViewModel>() { dvm };
+                                var counter = 0;
+                                while (!found && counter < children.Count)
+                                {
+                                    var child = children[counter] as DataTreeNodeViewModel;
+
+                                    // make sure we don't recurse off the end of the scope of this node
+                                    if (child?.TemplateNode != path[i].Template)
+                                        break;
+
+                                    if (child is GroupedTreeNodeViewModel)
+                                    {
+                                        if (((GroupedTreeNodeViewModel)child).Ids.Contains(path[i].Id))
+                                        {
+                                            child.IsExpanded = true;
+                                            children = new List<TreeNodeViewModel>(child.Children);
+                                            counter = 0;
+                                        }
+                                        else
+                                            counter++;
+                                    }
+                                    else if (child.Id?.Equals(path[i].Id) == true)
+                                    {
+                                        cur = child;
+                                        found = true;
+                                    }
+                                }
+                            }
+                            else if (dvm.Id?.Equals(path[i].Id) == true)
+                            {
+                                // if this node is derived from a SubjectTemplateTreeNode then 
+                                // look for the node that contains the matching id value at this
+                                // level in the tree
+                                cur = dvm;
+                                found = true;
+                            }
                         }
-                        else
+                        else if (dvm.TemplateNode == path[i].Template)
                         {
-                            // if it's not a SubjectTemplateTreeNode then the template will 
-                            // match the child 1:1 (a single node is created for these templates)
-                            // so just find a child whose template matches this part of the path
-                            return dvm.TemplateNode == path[i].Template;
+                            cur = dvm;
+                            found = true;
                         }
                     }
-                    return false;
-                }) as DataTreeNodeViewModel;
-
+                }
+                
                 // if we couldn't find the node within the children collection then it must be filtered out or not present in the data
-                if (cur == null)
+                if (!found || cur == null)
                     break;
                 else if (i == path.Count - 1)
                     return cur;

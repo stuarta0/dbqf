@@ -100,7 +100,7 @@ namespace dbqf.Hierarchy
         /// Shorthand for calculating the key for accessing the ID in the Data dictionary.
         /// e.g. node.Data[node.Template.Subject.IdField.SourceName] becomes node.Data[node.Template.IdKey]
         /// </summary>
-        protected string IdKey
+        public string IdKey
         {
             get { return Subject.IdField.SourceName; }
         }
@@ -198,10 +198,11 @@ namespace dbqf.Hierarchy
             foreach (var col in columns)
                 node.Data.Add(col.Key, row[col.DataColumn]);
 
-            // add any provided data from an observer to each node too
+            // add any provided data from an observer to each node too, overriding returned values
             foreach (var pair in data)
                 node.Data.Add(pair.Key, pair.Value);
 
+            node.Id = node.Data.ContainsKey(IdKey) ? node.Data[IdKey] : null;
             node.Text = ReplacePlaceholders(Text, node.Data);
             return node;
         }

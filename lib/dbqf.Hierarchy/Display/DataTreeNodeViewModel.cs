@@ -24,6 +24,11 @@ namespace dbqf.Hierarchy.Display
         public ITemplateTreeNode TemplateNode { get; protected set; }
 
         /// <summary>
+        /// Gets or sets the id of this node in the data.
+        /// </summary>
+        public object Id { get; set; }
+
+        /// <summary>
         /// Loads children by querying the related TemplateNode's children
         /// </summary>
         protected override void LoadChildren()

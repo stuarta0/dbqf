@@ -65,6 +65,7 @@ namespace dbqf.Hierarchy
                 var path = (IFieldPath)col.ExtendedProperties["FieldPath"];
                 columns.Add(path, new Column() { DataColumn = col, Key = GetFieldPathPlaceholder(path) });
             }
+            var idColumn = columns[FieldPath.FromDefault(Subject.IdField)];
 
             // precompile groups for tracking current node hierarchy
             var groups = new List<Group>();
@@ -95,6 +96,9 @@ namespace dbqf.Hierarchy
                         else
                             groups[i - 1].CurNode.Children.Add(group.CurNode); 
                     }
+
+                    // add the data for this result's ID to assist in traversal
+                    group.CurNode.Ids.Add(row[idColumn.DataColumn]);
                 }
 
                 // prepare leaf node of grouping

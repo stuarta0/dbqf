@@ -61,6 +61,7 @@ namespace Sandbox
                                 SearchParameterLevels = 1
                             }
                             .AddGroupBy(
+                                new dbqf.OrderedField(new FieldPath(config.Track["GN"])),
                                 new dbqf.OrderedField(new FieldPath(config.Track["Composer"])))
                             .AddOrderBy(
                                 new dbqf.OrderedField(new FieldPath(config.Track["GN"])),
