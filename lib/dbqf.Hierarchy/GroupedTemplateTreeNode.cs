@@ -39,6 +39,10 @@ namespace dbqf.Hierarchy
             {
                 if (!args.Fields.Contains(GroupBy[i].FieldPath))
                     args.Fields.Add(GroupBy[i].FieldPath);
+
+                // if we're already ordering by this field, move it up in the order
+                if (args.OrderBy.Contains(GroupBy[i]))
+                    args.OrderBy.Remove(GroupBy[i]);
                 args.OrderBy.Insert(i, GroupBy[i]);
             }
 
