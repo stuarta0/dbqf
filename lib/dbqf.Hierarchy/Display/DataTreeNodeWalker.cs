@@ -128,14 +128,14 @@ namespace dbqf.Hierarchy.Display
                                             children = new List<TreeNodeViewModel>(child.Children);
                                             counter = 0;
                                         }
-                                        else
-                                            counter++;
                                     }
                                     else if (child.Id?.Equals(path[i].Id) == true)
                                     {
                                         cur = child;
                                         found = true;
                                     }
+
+                                    counter++;
                                 }
                             }
                             else if (dvm.Id?.Equals(path[i].Id) == true)
