@@ -11,6 +11,11 @@ namespace dbqf.Hierarchy
     {
         public GroupedField(IFieldPath fieldPath) : base(fieldPath) { }
         public GroupedField(IFieldPath fieldPath, SortDirection sort) : base(fieldPath, sort) { }
+        
+        /// <summary>
+        /// Gets or sets an overriding display format for the field, allowing grouping on the resulting format.
+        /// </summary>
+        public string DisplayFormat { get; set; }
 
         /// <summary>
         /// Gets or sets the text to use when a grouped value is null or empty.

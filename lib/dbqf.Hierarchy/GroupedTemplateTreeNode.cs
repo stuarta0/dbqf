@@ -35,15 +35,16 @@ namespace dbqf.Hierarchy
             var args = base.PrepareQuery(parent);
 
             // inject group fields into the start of the sort order and into the field list
-            for (int i = 0; i < GroupBy.Count; i++)
+            var groupBy = GroupBy.Distinct().ToList();
+            for (int i = 0; i < groupBy.Count; i++)
             {
-                if (!args.Fields.Contains(GroupBy[i].FieldPath))
-                    args.Fields.Add(GroupBy[i].FieldPath);
+                if (!args.Fields.Contains(groupBy[i].FieldPath))
+                    args.Fields.Add(groupBy[i].FieldPath);
 
                 // if we're already ordering by this field, move it up in the order
-                if (args.OrderBy.Contains(GroupBy[i]))
-                    args.OrderBy.Remove(GroupBy[i]);
-                args.OrderBy.Insert(i, GroupBy[i]);
+                if (args.OrderBy.Contains(groupBy[i]))
+                    args.OrderBy.Remove(groupBy[i]);
+                args.OrderBy.Insert(Math.Min(i, args.OrderBy.Count), groupBy[i]);
             }
 
             return args;
@@ -59,7 +60,7 @@ namespace dbqf.Hierarchy
             var args = OnDataSourceLoading(PrepareQuery(parent));
             if (args.Cancel)
                 yield break;
-            var data = _source.GetData(args.Target, args.Fields, args.Where, args.OrderBy);
+            var data = _source.GetData(args.Target, args.Fields, args.Where, args.OrderBy.Distinct());
 
             // precompile keys from field paths in columns
             var columns = new Dictionary<IFieldPath, Column>();
@@ -84,7 +85,9 @@ namespace dbqf.Hierarchy
                 for (int i = 0; i < groups.Count; i++)
                 {
                     var group = groups[i];
-                    var name = row[columns[group.Field.FieldPath].DataColumn]?.ToString();
+                    var format = group.Field.DisplayFormat ?? group.Field.FieldPath.Last.DisplayFormat;
+                    var name = String.Format(String.IsNullOrEmpty(format) ? "{0}" : $"{{0:{format}}}", 
+                        row[columns[group.Field.FieldPath].DataColumn]);
                     name = String.IsNullOrWhiteSpace(name) ? group.Field.EmptyPlaceholder : name;
 
                     if (newGroup || group.CurNode == null || group.CurNode.Text?.Equals(name) == false)

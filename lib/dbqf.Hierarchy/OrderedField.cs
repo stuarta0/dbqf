@@ -34,6 +34,13 @@ namespace dbqf.Hierarchy
         {
             return string.Format("{0} {1}", FieldPath, SortDirection);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is OrderedField)
+                return ((OrderedField)obj).FieldPath.Equals(this.FieldPath);
+            return base.Equals(obj);
+        }
     }
 }
 

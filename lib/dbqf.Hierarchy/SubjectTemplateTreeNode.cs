@@ -9,6 +9,7 @@ using dbqf.Hierarchy.Display;
 using System.Text.RegularExpressions;
 using dbqf.Hierarchy.Data;
 using System.Data;
+using System.Linq;
 
 namespace dbqf.Hierarchy
 {
@@ -108,7 +109,7 @@ namespace dbqf.Hierarchy
         #endregion
 
         #region Loading data
-
+        
         /// <summary>
         /// Compiles target, fields and where criteria, firing the DataSourceLoad event and returns the final args for execution with IDataSource.GetData().
         /// </summary>
@@ -149,8 +150,8 @@ namespace dbqf.Hierarchy
 
             if (where.Count == 0)
                 where = null;
-
-            return new Events.DataSourceLoadEventArgs(Subject, fields, (where != null && where.Count == 1 ? where[0] : where), OrderBy);
+            
+            return new Events.DataSourceLoadEventArgs(Subject, fields, (where != null && where.Count == 1 ? where[0] : where), OrderBy.Distinct().ToList());
         }
 
         /// <summary>
@@ -163,7 +164,7 @@ namespace dbqf.Hierarchy
             var args = OnDataSourceLoading(PrepareQuery(parent));
             if (args.Cancel)
                 yield break;
-            var data = _source.GetData(args.Target, args.Fields, args.Where, args.OrderBy);
+            var data = _source.GetData(args.Target, args.Fields, args.Where, args.OrderBy.Distinct());
 
             // precompile keys from field paths in columns
             var columns = new List<Column>();

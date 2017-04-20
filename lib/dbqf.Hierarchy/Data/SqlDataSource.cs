@@ -27,7 +27,7 @@ namespace dbqf.Hierarchy.Data
             return GetData(target, fields, where, null);
         }
 
-        public DataTable GetData(ISubject target, IList<IFieldPath> fields, IParameter where, IList<OrderedField> orderBy)
+        public DataTable GetData(ISubject target, IList<IFieldPath> fields, IParameter where, IEnumerable<OrderedField> orderBy)
         {
             if (!(target is ISqlSubject))
                 throw new ArgumentException("Target subject must be of type ISqlSubject.");
