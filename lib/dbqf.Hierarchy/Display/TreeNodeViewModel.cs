@@ -13,7 +13,10 @@ namespace dbqf.Hierarchy.Display
     [DebuggerDisplay("{Text}")]
     public class TreeNodeViewModel : INotifyPropertyChanged
     {
-        private TreeNodeViewModel() { }
+        private TreeNodeViewModel()
+        {
+            _children = new ObservableCollection<TreeNodeViewModel>();
+        }
 
         public TreeNodeViewModel(TreeNodeViewModel parent, bool lazyLoadChildren)
             : this()

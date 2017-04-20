@@ -319,6 +319,12 @@ namespace dbqf.Hierarchy
                 var subjectNode = item as SubjectTemplateTreeNode;
                 if (subjectNode != null)
                     subjectNode.DataSourceLoading += SubjectTemplateTreeNode_DataSourceLoad;
+                else
+                {
+                    // recursively register it's children if there are any SubjectTemplateTreeNodes further down in the hierarchy
+                    foreach (var child in item)
+                        RegisterNode(child);
+                }
             }
         }
 
@@ -327,6 +333,12 @@ namespace dbqf.Hierarchy
             var subjectNode = item as SubjectTemplateTreeNode;
             if (subjectNode != null)
                 subjectNode.DataSourceLoading -= SubjectTemplateTreeNode_DataSourceLoad;
+            else
+            {
+                // recursively unregister children
+                foreach (var child in item)
+                    UnregisterNode(child);
+            }
         }
 
         public override void Add(ITemplateTreeNode item)
