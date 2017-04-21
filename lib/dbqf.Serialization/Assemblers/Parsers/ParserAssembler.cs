@@ -6,7 +6,7 @@ namespace dbqf.Serialization.Assemblers.Parsers
 {
     public class ParserAssembler : IAssembler<Parser, ParserDTO>
     {
-        public Parser Restore(ParserDTO dto)
+        public virtual Parser Restore(ParserDTO dto)
         {
             if (dto is ConvertParserDTO)
             {
@@ -35,7 +35,7 @@ namespace dbqf.Serialization.Assemblers.Parsers
             return null;
         }
 
-        public ParserDTO Create(Parser source)
+        public virtual ParserDTO Create(Parser source)
         {
             if (source is IConvertParser)
             {

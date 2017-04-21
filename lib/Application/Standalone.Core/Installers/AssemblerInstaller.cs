@@ -23,11 +23,13 @@ namespace Standalone.Core.Installers
                     .InNamespace("dbqf.Serialization.Assemblers")
                     .WithService.DefaultInterfaces(),
                 Classes.FromAssemblyContaining<MatrixConfigurationAssembler>()
-                    .InNamespace("dbqf.Serialization.Assemblers.Parsers")
-                    .WithService.DefaultInterfaces(),
-                Classes.FromAssemblyContaining<MatrixConfigurationAssembler>()
                     .InNamespace("dbqf.Serialization.Assemblers.Display")
-                    .WithService.DefaultInterfaces());
+                    .WithService.DefaultInterfaces(),
+                Classes.FromAssemblyContaining<AssemblerInstaller>()
+                    .InNamespace("Standalone.Core.Serialization.Assemblers.Parsers")
+                    .WithService.DefaultInterfaces(),
+                Component.For<dbqf.Serialization.Assemblers.Parsers.ParserAssembler>()
+                    .UsingFactoryMethod(kernel => kernel.Resolve<Serialization.Assemblers.Parsers.ExtendedParserAssembler>()));
 
             container.Register(
                 Component.For<SearchDocumentAssembler>());

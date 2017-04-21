@@ -9,6 +9,7 @@ using dbqf.Serialization.DTO.Parsers;
 using Standalone.Core.Data;
 using Standalone.Core.Serialization.Assemblers;
 using Standalone.Core.Serialization.DTO;
+using Standalone.Core.Serialization.DTO.Parsers;
 
 namespace Standalone.Core.Export
 {
@@ -68,7 +69,7 @@ namespace Standalone.Core.Export
 
                     /* Parsers */
                     typeof(DateParserDTO),
-                    typeof(ExtendedDateParser),
+                    typeof(ExtendedDateParserDTO),
                     typeof(ChainedParserDTO),
                     typeof(DelimitedParserDTO),
                     typeof(ConvertParserDTO),
