@@ -55,7 +55,7 @@ namespace Standalone.Core.Data
             return new SqlListGenerator(_config);
         }
 
-        public DataTable GetResults(ISearchDetails details)
+        protected virtual void UpdateCommand(IDbCommand cmd, ISearchDetails details)
         {
             if (!(details.Target is ISqlSubject))
                 throw new ArgumentException("Target subject must be of type ISqlSubject.");
@@ -67,12 +67,17 @@ namespace Standalone.Core.Data
             generator.Columns = details.Columns;
             generator.Where = (ISqlParameter)details.Where;
 
+            generator.UpdateCommand(cmd);
+        }
+
+        public DataTable GetResults(ISearchDetails details)
+        {
             using (var conn = CreateConnection())
             {
                 using (var cmd = conn.CreateCommand())
                 {
                     //cmd.CommandTimeout = CommandTimeout;
-                    generator.UpdateCommand(cmd);
+                    UpdateCommand(cmd, details);
                     details.Sql = GetSql(cmd);
 
                     var adapter = CreateDataAdapter();
@@ -133,6 +138,16 @@ namespace Standalone.Core.Data
         {
             var worker = new BackgroundWorker();
             worker.WorkerSupportsCancellation = true;
+
+            // initially populate the SQL in the detail object
+            using (var conn = CreateConnection())
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    UpdateCommand(cmd, details);
+                    details.Sql = GetSql(cmd);
+                }
+            }
 
             worker.DoWork += (s1, e1) =>
             {

@@ -179,7 +179,7 @@ namespace Standalone.WPF
             get
             {
                 if (_searchCommand == null)
-                    _searchCommand = new RelayCommand(p => Search(CurrentView.GetParameter()));
+                    _searchCommand = new RelayCommand(p => Search());
                 return _searchCommand;
             }
         }
@@ -309,6 +309,18 @@ namespace Standalone.WPF
             Search(where);
         }
 
+        public void Search()
+        {
+            try
+            {
+                Search(CurrentView.GetParameter());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Search", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
+
         public void Search(IParameter parameter)
         {
             if (IsSearching)
@@ -331,6 +343,7 @@ namespace Standalone.WPF
             };
 
             SearchCanceller = _dbService.GetResults(details, new ResultCallback(SearchComplete, details));
+            ResultSQL = details.Sql;
         }
 
         private void SearchComplete(IDbServiceAsyncCallback<DataTable> callback)
