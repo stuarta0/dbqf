@@ -29,8 +29,21 @@ namespace Standalone.WPF
             if (Settings.Default.SavedConnections == null)
                 Settings.Default.SavedConnections = new dbqf.Serialization.ConnectionDictionary();
 
-            var container = BootstrapContainer();
-            var shell = container.Resolve<Standalone.Core.IShell>();
+            IWindsorContainer container = null;
+            Core.IShell shell = null;
+            try
+            {
+                container = BootstrapContainer();
+                shell = container.Resolve<Standalone.Core.IShell>();
+            }
+            catch (Exception ex)
+            {
+                var message = String.Concat("Unable to initialise the application.\n\n", ex.Message, "\n\nThe stack trace has been copied to your clipboard.");
+                MessageBox.Show(message, "dbqf", MessageBoxButton.OK, MessageBoxImage.Error);
+                Clipboard.SetText(String.Concat(ex.Message, ex.StackTrace), TextDataFormat.UnicodeText);
+                Environment.Exit(-1);
+            }
+
             shell.Run();
             container.Dispose();
         }
