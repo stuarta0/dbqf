@@ -12,7 +12,7 @@ using Standalone.Core.Data;
 
 namespace Standalone.WPF.ViewModel
 {
-    [ImplementPropertyChanged]
+    [AddINotifyPropertyChangedInterface]
     public class ConnectionAdapter
     {
         private ProjectAdapter _project;

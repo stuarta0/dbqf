@@ -23,7 +23,7 @@ namespace Standalone.WPF
         public MainWindowAdapter Adapter { get; private set; }
         public MainWindow(MainWindowAdapter adapter)
         {
-            InitializeComponent();
+            //InitializeComponent();
             Adapter = adapter;
             this.DataContext = Adapter;
         }

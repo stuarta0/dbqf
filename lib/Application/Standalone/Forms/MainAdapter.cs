@@ -20,7 +20,7 @@ using PropertyChanged;
 
 namespace Standalone.Forms
 {
-    [ImplementPropertyChanged]
+    [AddINotifyPropertyChangedInterface]
     public class MainAdapter : Core.ApplicationBase
     {
         public DbServiceFactory ServiceFactory { get; set; }

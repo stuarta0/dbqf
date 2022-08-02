@@ -38,7 +38,7 @@ namespace Standalone.WPF
         private static IWindsorContainer BootstrapContainer()
         {
             return new WindsorContainer().Install(
-                Configuration.FromXmlFile(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "castle.config"))
+                Castle.Windsor.Installer.Configuration.FromXmlFile(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "castle.config"))
             );
         }
     }

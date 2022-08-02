@@ -21,7 +21,7 @@ using Standalone.Core;
 
 namespace Standalone.WPF
 {
-    [ImplementPropertyChanged]
+    [AddINotifyPropertyChangedInterface]
     public class MainWindowAdapter : Core.ApplicationBase
     {
         public ProjectAdapter ProjectAdapter { get; private set; }

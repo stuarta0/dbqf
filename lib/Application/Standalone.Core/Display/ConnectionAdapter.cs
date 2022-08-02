@@ -11,7 +11,7 @@ using Standalone.Core.Data;
 
 namespace Standalone.Core.Display
 {
-    [ImplementPropertyChanged]
+    [AddINotifyPropertyChangedInterface]
     public class ConnectionAdapter
     {
         private ProjectAdapter _project;

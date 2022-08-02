@@ -1,144 +1,65 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A9091ADB-FC19-4982-BCE4-6A0425F974D6}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Standalone.Core</RootNamespace>
-    <AssemblyName>Standalone.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <NuGetPackageImportStamp>8931243d</NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
-    </Reference>
-    <Reference Include="PropertyChanged, Version=0.0.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PropertyChanged.Fody.1.48.2.0\Lib\NET35\PropertyChanged.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\packages\System.Data.SQLite.Core.1.0.94.0\lib\net45\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Data\ExtendedDateParser.cs" />
-    <Compile Include="Data\IDbService.cs" />
-    <Compile Include="Data\DbServiceAsyncCallback.cs" />
-    <Compile Include="Data\ListCallback.cs" />
-    <Compile Include="Data\ResultCallback.cs" />
-    <Compile Include="Data\SearchDetails.cs" />
-    <Compile Include="Data\ISearchDetails.cs" />
-    <Compile Include="Data\ISqlResults.cs" />
-    <Compile Include="Data\ParserFactory.cs" />
-    <Compile Include="ApplicationBase.cs" />
-    <Compile Include="Data\MsAccessService.cs" />
-    <Compile Include="Data\SQLiteService.cs" />
-    <Compile Include="Data\SqlService.cs" />
-    <Compile Include="Display\ConnectionAdapter.cs" />
-    <Compile Include="Display\ProjectAdapter.cs" />
-    <Compile Include="Export\Filter.cs" />
-    <Compile Include="Export\IExportServiceFactory.cs" />
-    <Compile Include="Installers\DataInstaller.cs" />
-    <Compile Include="Installers\FactoryInstaller.cs" />
-    <Compile Include="Installers\ParserInstaller.cs" />
-    <Compile Include="Installers\IOInstaller.cs" />
-    <Compile Include="Project.cs" />
-    <Compile Include="Data\DbServiceFactory.cs" />
-    <Compile Include="Display\StandardAdapter.cs" />
-    <Compile Include="Display\PresetAdapter.cs" />
-    <Compile Include="Export\BaseExportService.cs" />
-    <Compile Include="Export\CsvExportService.cs" />
-    <Compile Include="Export\ExportServiceFactory.cs" />
-    <Compile Include="Export\IExportService.cs" />
-    <Compile Include="Export\IViewPersistence.cs" />
-    <Compile Include="Export\TabDelimitedExportService.cs" />
-    <Compile Include="Export\XmlViewPersistence.cs" />
-    <Compile Include="IApplication.cs" />
-    <Compile Include="Initialisers\IInitialiser.cs" />
-    <Compile Include="Installers\AssemblerInstaller.cs" />
-    <Compile Include="Installers\ConfigurationInstaller.cs" />
-    <Compile Include="Installers\InitialiserInstaller.cs" />
-    <Compile Include="IShell.cs" />
-    <Compile Include="ListCacher.cs" />
-    <Compile Include="ProjectConnection.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchDocument.cs" />
-    <Compile Include="Serialization\Assemblers\SearchDocumentAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\ProjectAssembler.cs" />
-    <Compile Include="Serialization\Assemblers\SearchDocumentRestoreException.cs" />
-    <Compile Include="Serialization\DTO\ProjectDTO.cs" />
-    <Compile Include="Serialization\DTO\SearchDocumentDTO.cs" />
-    <Compile Include="ShellBase.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Backends\dbqf.MsAccess\dbqf.MsAccess.csproj">
-      <Project>{5336bddd-c373-494b-94e7-aeaabc8cd88d}</Project>
-      <Name>dbqf.MsAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
-      <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
-      <Name>dbqf.core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\dbqf.Serialization\dbqf.Serialization.csproj">
-      <Project>{f46b0af8-b45b-4897-995f-bba8a290999a}</Project>
-      <Name>dbqf.Serialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Backends\dbqf.Sql\dbqf.Sql.csproj">
-      <Project>{8677a10f-415f-4f5f-abc5-726ede1cb372}</Project>
-      <Name>dbqf.Sql</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" />
-  <Import Project="..\..\packages\Fody.1.28.3\build\Fody.targets" Condition="Exists('..\..\packages\Fody.1.28.3\build\Fody.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{A9091ADB-FC19-4982-BCE4-6A0425F974D6}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>Standalone.Core</RootNamespace>
+		<AssemblyName>Standalone.Core</AssemblyName>
+		<FileAlignment>512</FileAlignment>
+		<SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+		<NuGetPackageImportStamp>
+		</NuGetPackageImportStamp>
+		<TargetFrameworkProfile />
+		<Description>Core machinery for standalone application.</Description>
+		<Copyright>Copyright © Stuart Attenborrow 2016</Copyright>
+		<Company>Stuart Attenborrow</Company>
+		<Version>2.0.0</Version>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Backends\dbqf.MsAccess\dbqf.MsAccess.csproj">
+			<Project>{5336bddd-c373-494b-94e7-aeaabc8cd88d}</Project>
+			<Name>dbqf.MsAccess</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
+			<Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
+			<Name>dbqf.core</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\..\dbqf.Serialization\dbqf.Serialization.csproj">
+			<Project>{f46b0af8-b45b-4897-995f-bba8a290999a}</Project>
+			<Name>dbqf.Serialization</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\..\Backends\dbqf.Sql\dbqf.Sql.csproj">
+			<Project>{8677a10f-415f-4f5f-abc5-726ede1cb372}</Project>
+			<Name>dbqf.Sql</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="app.config" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="FodyWeavers.xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Castle.Core">
+			<Version>5.0.0</Version>
+		</PackageReference>
+		<PackageReference Include="Castle.Windsor">
+			<Version>5.1.1</Version>
+		</PackageReference>
+		<PackageReference Include="Fody" PrivateAssets="All">
+			<Version>6.6.3</Version>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
+		<PackageReference Include="PropertyChanged.Fody">
+			<Version>3.4.1</Version>
+		</PackageReference>
+		<PackageReference Include="System.Data.OleDb" Version="6.0.0" />
+		<PackageReference Include="System.Data.SQLite.Core">
+			<Version>1.0.116</Version>
+		</PackageReference>
+	</ItemGroup>
 </Project>

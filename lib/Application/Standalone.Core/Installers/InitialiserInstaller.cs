@@ -16,7 +16,7 @@ namespace Standalone.Core.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Classes.FromThisAssembly().BasedOn<IInitialiser>().WithService.FromInterface(),
+                Classes.FromAssemblyContaining<InitialiserInstaller>().BasedOn<IInitialiser>().WithService.FromInterface(),
                 Component.For<IList<IInitialiser>>().UsingFactoryMethod<List<IInitialiser>>(
                     c => new List<IInitialiser>(c.ResolveAll<IInitialiser>())));
         }

@@ -1,4 +1,5 @@
-﻿using Samples.Common;
+﻿using Microsoft.Data.SqlClient;
+using Samples.Common;
 using System;
 using System.Text;
 using System.Windows.Forms;
@@ -18,7 +19,7 @@ namespace _2_Query_SQL
             var config = new TestConfiguration();
 
             // We need a command to populate CommandText. This can be any type implementing IDbCommand.
-            var cmd = new System.Data.SqlClient.SqlCommand();
+            var cmd = new SqlCommand();
 
             // Using the builtin SqlGenerator we can construct our SQL.
             new dbqf.Sql.SqlGenerator(config)
@@ -40,7 +41,7 @@ namespace _2_Query_SQL
         private void btnJoin_Click(object sender, System.EventArgs e)
         {
             var config = new TestConfiguration();
-            var cmd = new System.Data.SqlClient.SqlCommand();
+            var cmd = new SqlCommand();
             new dbqf.Sql.SqlGenerator(config)
                 .Column(dbqf.Criterion.FieldPath.FromDefault(config["Bar"]["Name"]))
 
@@ -57,7 +58,7 @@ namespace _2_Query_SQL
         private void btnParameterized_Click(object sender, System.EventArgs e)
         {
             var config = new TestConfiguration();
-            var cmd = new System.Data.SqlClient.SqlCommand();
+            var cmd = new SqlCommand();
             new dbqf.Sql.SqlGenerator(config)
                 .Column(dbqf.Criterion.FieldPath.FromDefault(config["Bar"]["Name"]))
                 .Column(dbqf.Criterion.FieldPath.FromDefault(config["Bar"]["FooId"]))
@@ -79,10 +80,10 @@ namespace _2_Query_SQL
         }
 
 
-        private void UpdateSql(string prefix, System.Data.SqlClient.SqlCommand cmd)
+        private void UpdateSql(string prefix, SqlCommand cmd)
         {
             var sql = cmd.CommandText;
-            foreach (System.Data.SqlClient.SqlParameter p in cmd.Parameters)
+            foreach (SqlParameter p in cmd.Parameters)
                 sql = sql.Replace(p.ParameterName, p.Value.ToString());
             txtSql.Text = prefix + Environment.NewLine + sql;
         }

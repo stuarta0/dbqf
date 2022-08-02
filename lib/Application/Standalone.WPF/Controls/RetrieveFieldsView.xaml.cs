@@ -24,7 +24,7 @@ namespace Standalone.WPF.Controls
         public RetrieveFieldsViewAdapter Adapter { get; private set; }
         public RetrieveFieldsView(RetrieveFieldsViewAdapter adapter)
         {
-            InitializeComponent();
+            //InitializeComponent();
             Adapter = adapter;
             this.DataContext = adapter;
         }
@@ -32,6 +32,7 @@ namespace Standalone.WPF.Controls
         private void Add(RetrieveFieldsViewAdapter.Node node)
         {
             var added = Adapter.Add(node);
+            var lstCustom = FindName("lstCustom") as ListBox;
             lstCustom.SelectedItems.Clear();
             foreach (var f in added)
                 lstCustom.SelectedItems.Add(f);
@@ -67,6 +68,8 @@ namespace Standalone.WPF.Controls
 
         private void ListBox_KeyDown(object sender, KeyEventArgs e)
         {
+            var lstCustom = e.Source as ListBox;
+
             if (e.Key == Key.Back || e.Key == Key.Delete)
             {
                 foreach (var f in new List<IFieldPath>(lstCustom.SelectedItems.Cast<IFieldPath>()))

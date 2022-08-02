@@ -1,222 +1,99 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B4727DD4-CEF3-4740-8B90-CE6E2B1C8D26}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>dbqf.WinForms</RootNamespace>
-    <AssemblyName>dbqf.WinForms</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>
-    </DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\DbQueryFramework.Key.pfx</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AdvancedView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="AdvancedView.Designer.cs">
-      <DependentUpon>AdvancedView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Advanced\AdvancedPartJunctionView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Advanced\AdvancedPartJunctionView.Designer.cs">
-      <DependentUpon>AdvancedPartJunctionView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Advanced\AdvancedPartNodeView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Advanced\AdvancedPartNodeView.Designer.cs">
-      <DependentUpon>AdvancedPartNodeView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Advanced\WinFormsAdvancedAdapter.cs" />
-    <Compile Include="Advanced\WinFormsAdvancedPartJunction.cs" />
-    <Compile Include="Advanced\WinFormsAdvancedPartNode.cs" />
-    <Compile Include="Controls\BindableComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Extensions\ComboBoxExtension.cs" />
-    <Compile Include="Extensions\ExtendedGraphics.cs" />
-    <Compile Include="FieldPathCombo.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FieldPathCombo.Designer.cs">
-      <DependentUpon>FieldPathCombo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MultiPartTextBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MultiPartTextBox.Designer.cs">
-      <DependentUpon>MultiPartTextBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MultiPartTextBoxAdapter.cs" />
-    <Compile Include="PresetView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PresetView.Designer.cs">
-      <DependentUpon>PresetView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Preset\WinFormsPresetAdapter.cs" />
-    <Compile Include="StandardView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="StandardView.Designer.cs">
-      <DependentUpon>StandardView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Standard\StandardPartView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Standard\StandardPartView.Designer.cs">
-      <DependentUpon>StandardPartView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Standard\WinFormsStandardAdapter.cs" />
-    <Compile Include="Standard\WinFormsStandardPart.cs" />
-    <Compile Include="UIElements\BetweenElement.cs" />
-    <Compile Include="UIElements\ComboBoxElement.cs" />
-    <Compile Include="UIElements\CheckBoxElement.cs" />
-    <Compile Include="UIElements\Controls\BetweenControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UIElements\Controls\BetweenControl.Designer.cs">
-      <DependentUpon>BetweenControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UIElements\Controls\DatePickerControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UIElements\Controls\DatePickerControl.Designer.cs">
-      <DependentUpon>DatePickerControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UIElements\DatePickerElement.cs" />
-    <Compile Include="UIElements\TextBoxElement.cs" />
-    <Compile Include="UIElements\WinFormsControlFactory.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="UIElements\ErrorProviderElement.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="AdvancedView.resx">
-      <DependentUpon>AdvancedView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Advanced\AdvancedPartJunctionView.resx">
-      <DependentUpon>AdvancedPartJunctionView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Advanced\AdvancedPartNodeView.resx">
-      <DependentUpon>AdvancedPartNodeView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FieldPathCombo.resx">
-      <DependentUpon>FieldPathCombo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MultiPartTextBox.resx">
-      <DependentUpon>MultiPartTextBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PresetView.resx">
-      <DependentUpon>PresetView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StandardView.resx">
-      <DependentUpon>StandardView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Standard\StandardPartView.resx">
-      <DependentUpon>StandardPartView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UIElements\Controls\BetweenControl.resx">
-      <DependentUpon>BetweenControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UIElements\Controls\DatePickerControl.resx">
-      <DependentUpon>DatePickerControl.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
-      <Project>{AB9BDEC4-8264-49A2-B2B6-EF6276341535}</Project>
-      <Name>dbqf.core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\DbQueryFramework.Key.pfx">
-      <Link>DbQueryFramework.Key.pfx</Link>
-    </None>
-    <None Include="Properties\DataSources\dbqf.Display.Advanced.AdvancedPartNode.datasource" />
-    <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedAdapter.datasource" />
-    <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPart.datasource" />
-    <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPartJunction.datasource" />
-    <None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPartNode.datasource" />
-    <None Include="Properties\DataSources\dbqf.WinForms.Standard.WinFormsStandardPart.datasource" />
-    <None Include="Resources\firefox-close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\firefox-close-hilighted.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\firefox-close-pressed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\firefox-close-inactive.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\firefox-close-hollow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\help.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ui-radio-button.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ui-radio-button-uncheck.png" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProductVersion>8.0.30703</ProductVersion>
+		<SchemaVersion>2.0</SchemaVersion>
+		<ProjectGuid>{B4727DD4-CEF3-4740-8B90-CE6E2B1C8D26}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>dbqf.WinForms</RootNamespace>
+		<AssemblyName>dbqf.WinForms</AssemblyName>
+		<TargetFramework>net6.0-windows7.0</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+		<FileAlignment>512</FileAlignment>
+		<TargetFrameworkProfile />
+		<Description>dbqf.WinForms contains the WinForms components for use with dbqf.core.</Description>
+		<Copyright>Copyright © Stuart Attenborrow 2016</Copyright>
+		<Company>Stuart Attenborrow</Company>
+		<Version>2.0.0</Version>
+		<EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+	</PropertyGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="AdvancedView.resx">
+			<DependentUpon>AdvancedView.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Advanced\AdvancedPartJunctionView.resx">
+			<DependentUpon>AdvancedPartJunctionView.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Advanced\AdvancedPartNodeView.resx">
+			<DependentUpon>AdvancedPartNodeView.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="FieldPathCombo.resx">
+			<DependentUpon>FieldPathCombo.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="MultiPartTextBox.resx">
+			<DependentUpon>MultiPartTextBox.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="PresetView.resx">
+			<DependentUpon>PresetView.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+		<EmbeddedResource Include="StandardView.resx">
+			<DependentUpon>StandardView.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Standard\StandardPartView.resx">
+			<DependentUpon>StandardPartView.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="UIElements\Controls\BetweenControl.resx">
+			<DependentUpon>BetweenControl.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="UIElements\Controls\DatePickerControl.resx">
+			<DependentUpon>DatePickerControl.cs</DependentUpon>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
+			<Project>{AB9BDEC4-8264-49A2-B2B6-EF6276341535}</Project>
+			<Name>dbqf.core</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\DbQueryFramework.Key.pfx">
+			<Link>DbQueryFramework.Key.pfx</Link>
+		</None>
+		<None Include="Properties\DataSources\dbqf.Display.Advanced.AdvancedPartNode.datasource" />
+		<None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedAdapter.datasource" />
+		<None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPart.datasource" />
+		<None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPartJunction.datasource" />
+		<None Include="Properties\DataSources\dbqf.WinForms.Advanced.WinFormsAdvancedPartNode.datasource" />
+		<None Include="Properties\DataSources\dbqf.WinForms.Standard.WinFormsStandardPart.datasource" />
+		<None Include="Resources\firefox-close.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\firefox-close-hilighted.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\firefox-close-pressed.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\firefox-close-inactive.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\firefox-close-hollow.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\help.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\ui-radio-button.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="Resources\ui-radio-button-uncheck.png" />
+	</ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace dbqf.core.tests.SqlProvider

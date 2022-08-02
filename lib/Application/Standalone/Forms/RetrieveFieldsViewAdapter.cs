@@ -106,7 +106,7 @@ namespace Standalone.Forms
 
         public IEnumerable<Node> GetChildren(Node node = null)
         {
-            ISubject toExpand = null;
+            //ISubject toExpand = null;
             if (node == null)
                 foreach (var s in _configuration)
                     yield return new SubjectNode() { HasChildren = true, Subject = s };
