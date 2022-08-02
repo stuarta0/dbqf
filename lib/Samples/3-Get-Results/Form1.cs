@@ -8,12 +8,8 @@ using dbqf.Sql.Criterion.Builders;
 using dbqf.WinForms;
 using dbqf.WinForms.UIElements;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Text;
+using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace _3_Get_Results

@@ -1,205 +1,64 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AF36D489-5EAC-4555-84A2-5FD03D700AD2}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Standalone.WPF</RootNamespace>
-    <AssemblyName>Standalone.WPF</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Accessibility" />
-    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="ReachFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Printing" />
-    <Reference Include="System.Runtime.Remoting" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="UIAutomationTypes" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Controls\LoadingControl.xaml.cs">
-      <DependentUpon>LoadingControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\LoadingAdorner.cs" />
-    <Compile Include="Controls\RetrieveFieldsView.xaml.cs">
-      <DependentUpon>RetrieveFieldsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\RetrieveFieldsViewAdapter.cs" />
-    <Compile Include="Display\WpfAdvancedAdapter.cs" />
-    <Compile Include="Display\WpfStandardAdapter.cs" />
-    <Compile Include="Installers\ApplicationInstaller.cs" />
-    <Compile Include="Installers\DataInstaller.cs" />
-    <Compile Include="Installers\Views\AdvancedInstaller.cs" />
-    <Compile Include="Installers\WpfFactoryInstaller.cs" />
-    <Compile Include="Installers\Views\FieldPathComboInstaller.cs" />
-    <Compile Include="Installers\Views\StandardInstaller.cs" />
-    <Compile Include="Installers\Views\PresetInstaller.cs" />
-    <Compile Include="MainWindowAdapter.cs" />
-    <Compile Include="Shell.cs" />
-    <Compile Include="ViewModel\ConnectionAdapter.cs" />
-    <Compile Include="ViewModel\DialogService.cs" />
-    <Compile Include="ViewModel\IDialogService.cs" />
-    <Compile Include="ViewModel\ProjectAdapter.cs" />
-    <Page Include="Controls\LoadingControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\RetrieveFieldsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Resource Include="Resources\stopwatch-gif-preloader.gif" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <Content Include="castle.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
-      <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
-      <Name>dbqf.core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\dbqf.Serialization\dbqf.Serialization.csproj">
-      <Project>{f46b0af8-b45b-4897-995f-bba8a290999a}</Project>
-      <Name>dbqf.Serialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Backends\dbqf.Sql\dbqf.Sql.csproj">
-      <Project>{8677a10f-415f-4f5f-abc5-726ede1cb372}</Project>
-      <Name>dbqf.Sql</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Frontends\dbqf.WPF\dbqf.WPF.csproj">
-      <Project>{a4415051-8be4-4d13-9a30-a9495a4701ee}</Project>
-      <Name>dbqf.WPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Standalone.Core\Standalone.Core.csproj">
-      <Project>{a9091adb-fc19-4982-bce4-6a0425f974d6}</Project>
-      <Name>Standalone.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="FodyWeavers.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Castle.Core">
-      <Version>5.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Castle.Windsor">
-      <Version>5.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Expression.Blend.Sdk">
-      <Version>1.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="Fody">
-      <Version>6.6.3</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="PropertyChanged.Fody">
-      <Version>3.4.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.116</Version>
-    </PackageReference>
-    <PackageReference Include="WpfAnimatedGif">
-      <Version>2.0.2</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows7.0</TargetFramework>
+		<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+		<OutputType>Library</OutputType>
+		<TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+		<Description>WPF implementation of standalone application.</Description>
+		<Copyright>Copyright © Stuart Attenborrow 2016</Copyright>
+		<Company>Stuart Attenborrow</Company>
+		<Version>2.0.0</Version>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
+			<Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
+			<Name>dbqf.core</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\..\dbqf.Serialization\dbqf.Serialization.csproj">
+			<Project>{f46b0af8-b45b-4897-995f-bba8a290999a}</Project>
+			<Name>dbqf.Serialization</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\..\Backends\dbqf.Sql\dbqf.Sql.csproj">
+			<Project>{8677a10f-415f-4f5f-abc5-726ede1cb372}</Project>
+			<Name>dbqf.Sql</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\..\Frontends\dbqf.WPF\dbqf.WPF.csproj">
+			<Project>{a4415051-8be4-4d13-9a30-a9495a4701ee}</Project>
+			<Name>dbqf.WPF</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\Standalone.Core\Standalone.Core.csproj">
+			<Project>{a9091adb-fc19-4982-bce4-6a0425f974d6}</Project>
+			<Name>Standalone.Core</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="FodyWeavers.xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Castle.Core">
+			<Version>5.0.0</Version>
+		</PackageReference>
+		<PackageReference Include="Castle.Windsor">
+			<Version>5.1.1</Version>
+		</PackageReference>
+		<PackageReference Include="Fody">
+			<Version>6.6.3</Version>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+		<PackageReference Include="PropertyChanged.Fody">
+			<Version>3.4.1</Version>
+		</PackageReference>
+		<PackageReference Include="System.Data.SQLite.Core">
+			<Version>1.0.116</Version>
+		</PackageReference>
+		<PackageReference Include="WpfAnimatedGif">
+			<Version>2.0.2</Version>
+		</PackageReference>
+	</ItemGroup>
+	<Import Project="..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.94.0\build\net45\System.Data.SQLite.Core.targets')" />
 </Project>

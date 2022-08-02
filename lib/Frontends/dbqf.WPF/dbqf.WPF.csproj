@@ -1,147 +1,43 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A4415051-8BE4-4D13-9A30-A9495A4701EE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>dbqf.WPF</RootNamespace>
-    <AssemblyName>dbqf.WPF</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="UIAutomationTypes" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AdvancedView.xaml.cs">
-      <DependentUpon>AdvancedView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Advanced\WpfAdvancedAdapter.cs" />
-    <Compile Include="Advanced\WpfAdvancedPartNode.cs" />
-    <Compile Include="Advanced\WpfAdvancedPartJunction.cs" />
-    <Compile Include="FieldPathCombo.xaml.cs">
-      <DependentUpon>FieldPathCombo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PresetView.xaml.cs">
-      <DependentUpon>PresetView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Preset\WpfPresetAdapter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="RelayCommand.cs" />
-    <Compile Include="StandardView.xaml.cs">
-      <DependentUpon>StandardView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Standard\WpfStandardPart.cs" />
-    <Compile Include="Standard\WpfStandardAdapter.cs" />
-    <Compile Include="UIElements\BetweenElement.cs" />
-    <Compile Include="UIElements\CheckBoxElement.cs" />
-    <Compile Include="UIElements\ComboBoxElement.cs" />
-    <Compile Include="UIElements\Controls\BetweenControl.xaml.cs">
-      <DependentUpon>BetweenControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UIElements\ListBoxElement.cs" />
-    <Compile Include="UIElements\TextBoxElement.cs" />
-    <Compile Include="UIElements\WpfControlFactory.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
-      <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
-      <Name>dbqf.core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="AdvancedView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FieldPathCombo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PresetView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="StandardView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UIElements\Controls\BetweenControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Expression.Blend.Sdk">
-      <Version>1.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="Fody">
-      <Version>6.6.3</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="PropertyChanged.Fody">
-      <Version>3.4.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{A4415051-8BE4-4D13-9A30-A9495A4701EE}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>dbqf.WPF</RootNamespace>
+		<AssemblyName>dbqf.WPF</AssemblyName>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<FileAlignment>512</FileAlignment>
+		<TargetFrameworkProfile />
+		<SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+		<UseWPF>true</UseWPF>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+		<NuGetPackageImportStamp>
+		</NuGetPackageImportStamp>
+		<Description>dbqf.WPF contains the WPF components for use with dbqf.core</Description>
+		<Copyright>Copyright © Stuart Attenborrow 2016</Copyright>
+		<Company>Stuart Attenborrow</Company>
+		<Version>2.0.0</Version>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\dbqf.core\dbqf.core.csproj">
+			<Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
+			<Name>dbqf.core</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="FodyWeavers.xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Fody">
+			<Version>6.6.3</Version>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+		<PackageReference Include="PropertyChanged.Fody">
+			<Version>3.4.1</Version>
+		</PackageReference>
+	</ItemGroup>
 </Project>

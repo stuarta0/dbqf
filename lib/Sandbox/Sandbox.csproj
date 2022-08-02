@@ -1,103 +1,45 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5EB67725-5496-492F-8C0C-09760F6198C6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sandbox</RootNamespace>
-    <AssemblyName>Sandbox</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ConfigurationConvertor.cs" />
-    <Compile Include="ConfigurationValidation.cs" />
-    <Compile Include="FluentGenerator.cs" />
-    <Compile Include="v1\Actions\ProcessAction.cs" />
-    <Compile Include="v1\Actions\SubjectAction.cs" />
-    <Compile Include="v1\Actions\UriAction.cs" />
-    <Compile Include="v1\Configuration\ComplexField.cs" />
-    <Compile Include="v1\Configuration\ComplexManyField.cs" />
-    <Compile Include="v1\Configuration\Field.cs" />
-    <Compile Include="v1\Configuration\FieldList.cs" />
-    <Compile Include="v1\Configuration\FieldListItem.cs" />
-    <Compile Include="v1\Configuration\FieldListType.cs" />
-    <Compile Include="v1\Configuration\MatrixNode.cs" />
-    <Compile Include="v1\Configuration\QueryConfig.cs" />
-    <Compile Include="v1\SerializableDictionary.cs" />
-    <Compile Include="v1\Serialization.cs" />
-    <Compile Include="v1\Configuration\Subject.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Backends\dbqf.Sql\dbqf.Sql.csproj">
-      <Project>{8677a10f-415f-4f5f-abc5-726ede1cb372}</Project>
-      <Name>dbqf.Sql</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\dbqf.core\dbqf.core.csproj">
-      <Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
-      <Name>dbqf.core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\dbqf.Serialization\dbqf.Serialization.csproj">
-      <Project>{f46b0af8-b45b-4897-995f-bba8a290999a}</Project>
-      <Name>dbqf.Serialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\dbqf.tests\dbqf.core.tests.csproj">
-      <Project>{bc5aaa8e-d0f7-48de-9f71-3a7c21bdd6d1}</Project>
-      <Name>dbqf.core.tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Application\Standalone.Core\Standalone.Core.csproj">
-      <Project>{a9091adb-fc19-4982-bce4-6a0425f974d6}</Project>
-      <Name>Standalone.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Application\Standalone\Standalone.csproj">
-      <Project>{5aad85b2-212d-421c-9c9b-8b2675550e1e}</Project>
-      <Name>Standalone</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{5EB67725-5496-492F-8C0C-09760F6198C6}</ProjectGuid>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>Sandbox</RootNamespace>
+		<AssemblyName>Sandbox</AssemblyName>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<FileAlignment>512</FileAlignment>
+		<Copyright>Copyright © Stuart Attenborrow 2014</Copyright>
+		<Company>Stuart Attenborrow</Company>
+		<Version>1.0.0</Version>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="App.config" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Backends\dbqf.Sql\dbqf.Sql.csproj">
+			<Project>{8677a10f-415f-4f5f-abc5-726ede1cb372}</Project>
+			<Name>dbqf.Sql</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\dbqf.core\dbqf.core.csproj">
+			<Project>{ab9bdec4-8264-49a2-b2b6-ef6276341535}</Project>
+			<Name>dbqf.core</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\dbqf.Serialization\dbqf.Serialization.csproj">
+			<Project>{f46b0af8-b45b-4897-995f-bba8a290999a}</Project>
+			<Name>dbqf.Serialization</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\dbqf.tests\dbqf.core.tests.csproj">
+			<Project>{bc5aaa8e-d0f7-48de-9f71-3a7c21bdd6d1}</Project>
+			<Name>dbqf.core.tests</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\Application\Standalone.Core\Standalone.Core.csproj">
+			<Project>{a9091adb-fc19-4982-bce4-6a0425f974d6}</Project>
+			<Name>Standalone.Core</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\Application\Standalone\Standalone.csproj">
+			<Project>{5aad85b2-212d-421c-9c9b-8b2675550e1e}</Project>
+			<Name>Standalone</Name>
+		</ProjectReference>
+	</ItemGroup>
 </Project>

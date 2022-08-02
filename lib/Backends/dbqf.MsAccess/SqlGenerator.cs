@@ -21,7 +21,7 @@ namespace dbqf.MsAccess
         /// </summary>
         /// <param name="dbCommandType"></param>
         /// <returns></returns>
-        public virtual void UpdateCommand(IDbCommand cmd)
+        public override void UpdateCommand(IDbCommand cmd)
         {
             Validate();
 
