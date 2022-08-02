@@ -19,7 +19,7 @@ namespace dbqf.WPF.UIElements.Controls
     /// <summary>
     /// Interaction logic for BetweenControl.xaml
     /// </summary>
-    [ImplementPropertyChanged]
+    [AddINotifyPropertyChangedInterface]
     public partial class BetweenControl : UserControl
     {
         public BetweenControl()

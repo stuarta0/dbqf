@@ -15,7 +15,7 @@ using dbqf.WPF;
 
 namespace Standalone.WPF.Controls
 {
-    [ImplementPropertyChanged]
+    [AddINotifyPropertyChangedInterface]
     public class RetrieveFieldsViewAdapter
     {
         public bool UseFields { get; set; }

@@ -18,7 +18,7 @@ using PropertyChanged;
 
 namespace Standalone.Core
 {
-    [ImplementPropertyChanged]
+    [AddINotifyPropertyChangedInterface]
     public class ApplicationBase : IApplication, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

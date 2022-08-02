@@ -8,7 +8,7 @@
     <Setting Name="SplitterLocation" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">-1</Value>
     </Setting>
-    <Setting Name="SavedConnections" Type="Standalone.Core.Serialization.ConnectionDictionary" Scope="User">
+    <Setting Name="SavedConnections" Type="dbqf.Serialization.ConnectionDictionary" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="CommandTimeout" Type="System.Int32" Scope="User">

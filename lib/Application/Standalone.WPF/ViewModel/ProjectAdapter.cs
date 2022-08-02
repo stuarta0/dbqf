@@ -11,7 +11,7 @@ using Standalone.Core.Data;
 
 namespace Standalone.WPF.ViewModel
 {
-    [ImplementPropertyChanged]
+    [AddINotifyPropertyChangedInterface]
     public class ProjectAdapter
     {
         public Project Project { get; private set;  }

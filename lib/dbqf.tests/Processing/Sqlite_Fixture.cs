@@ -16,7 +16,7 @@ namespace dbqf.core.tests.Processing
     {
         private Chinook _db;
 
-        [TestFixtureSetUp]
+        [SetUp]
         public void Setup()
         {
             _db = new Chinook();
